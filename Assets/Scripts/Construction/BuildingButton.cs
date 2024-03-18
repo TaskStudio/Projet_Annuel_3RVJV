@@ -1,21 +1,19 @@
+using TMPro;
 using UnityEngine;
 
 namespace Construction
 {
     public class BuildingButton : MonoBehaviour
     {
-        // [SerializeField] private TextMeshPro buttonText;
+        [SerializeField] private TextMeshProUGUI buttonText;
+
         public PlacementSystem placementSystem { get; internal set; }
         public int buildingID { get; internal set; }
         public string buildingName { get; internal set; }
 
-
-        public void Initialize(int buildingID, string buildingName, PlacementSystem placementSystem)
+        public void Start()
         {
-            this.buildingID = buildingID;
-            this.buildingName = buildingName;
-            this.placementSystem = placementSystem;
-            // buttonText.text = buildingName;
+            buttonText.text = buildingName;
         }
 
         public void ClickHandler()
