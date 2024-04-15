@@ -8,9 +8,9 @@ namespace Construction
         [SerializeField] private Grid grid;
         [SerializeField] private MouseControl mouseControl;
         [SerializeField] private BuildingDatabaseSO buildingDatabase;
+        public bool isBuildingSelected;
 
         private GridData buildingsData;
-        private bool isBuildingSelected;
 
         private Building selectedBuilding;
         private BuildingData selectedBuildingData;
@@ -61,8 +61,8 @@ namespace Construction
 
         private void PlaceBuilding()
         {
-            if (mouseControl.IsPointerOverUI())
-                return;
+            // if (mouseControl.IsPointerOverUI())
+            //     return;
 
             Vector3 worldMousePos = mouseControl.GetCursorMapPosition();
             Vector3Int gridMousePos = grid.WorldToCell(worldMousePos);
