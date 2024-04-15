@@ -76,16 +76,14 @@ public class EnemyManager : MonoBehaviour
     private Vector3 FindClosestEntityPosition()
     {
         GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
-        
-        if (entities.Length == 0)
-        {
-            return Vector3.positiveInfinity;
-        }
-
-        GameObject closestEntity = null;
-        float closestDistanceSqr = Mathf.Infinity;
+        GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
         Vector3 currentPosition = this.transform.position;
 
+        // Find the closest entity or entity base
+        GameObject closestTarget = null;
+        float closestDistanceSqr = Mathf.Infinity;
+
+        // Check entities first
         foreach (GameObject entity in entities)
         {
             Vector3 directionToTarget = entity.transform.position - currentPosition;
@@ -93,15 +91,34 @@ public class EnemyManager : MonoBehaviour
             if (dSqrToTarget < closestDistanceSqr)
             {
                 closestDistanceSqr = dSqrToTarget;
-                closestEntity = entity;
+                closestTarget = entity;
             }
         }
 
-        if (closestEntity != null)
+        // If no entity was found, check entity bases
+        if (closestTarget == null && entityBases.Length > 0)
         {
-            return closestEntity.transform.position;
+            foreach (GameObject entityBase in entityBases)
+            {
+                Vector3 directionToTarget = entityBase.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    closestTarget = entityBase;
+                }
+            }
         }
-        
-        return currentPosition;
+
+        // Return the position of the closest target, or infinity if none found
+        if (closestTarget != null)
+        {
+            return closestTarget.transform.position;
+        }
+        else
+        {
+            return Vector3.positiveInfinity;
+        }
     }
+
 }

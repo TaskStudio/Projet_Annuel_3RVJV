@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int hp = 100;
+    public int damage = 1000;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -15,6 +16,16 @@ public class Enemy : MonoBehaviour
             }
             
             Destroy(this.gameObject);
+        }
+        
+        if (collision.gameObject.CompareTag("EntityBase"))
+        {
+            EntityBase entitybase = collision.gameObject.GetComponent<EntityBase>();
+            if (entitybase != null)
+            {
+                entitybase.TakeDamage(1000);
+            }
+            Destroy(gameObject);
         }
     }
     
