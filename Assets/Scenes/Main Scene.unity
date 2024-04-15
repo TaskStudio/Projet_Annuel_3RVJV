@@ -206,7 +206,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 203399702}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1035173339}
+        m_TargetAssemblyTypeName: EndGamePanel, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &203399702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +362,7 @@ GameObject:
   - component: {fileID: 323241221}
   - component: {fileID: 323241223}
   - component: {fileID: 323241222}
+  - component: {fileID: 323241224}
   m_Layer: 5
   m_Name: WinPanel
   m_TagString: Untagged
@@ -418,6 +431,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323241220}
   m_CullTransparentMesh: 1
+--- !u!114 &323241224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323241220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a821cecabd0138149b6809afc3f9f3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &478705072
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +629,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 606339879}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1035173339}
+        m_TargetAssemblyTypeName: EndGamePanel, Assembly-CSharp
+        m_MethodName: ReplayGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &606339879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,7 +1005,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 967799044}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 323241224}
+        m_TargetAssemblyTypeName: EndGamePanel, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &967799044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,6 +1124,7 @@ GameObject:
   - component: {fileID: 1035173336}
   - component: {fileID: 1035173338}
   - component: {fileID: 1035173337}
+  - component: {fileID: 1035173339}
   m_Layer: 5
   m_Name: LosePanel
   m_TagString: Untagged
@@ -1143,6 +1193,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035173335}
   m_CullTransparentMesh: 1
+--- !u!114 &1035173339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035173335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a821cecabd0138149b6809afc3f9f3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1093064550
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1612,7 +1674,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1333060432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 323241224}
+        m_TargetAssemblyTypeName: EndGamePanel, Assembly-CSharp
+        m_MethodName: ReplayGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1333060432
 MonoBehaviour:
   m_ObjectHideFlags: 0
