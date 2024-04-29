@@ -6,7 +6,7 @@ public class EntityMover : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask Entity; 
     private Vector3 targetPosition;
-    private bool isMoving;
+    public bool isMoving;
 
     public float raycastLength = 5f;
     public float collisionAvoidanceTurn = 0.5f;
@@ -90,4 +90,6 @@ public class EntityMover : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, moveSpeed * Time.deltaTime);
         }
     }
+    
+
 }
