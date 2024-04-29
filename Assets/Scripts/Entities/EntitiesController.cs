@@ -1,16 +1,21 @@
 using System.Collections.Generic;
+using Construction;
 using UnityEngine;
 
 public class EntitiesController : MonoBehaviour
 {
     public Camera mainCamera;
     public LayerMask clickableLayer;
-    private List<GameObject> selectedEntities = new List<GameObject>();
-    private bool isDragging = false;
+
+    [SerializeField] private PlacementSystem ps;
+    private readonly List<GameObject> selectedEntities = new();
+    private bool isDragging;
     private Vector3 mouseDragStart;
 
-    void Update()
+    private void Update()
     {
+        if (ps.isBuildingSelected) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             mouseDragStart = Input.mousePosition;
@@ -18,34 +23,24 @@ public class EntitiesController : MonoBehaviour
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 100, clickableLayer))
-            {
                 SelectEntity(hit.collider.gameObject);
-            }
             else
-            {
                 ClearSelection();
-            }
         }
-        
+
 
         // Initiate Drag Selection
         if (Input.GetMouseButton(0))
-        {
             if ((mouseDragStart - Input.mousePosition).magnitude > 40)
-            {
                 isDragging = true;
-            }
-        }
 
         // End Drag Selection
         if (Input.GetMouseButtonUp(0))
-        {
             if (isDragging)
             {
                 SelectEntitiesInDrag();
                 isDragging = false;
             }
-        }
 
         // Move Entities
         if (Input.GetMouseButtonDown(1) && selectedEntities.Count > 0)
@@ -56,46 +51,46 @@ public class EntitiesController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 1000))
             {
                 int entitiesPerSide = Mathf.CeilToInt(Mathf.Sqrt(selectedEntities.Count));
-                float spacing = 1f; // Spacing
+                var spacing = 1f; // Spacing
                 float totalLength = spacing * (entitiesPerSide - 1);
                 Vector3 startPoint = hit.point - new Vector3(totalLength / 2, 0, totalLength / 2);
 
-                int entityIndex = 0;
-                for (int i = 0; i < entitiesPerSide; i++)
+                var entityIndex = 0;
+                for (var i = 0; i < entitiesPerSide; i++)
+                for (var j = 0; j < entitiesPerSide; j++)
                 {
-                    for (int j = 0; j < entitiesPerSide; j++)
-                    {
-                        if (entityIndex >= selectedEntities.Count)
-                            break;
+                    if (entityIndex >= selectedEntities.Count)
+                        break;
 
-                        Vector3 entityTargetPosition = startPoint + new Vector3(spacing * i, 1, spacing * j);
+                    Vector3 entityTargetPosition = startPoint + new Vector3(spacing * i, 1, spacing * j);
 
-                        // Set the target position for the entity to move to
-                        EntityMover entityMover = selectedEntities[entityIndex].GetComponent<EntityMover>();
-                        if (entityMover != null)
-                        {
-                            entityMover.SetTargetPosition(entityTargetPosition);
-                        }
+                    // Set the target position for the entity to move to
+                    var entityMover = selectedEntities[entityIndex].GetComponent<EntityMover>();
+                    if (entityMover != null) entityMover.SetTargetPosition(entityTargetPosition);
 
-                        entityIndex++;
-                    }
+                    entityIndex++;
                 }
             }
         }
+    }
 
+
+    private void OnGUI()
+    {
+        if (isDragging)
+        {
+            // Draw a GUI Box or rectangle as the selection box on screen
+            Rect rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
+            Utils.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
+            Utils.DrawScreenRectBorder(rect, 1, Color.blue);
+        }
     }
 
     private void SelectEntity(GameObject entity, bool clearCurrentSelection = true)
     {
-        if (clearCurrentSelection)
-        {
-            ClearSelection();
-        }
+        if (clearCurrentSelection) ClearSelection();
 
-        if (!selectedEntities.Contains(entity))
-        {
-            selectedEntities.Add(entity);
-        }
+        if (!selectedEntities.Contains(entity)) selectedEntities.Add(entity);
         entity.GetComponent<EntityVisuals>().UpdateVisuals(true);
     }
 
@@ -105,18 +100,16 @@ public class EntitiesController : MonoBehaviour
         for (int i = selectedEntities.Count - 1; i >= 0; i--)
         {
             GameObject entity = selectedEntities[i];
-            if (entity == null) 
+            if (entity == null)
             {
                 selectedEntities.RemoveAt(i);
                 continue;
             }
 
-            EntityVisuals entityVisuals = entity.GetComponent<EntityVisuals>();
-            if (entityVisuals != null)
-            {
-                entityVisuals.UpdateVisuals(false);
-            }
+            var entityVisuals = entity.GetComponent<EntityVisuals>();
+            if (entityVisuals != null) entityVisuals.UpdateVisuals(false);
         }
+
         selectedEntities.Clear();
     }
 
@@ -124,45 +117,27 @@ public class EntitiesController : MonoBehaviour
     private void SelectEntitiesInDrag()
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
-        GameObject[] allEntities = GameObject.FindGameObjectsWithTag("Entity"); 
+        GameObject[] allEntities = GameObject.FindGameObjectsWithTag("Entity");
 
         foreach (GameObject entity in allEntities)
         {
             if (entity == null) continue;
-            
-            Vector3 screenPosition = mainCamera.WorldToScreenPoint(entity.transform.position);
-            screenPosition.y = Screen.height - screenPosition.y; 
 
-            if (selectionRect.Contains(screenPosition, true))
-            {
-                SelectEntity(entity, false); 
-            }
+            Vector3 screenPosition = mainCamera.WorldToScreenPoint(entity.transform.position);
+            screenPosition.y = Screen.height - screenPosition.y;
+
+            if (selectionRect.Contains(screenPosition, true)) SelectEntity(entity, false);
         }
     }
-    
+
     public void DeregisterEntity(GameObject entity)
     {
         selectedEntities.Remove(entity);
     }
-    
+
     public bool IsEntitySelected(GameObject entity)
     {
         return selectedEntities.Contains(entity);
-    }
-
-
-
-
-
-    void OnGUI()
-    {
-        if (isDragging)
-        {
-            // Draw a GUI Box or rectangle as the selection box on screen
-            var rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
-            Utils.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
-            Utils.DrawScreenRectBorder(rect, 1, Color.blue);
-        }
     }
 }
 
@@ -175,8 +150,8 @@ public static class Utils
         screenPosition1.y = Screen.height - screenPosition1.y;
         screenPosition2.y = Screen.height - screenPosition2.y;
         // Calculate corners
-        var topLeft = Vector3.Min(screenPosition1, screenPosition2);
-        var bottomRight = Vector3.Max(screenPosition1, screenPosition2);
+        Vector3 topLeft = Vector3.Min(screenPosition1, screenPosition2);
+        Vector3 bottomRight = Vector3.Max(screenPosition1, screenPosition2);
         // Create Rect
         return Rect.MinMaxRect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
     }
@@ -190,16 +165,12 @@ public static class Utils
     public static void DrawScreenRectBorder(Rect rect, float thickness, Color color)
     {
         // Draw top
-        Utils.DrawScreenRect(new Rect(rect.xMin, rect.yMin, rect.width, thickness), color);
+        DrawScreenRect(new Rect(rect.xMin, rect.yMin, rect.width, thickness), color);
         // Draw left
-        Utils.DrawScreenRect(new Rect(rect.xMin, rect.yMin, thickness, rect.height), color);
+        DrawScreenRect(new Rect(rect.xMin, rect.yMin, thickness, rect.height), color);
         // Draw right
-        Utils.DrawScreenRect(new Rect(rect.xMax - thickness, rect.yMin, thickness, rect.height), color);
+        DrawScreenRect(new Rect(rect.xMax - thickness, rect.yMin, thickness, rect.height), color);
         // Draw bottom
-        Utils.DrawScreenRect(new Rect(rect.xMin, rect.yMax - thickness, rect.width, thickness), color);
+        DrawScreenRect(new Rect(rect.xMin, rect.yMax - thickness, rect.width, thickness), color);
     }
-    
-    
-    
-    
 }

@@ -3,22 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Entity
-  - Ground
-  - Enemy
-  - Projectile
-  - EnemyBase
-  - EntityBase
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
-  - Entity
+  - 
   - Water
   - UI
-  - groundLayer
+  - 
+  - 
   - 
   - 
   - 
