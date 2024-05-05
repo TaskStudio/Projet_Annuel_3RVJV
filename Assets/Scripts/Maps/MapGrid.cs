@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BuildingGridParent : MonoBehaviour
+public class MapGrid : MonoBehaviour
 {
     [SerializeField] private Grid grid;
     [SerializeField] private Transform groundTransform;
