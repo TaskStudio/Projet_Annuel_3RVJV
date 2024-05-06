@@ -24,8 +24,8 @@ public class Enemy : Entity, IMovable
 
     private Vector3 FindNearestTarget()
     {
-        GameObject[] nonEnemies = GameObject.FindGameObjectsWithTag("NonEnemy"); 
-        GameObject[] bases = GameObject.FindGameObjectsWithTag("Base"); 
+        GameObject[] nonEnemies = GameObject.FindGameObjectsWithTag("Entity"); 
+        GameObject[] bases = GameObject.FindGameObjectsWithTag("EntityBase"); 
 
         Vector3 closestTarget = Vector3.positiveInfinity;
         float closestDistanceSqr = Mathf.Infinity;
