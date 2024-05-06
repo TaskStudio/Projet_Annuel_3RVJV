@@ -8,7 +8,7 @@ public class Entityy : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && IsEntitySelected())
+        if (Input.GetKeyDown(KeyCode.Z) && IsEntitySelected())
         {
             ShootProjectile();
         }
