@@ -7,19 +7,22 @@ public class Enemy : Entity, IMovable
     void Update()
     {
         Vector3 moveTarget = FindNearestTarget(); 
-        Move(moveTarget);
+        if (moveTarget != Vector3.positiveInfinity) // Check if a valid target was found
+        {
+            Move(moveTarget);
+        }
     }
 
     public void Move(Vector3 targetPosition)
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        Vector3 direction = targetPosition - transform.position;
+        if (direction == Vector3.zero) return; // Early exit if no movement needed
+
+        direction.Normalize();
         transform.position += direction * moveSpeed * Time.deltaTime;
-        
-        if (direction != Vector3.zero)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * moveSpeed);
-        }
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * moveSpeed);
     }
 
     private Vector3 FindNearestTarget()
@@ -58,4 +61,6 @@ public class Enemy : Entity, IMovable
 
         return closestTarget;
     }
+    
 }
+

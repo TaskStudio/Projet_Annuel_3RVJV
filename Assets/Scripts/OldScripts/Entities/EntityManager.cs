@@ -33,4 +33,15 @@ public class EntityManager : MonoBehaviour
         entities.Remove(entity);
     }
     
+    public List<GameObject> GetAllEntities()
+    {
+        List<GameObject> allEntities = new List<GameObject>();
+        foreach (var entity in entities)
+        {
+            allEntities.Add(entity.gameObject);
+        }
+        return allEntities;
+    }
+
+    
 }

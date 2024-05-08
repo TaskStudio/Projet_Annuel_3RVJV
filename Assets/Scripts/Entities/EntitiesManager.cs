@@ -1,71 +1,57 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EntitiesManager : MonoBehaviour
 {
-    public Camera mainCamera;
-    public LayerMask clickableLayer;
-    public float entitySpacing = 1f;
+    public static EntitiesManager Instance { get; private set; }
+    private List<IMovable> movableEntities = new List<IMovable>();
 
-    private void Update()
+    void Awake()
     {
-        HandleSelectionInput();
-        HandleMovementInput();
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
-    private void HandleSelectionInput()
+    void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1)) 
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100, clickableLayer))
+
+            if (Physics.Raycast(ray, out hit, 100f))
             {
-                Debug.Log("Hit: " + hit.collider.name); // This will log the name of the hit object
-                bool isMultiSelect = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
-                SelectionManager.Instance.SelectEntity(hit.collider.gameObject, isMultiSelect);
-            }
-            else
-            {
-                Debug.Log("No hit detected"); // Log if no hit was detected
-                if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
-                {
-                    SelectionManager.Instance.DeselectAll();
-                }
+                MoveEntities(hit.point);
             }
         }
     }
 
-
-    private void HandleMovementInput()
+    public void RegisterMovableEntity(IMovable entity)
     {
-        if (Input.GetMouseButtonDown(1))
+        if (!movableEntities.Contains(entity))
         {
-            MoveSelectedEntities();
+            movableEntities.Add(entity);
         }
     }
 
-    private void MoveSelectedEntities()
+    public void UnregisterMovableEntity(IMovable entity)
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 1000))
+        movableEntities.Remove(entity);
+    }
+
+    public void MoveEntities(Vector3 targetPosition)
+    {
+        foreach (var entity in movableEntities)
         {
-            foreach (var entity in SelectionManager.Instance.GetSelectedEntities())
+            if (entity is ISelectable selectable && selectable.IsSelected)
             {
-                IMovable movableComponent = entity.GetComponent<IMovable>();
-                if (movableComponent != null)
-                {
-                    movableComponent.Move(CalculatePositionNear(hit.point, entity));
-                }
+                entity.Move(targetPosition);
             }
         }
-    }
-
-    private Vector3 CalculatePositionNear(Vector3 hitPoint, GameObject entity)
-    {
-        int index = SelectionManager.Instance.GetSelectedEntities().IndexOf(entity);
-        int row = index / 5; 
-        int col = index % 5;
-        return new Vector3(hitPoint.x + col * entitySpacing, hitPoint.y, hitPoint.z + row * entitySpacing);
     }
 }

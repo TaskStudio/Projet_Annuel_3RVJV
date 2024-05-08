@@ -38,7 +38,7 @@ public class Entityy : MonoBehaviour
             targetPoint.y = projectileSpawnPoint.position.y; 
             Vector3 direction = targetPoint - projectile.transform.position;
             projectile.transform.forward = direction.normalized; 
-            projectile.GetComponent<Projectile>().damage = 100; 
+            projectile.GetComponent<Projectilee>().damage = 100; 
         }
     }
 
