@@ -14,14 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Construction:BuildingDatabaseSO
   buildingsData:
   - <ID>k__BackingField: 0
-    <Name>k__BackingField: BaseBuilding
-    <DisplayName>k__BackingField: Base
-    <Size>k__BackingField: {x: 1, y: 1}
-    <Prefab>k__BackingField: {fileID: 8271199780258581595, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+    <Name>k__BackingField: AllyBaseBuilding
+    <DisplayName>k__BackingField: Factory
+    <Size>k__BackingField: {x: 5, y: 5}
+    <Prefab>k__BackingField: {fileID: 4289835719458119982, guid: 794686569ed5fe04bbf595ecf41bc719, type: 3}
     <ConstructionTime>k__BackingField: 2
-  - <ID>k__BackingField: 1
-    <Name>k__BackingField: BigBuilding
-    <DisplayName>k__BackingField: Big
-    <Size>k__BackingField: {x: 2, y: 1}
-    <Prefab>k__BackingField: {fileID: 1354352520420941783, guid: ec95dacbf17a08249941f4f42bf836f4, type: 3}
-    <ConstructionTime>k__BackingField: 4
