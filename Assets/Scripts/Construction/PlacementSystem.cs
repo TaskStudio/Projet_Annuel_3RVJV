@@ -10,7 +10,7 @@ namespace Construction
         [SerializeField] private BuildingDatabaseSO buildingDatabase;
         public bool isBuildingSelected;
 
-        private GridData buildingsData;
+        public readonly BuildingGridData BuildingGrid = new();
 
         private Building selectedBuilding;
         private BuildingData selectedBuildingData;
@@ -18,7 +18,6 @@ namespace Construction
 
         private void Start()
         {
-            buildingsData = new GridData();
             isBuildingSelected = false;
 
             selectedBuilding = null;
@@ -37,7 +36,7 @@ namespace Construction
 
                 Vector2Int buildingSize = selectedBuildingData.Size;
 
-                bool canPlace = buildingsData.CanPlaceObjectAt(gridMousePos, buildingSize);
+                bool canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, buildingSize);
                 if (!canPlace)
                     selectedBuilding.PreviewInvalid();
                 else
@@ -67,11 +66,11 @@ namespace Construction
             Vector3 worldMousePos = mouseControl.GetCursorMapPosition();
             Vector3Int gridMousePos = grid.WorldToCell(worldMousePos);
 
-            bool canPlace = buildingsData.CanPlaceObjectAt(gridMousePos, selectedBuildingData.Size);
+            bool canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, selectedBuildingData.Size);
             if (!canPlace)
                 return;
 
-            buildingsData.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingID, 0);
+            BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingID, 0);
             selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
             selectedBuilding = null;
             isBuildingSelected = false;
