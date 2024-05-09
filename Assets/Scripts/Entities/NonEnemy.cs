@@ -6,10 +6,10 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
     public Transform projectileSpawnPoint;
     public GameObject selectionIndicatorPrefab;
     public float moveSpeed = 5f;
-    public float stoppingDistance = 0.5f;
-    public LayerMask Entity; // LayerMask for other entities to avoid collisions
-    public float collisionRadius = 0.5f;
-    public float avoidanceStrength = 0.1f;
+    public float stoppingDistance = 0f;
+    public LayerMask Entity;
+    public float collisionRadius = 1f;
+    public float avoidanceStrength = 5f;
     public bool IsSelected { get; set; }
 
     private EntityVisuals visuals;
@@ -67,7 +67,7 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
             avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
         }
 
-        return targetPosition + avoidanceVector; // Calculate a new temporary target position that includes avoidance
+        return targetPosition + avoidanceVector;
     }
 
     public void Move(Vector3 newPosition)

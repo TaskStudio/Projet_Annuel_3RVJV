@@ -57,7 +57,7 @@ public class SelectionManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer)) // Only use clickableLayer
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer)) 
         {
             var selectable = hit.collider.GetComponent<ISelectable>();
             if (selectable != null)
@@ -93,10 +93,10 @@ public class SelectionManager : MonoBehaviour
         foreach (var selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour)selectable).transform.position);
-            screenPosition.y = Screen.height - screenPosition.y; // Convert to GUI coordinates
+            screenPosition.y = Screen.height - screenPosition.y; 
             if (selectionRect.Contains(screenPosition, true))
             {
-                SelectEntity(selectable, true); // Multi-select is true
+                SelectEntity(selectable, true); 
                 anySelected = true;
             }
         }

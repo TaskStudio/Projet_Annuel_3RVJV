@@ -26,7 +26,7 @@ public class EntitiesManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground"))) // Assumes "Ground" is correctly set up in Layer Masks
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 MoveEntitiesInGrid(hit.point);
             }
@@ -63,7 +63,7 @@ public class EntitiesManager : MonoBehaviour
             {
                 int row = entityIndex / entitiesPerSide;
                 int column = entityIndex % entitiesPerSide;
-                Vector3 gridPosition = startPoint + new Vector3(spacing * column, 1, spacing * row);  // Ensure y = 1 to keep entities on ground
+                Vector3 gridPosition = startPoint + new Vector3(spacing * column, 1, spacing * row);  
                 entity.Move(gridPosition);
                 entityIndex++;
             }

@@ -125,7 +125,7 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 6644346476222915570}
   selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
   moveSpeed: 5
-  stoppingDistance: 0.5
+  stoppingDistance: 0
   Entity:
     serializedVersion: 2
     m_Bits: 256
