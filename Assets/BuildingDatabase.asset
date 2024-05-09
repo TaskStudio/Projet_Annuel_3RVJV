@@ -16,6 +16,6 @@ MonoBehaviour:
   - <ID>k__BackingField: 0
     <Name>k__BackingField: AllyBaseBuilding
     <DisplayName>k__BackingField: Factory
-    <Size>k__BackingField: {x: 5, y: 5}
+    <Size>k__BackingField: {x: 10, y: 10}
     <Prefab>k__BackingField: {fileID: 4289835719458119982, guid: 794686569ed5fe04bbf595ecf41bc719, type: 3}
     <ConstructionTime>k__BackingField: 2
