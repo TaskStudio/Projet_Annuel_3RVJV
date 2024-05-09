@@ -1,6 +1,7 @@
 using Cinemachine;
 using Maps.Classes;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Cameras
 {
@@ -37,13 +38,15 @@ namespace Cameras
         // Update is called once per frame
         void Update()
         {
-            //Edges movements mechanisms
+            // Edges movements mechanisms
             if (useEdgeScrolling)
             {
                 HandleEdgesMovement();
             }
-            //Rotation mechanisms
+            // Rotation mechanisms
             HandleRotation();
+            
+            // Zoom mechanisms
             HandleZoom();
         }
 
