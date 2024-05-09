@@ -8,23 +8,28 @@ public class EntitiesManager : MonoBehaviour
 
     void Awake()
     {
+        // Singleton pattern to ensure only one instance exists
         if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
+        }
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); // Keeps the manager across scenes
         }
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1)) 
+        // Check for right mouse button click to initiate movement
+        if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 100f))
+            // Raycast to check if the ground is clicked
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 MoveEntities(hit.point);
             }
@@ -33,7 +38,7 @@ public class EntitiesManager : MonoBehaviour
 
     public void RegisterMovableEntity(IMovable entity)
     {
-        if (!movableEntities.Contains(entity))
+        if (entity != null && !movableEntities.Contains(entity))
         {
             movableEntities.Add(entity);
         }
@@ -41,11 +46,15 @@ public class EntitiesManager : MonoBehaviour
 
     public void UnregisterMovableEntity(IMovable entity)
     {
-        movableEntities.Remove(entity);
+        if (entity != null)
+        {
+            movableEntities.Remove(entity);
+        }
     }
 
-    public void MoveEntities(Vector3 targetPosition)
+    private void MoveEntities(Vector3 targetPosition)
     {
+        // Move all selected entities to the target position
         foreach (var entity in movableEntities)
         {
             if (entity is ISelectable selectable && selectable.IsSelected)

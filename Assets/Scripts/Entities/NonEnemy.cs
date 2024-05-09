@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
 {
@@ -6,42 +7,59 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
     public Transform projectileSpawnPoint;
     public GameObject selectionIndicatorPrefab; 
     public float moveSpeed = 5f;
+    public float stoppingDistance = 0.5f;
     public bool IsSelected { get; set; }
     private EntityVisuals visuals; 
+    private Vector3 targetPosition;
 
     void Start()
     {
+        EntitiesManager.Instance.RegisterMovableEntity(this);
         visuals = GetComponent<EntityVisuals>();
         if (visuals == null)
         {
             visuals = gameObject.AddComponent<EntityVisuals>();
         }
-        visuals.selectionIndicatorPrefab = selectionIndicatorPrefab; 
+        visuals.selectionIndicatorPrefab = selectionIndicatorPrefab;
+        targetPosition = transform.position;
     }
+
 
     void Update()
     {
         HandleInput();
+        MoveTowardsTarget();
     }
 
     private void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.Z) && IsSelected)
         {
-            Vector3 targetPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-            Shoot(targetPosition);
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow) && IsSelected)
-        {
-            Move(transform.position + transform.forward * moveSpeed * Time.deltaTime);
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+            Shoot(mousePosition);
         }
     }
 
-    public void Move(Vector3 targetPosition)
+    public void Move(Vector3 newPosition)
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        targetPosition = newPosition; 
     }
+
+    private void MoveTowardsTarget()
+    {
+        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
+        {
+            Vector3 movePosition = new Vector3(targetPosition.x, 1, targetPosition.z);
+            
+            Vector3 moveDirection = (movePosition - transform.position).normalized;
+            
+            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            
+            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+        }
+    }
+
+
 
     public void Shoot(Vector3 target)
     {
@@ -55,7 +73,6 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
     public void Select()
     {
         IsSelected = true;
-        Debug.Log($"Selected: {gameObject.name}");
         UpdateVisuals();
     }
 
