@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 101928740059587737}
   - component: {fileID: 478117095316257027}
   - component: {fileID: 5443982664294859417}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: NonEnemy
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -125,6 +125,12 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 6644346476222915570}
   selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
   moveSpeed: 5
+  stoppingDistance: 0.5
+  Entity:
+    serializedVersion: 2
+    m_Bits: 256
+  collisionRadius: 1
+  avoidanceStrength: 5
 --- !u!1 &6474036145557002104
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6644346476222915570}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

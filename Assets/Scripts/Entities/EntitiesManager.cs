@@ -8,7 +8,6 @@ public class EntitiesManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton pattern to ensure only one instance exists
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -16,22 +15,20 @@ public class EntitiesManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keeps the manager across scenes
+            DontDestroyOnLoad(gameObject);
         }
     }
 
     void Update()
     {
-        // Check for right mouse button click to initiate movement
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))  
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Raycast to check if the ground is clicked
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground"))) // Assumes "Ground" is correctly set up in Layer Masks
             {
-                MoveEntities(hit.point);
+                MoveEntitiesInGrid(hit.point);
             }
         }
     }
@@ -52,14 +49,23 @@ public class EntitiesManager : MonoBehaviour
         }
     }
 
-    private void MoveEntities(Vector3 targetPosition)
+    private void MoveEntitiesInGrid(Vector3 targetPosition)
     {
-        // Move all selected entities to the target position
+        int entitiesPerSide = Mathf.CeilToInt(Mathf.Sqrt(movableEntities.Count));
+        float spacing = 1f;
+        float totalLength = spacing * (entitiesPerSide - 1);
+        Vector3 startPoint = targetPosition - new Vector3(totalLength / 2, 0, totalLength / 2);
+
+        int entityIndex = 0;
         foreach (var entity in movableEntities)
         {
             if (entity is ISelectable selectable && selectable.IsSelected)
             {
-                entity.Move(targetPosition);
+                int row = entityIndex / entitiesPerSide;
+                int column = entityIndex % entitiesPerSide;
+                Vector3 gridPosition = startPoint + new Vector3(spacing * column, 1, spacing * row);  // Ensure y = 1 to keep entities on ground
+                entity.Move(gridPosition);
+                entityIndex++;
             }
         }
     }
