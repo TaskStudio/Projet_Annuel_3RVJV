@@ -87,9 +87,23 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
         if (projectilePrefab && projectileSpawnPoint)
         {
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody>().velocity = (target - transform.position).normalized * 20f;
+
+            // Calculate direction from spawn point to the target on the ground
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Vector3 hitPoint = hit.point;
+                hitPoint.y = projectileSpawnPoint.position.y; // Adjust y to be at the spawn point's height if needed
+                Vector3 shootDirection = (hitPoint - projectileSpawnPoint.position).normalized;
+
+                // Set projectile's direction and velocity
+                projectile.transform.forward = shootDirection;
+                projectile.GetComponent<Rigidbody>().velocity = shootDirection * 20f; // Adjust speed as necessary
+            }
         }
     }
+
 
     public void Select()
     {
