@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf517fcffe649f2b080490ec639e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 4767235098883473521, guid: b2dd30f90556ba249a6303a71de6b72c, type: 3}
+  hp: 100
+  projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
   projectileSpawnPoint: {fileID: 6644346476222915570}
   selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
   moveSpeed: 5

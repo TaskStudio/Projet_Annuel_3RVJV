@@ -89,7 +89,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         {
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
 
-            // Calculate direction from spawn point to the target on the ground
             Ray ray = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -98,12 +97,12 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
                 hitPoint.y = projectileSpawnPoint.position.y; // Adjust y to be at the spawn point's height if needed
                 Vector3 shootDirection = (hitPoint - projectileSpawnPoint.position).normalized;
 
-                // Set projectile's direction and velocity
-                projectile.transform.forward = shootDirection;
-                projectile.GetComponent<Rigidbody>().velocity = shootDirection * 20f; // Adjust speed as necessary
+                // Initialize the projectile with direction and speed
+                projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f); // Set speed as necessary
             }
         }
     }
+
 
 
     public void Select()
