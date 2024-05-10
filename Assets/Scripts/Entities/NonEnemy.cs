@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
+public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 {
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
@@ -38,6 +38,7 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
             MoveTowardsTarget(adjustedPosition);
         }
     }
+    
 
     private void HandleInput()
     {
@@ -124,4 +125,7 @@ public class NonEnemy : MonoBehaviour, IMovable, IShootable, ISelectable
             visuals.UpdateVisuals(IsSelected);
         }
     }
+    
+    
+    
 }

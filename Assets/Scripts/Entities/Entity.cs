@@ -6,10 +6,15 @@ public abstract class Entity : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int damage)
     {
-        hp -= damage;
+        hp -= damage;  
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            DestroyEntity();  
         }
+    }
+    
+    protected void DestroyEntity()
+    {
+        Destroy(gameObject);  
     }
 }

@@ -3,64 +3,86 @@ using UnityEngine;
 public class Enemy : Entity, IMovable
 {
     public float moveSpeed = 5f;
+    public int collisionDamage = 100;  // Damage dealt to other objects on collision
 
     void Update()
     {
-        Vector3 moveTarget = FindNearestTarget(); 
-        if (moveTarget != Vector3.positiveInfinity) // Check if a valid target was found
-        {
-            Move(moveTarget);
-        }
+        Vector3 moveTarget = FindNearestTarget();
+        Move(moveTarget);
     }
 
     public void Move(Vector3 targetPosition)
     {
-        Vector3 direction = targetPosition - transform.position;
-        if (direction == Vector3.zero) return; // Early exit if no movement needed
-
-        direction.Normalize();
-        transform.position += direction * moveSpeed * Time.deltaTime;
-
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * moveSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        
+        if (targetPosition != transform.position) // Ensure there is a movement towards a target
+        {
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * moveSpeed);
+        }
     }
 
     private Vector3 FindNearestTarget()
     {
-        GameObject[] nonEnemies = GameObject.FindGameObjectsWithTag("Entity"); 
-        GameObject[] bases = GameObject.FindGameObjectsWithTag("EntityBase"); 
+        GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
+        GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
+        Vector3 currentPosition = this.transform.position;
 
-        Vector3 closestTarget = Vector3.positiveInfinity;
+        GameObject closestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
 
-        // Check non-enemies first
-        foreach (GameObject target in nonEnemies)
+        foreach (GameObject entity in entities)
         {
-            float distance = (target.transform.position - currentPosition).sqrMagnitude;
-            if (distance < closestDistanceSqr)
+            Vector3 directionToTarget = entity.transform.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
             {
-                closestDistanceSqr = distance;
-                closestTarget = target.transform.position;
+                closestDistanceSqr = dSqrToTarget;
+                closestTarget = entity;
             }
         }
 
-        // Check bases if no non-enemy is close enough
-        if (closestTarget == Vector3.positiveInfinity)
+        if (closestTarget == null && entityBases.Length > 0)
         {
-            foreach (GameObject baseObj in bases)
+            foreach (GameObject entityBase in entityBases)
             {
-                float distance = (baseObj.transform.position - currentPosition).sqrMagnitude;
-                if (distance < closestDistanceSqr)
+                Vector3 directionToTarget = entityBase.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
                 {
-                    closestDistanceSqr = distance;
-                    closestTarget = baseObj.transform.position;
+                    closestDistanceSqr = dSqrToTarget;
+                    closestTarget = entityBase;
                 }
             }
         }
 
-        return closestTarget;
+        return closestTarget != null ? closestTarget.transform.position : Vector3.positiveInfinity;
     }
     
-}
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Entity"))
+        {
+            NonEnemy entity = collision.gameObject.GetComponent<NonEnemy>();
+            if (entity != null)
+            {
+                entity.TakeDamage(collisionDamage);
+            }
+            
+            Destroy(gameObject);
+        }
+        
+        if (collision.gameObject.CompareTag("EntityBase"))
+        {
+            EntityBases entitybase = collision.gameObject.GetComponent<EntityBases>();
+            if (entitybase != null)
+            {
+                entitybase.TakeDamage(1000);
+            }
+            Destroy(gameObject);
+        }
+    }
 
+    
+}

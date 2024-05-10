@@ -20,7 +20,7 @@ public class Enemyy : MonoBehaviour
         
         if (collision.gameObject.CompareTag("EntityBase"))
         {
-            EntityBase entitybase = collision.gameObject.GetComponent<EntityBase>();
+            EntityBases entitybase = collision.gameObject.GetComponent<EntityBases>();
             if (entitybase != null)
             {
                 entitybase.TakeDamage(1000);
