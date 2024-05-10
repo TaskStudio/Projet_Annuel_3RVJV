@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Maps.Interfaces;
 using UnityEngine;
 
 namespace Construction
 {
-    public class GridData
+    public class BuildingGridData : IGridData
     {
-        private readonly Dictionary<Vector3Int, PlacementData> placedObjects = new();
+        public Dictionary<Vector3Int, PlacementData> placedObjects { get; } = new();
+
+        public bool IsPositionOccupied(Vector3Int gridPosition)
+        {
+            return placedObjects.ContainsKey(gridPosition);
+        }
 
         public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placedObjectIndex)
         {
