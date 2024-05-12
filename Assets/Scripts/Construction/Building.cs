@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -22,14 +23,17 @@ namespace Construction
         [SerializeField] private MeshRenderer objectRenderer;
 
 
-        [Space(10)]
-        [Header("Grid")]
+        [Space(10)] [Header("Grid")]
         [SerializeField] private Material gridMaterial;
         [SerializeField] private Material gridInvalidMaterial;
         [Space(5)]
         [SerializeField] private MeshRenderer gridRenderer;
 
         private float constructionTime;
+
+        [Space(10)] [Header("Production")]
+        [SerializeField] private EntityFactory entityFactory;
+        private Queue<Entity> productionQueue;
 
         public BuildingStates state { get; internal set; }
 

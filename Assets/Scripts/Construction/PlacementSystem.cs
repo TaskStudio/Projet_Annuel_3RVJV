@@ -49,7 +49,7 @@ namespace Construction
         {
             CancelPlacement();
 
-            selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.ID == ID);
+            selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.IdNumber == ID);
             selectedBuilding = Instantiate(selectedBuildingData.Prefab);
             selectedBuilding.PreviewValid();
             selectedBuildingID = ID;
