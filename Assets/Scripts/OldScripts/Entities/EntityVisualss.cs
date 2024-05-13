@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EntityVisuals : MonoBehaviour
+public class EntityVisualss : MonoBehaviour
 {
     public GameObject selectionIndicatorPrefab; 
     private GameObject currentIndicatorInstance;
@@ -12,7 +12,7 @@ public class EntityVisuals : MonoBehaviour
             if (currentIndicatorInstance == null)
             {
                 currentIndicatorInstance = Instantiate(selectionIndicatorPrefab, transform.position, Quaternion.identity, transform);
-                currentIndicatorInstance.transform.localPosition = new Vector3(0, -1f, 0);
+                currentIndicatorInstance.transform.localPosition = new Vector3(0, -1f, 0); 
             }
         }
         else
@@ -23,5 +23,4 @@ public class EntityVisuals : MonoBehaviour
             }
         }
     }
-
 }

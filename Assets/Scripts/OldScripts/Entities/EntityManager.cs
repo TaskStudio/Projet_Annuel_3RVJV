@@ -5,7 +5,7 @@ public class EntityManager : MonoBehaviour
 {
     public static EntityManager Instance { get; private set; }
 
-    private List<Entity> entities = new List<Entity>();
+    private List<Entityy> entities = new List<Entityy>();
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class EntityManager : MonoBehaviour
     }
     
 
-    public void RegisterEntity(Entity entity)
+    public void RegisterEntity(Entityy entity)
     {
         if (!entities.Contains(entity))
         {
@@ -28,9 +28,20 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public void UnregisterEntity(Entity entity)
+    public void UnregisterEntity(Entityy entity)
     {
         entities.Remove(entity);
     }
+    
+    public List<GameObject> GetAllEntities()
+    {
+        List<GameObject> allEntities = new List<GameObject>();
+        foreach (var entity in entities)
+        {
+            allEntities.Add(entity.gameObject);
+        }
+        return allEntities;
+    }
+
     
 }

@@ -35,7 +35,7 @@ public class EntityMover : MonoBehaviour
             AvoidCollisions();
             MoveTowardsTarget();
         }
-    }
+    }                                                                                                                                                                   
 
     private void AvoidCollisions()
     {

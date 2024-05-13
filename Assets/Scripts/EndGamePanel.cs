@@ -6,7 +6,7 @@ public class EndGamePanel : MonoBehaviour
     public void ReplayGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Main Scene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ExitGame()
