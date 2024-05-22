@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemyy : MonoBehaviour
 {
     public int hp = 100;
     public int damage = 1000;
@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Entity"))
         {
-            Entity entity = collision.gameObject.GetComponent<Entity>();
+            Entityy entity = collision.gameObject.GetComponent<Entityy>();
             if (entity != null)
             {
                 entity.TakeDamage(100);
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         
         if (collision.gameObject.CompareTag("EntityBase"))
         {
-            EntityBase entitybase = collision.gameObject.GetComponent<EntityBase>();
+            EntityBases entitybase = collision.gameObject.GetComponent<EntityBases>();
             if (entitybase != null)
             {
                 entitybase.TakeDamage(1000);

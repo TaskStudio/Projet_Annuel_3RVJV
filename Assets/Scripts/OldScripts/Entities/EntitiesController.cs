@@ -80,9 +80,9 @@ public class EntitiesController : MonoBehaviour
         if (isDragging)
         {
             // Draw a GUI Box or rectangle as the selection box on screen
-            Rect rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
-            Utils.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
-            Utils.DrawScreenRectBorder(rect, 1, Color.blue);
+            Rect rect = Utilss.GetScreenRect(mouseDragStart, Input.mousePosition);
+            Utilss.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
+            Utilss.DrawScreenRectBorder(rect, 1, Color.blue);
         }
     }
 
@@ -91,7 +91,7 @@ public class EntitiesController : MonoBehaviour
         if (clearCurrentSelection) ClearSelection();
 
         if (!selectedEntities.Contains(entity)) selectedEntities.Add(entity);
-        entity.GetComponent<EntityVisuals>().UpdateVisuals(true);
+        entity.GetComponent<EntityVisualss>().UpdateVisuals(true);
     }
 
 
@@ -106,7 +106,7 @@ public class EntitiesController : MonoBehaviour
                 continue;
             }
 
-            var entityVisuals = entity.GetComponent<EntityVisuals>();
+            var entityVisuals = entity.GetComponent<EntityVisualss>();
             if (entityVisuals != null) entityVisuals.UpdateVisuals(false);
         }
 
@@ -116,7 +116,7 @@ public class EntitiesController : MonoBehaviour
 
     private void SelectEntitiesInDrag()
     {
-        Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
+        Rect selectionRect = Utilss.GetScreenRect(mouseDragStart, Input.mousePosition);
         GameObject[] allEntities = GameObject.FindGameObjectsWithTag("Entity");
 
         foreach (GameObject entity in allEntities)
@@ -142,7 +142,7 @@ public class EntitiesController : MonoBehaviour
 }
 
 // Utility class for drawing GUI elements
-public static class Utils
+public static class Utilss
 {
     public static Rect GetScreenRect(Vector3 screenPosition1, Vector3 screenPosition2)
     {
