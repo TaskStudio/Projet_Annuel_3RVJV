@@ -29,7 +29,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         targetPosition = transform.position;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
@@ -40,7 +40,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     }
     
 
-    private void HandleInput()
+    protected virtual void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.Z) && IsSelected)
         {
@@ -49,7 +49,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         }
     }
 
-    private Vector3 AvoidCollisions()
+    protected Vector3 AvoidCollisions()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, Entity);
         Vector3 avoidanceVector = Vector3.zero;
@@ -76,14 +76,14 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         targetPosition = newPosition;
     }
 
-    private void MoveTowardsTarget(Vector3 adjustedPosition)
+    protected void MoveTowardsTarget(Vector3 adjustedPosition)
     {
         Vector3 moveDirection = (adjustedPosition - transform.position).normalized;
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
     }
 
-    public void Shoot(Vector3 target)
+    public virtual void Shoot(Vector3 target)
     {
         if (projectilePrefab && projectileSpawnPoint)
         {
