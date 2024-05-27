@@ -1,4 +1,7 @@
 using UnityEngine;
+using Unity.Jobs;
+using Unity.Collections;
+using Unity.Burst;
 
 public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 {
@@ -38,7 +41,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             MoveTowardsTarget(adjustedPosition);
         }
     }
-    
 
     private void HandleInput()
     {
@@ -47,6 +49,11 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
             Shoot(mousePosition);
         }
+    }
+
+    public void Move(Vector3 newPosition)
+    {
+        targetPosition = newPosition;
     }
 
     private Vector3 AvoidCollisions()
@@ -71,16 +78,26 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         return targetPosition + avoidanceVector;
     }
 
-    public void Move(Vector3 newPosition)
-    {
-        targetPosition = newPosition;
-    }
-
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
-        Vector3 moveDirection = (adjustedPosition - transform.position).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+        NativeArray<Vector3> newPositionArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+
+        var moveJob = new MoveJob
+        {
+            currentPosition = transform.position,
+            targetPosition = adjustedPosition,
+            moveSpeed = moveSpeed,
+            deltaTime = Time.deltaTime,
+            newPosition = newPositionArray
+        };
+
+        JobHandle moveJobHandle = moveJob.Schedule();
+        moveJobHandle.Complete();
+
+        Vector3 newPosition = newPositionArray[0];
+        newPositionArray.Dispose();
+
+        transform.position = newPosition;
     }
 
     public void Shoot(Vector3 target)
@@ -103,8 +120,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         }
     }
 
-
-
     public void Select()
     {
         IsSelected = true;
@@ -124,7 +139,31 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             visuals.UpdateVisuals(IsSelected);
         }
     }
-    
-    
-    
+
+    [BurstCompile]
+    struct MoveJob : IJob
+    {
+        public Vector3 currentPosition;
+        public Vector3 targetPosition;
+        public float moveSpeed;
+        public float deltaTime;
+        public NativeArray<Vector3> newPosition;
+
+        public void Execute()
+        {
+            Vector3 moveDirection = targetPosition - currentPosition;
+
+            if (moveDirection == Vector3.zero)
+            {
+                moveDirection = new Vector3(0.01f, 0, 0.01f);
+            }
+
+            moveDirection.Normalize();
+
+            Vector3 calculatedNewPosition = currentPosition + moveDirection * moveSpeed * deltaTime;
+            calculatedNewPosition.y = currentPosition.y;
+
+            newPosition[0] = calculatedNewPosition;
+        }
+    }
 }
