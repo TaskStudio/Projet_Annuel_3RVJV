@@ -5,6 +5,7 @@ public class Tank : NonEnemy
 {
     private static List<Tank> _selectedTanks = new List<Tank>();
     public GameObject combinedTankPrefab; // Reference to the combined tank prefab
+    public float tauntRadius = 10f; // Radius within which enemies will be taunted
 
     void Update()
     {
@@ -15,7 +16,12 @@ public class Tank : NonEnemy
         {
             CombineSelectedTanks();
         }
-        
+
+        // Check for key press to taunt nearby enemies
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            TauntEnemies();
+        }
     }
 
     
@@ -95,6 +101,20 @@ public void CombineSelectedTanks()
         Debug.Log("You must select exactly three tanks to combine. Selected tanks count: " + _selectedTanks.Count);
     }
 }
+
+private void TauntEnemies()
+{
+    Collider[] hitColliders = Physics.OverlapSphere(transform.position, tauntRadius);
+    foreach (var hitCollider in hitColliders)
+    {
+        Enemy enemy = hitCollider.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.Taunt(this);
+        }
+    }
+}
+
 
 }
 

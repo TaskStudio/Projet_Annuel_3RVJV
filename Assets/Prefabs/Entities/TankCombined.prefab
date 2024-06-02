@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5443012593859908175}
   m_Layer: 0
   m_Name: TankCombined
-  m_TagString: Untagged
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,3 +164,4 @@ MonoBehaviour:
   collisionRadius: 1
   avoidanceStrength: 5
   combinedTankPrefab: {fileID: 0}
+  tauntRadius: 10
