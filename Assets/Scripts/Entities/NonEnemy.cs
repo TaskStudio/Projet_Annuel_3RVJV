@@ -1,7 +1,6 @@
 using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
-using Unity.Burst;
 
 public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 {
@@ -52,16 +51,16 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     }
 
     public void Move(Vector3 newPosition)
-{
-    // Notify the spawner to free the old position
-    EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
-    if (spawner != null)
     {
-        spawner.FreePosition(transform.position);
-    }
+        // Notify the spawner to free the old position
+        EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
+        if (spawner != null)
+        {
+            spawner.FreePosition(transform.position);
+        }
 
-    targetPosition = newPosition;
-}
+        targetPosition = newPosition;
+    }
 
     private Vector3 AvoidCollisions()
     {
@@ -154,33 +153,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         if (visuals != null)
         {
             visuals.UpdateVisuals(IsSelected);
-        }
-    }
-
-    [BurstCompile]
-    struct MoveJob : IJob
-    {
-        public Vector3 currentPosition;
-        public Vector3 targetPosition;
-        public float moveSpeed;
-        public float deltaTime;
-        public NativeArray<Vector3> newPosition;
-
-        public void Execute()
-        {
-            Vector3 moveDirection = targetPosition - currentPosition;
-
-            if (moveDirection == Vector3.zero)
-            {
-                moveDirection = new Vector3(0.01f, 0, 0.01f);
-            }
-
-            moveDirection.Normalize();
-
-            Vector3 calculatedNewPosition = currentPosition + moveDirection * moveSpeed * deltaTime;
-            calculatedNewPosition.y = currentPosition.y;
-
-            newPosition[0] = calculatedNewPosition;
         }
     }
 }
