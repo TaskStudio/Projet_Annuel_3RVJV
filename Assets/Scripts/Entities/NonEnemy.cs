@@ -58,6 +58,11 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     private Vector3 AvoidCollisions()
     {
+        if (Vector3.Distance(transform.position, targetPosition) <= stoppingDistance)
+        {
+            return targetPosition;
+        }
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, Entity);
         Vector3 avoidanceVector = Vector3.zero;
 
@@ -80,6 +85,11 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
+        if (Vector3.Distance(transform.position, adjustedPosition) <= stoppingDistance)
+        {
+            return;
+        }
+
         NativeArray<Vector3> newPositionArray = new NativeArray<Vector3>(1, Allocator.TempJob);
 
         var moveJob = new MoveJob

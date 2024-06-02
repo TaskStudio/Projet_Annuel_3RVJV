@@ -69,7 +69,6 @@ public class Enemy : Entity, IMovable
             {
                 entity.TakeDamage(collisionDamage);
             }
-            
             Destroy(gameObject);
         }
         
