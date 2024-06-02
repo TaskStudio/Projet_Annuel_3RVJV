@@ -18,7 +18,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     private Vector3 targetPosition;
     private Collider entityCollider;
 
-    void Start()
+    protected void Start()
     {
         EntitiesManager.Instance.RegisterMovableEntity(this);
         visuals = GetComponent<EntityVisuals>();
@@ -31,7 +31,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         targetPosition = transform.position;
     }
 
-    void Update()
+     protected void Update()
     {
         HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
