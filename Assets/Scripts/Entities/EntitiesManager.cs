@@ -63,7 +63,7 @@ public class EntitiesManager : MonoBehaviour
             {
                 int row = entityIndex / entitiesPerSide;
                 int column = entityIndex % entitiesPerSide;
-                Vector3 gridPosition = startPoint + new Vector3(spacing * column, 1, spacing * row);  
+                Vector3 gridPosition = startPoint + new Vector3(spacing * column, 0, spacing * row);  
                 entity.Move(gridPosition);
                 entityIndex++;
             }
