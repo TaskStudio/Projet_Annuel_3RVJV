@@ -106,7 +106,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private void SelectEntity(ISelectable entity, bool isMultiSelect = false)
+    public  void SelectEntity(ISelectable entity, bool isMultiSelect = false)
     {
         if (!isMultiSelect)
         {

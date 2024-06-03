@@ -10,7 +10,7 @@ public class Tank : NonEnemy
     protected new void Start()
     {
         base.Start();
-        
+        // Tanks do not shoot, so projectile related fields are set to null
         projectilePrefab = null;
         projectileSpawnPoint = null;
     }
@@ -24,7 +24,6 @@ public class Tank : NonEnemy
             CombineSelectedTanks();
         }
 
-        // Check for key press to taunt nearby enemies
         if (Input.GetKeyDown(KeyCode.O))
         {
             TauntEnemies();
@@ -57,14 +56,15 @@ public class Tank : NonEnemy
             combinedPosition /= _selectedTanks.Count;
             combinedPosition.y = 2;
 
-            // Unregister and destroy individual tanks
             foreach (var tank in _selectedTanks)
             {
-                EntitiesManager.Instance.UnregisterMovableEntity(tank);
+                if (EntitiesManager.Instance != null)
+                {
+                    EntitiesManager.Instance.UnregisterMovableEntity(tank);
+                }
                 Destroy(tank.gameObject);
             }
 
-            // Create new combined tank from prefab
             GameObject newTankObject = Instantiate(combinedTankPrefab, combinedPosition, Quaternion.identity);
             newTankObject.transform.localScale = new Vector3(2, 2, 2);
 
@@ -78,18 +78,14 @@ public class Tank : NonEnemy
                 newTank.Entity = this.Entity;
                 newTank.collisionRadius = this.collisionRadius;
                 newTank.avoidanceStrength = this.avoidanceStrength;
-                
-                
+
                 newTank.Start();
             }
 
-            // Clear the list of selected tanks
             _selectedTanks.Clear();
 
-            // Select the new combined tank using SelectionManager
             SelectionManager.Instance.ClearSelection();
-            SelectionManager.Instance.GetType().GetMethod("SelectEntity", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                            .Invoke(SelectionManager.Instance, new object[] { newTank, false });
+            SelectionManager.Instance.SelectEntity(newTank, false);
         }
     }
 
