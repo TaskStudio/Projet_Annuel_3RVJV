@@ -6,6 +6,7 @@ public class Tank : NonEnemy
     private static List<Tank> _selectedTanks = new List<Tank>();
     public GameObject combinedTankPrefab;
     public float tauntRadius = 10f;
+    private bool isCombinedTank = false; // Flag to indicate if the tank is a combined tank
 
     protected new void Start()
     {
@@ -37,15 +38,15 @@ public class Tank : NonEnemy
 
     public void CombineSelectedTanks()
     {
-        if (IsSelected && !_selectedTanks.Contains(this))
+        // Add only selected normal tanks to the list
+        if (IsSelected && !_selectedTanks.Contains(this) && !isCombinedTank)
         {
             _selectedTanks.Add(this);
         }
 
+        // Ensure only normal tanks are in the selection
         if (_selectedTanks.Count == 10)
         {
-            
-
             int combinedHp = 0;
             Vector3 combinedPosition = Vector3.zero;
 
@@ -81,6 +82,7 @@ public class Tank : NonEnemy
                 newTank.Entity = this.Entity;
                 newTank.collisionRadius = this.collisionRadius;
                 newTank.avoidanceStrength = this.avoidanceStrength;
+                newTank.isCombinedTank = true; // Mark the new tank as a combined tank
 
                 newTank.Start();
                 Debug.Log($"Created new combined tank at position: {newTank.transform.position} with combined HP: {combinedHp}");
@@ -90,8 +92,6 @@ public class Tank : NonEnemy
 
             SelectionManager.Instance.ClearSelection();
             SelectionManager.Instance.SelectEntity(newTank, false);
-
-            
         }
     }
 
