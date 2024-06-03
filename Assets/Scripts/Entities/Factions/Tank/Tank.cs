@@ -80,7 +80,7 @@ public class Tank : NonEnemy
                 newTank.moveSpeed = this.moveSpeed;
                 newTank.stoppingDistance = this.stoppingDistance;
                 newTank.Entity = this.Entity;
-                newTank.collisionRadius = this.collisionRadius;
+                newTank.collisionRadius = 2f;
                 newTank.avoidanceStrength = this.avoidanceStrength;
                 newTank.isCombinedTank = true; // Mark the new tank as a combined tank
 
