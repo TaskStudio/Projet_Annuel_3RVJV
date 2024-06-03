@@ -7,7 +7,16 @@ public class Tank : NonEnemy
     public GameObject combinedTankPrefab; // Reference to the combined tank prefab
     public float tauntRadius = 10f; // Radius within which enemies will be taunted
 
-    void Update()
+    protected new void Start()
+    {
+        base.Start();
+
+        // Remove or do not initialize shooting related attributes for Tank
+        projectilePrefab = null;
+        projectileSpawnPoint = null;
+    }
+
+    protected new void Update()
     {
         base.Update(); // Ensure the base class Update method is called
 
@@ -24,97 +33,96 @@ public class Tank : NonEnemy
         }
     }
 
-    
-
-public void CombineSelectedTanks()
-{
-    // Ensure this tank is in the selected tanks list
-    if (!_selectedTanks.Contains(this))
+    public override void Shoot(Vector3 target)
     {
-        _selectedTanks.Add(this);
+        // Tanks do not shoot, so this method does nothing
     }
 
-    if (_selectedTanks.Count == 3)
+    public void CombineSelectedTanks()
     {
-        Debug.Log("Combining three tanks...");
-
-        // Calculate the combined HP and position
-        int combinedHp = 0;
-        Vector3 combinedPosition = Vector3.zero;
-
-        foreach (var tank in _selectedTanks)
+        // Ensure this tank is in the selected tanks list
+        if (!_selectedTanks.Contains(this))
         {
-            combinedHp += tank.hp;
-            combinedPosition += tank.transform.position;
-            Debug.Log("Combining tank with HP: " + tank.hp);
+            _selectedTanks.Add(this);
         }
 
-        combinedPosition /= _selectedTanks.Count;
-        combinedPosition.y = 2;
-
-        // Destroy individual tanks
-        foreach (var tank in _selectedTanks)
+        if (_selectedTanks.Count == 3)
         {
-            Debug.Log("Destroying tank with HP: " + tank.hp);
-            Destroy(tank.gameObject);
-        }
+            Debug.Log("Combining three tanks...");
 
-        // Create new combined tank from prefab
-        GameObject newTankObject = Instantiate(combinedTankPrefab, combinedPosition, Quaternion.identity);
-        newTankObject.transform.localScale = new Vector3(2, 2, 2); // Set the scale to 2, 2, 2
+            // Calculate the combined HP and position
+            int combinedHp = 0;
+            Vector3 combinedPosition = Vector3.zero;
 
-        Tank newTank = newTankObject.GetComponent<Tank>();
-        if (newTank != null)
-        {
-            newTank.hp = combinedHp;
+            foreach (var tank in _selectedTanks)
+            {
+                combinedHp += tank.hp;
+                combinedPosition += tank.transform.position;
+                Debug.Log("Combining tank with HP: " + tank.hp);
+            }
 
-            // Optionally, set other properties or visuals of the new tank here
-            newTank.projectilePrefab = this.projectilePrefab;
-            newTank.projectileSpawnPoint = this.projectileSpawnPoint;
-            newTank.selectionIndicatorPrefab = this.selectionIndicatorPrefab;
-            newTank.moveSpeed = this.moveSpeed;
-            newTank.stoppingDistance = this.stoppingDistance;
-            newTank.Entity = this.Entity;
-            newTank.collisionRadius = this.collisionRadius;
-            newTank.avoidanceStrength = this.avoidanceStrength;
+            combinedPosition /= _selectedTanks.Count;
+            combinedPosition.y = 2;
 
-            Debug.Log("Created new combined tank with HP: " + newTank.hp + " at position: " + newTank.transform.position);
+            // Unregister and destroy individual tanks
+            foreach (var tank in _selectedTanks)
+            {
+                Debug.Log("Destroying tank with HP: " + tank.hp);
+                EntitiesManager.Instance.UnregisterMovableEntity(tank);
+                Destroy(tank.gameObject);
+            }
 
-            // Ensure the new tank is initialized properly
-            newTank.Start();
+            // Create new combined tank from prefab
+            GameObject newTankObject = Instantiate(combinedTankPrefab, combinedPosition, Quaternion.identity);
+            newTankObject.transform.localScale = new Vector3(2, 2, 2); // Set the scale to 2, 2, 2
+
+            Tank newTank = newTankObject.GetComponent<Tank>();
+            if (newTank != null)
+            {
+                newTank.hp = combinedHp;
+
+                // Optionally, set other properties or visuals of the new tank here
+                newTank.selectionIndicatorPrefab = this.selectionIndicatorPrefab;
+                newTank.moveSpeed = this.moveSpeed;
+                newTank.stoppingDistance = this.stoppingDistance;
+                newTank.Entity = this.Entity;
+                newTank.collisionRadius = this.collisionRadius;
+                newTank.avoidanceStrength = this.avoidanceStrength;
+
+                Debug.Log("Created new combined tank with HP: " + newTank.hp + " at position: " + newTank.transform.position);
+
+                // Ensure the new tank is initialized properly
+                newTank.Start();
+            }
+            else
+            {
+                Debug.LogError("The combined tank prefab does not have a Tank component.");
+            }
+
+            // Clear the list of selected tanks
+            _selectedTanks.Clear();
+
+            // Select the new combined tank using SelectionManager
+            SelectionManager.Instance.ClearSelection();
+            SelectionManager.Instance.GetType().GetMethod("SelectEntity", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                            .Invoke(SelectionManager.Instance, new object[] { newTank, false });
         }
         else
         {
-            Debug.LogError("The combined tank prefab does not have a Tank component.");
+            Debug.Log("You must select exactly three tanks to combine. Selected tanks count: " + _selectedTanks.Count);
         }
-
-        // Clear the list of selected tanks
-        _selectedTanks.Clear();
-
-        // Select the new combined tank using SelectionManager
-        SelectionManager.Instance.ClearSelection();
-        SelectionManager.Instance.GetType().GetMethod("SelectEntity", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                        .Invoke(SelectionManager.Instance, new object[] { newTank, false });
     }
-    else
-    {
-        Debug.Log("You must select exactly three tanks to combine. Selected tanks count: " + _selectedTanks.Count);
-    }
-}
 
-private void TauntEnemies()
-{
-    Collider[] hitColliders = Physics.OverlapSphere(transform.position, tauntRadius);
-    foreach (var hitCollider in hitColliders)
+    private void TauntEnemies()
     {
-        Enemy enemy = hitCollider.GetComponent<Enemy>();
-        if (enemy != null)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, tauntRadius);
+        foreach (var hitCollider in hitColliders)
         {
-            enemy.Taunt(this);
+            Enemy enemy = hitCollider.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.Taunt(this);
+            }
         }
     }
 }
-
-
-}
-

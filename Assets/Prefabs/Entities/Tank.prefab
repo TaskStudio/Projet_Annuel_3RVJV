@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8354818174210051838}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 4940558308663149752}
   - component: {fileID: 1853679860283129210}
   - component: {fileID: 3944226664274513179}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tank
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -164,3 +164,4 @@ MonoBehaviour:
   collisionRadius: 1
   avoidanceStrength: 5
   combinedTankPrefab: {fileID: 2884455645672525367, guid: 4f0eaa09c3abf0b4786105182bad5b7b, type: 3}
+  tauntRadius: 10

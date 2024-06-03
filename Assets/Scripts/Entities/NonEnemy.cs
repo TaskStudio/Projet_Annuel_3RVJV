@@ -31,7 +31,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         targetPosition = transform.position;
     }
 
-     protected void Update()
+    protected void Update()
     {
         HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
@@ -116,7 +116,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         transform.position = newPosition;
     }
 
-    public void Shoot(Vector3 target)
+    public virtual void Shoot(Vector3 target)
     {
         if (projectilePrefab && projectileSpawnPoint)
         {
