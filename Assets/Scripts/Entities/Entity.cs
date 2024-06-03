@@ -17,4 +17,17 @@ public abstract class Entity : MonoBehaviour, IDamageable
     {
         Destroy(gameObject);  
     }
+
+    protected virtual void OnDestroy()
+    {
+        if (EntitiesManager.Instance != null)
+        {
+            EntitiesManager.Instance.UnregisterMovableEntity(this as IMovable);
+        }
+        if (SelectionManager.Instance != null)
+        {
+            SelectionManager.Instance.DeselectEntity(this as ISelectable);
+        }
+    }
+
 }

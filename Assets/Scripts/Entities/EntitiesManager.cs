@@ -59,14 +59,22 @@ public class EntitiesManager : MonoBehaviour
         int entityIndex = 0;
         foreach (var entity in movableEntities)
         {
-            if (entity is ISelectable selectable && selectable.IsSelected)
+            if (entity != null && entity is ISelectable selectable && selectable.IsSelected)
             {
-                int row = entityIndex / entitiesPerSide;
-                int column = entityIndex % entitiesPerSide;
-                Vector3 gridPosition = startPoint + new Vector3(spacing * column, 0, spacing * row);  
-                entity.Move(gridPosition);
-                entityIndex++;
+                if ((entity as MonoBehaviour) != null) 
+                {
+                    int row = entityIndex / entitiesPerSide;
+                    int column = entityIndex % entitiesPerSide;
+                    Vector3 gridPosition = startPoint + new Vector3(spacing * column, 0, spacing * row);
+                    entity.Move(gridPosition);
+                    entityIndex++;
+                }
+                else
+                {
+                    UnregisterMovableEntity(entity); 
+                }
             }
         }
     }
+
 }

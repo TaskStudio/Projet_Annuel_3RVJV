@@ -52,15 +52,19 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     public void Move(Vector3 newPosition)
     {
-        // Notify the spawner to free the old position
-        EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
-        if (spawner != null)
+        if (this != null) 
         {
-            spawner.FreePosition(transform.position);
-        }
+            // Notify the spawner to free the old position
+            EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
+            if (spawner != null)
+            {
+                spawner.FreePosition(transform.position);
+            }
 
-        targetPosition = newPosition;
+            targetPosition = newPosition;
+        }
     }
+
 
     private Vector3 AvoidCollisions()
     {

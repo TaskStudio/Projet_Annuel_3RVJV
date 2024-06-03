@@ -61,6 +61,9 @@ public class EntitySpawner : MonoBehaviour {
     }
 
     public void FreePosition(Vector3 position) {
-        spawnedPositions.Remove(position);
+        if (this != null) 
+        {
+            spawnedPositions.Remove(position);
+        }
     }
 }
