@@ -13,7 +13,6 @@ public class EntitySpawner : MonoBehaviour {
     public int entitiesPerRow = 5;
     public float spacing = 1f; 
     private List<Vector3> spawnedPositions = new List<Vector3>();
-    private Queue<Vector3> availablePositions = new Queue<Vector3>();
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -36,19 +35,8 @@ public class EntitySpawner : MonoBehaviour {
 
     void FindAndSpawnEntity() {
         Vector3 spawnPosition;
-        if (availablePositions.Count > 0) {
-            spawnPosition = availablePositions.Dequeue();
-        } else {
-            spawnPosition = CalculateNewPosition();
-        }
-        
-        Instantiate(entityPrefab, spawnPosition, Quaternion.identity);
-        spawnedPositions.Add(spawnPosition);
-    }
-
-    Vector3 CalculateNewPosition() {
         if (spawnedPositions.Count == 0) {
-            return spawnCenter.transform.position;
+            spawnPosition = spawnCenter.transform.position;
         } else {
             NativeArray<Vector3> positions = new NativeArray<Vector3>(spawnedPositions.ToArray(), Allocator.TempJob);
             NativeArray<Vector3> result = new NativeArray<Vector3>(1, Allocator.TempJob);
@@ -63,16 +51,16 @@ public class EntitySpawner : MonoBehaviour {
             JobHandle jobHandle = spawnJob.Schedule();
             jobHandle.Complete();
 
-            Vector3 spawnPosition = spawnJob.result[0];
+            spawnPosition = spawnJob.result[0];
             positions.Dispose();
             result.Dispose();
-
-            return spawnPosition;
         }
+        
+        Instantiate(entityPrefab, spawnPosition, Quaternion.identity);
+        spawnedPositions.Add(spawnPosition);
     }
 
     public void FreePosition(Vector3 position) {
         spawnedPositions.Remove(position);
-        availablePositions.Enqueue(position);
     }
 }
