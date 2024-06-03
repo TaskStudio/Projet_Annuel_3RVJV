@@ -5,7 +5,7 @@ public class Tank : NonEnemy
 {
     private static List<Tank> _selectedTanks = new List<Tank>();
     public GameObject combinedTankPrefab;
-    public float tauntRadius = 10f; 
+    public float tauntRadius = 10f;
 
     protected new void Start()
     {
@@ -17,8 +17,8 @@ public class Tank : NonEnemy
 
     protected new void Update()
     {
-        base.Update(); 
-        
+        base.Update();
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             CombineSelectedTanks();
@@ -37,13 +37,15 @@ public class Tank : NonEnemy
 
     public void CombineSelectedTanks()
     {
-        if (!_selectedTanks.Contains(this))
+        if (IsSelected && !_selectedTanks.Contains(this))
         {
             _selectedTanks.Add(this);
         }
 
         if (_selectedTanks.Count == 10)
         {
+            
+
             int combinedHp = 0;
             Vector3 combinedPosition = Vector3.zero;
 
@@ -51,6 +53,7 @@ public class Tank : NonEnemy
             {
                 combinedHp += tank.hp;
                 combinedPosition += tank.transform.position;
+                Debug.Log($"Combining tank at position: {tank.transform.position} with HP: {tank.hp}");
             }
 
             combinedPosition /= _selectedTanks.Count;
@@ -80,12 +83,15 @@ public class Tank : NonEnemy
                 newTank.avoidanceStrength = this.avoidanceStrength;
 
                 newTank.Start();
+                Debug.Log($"Created new combined tank at position: {newTank.transform.position} with combined HP: {combinedHp}");
             }
 
             _selectedTanks.Clear();
 
             SelectionManager.Instance.ClearSelection();
             SelectionManager.Instance.SelectEntity(newTank, false);
+
+            
         }
     }
 
