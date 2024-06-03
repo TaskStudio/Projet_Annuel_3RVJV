@@ -8,7 +8,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     public Transform projectileSpawnPoint;
     public GameObject selectionIndicatorPrefab;
     public float moveSpeed = 5f;
-    public float stoppingDistance = 0f;
+    public float stoppingDistance = 5f;
     public LayerMask Entity;
     public float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
