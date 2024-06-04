@@ -8,6 +8,18 @@ namespace Entities
     public class EntityDatabaseSO : ScriptableObject
     {
         public List<EntityData> entitiesData;
+
+        public Entity GetEntityPrefab(string entityID)
+        {
+            EntityData entityData = entitiesData.Find(data => data.ID == entityID);
+            if (entityData == null)
+            {
+                Debug.LogError("Entity with ID " + entityID + " not found in database.");
+                return null;
+            }
+
+            return entityData.Prefab;
+        }
     }
 
     [Serializable]
