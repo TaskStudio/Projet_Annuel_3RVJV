@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace Construction
 {
     [Serializable]
-    public class Building : MonoBehaviour
+    public class Building : MonoBehaviour, ISelectable
     {
         public enum BuildingStates
         {
@@ -21,6 +20,7 @@ namespace Construction
         [SerializeField] private Material buildingMaterial;
         [Space(5)]
         [SerializeField] private MeshRenderer objectRenderer;
+        [SerializeField] private GameObject objectModel;
 
 
         [Space(10)] [Header("Grid")]
@@ -30,10 +30,6 @@ namespace Construction
         [SerializeField] private MeshRenderer gridRenderer;
 
         private float constructionTime;
-
-        [Space(10)] [Header("Production")]
-        [SerializeField] private EntityFactory entityFactory;
-        private Queue<Entity> productionQueue;
 
         public BuildingStates state { get; internal set; }
 
@@ -45,6 +41,23 @@ namespace Construction
                 if (constructionTime <= 0)
                     FinishConstruction();
             }
+        }
+
+        // ISelectable implementation
+        public bool IsSelected { get; set; }
+
+        public void Select()
+        {
+            objectModel.layer = LayerMask.NameToLayer("Outlined");
+        }
+
+        public void Deselect()
+        {
+            objectModel.layer = LayerMask.NameToLayer("Default");
+        }
+
+        public void UpdateVisuals()
+        {
         }
 
 
