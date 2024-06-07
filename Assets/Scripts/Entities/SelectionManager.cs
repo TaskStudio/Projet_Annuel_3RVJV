@@ -106,7 +106,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private void SelectEntity(ISelectable entity, bool isMultiSelect = false)
+    public  void SelectEntity(ISelectable entity, bool isMultiSelect = false)
     {
         if (!isMultiSelect)
         {
@@ -120,12 +120,23 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    public void ClearSelection()
+    public void DeselectEntity(ISelectable entity)
     {
-        foreach (var entity in selectedEntities)
+        if (entity != null && entity.IsSelected)
         {
             entity.Deselect();
+            selectedEntities.Remove(entity);
+        }
+    }
+
+
+    public void ClearSelection()
+    {
+        foreach (var entity in selectedEntities.ToList())
+        {
+            DeselectEntity(entity);
         }
         selectedEntities.Clear();
     }
+
 }

@@ -18,7 +18,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     private Vector3 targetPosition;
     private Collider entityCollider;
 
-    void Start()
+    protected void Start()
     {
         EntitiesManager.Instance.RegisterMovableEntity(this);
         visuals = GetComponent<EntityVisuals>();
@@ -31,7 +31,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         targetPosition = transform.position;
     }
 
-    void Update()
+    protected void Update()
     {
         HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
@@ -52,15 +52,19 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     public void Move(Vector3 newPosition)
     {
-        // Notify the spawner to free the old position
-        EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
-        if (spawner != null)
+        if (this != null) 
         {
-            spawner.FreePosition(transform.position);
-        }
+            // Notify the spawner to free the old position
+            EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
+            if (spawner != null)
+            {
+                spawner.FreePosition(transform.position);
+            }
 
-        targetPosition = newPosition;
+            targetPosition = newPosition;
+        }
     }
+
 
     private Vector3 AvoidCollisions()
     {
@@ -116,7 +120,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         transform.position = newPosition;
     }
 
-    public void Shoot(Vector3 target)
+    public virtual void Shoot(Vector3 target)
     {
         if (projectilePrefab && projectileSpawnPoint)
         {
