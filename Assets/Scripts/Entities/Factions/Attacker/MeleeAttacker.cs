@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MeleeAttacker : Attacker
 {
-    public int meleeDamage = 20;
+    public int meleeDamage = 40;
 
     // Start is called before the first frame update
     protected new void Start()

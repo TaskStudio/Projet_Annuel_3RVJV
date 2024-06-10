@@ -3,7 +3,7 @@ using UnityEngine;
 public class Enemy : Entity, IMovable
 {
     public float moveSpeed = 5f;
-    public int collisionDamage = 100;  // Damage dealt to other objects on collision
+    public int collisionDamage = 20;  // Damage dealt to other objects on collision
     private Vector3 tauntTarget;
     private bool isTaunted;
 
@@ -81,7 +81,7 @@ public class Enemy : Entity, IMovable
             {
                 entity.TakeDamage(collisionDamage);
             }
-            Destroy(gameObject);
+         
         }
         
         if (collision.gameObject.CompareTag("EntityBase"))
