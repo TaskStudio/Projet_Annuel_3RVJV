@@ -31,7 +31,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         targetPosition = transform.position;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
@@ -41,7 +41,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         }
     }
 
-    private void HandleInput()
+    protected virtual void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.Z) && IsSelected)
         {
@@ -66,7 +66,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     }
 
 
-    private Vector3 AvoidCollisions()
+    protected Vector3 AvoidCollisions()
     {
         if (Vector3.Distance(transform.position, targetPosition) <= stoppingDistance)
         {
@@ -93,7 +93,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         return targetPosition + avoidanceVector;
     }
 
-    private void MoveTowardsTarget(Vector3 adjustedPosition)
+    protected void MoveTowardsTarget(Vector3 adjustedPosition)
     {
         if (Vector3.Distance(transform.position, adjustedPosition) <= stoppingDistance)
         {
