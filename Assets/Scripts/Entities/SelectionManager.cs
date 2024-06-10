@@ -1,17 +1,17 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-    public static SelectionManager Instance { get; private set; }
-    public LayerMask clickableLayer; 
-    public LayerMask groundLayer; 
+    public LayerMask clickableLayer;
+    public LayerMask groundLayer;
 
-    private Vector3 mouseDragStart;
+    public readonly List<ISelectable> selectedEntities = new();
     private bool isDragging;
 
-    private readonly List<ISelectable> selectedEntities = new List<ISelectable>();
+    private Vector3 mouseDragStart;
+    public static SelectionManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -47,32 +47,7 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) 
-        {
-            isDragging = true;
-        }
-    }
-
-    private void HandleSingleClick()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer)) 
-        {
-            var selectable = hit.collider.GetComponent<ISelectable>();
-            if (selectable != null)
-            {
-                SelectEntity(selectable, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
-            }
-            else
-            {
-                ClearSelection();
-            }
-        }
-        else
-        {
-            ClearSelection();
-        }
+        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
     }
 
 
@@ -86,6 +61,24 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
+    private void HandleSingleClick()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+        {
+            var selectable = hit.collider.GetComponent<ISelectable>();
+            if (selectable != null)
+                SelectEntity(selectable, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+            else
+                ClearSelection();
+        }
+        else
+        {
+            ClearSelection();
+        }
+    }
+
     private void SelectEntitiesInDrag()
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
@@ -93,25 +86,20 @@ public class SelectionManager : MonoBehaviour
         foreach (var selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour)selectable).transform.position);
-            screenPosition.y = Screen.height - screenPosition.y; 
+            screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
-                SelectEntity(selectable, true); 
+                SelectEntity(selectable, true);
                 anySelected = true;
             }
         }
-        if (!anySelected && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
-        {
-            ClearSelection();
-        }
+
+        if (!anySelected && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) ClearSelection();
     }
 
     private void SelectEntity(ISelectable entity, bool isMultiSelect = false)
     {
-        if (!isMultiSelect)
-        {
-            ClearSelection();
-        }
+        if (!isMultiSelect) ClearSelection();
 
         if (!entity.IsSelected)
         {
@@ -122,10 +110,7 @@ public class SelectionManager : MonoBehaviour
 
     public void ClearSelection()
     {
-        foreach (var entity in selectedEntities)
-        {
-            entity.Deselect();
-        }
+        foreach (var entity in selectedEntities) entity.Deselect();
         selectedEntities.Clear();
     }
 }
