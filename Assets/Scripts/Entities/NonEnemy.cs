@@ -10,7 +10,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     public float moveSpeed = 5f;
     public float stoppingDistance = 0f;
     public LayerMask Entity;
-    public float collisionRadius = 1f;
+    protected float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
     public bool IsSelected { get; set; }
 

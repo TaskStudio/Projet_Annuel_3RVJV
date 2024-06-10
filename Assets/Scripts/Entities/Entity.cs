@@ -6,16 +6,18 @@ public abstract class Entity : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int damage)
     {
-        hp -= damage;  
+        hp -= damage;
+        Debug.Log($"{gameObject.name} took {damage} damage, remaining HP: {hp}");
         if (hp <= 0)
         {
-            DestroyEntity();  
+            DestroyEntity();
         }
     }
-    
+
     protected void DestroyEntity()
     {
-        Destroy(gameObject);  
+        Debug.Log($"{gameObject.name} is destroyed.");
+        Destroy(gameObject);
     }
 
     protected virtual void OnDestroy()
@@ -29,5 +31,4 @@ public abstract class Entity : MonoBehaviour, IDamageable
             SelectionManager.Instance.DeselectEntity(this as ISelectable);
         }
     }
-
 }

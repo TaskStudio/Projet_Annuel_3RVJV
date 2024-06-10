@@ -4,18 +4,14 @@ public class MeleeAttacker : Attacker
 {
     public int meleeDamage = 40;
 
-    // Start is called before the first frame update
     protected new void Start()
     {
         base.Start();
-        // Initialize Melee specific properties if needed
     }
 
-    // Update is called once per frame
     protected new void Update()
     {
         base.Update();
-        // Handle Melee specific update logic if needed
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -26,6 +22,7 @@ public class MeleeAttacker : Attacker
             if (enemy != null)
             {
                 enemy.TakeDamage(meleeDamage);
+                Debug.Log($"{enemy.name} took {meleeDamage} damage, remaining HP: {enemy.hp}");
             }
         }
     }

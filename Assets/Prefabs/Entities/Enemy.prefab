@@ -100,7 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   moveSpeed: 5
-  collisionDamage: 100
+  collisionDamage: 20
+  bumpDistance: 3
 --- !u!136 &1471721828386528145
 CapsuleCollider:
   m_ObjectHideFlags: 0

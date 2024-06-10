@@ -3,7 +3,8 @@ using UnityEngine;
 public class Enemy : Entity, IMovable
 {
     public float moveSpeed = 5f;
-    public int collisionDamage = 20;  // Damage dealt to other objects on collision
+    protected int collisionDamage = 20; // Damage dealt to other objects on collision
+    public float bumpDistance = 1f; // Distance to bump back after taking damage
     private Vector3 tauntTarget;
     private bool isTaunted;
 
@@ -20,7 +21,7 @@ public class Enemy : Entity, IMovable
     public void Move(Vector3 targetPosition)
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-        
+
         if (targetPosition != transform.position) // Ensure there is a movement towards a target
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
@@ -79,17 +80,35 @@ public class Enemy : Entity, IMovable
             NonEnemy entity = collision.gameObject.GetComponent<NonEnemy>();
             if (entity != null)
             {
+                Debug.Log($"{gameObject.name} collides with {entity.name}");
+
+                // Apply damage to the entity
                 entity.TakeDamage(collisionDamage);
+                Debug.Log($"{entity.name} took {collisionDamage} damage, remaining HP: {entity.hp}");
+
+                // Apply bump back effect
+                Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
+                transform.position += bumpDirection * bumpDistance;
+
+                // Apply damage to the enemy
+                if (entity is MeleeAttacker meleeAttacker)
+                {
+                    Debug.Log($"Enemy will take damage from MeleeAttacker. Damage: {meleeAttacker.meleeDamage}");
+                    TakeDamage(meleeAttacker.meleeDamage);
+                    Debug.Log($"{gameObject.name} took {meleeAttacker.meleeDamage} damage, remaining HP: {hp}");
+                }
+            
             }
-         
         }
-        
+
         if (collision.gameObject.CompareTag("EntityBase"))
         {
-            EntityBases entitybase = collision.gameObject.GetComponent<EntityBases>();
-            if (entitybase != null)
+            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
+            if (entityBase != null)
             {
-                entitybase.TakeDamage(1000);
+                Debug.Log($"{gameObject.name} collides with {entityBase.name}");
+                entityBase.TakeDamage(1000);
+  
             }
             Destroy(gameObject);
         }
