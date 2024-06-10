@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Unity.Jobs;
+using Unity.Collections;
 
 public class Gatherer : NonEnemy
 {
@@ -11,7 +13,7 @@ public class Gatherer : NonEnemy
     protected override void Update()
     {
         HandleInput();
-        base.Update(); // Always call the base class Update method
+        base.Update();
 
         if (gatheringResources)
         {
