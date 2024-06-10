@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 namespace Construction
 {
     [Serializable]
-    public class Building : MonoBehaviour, ISelectable
+    public class Building : MonoBehaviour
     {
         public enum BuildingStates
         {
@@ -20,7 +20,6 @@ namespace Construction
         [SerializeField] private Material buildingMaterial;
         [Space(5)]
         [SerializeField] private MeshRenderer objectRenderer;
-        [SerializeField] private GameObject objectModel;
 
 
         [Space(10)] [Header("Grid")]
@@ -41,23 +40,6 @@ namespace Construction
                 if (constructionTime <= 0)
                     FinishConstruction();
             }
-        }
-
-        // ISelectable implementation
-        public bool IsSelected { get; set; }
-
-        public void Select()
-        {
-            objectModel.layer = LayerMask.NameToLayer("Outlined");
-        }
-
-        public void Deselect()
-        {
-            objectModel.layer = LayerMask.NameToLayer("Default");
-        }
-
-        public void UpdateVisuals()
-        {
         }
 
 

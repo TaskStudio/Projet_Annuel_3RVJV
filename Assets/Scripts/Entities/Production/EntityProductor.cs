@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Entities.Production
 {
-    public class EntityProductor : MonoBehaviour
+    public class EntityProductor : Actionable
     {
         [Space(10)] [Header("Production")]
         [SerializeField] private EntityDatabaseSO entityDatabase;
@@ -42,6 +42,11 @@ namespace Entities.Production
             Entity entity = entityFactoryManager.SpawnEntity(entityID, productionPoint.position, entityDatabase);
             if (productionQueue.Count > 0)
                 currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
+        }
+
+        public void Action(int actionIndex)
+        {
+            Debug.Log($"Action {actionIndex}");
         }
     }
 }
