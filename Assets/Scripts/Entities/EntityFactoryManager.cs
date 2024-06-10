@@ -24,7 +24,7 @@ namespace Entities
             }
         }
 
-        public Entity GetEntity(string entityID, Vector3 position, EntityDatabaseSO entityDatabase)
+        public Entity SpawnEntity(string entityID, Vector3 position, EntityDatabaseSO entityDatabase)
         {
             if (!entityPools.ContainsKey(entityID)) entityPools.Add(entityID, new Queue<Entity>());
 

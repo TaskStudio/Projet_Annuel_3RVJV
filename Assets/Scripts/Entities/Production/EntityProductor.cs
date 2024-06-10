@@ -7,19 +7,41 @@ namespace Entities.Production
     {
         [Space(10)] [Header("Production")]
         [SerializeField] private EntityDatabaseSO entityDatabase;
-        [SerializeField] private EntityFactory entityFactory;
+        [SerializeField] private EntityFactoryManager entityFactoryManager;
         [SerializeField] private Transform productionPoint;
- 
-        private Queue<Entity> productionQueue;
+
+        private Queue<string> productionQueue;
+        public float currentProductionTime { get; private set; }
 
         private void Start()
         {
-            productionQueue = new Queue<Entity>();
+            productionQueue = new Queue<string>();
+        }
+
+        private void Update()
+        {
+            if (productionQueue.Count <= 0) return;
+
+            currentProductionTime -= Time.deltaTime;
+
+            if (currentProductionTime > 0) return;
+
+            string entityID = productionQueue.Dequeue();
+            ProduceEntity(entityID);
+        }
+
+        private void AddToProductionQueue(string entityID)
+        {
+            productionQueue.Enqueue(entityID);
+            if (productionQueue.Count == 1)
+                currentProductionTime = entityDatabase.GetEntityData(entityID).ProductionTime;
         }
 
         public void ProduceEntity(string entityID)
         {
-            Entity entity = entityFactory.CreateEntity(entityID, productionPoint.position);
+            Entity entity = entityFactoryManager.SpawnEntity(entityID, productionPoint.position, entityDatabase);
+            if (productionQueue.Count > 0)
+                currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
         }
     }
 }
