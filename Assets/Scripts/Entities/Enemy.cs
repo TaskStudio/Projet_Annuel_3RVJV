@@ -4,10 +4,16 @@ public class Enemy : Entity, IMovable
 {
     public float moveSpeed = 5f;
     public int collisionDamage = 100;  // Damage dealt to other objects on collision
+    private Vector3 tauntTarget;
+    private bool isTaunted;
 
     void Update()
     {
-        Vector3 moveTarget = FindNearestTarget();
+        if (isTaunted)
+        {
+            Move(tauntTarget);
+        }
+        Vector3 moveTarget = isTaunted ? tauntTarget : FindNearestTarget();
         Move(moveTarget);
     }
 
@@ -59,7 +65,13 @@ public class Enemy : Entity, IMovable
 
         return closestTarget != null ? closestTarget.transform.position : Vector3.positiveInfinity;
     }
-    
+
+    public void Taunt(Tank taunter)
+    {
+        tauntTarget = taunter.transform.position;
+        isTaunted = true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Entity"))
@@ -69,7 +81,6 @@ public class Enemy : Entity, IMovable
             {
                 entity.TakeDamage(collisionDamage);
             }
-            
             Destroy(gameObject);
         }
         
@@ -83,6 +94,4 @@ public class Enemy : Entity, IMovable
             Destroy(gameObject);
         }
     }
-
-    
 }

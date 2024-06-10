@@ -1,4 +1,6 @@
 using UnityEngine;
+using Unity.Jobs;
+using Unity.Collections;
 
 public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 {
@@ -16,7 +18,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     private Vector3 targetPosition;
     private Collider entityCollider;
 
-    void Start()
+    protected void Start()
     {
         EntitiesManager.Instance.RegisterMovableEntity(this);
         visuals = GetComponent<EntityVisuals>();
@@ -38,7 +40,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             MoveTowardsTarget(adjustedPosition);
         }
     }
-    
 
     protected virtual void HandleInput()
     {
@@ -49,8 +50,29 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         }
     }
 
+    public void Move(Vector3 newPosition)
+    {
+        if (this != null) 
+        {
+            // Notify the spawner to free the old position
+            EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
+            if (spawner != null)
+            {
+                spawner.FreePosition(transform.position);
+            }
+
+            targetPosition = newPosition;
+        }
+    }
+
+
     protected Vector3 AvoidCollisions()
     {
+        if (Vector3.Distance(transform.position, targetPosition) <= stoppingDistance)
+        {
+            return targetPosition;
+        }
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, Entity);
         Vector3 avoidanceVector = Vector3.zero;
 
@@ -71,16 +93,31 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         return targetPosition + avoidanceVector;
     }
 
-    public void Move(Vector3 newPosition)
-    {
-        targetPosition = newPosition;
-    }
-
     protected void MoveTowardsTarget(Vector3 adjustedPosition)
     {
-        Vector3 moveDirection = (adjustedPosition - transform.position).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+        if (Vector3.Distance(transform.position, adjustedPosition) <= stoppingDistance)
+        {
+            return;
+        }
+
+        NativeArray<Vector3> newPositionArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+
+        var moveJob = new MoveJob
+        {
+            currentPosition = transform.position,
+            targetPosition = adjustedPosition,
+            moveSpeed = moveSpeed,
+            deltaTime = Time.deltaTime,
+            newPosition = newPositionArray
+        };
+
+        JobHandle moveJobHandle = moveJob.Schedule();
+        moveJobHandle.Complete();
+
+        Vector3 newPosition = newPositionArray[0];
+        newPositionArray.Dispose();
+
+        transform.position = newPosition;
     }
 
     public virtual void Shoot(Vector3 target)
@@ -103,8 +140,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         }
     }
 
-
-
     public void Select()
     {
         IsSelected = true;
@@ -124,7 +159,4 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             visuals.UpdateVisuals(IsSelected);
         }
     }
-    
-    
-    
 }
