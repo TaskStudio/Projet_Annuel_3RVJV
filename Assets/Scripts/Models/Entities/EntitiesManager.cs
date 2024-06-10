@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 public class EntitiesManager : MonoBehaviour
 {
     public static EntitiesManager Instance { get; private set; }
@@ -76,5 +75,4 @@ public class EntitiesManager : MonoBehaviour
             }
         }
     }
-
 }
