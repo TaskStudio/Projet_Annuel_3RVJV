@@ -15,4 +15,5 @@ MonoBehaviour:
   entitiesData:
   - <IdNumber>k__BackingField: 0
     <DisplayName>k__BackingField: Base Unit
-    <Prefab>k__BackingField: {fileID: -5772077263641427325, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
+    <Prefab>k__BackingField: {fileID: 5443982664294859417, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
+    <ProductionTime>k__BackingField: 2

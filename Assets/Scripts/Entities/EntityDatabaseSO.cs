@@ -20,15 +20,20 @@ namespace Entities
 
             return entityData.Prefab;
         }
+
+        public EntityData GetEntityData(string entityID)
+        {
+            return entitiesData.Find(data => data.ID == entityID);
+        }
     }
 
     [Serializable]
     public class EntityData
     {
         [field: SerializeField] public int IdNumber { get; private set; }
-
         [field: SerializeField] public string DisplayName { get; private set; }
         [field: SerializeField] public Entity Prefab { get; private set; }
+        [field: SerializeField] public float ProductionTime { get; private set; }
 
         public EntityData()
         {
