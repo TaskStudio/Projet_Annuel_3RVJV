@@ -1,39 +1,98 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-public class UIManager : MonoBehaviour
+public class EntitiesManager : MonoBehaviour
 {
-    public VisualElement selectedEntitiesContainer;
-    private List<EntityProfile> selectedEntities = new List<EntityProfile>();
-    private ListView listView;
+    public static EntitiesManager Instance { get; private set; }
+    private List<IMovable> movableEntities = new List<IMovable>();
+    public UIManager uiManager; // Assurez-vous de l'assigner dans l'Inspector
 
-    void Start()
+    void Awake()
     {
-        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        selectedEntitiesContainer = rootVisualElement.Q<VisualElement>("SelectedEntitiesContainer");
-
-        // Configure the ListView
-        listView = new ListView();
-        listView.itemsSource = selectedEntities;
-        listView.makeItem = () => new VisualElement(); // Customize this part to create your item
-        listView.bindItem = (element, i) =>
+        if (Instance != null && Instance != this)
         {
-            var entityProfile = selectedEntities[i];
-            element.Clear();
-            var image = new Image();
-            image.image = entityProfile.Image;
-            element.Add(image);
-        };
-        listView.style.flexGrow = 1.0f;
-
-        selectedEntitiesContainer.Add(listView);
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
-    public void UpdateSelectedEntities(List<EntityProfile> newSelectedEntities)
+    void Update()
     {
-        selectedEntities.Clear();
-        selectedEntities.AddRange(newSelectedEntities);
-        listView.RefreshItems(); // Refresh the ListView to update the UI
+        if (Input.GetMouseButtonDown(1))  
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                MoveEntitiesInGrid(hit.point);
+            }
+        }
+
+        // Update UI with selected entities
+        UpdateSelectedEntitiesUI();
+    }
+
+    public void RegisterMovableEntity(IMovable entity)
+    {
+        if (entity != null && !movableEntities.Contains(entity))
+        {
+            movableEntities.Add(entity);
+        }
+    }
+
+    public void UnregisterMovableEntity(IMovable entity)
+    {
+        if (entity != null)
+        {
+            movableEntities.Remove(entity);
+        }
+    }
+
+    private void MoveEntitiesInGrid(Vector3 targetPosition)
+    {
+        int entitiesPerSide = Mathf.CeilToInt(Mathf.Sqrt(movableEntities.Count));
+        float spacing = 1f;
+        float totalLength = spacing * (entitiesPerSide - 1);
+        Vector3 startPoint = targetPosition - new Vector3(totalLength / 2, 0, totalLength / 2);
+
+        int entityIndex = 0;
+        foreach (var entity in movableEntities)
+        {
+            if (entity != null && entity is ISelectable selectable && selectable.IsSelected)
+            {
+                if ((entity as MonoBehaviour) != null) 
+                {
+                    int row = entityIndex / entitiesPerSide;
+                    int column = entityIndex % entitiesPerSide;
+                    Vector3 gridPosition = startPoint + new Vector3(spacing * column, 0, spacing * row);
+                    entity.Move(gridPosition);
+                    entityIndex++;
+                }
+                else
+                {
+                    UnregisterMovableEntity(entity); 
+                }
+            }
+        }
+    }
+
+    private void UpdateSelectedEntitiesUI()
+    {
+        List<EntityProfile> selectedProfiles = new List<EntityProfile>();
+        foreach (var entity in movableEntities)
+        {
+            if (entity is ISelectable selectable && selectable.IsSelected)
+            {
+                // Assuming each selectable entity has a way to provide its profile information
+                var profile = new EntityProfile(selectable.Name, selectable.Image);
+                selectedProfiles.Add(profile);
+            }
+        }
+        uiManager.UpdateSelectedEntities(selectedProfiles);
     }
 }

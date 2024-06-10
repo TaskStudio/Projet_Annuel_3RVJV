@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityProfile
+public class EntityProfile 
 {
     public string Name { get; set; }
     public Texture2D Image { get; set; }
