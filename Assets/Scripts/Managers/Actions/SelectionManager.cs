@@ -75,7 +75,6 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-
     private void OnGUI()
     {
         if (isDragging)
@@ -106,7 +105,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    public  void SelectEntity(ISelectable entity, bool isMultiSelect = false)
+    public void SelectEntity(ISelectable entity, bool isMultiSelect = false)
     {
         if (!isMultiSelect)
         {
@@ -117,6 +116,7 @@ public class SelectionManager : MonoBehaviour
         {
             entity.Select();
             selectedEntities.Add(entity);
+            UpdateUI();
         }
     }
 
@@ -126,9 +126,9 @@ public class SelectionManager : MonoBehaviour
         {
             entity.Deselect();
             selectedEntities.Remove(entity);
+            UpdateUI();
         }
     }
-
 
     public void ClearSelection()
     {
@@ -137,6 +137,16 @@ public class SelectionManager : MonoBehaviour
             DeselectEntity(entity);
         }
         selectedEntities.Clear();
+        UpdateUI();
     }
 
+    public List<IProfile> GetSelectedProfiles()
+    {
+        return selectedEntities.Select(e => e.GetProfile()).ToList();
+    }
+
+    private void UpdateUI()
+    {
+        UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
+    }
 }

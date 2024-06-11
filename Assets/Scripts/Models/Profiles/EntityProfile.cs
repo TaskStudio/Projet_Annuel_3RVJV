@@ -1,17 +1,15 @@
 using UnityEngine;
 
-namespace Models.Profiles
+[System.Serializable]
+public class EntityProfile : IProfile
 {
-    [System.Serializable]
-    public class EntityProfile
-    {
-        public string Name;
-        public int HealthPoints;
-        public int Mana;
-        public Texture2D Image;
-        public float PhysicalResistance;
-        public float MagicalResistance;
-        public float AttackSpeed;
-        public float MovementSpeed;
-    }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int HealthPoints { get; set; }
+    public int Mana { get; set; }
+    public Texture2D Image { get; set; }
+    public float PhysicalResistance { get; set; }
+    public float MagicalResistance { get; set; }
+    public float AttackSpeed { get; set; }
+    public float MovementSpeed { get; set; }
 }

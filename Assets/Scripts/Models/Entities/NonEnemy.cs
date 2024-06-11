@@ -154,9 +154,14 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     public void UpdateVisuals()
     {
-        if (visuals != null)
+        if (visuals)
         {
             visuals.UpdateVisuals(IsSelected);
         }
+    }
+
+    public IProfile GetProfile()
+    {
+        return null;
     }
 }
