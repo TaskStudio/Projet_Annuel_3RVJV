@@ -4,7 +4,7 @@ public class Enemy : Entity, IMovable
 {
     public float moveSpeed = 5f;
     protected int collisionDamage = 20; // Damage dealt to other objects on collision
-    public float bumpDistance = 1f; // Distance to bump back after taking damage
+    protected  float bumpDistance = 1f; // Distance to bump back after taking damage
     private Vector3 tauntTarget;
     private bool isTaunted;
 
@@ -80,11 +80,9 @@ public class Enemy : Entity, IMovable
             NonEnemy entity = collision.gameObject.GetComponent<NonEnemy>();
             if (entity != null)
             {
-                Debug.Log($"{gameObject.name} collides with {entity.name}");
 
                 // Apply damage to the entity
                 entity.TakeDamage(collisionDamage);
-                Debug.Log($"{entity.name} took {collisionDamage} damage, remaining HP: {entity.hp}");
 
                 // Apply bump back effect
                 Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
@@ -93,9 +91,7 @@ public class Enemy : Entity, IMovable
                 // Apply damage to the enemy
                 if (entity is MeleeAttacker meleeAttacker)
                 {
-                    Debug.Log($"Enemy will take damage from MeleeAttacker. Damage: {meleeAttacker.meleeDamage}");
                     TakeDamage(meleeAttacker.meleeDamage);
-                    Debug.Log($"{gameObject.name} took {meleeAttacker.meleeDamage} damage, remaining HP: {hp}");
                 }
             
             }
@@ -106,7 +102,6 @@ public class Enemy : Entity, IMovable
             EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
             if (entityBase != null)
             {
-                Debug.Log($"{gameObject.name} collides with {entityBase.name}");
                 entityBase.TakeDamage(1000);
   
             }

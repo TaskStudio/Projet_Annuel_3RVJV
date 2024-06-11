@@ -7,7 +7,6 @@ public abstract class Entity : MonoBehaviour, IDamageable
     public virtual void TakeDamage(int damage)
     {
         hp -= damage;
-        Debug.Log($"{gameObject.name} took {damage} damage, remaining HP: {hp}");
         if (hp <= 0)
         {
             DestroyEntity();
@@ -16,7 +15,6 @@ public abstract class Entity : MonoBehaviour, IDamageable
 
     protected void DestroyEntity()
     {
-        Debug.Log($"{gameObject.name} is destroyed.");
         Destroy(gameObject);
     }
 
