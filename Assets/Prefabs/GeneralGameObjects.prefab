@@ -44,6 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5037066682026553508}
   - component: {fileID: 6178112466741736748}
+  - component: {fileID: 5454879396309271718}
   m_Layer: 0
   m_Name: KeyboardInput
   m_TagString: Untagged
@@ -95,8 +96,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7971382200136184261}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: InvokeAction1
-        m_Mode: 1
+        m_MethodName: InvokeActionable
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -107,11 +108,43 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6a2397e4-6783-4d03-96a8-2f964171eccb
     m_ActionName: Actionable/Action1[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7971382200136184261}
+        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+        m_MethodName: InvokeActionable
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ca1ebc1f-1c92-42e7-96d7-bbfc70d7a934
+    m_ActionName: Actionable/Action2[/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Actionable
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5454879396309271718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7295979975965970669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d7726431114e744a95eecade110009c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 8226019046204944227}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &7776642596223239329
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,54 +213,6 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
---- !u!1 &7776642597459238309
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7776642597459238311}
-  - component: {fileID: 7776642597459238308}
-  m_Layer: 0
-  m_Name: MouseControl
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7776642597459238311
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776642597459238309}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7776642597658023770}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7776642597459238308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776642597459238309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7726431114e744a95eecade110009c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 8226019046204944227}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1 &7776642597658023771
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +242,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7776642597459238311}
   - {fileID: 7776642596223239328}
   - {fileID: 4766740995874624016}
   - {fileID: 4724596135406212208}
@@ -440,10 +424,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 8226019046204944227}
-    - target: {fileID: 1131719820996784765, guid: 33ac19ee0a927344ebbe235cc37872c4, type: 3}
-      propertyPath: mouseControl
-      value: 
-      objectReference: {fileID: 7776642597459238308}
     - target: {fileID: 1131719820996784765, guid: 33ac19ee0a927344ebbe235cc37872c4, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 8
