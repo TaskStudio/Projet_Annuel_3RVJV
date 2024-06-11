@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Entities.Production
 {
-    public class EntityProductor : Actionable
+    public class EntityProducer : Actionable
     {
         [Space(10)] [Header("Production")]
         [SerializeField] private EntityDatabaseSO entityDatabase;
         [SerializeField] private Transform productionPoint;
-        private readonly EntityFactoryManager entityFactoryManager = EntityFactoryManager.Instance;
+        private readonly EntityFactory entityFactory = EntityFactory.Instance;
 
         private Queue<string> productionQueue;
         public float currentProductionTime { get; private set; }
@@ -39,7 +39,7 @@ namespace Entities.Production
 
         private void ProduceEntity(string entityID)
         {
-            Entity entity = entityFactoryManager.SpawnEntity(entityID, productionPoint.position, entityDatabase);
+            Entity entity = entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
             if (productionQueue.Count > 0)
                 currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
         }
