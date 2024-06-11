@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
-using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }  
-    public VisualElement selectedEntitiesContainer;
-    private List<IProfile> selectedEntities = new List<IProfile>();
-    private ListView listView;
+    public static UIManager Instance { get; private set; }
+
+    public VisualElement statisticsContainer;
+    public VisualElement selectedEntitiesList;
+    public VisualElement statisticsScrollView;
+    public VisualElement faceContainer;
+
+    private List<IProfile> selectedProfiles = new List<IProfile>();
 
     void Awake()
     {
@@ -32,62 +35,88 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        selectedEntitiesContainer = rootVisualElement.Q<VisualElement>("SelectedEntitiesContainer");
-        if (selectedEntitiesContainer == null)
+        statisticsContainer = rootVisualElement.Q<VisualElement>("StatisticsContainer");
+        selectedEntitiesList = rootVisualElement.Q<VisualElement>("SelectedEntitiesList");
+        statisticsScrollView = rootVisualElement.Q<VisualElement>("StatisticsScrollView");
+        faceContainer = rootVisualElement.Q<VisualElement>("FaceContainer");
+        
+        if (statisticsContainer == null || selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null)
         {
-            Debug.LogError("SelectedEntitiesContainer is not found in the UXML. Check the UXML and the name.");
+            Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
         }
-
-        listView = new ListView();
-        listView.itemsSource = selectedEntities;
-        listView.makeItem = () => new VisualElement();
-        listView.bindItem = (element, i) =>
-        {
-            var profile = selectedEntities[i];
-            element.Clear();
-            var nameLabel = new Label { text = profile.Name };
-            var descriptionLabel = new Label { text = profile.Description };
-            element.Add(nameLabel);
-            element.Add(descriptionLabel);
-
-            if (profile is EntityProfile entityProfile)
-            {
-                var image = new Image { image = entityProfile.Image };
-                var hpLabel = new Label { text = "HP: " + entityProfile.HealthPoints };
-                var manaLabel = new Label { text = "Mana: " + entityProfile.Mana };
-                var physicalResLabel = new Label { text = "Physical Resistance: " + entityProfile.PhysicalResistance };
-                var magicalResLabel = new Label { text = "Magical Resistance: " + entityProfile.MagicalResistance };
-                var attackSpeedLabel = new Label { text = "Attack Speed: " + entityProfile.AttackSpeed };
-                var movementSpeedLabel = new Label { text = "Movement Speed: " + entityProfile.MovementSpeed };
-                element.Add(image);
-                element.Add(hpLabel);
-                element.Add(manaLabel);
-                element.Add(physicalResLabel);
-                element.Add(magicalResLabel);
-                element.Add(attackSpeedLabel);
-                element.Add(movementSpeedLabel);    
-            }
-            else if (profile is BuildingProfile buildingProfile)
-            {
-                var producesLabel = new Label { text = "Produces: " + string.Join(", ", buildingProfile.ProducesEntities.Select(e => e.Name)) };
-                element.Add(producesLabel);
-            }
-            else if (profile is ResourceProfile resourceProfile)
-            {
-                var resourceTypeLabel = new Label { text = "Resource Type: " + resourceProfile.ResourceType };
-                element.Add(resourceTypeLabel);
-            }
-        };
-        listView.style.flexGrow = 1.0f;
-
-        selectedEntitiesContainer.Add(listView);
     }
 
-    public void UpdateSelectedEntities(List<IProfile> newSelectedEntities)
+    private Texture2D GetProfileImage(IProfile profile)
     {
-        selectedEntities.Clear();
-        selectedEntities.AddRange(newSelectedEntities);
-        listView.RefreshItems();
+        if (profile is EntityProfile entityProfile)
+        {
+            return entityProfile.Image;
+        }
+        return null;
+    }
+
+    public void UpdateSelectedEntities(List<IProfile> newSelectedProfiles)
+    {
+        selectedProfiles.Clear();
+        selectedProfiles.AddRange(newSelectedProfiles);
+
+        UpdateSelectedEntitiesList();
+        var selectedProfile = selectedProfiles.Count > 0 ? selectedProfiles[0] : null;
+        UpdateFirstSelectedEntity(selectedProfile);// Display the face of the first entity selected 
+        UpdateStatisticsContainer(selectedProfile); // Display the stats of the first entity selected 
+    }
+    
+    private void UpdateFirstSelectedEntity(IProfile profile)
+    {
+        faceContainer.Clear();
+        if (profile == null) return;
+        
+        if (profile is EntityProfile entityProfile)
+        {
+            var image = new Image { image = GetProfileImage(profile) };
+            faceContainer.Add(image);
+        }
+    }
+
+    private void UpdateSelectedEntitiesList()
+    {
+        selectedEntitiesList.Clear();
+
+        foreach (var profile in selectedProfiles)
+        {
+            var image = new Image { image = GetProfileImage(profile) };
+            image.AddToClassList("selectedEntity");
+            selectedEntitiesList.Add(image);
+        }
+    }
+
+    private void UpdateStatisticsContainer(IProfile profile)
+    {
+        statisticsScrollView.Clear();
+        if (profile == null) return;
+
+        var nameLabel = new Label { text = profile.Name };
+        var descriptionLabel = new Label { text = profile.Description };
+
+        statisticsScrollView.Add(nameLabel);
+        statisticsScrollView.Add(descriptionLabel);
+
+        if (profile is EntityProfile entityProfile)
+        {
+            var hpLabel = new Label { text = "HP: " + entityProfile.HealthPoints };
+            var manaLabel = new Label { text = "Mana: " + entityProfile.Mana };
+            var physicalResLabel = new Label { text = "Physical Resistance: " + entityProfile.PhysicalResistance };
+            var magicalResLabel = new Label { text = "Magical Resistance: " + entityProfile.MagicalResistance };
+            var attackSpeedLabel = new Label { text = "Attack Speed: " + entityProfile.AttackSpeed };
+            var movementSpeedLabel = new Label { text = "Movement Speed: " + entityProfile.MovementSpeed };
+
+            statisticsScrollView.Add(hpLabel);
+            statisticsScrollView.Add(manaLabel);
+            statisticsScrollView.Add(physicalResLabel);
+            statisticsScrollView.Add(magicalResLabel);
+            statisticsScrollView.Add(attackSpeedLabel);
+            statisticsScrollView.Add(movementSpeedLabel);
+        }
     }
 }
