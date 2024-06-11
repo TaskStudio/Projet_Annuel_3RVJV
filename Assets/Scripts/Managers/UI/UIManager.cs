@@ -6,7 +6,6 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    public VisualElement statisticsContainer;
     public VisualElement selectedEntitiesList;
     public VisualElement statisticsScrollView;
     public VisualElement faceContainer;
@@ -35,12 +34,11 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        statisticsContainer = rootVisualElement.Q<VisualElement>("StatisticsContainer");
         selectedEntitiesList = rootVisualElement.Q<VisualElement>("SelectedEntitiesList");
         statisticsScrollView = rootVisualElement.Q<VisualElement>("StatisticsScrollView");
         faceContainer = rootVisualElement.Q<VisualElement>("FaceContainer");
         
-        if (statisticsContainer == null || selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null)
+        if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null)
         {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
