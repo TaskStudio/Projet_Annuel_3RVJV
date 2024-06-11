@@ -7,7 +7,6 @@ namespace Entities
     {
         private static EntityFactoryManager instance;
         public static EntityFactoryManager Instance;
-        [SerializeField] private EntitiesManager entitiesManager;
 
         private readonly Dictionary<string, Queue<Entity>> entityPools = new();
 

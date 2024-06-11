@@ -7,8 +7,8 @@ namespace Entities.Production
     {
         [Space(10)] [Header("Production")]
         [SerializeField] private EntityDatabaseSO entityDatabase;
-        [SerializeField] private EntityFactoryManager entityFactoryManager;
         [SerializeField] private Transform productionPoint;
+        private readonly EntityFactoryManager entityFactoryManager = EntityFactoryManager.Instance;
 
         private Queue<string> productionQueue;
         public float currentProductionTime { get; private set; }
@@ -30,23 +30,18 @@ namespace Entities.Production
             ProduceEntity(entityID);
         }
 
-        private void AddToProductionQueue(string entityID)
+        public void AddToProductionQueue(string entityID)
         {
             productionQueue.Enqueue(entityID);
             if (productionQueue.Count == 1)
                 currentProductionTime = entityDatabase.GetEntityData(entityID).ProductionTime;
         }
 
-        public void ProduceEntity(string entityID)
+        private void ProduceEntity(string entityID)
         {
             Entity entity = entityFactoryManager.SpawnEntity(entityID, productionPoint.position, entityDatabase);
             if (productionQueue.Count > 0)
                 currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
-        }
-
-        public void Action(int actionIndex)
-        {
-            Debug.Log($"Action {actionIndex}");
         }
     }
 }
