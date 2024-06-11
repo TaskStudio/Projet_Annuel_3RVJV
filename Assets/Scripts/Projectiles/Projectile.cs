@@ -5,15 +5,25 @@ public class Projectile : MonoBehaviour
     public float speed = 10f;
     public int damage = 100;
     private Vector3 velocity; // to store the direction and speed
+    private Vector3 startPosition; // to store the starting position
+    private float maxRange; // the maximum range the projectile can travel
 
-    public void Initialize(Vector3 direction, float speed)
+    public void Initialize(Vector3 direction, float speed, float range)
     {
         this.velocity = direction * speed;
+        this.maxRange = range;
+        this.startPosition = transform.position;
     }
 
     void Update()
     {
         transform.position += velocity * Time.deltaTime;
+        float distanceTraveled = Vector3.Distance(startPosition, transform.position);
+        
+        if (distanceTraveled >= maxRange)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -27,13 +37,12 @@ public class Projectile : MonoBehaviour
             }
             Destroy(gameObject);
         }
-        
-        if (collision.gameObject.CompareTag("EnemyBase"))
+        else if (collision.gameObject.CompareTag("EnemyBase"))
         {
-            EnemyBase enemybase = collision.gameObject.GetComponent<EnemyBase>();
-            if (enemybase != null)
+            EnemyBase enemyBase = collision.gameObject.GetComponent<EnemyBase>();
+            if (enemyBase != null)
             {
-                enemybase.TakeDamage(damage);
+                enemyBase.TakeDamage(damage);
             }
             Destroy(gameObject);
         }

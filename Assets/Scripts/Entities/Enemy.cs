@@ -87,12 +87,7 @@ public class Enemy : Entity, IMovable
                 // Apply bump back effect
                 Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
                 transform.position += bumpDirection * bumpDistance;
-
-                // Apply damage to the enemy
-                if (entity is MeleeAttacker meleeAttacker)
-                {
-                    TakeDamage(meleeAttacker.meleeDamage);
-                }
+                
             
             }
         }

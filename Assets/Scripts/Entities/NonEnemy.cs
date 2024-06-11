@@ -2,10 +2,8 @@ using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
 
-public class NonEnemy : Entity, IMovable, IShootable, ISelectable
+public class NonEnemy : Entity, IMovable, ISelectable
 {
-    public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
     public GameObject selectionIndicatorPrefab;
     public float moveSpeed = 5f;
     public float stoppingDistance = 0f;
@@ -17,6 +15,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     private EntityVisuals visuals;
     private Vector3 targetPosition;
     private Collider entityCollider;
+    protected bool isMoving = false;
 
     protected void Start()
     {
@@ -38,16 +37,17 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         {
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
         }
     }
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && IsSelected)
-        {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-            Shoot(mousePosition);
-        }
+        // Handle other inputs if necessary
     }
 
     public void Move(Vector3 newPosition)
@@ -64,7 +64,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             targetPosition = newPosition;
         }
     }
-
 
     private Vector3 AvoidCollisions()
     {
@@ -118,26 +117,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         newPositionArray.Dispose();
 
         transform.position = newPosition;
-    }
-
-    public virtual void Shoot(Vector3 target)
-    {
-        if (projectilePrefab && projectileSpawnPoint)
-        {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-
-            Ray ray = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitPoint = hit.point;
-                hitPoint.y = projectileSpawnPoint.position.y; // Adjust y to be at the spawn point's height if needed
-                Vector3 shootDirection = (hitPoint - projectileSpawnPoint.position).normalized;
-
-                // Initialize the projectile with direction and speed
-                projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f); // Set speed as necessary
-            }
-        }
     }
 
     public void Select()

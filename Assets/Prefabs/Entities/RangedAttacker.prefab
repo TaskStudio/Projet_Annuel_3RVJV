@@ -153,13 +153,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
-  projectileSpawnPoint: {fileID: 7029586908058436446}
   selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
   moveSpeed: 5
   stoppingDistance: 0
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  collisionRadius: 1
   avoidanceStrength: 5
+  projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
+  projectileSpawnPoint: {fileID: 7029586908058436446}
+  shootRange: 20
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512

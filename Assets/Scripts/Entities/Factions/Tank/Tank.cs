@@ -11,9 +11,7 @@ public class Tank : NonEnemy
     protected new void Start()
     {
         base.Start();
-        // Tanks do not shoot, so projectile related fields are set to null
-        projectilePrefab = null;
-        projectileSpawnPoint = null;
+       
     }
 
     protected new void Update()
@@ -30,11 +28,7 @@ public class Tank : NonEnemy
             TauntEnemies();
         }
     }
-
-    public override void Shoot(Vector3 target)
-    {
-        // Tanks do not shoot, so this method does nothing
-    }
+    
 
     public void CombineSelectedTanks()
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MeleeAttacker : Attacker
 {
-    public int meleeDamage = 40;
+    private int meleeDamage = 40;
 
     protected new void Start()
     {
