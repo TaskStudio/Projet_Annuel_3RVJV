@@ -144,7 +144,7 @@ public class SelectionManager : MonoBehaviour
     {
         return selectedEntities.Select(e => e.GetProfile()).ToList();
     }
-
+    
     private void UpdateUI()
     {
         UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
