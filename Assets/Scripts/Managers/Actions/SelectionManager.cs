@@ -92,7 +92,7 @@ public class SelectionManager : MonoBehaviour
         var anySelected = false;
         foreach (ISelectable selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour)selectable).transform.position);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour) selectable).transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
@@ -111,6 +111,7 @@ public class SelectionManager : MonoBehaviour
         if (!entity.IsSelected)
         {
             entity.Select();
+            entity.IsSelected = true;
             selectedEntities.Add(entity);
             UpdateUI();
         }
@@ -121,6 +122,7 @@ public class SelectionManager : MonoBehaviour
         if (entity != null && entity.IsSelected)
         {
             entity.Deselect();
+            entity.IsSelected = false;
             selectedEntities.Remove(entity);
             UpdateUI();
         }

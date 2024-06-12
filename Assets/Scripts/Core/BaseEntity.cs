@@ -9,13 +9,11 @@ public class BaseEntity : MonoBehaviour, ISelectable
 
     public void Select()
     {
-        IsSelected = true;
         UpdateVisuals();
     }
 
     public void Deselect()
     {
-        IsSelected = false;
         UpdateVisuals();
     }
 

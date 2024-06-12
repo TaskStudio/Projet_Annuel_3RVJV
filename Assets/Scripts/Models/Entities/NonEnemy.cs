@@ -54,13 +54,11 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     public void Select()
     {
-        IsSelected = true;
         UpdateVisuals();
     }
 
     public void Deselect()
     {
-        IsSelected = false;
         UpdateVisuals();
     }
 
