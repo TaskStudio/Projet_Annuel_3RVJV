@@ -85,7 +85,7 @@ public class SelectionManager : MonoBehaviour
         bool anySelected = false;
         foreach (var selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour)selectable).transform.position);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour) selectable).transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
@@ -114,7 +114,7 @@ public class SelectionManager : MonoBehaviour
         selectedEntities.Clear();
     }
 
-    public void InvokeActionable(int actionIndex)
+    public void OnInvokeActionable(int actionIndex)
     {
         if (selectedEntities.Count is 0 or > 1) return;
         var entity = selectedEntities[0] as Actionable;
