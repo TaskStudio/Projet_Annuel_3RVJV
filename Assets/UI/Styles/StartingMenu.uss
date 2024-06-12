@@ -1,8 +1,39 @@
 .title {
-    font-size: 41px;
+    font-size: 185px;
 }
 
 .menu {
-    font-size: 70px;
+    font-size: 81px;
     color: rgb(231, 231, 231);
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    border-top-width: 27px;
+    border-right-width: 27px;
+    border-bottom-width: 27px;
+    border-left-width: 27px;
+    margin-top: 52px;
+    margin-right: 52px;
+    margin-bottom: 52px;
+    margin-left: 52px;
+    padding-top: 30px;
+    padding-right: 62px;
+    padding-bottom: 30px;
+    padding-left: 62px;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 1000px;
+    max-height: initial;
+    min-height: initial;
+}
+
+.button {
+    background-color: rgba(132, 41, 42, 0);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
 }
