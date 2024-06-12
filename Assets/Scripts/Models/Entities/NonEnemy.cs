@@ -8,7 +8,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     public Transform projectileSpawnPoint;
     public GameObject selectionIndicatorPrefab;
     public float moveSpeed = 5f;
-    public float stoppingDistance = 0f;
+    public float stoppingDistance = 0.5f;
     public LayerMask Entity;
     public float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
@@ -54,17 +54,9 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     {
         if (this != null) 
         {
-            // Notify the spawner to free the old position
-            EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
-            if (spawner != null)
-            {
-                spawner.FreePosition(transform.position);
-            }
-
             targetPosition = newPosition;
         }
     }
-
 
     protected Vector3 AvoidCollisions()
     {
@@ -131,11 +123,10 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 hitPoint = hit.point;
-                hitPoint.y = projectileSpawnPoint.position.y; // Adjust y to be at the spawn point's height if needed
+                hitPoint.y = projectileSpawnPoint.position.y;
                 Vector3 shootDirection = (hitPoint - projectileSpawnPoint.position).normalized;
 
-                // Initialize the projectile with direction and speed
-                projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f); // Set speed as necessary
+                projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f);
             }
         }
     }
