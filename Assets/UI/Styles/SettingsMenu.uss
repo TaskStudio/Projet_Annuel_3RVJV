@@ -41,11 +41,26 @@
     color: rgb(228, 228, 228);
 }
 
-.panel {
-    background-color: rgb(196, 196, 196);
-}
-
 .currentPanel {
     background-color: rgb(119, 44, 44);
     color: rgb(228, 228, 228);
+}
+
+.panel {
+    padding-top: 80px;
+    padding-right: 50px;
+    padding-bottom: 80px;
+    padding-left: 50px;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 56px;
+    background-color: rgba(255, 255, 255, 0.09);
+}
+
+.panelRow {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 50px;
+    margin-left: 0;
+    flex-grow: 1;
 }

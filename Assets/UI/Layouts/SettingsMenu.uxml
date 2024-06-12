@@ -10,22 +10,18 @@
                 <ui:Button text="Language" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LanguageButton" class="button navButton" style="visibility: visible;" />
                 <ui:Button text="About" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AboutButton" class="button navButton" style="visibility: visible;" />
             </ui:VisualElement>
-            <ui:VisualElement name="ContentContainer" style="flex-grow: 1; visibility: visible; display: flex;">
-                <ui:VisualElement name="GeneralPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible;">
-                    <ui:Label tabindex="-1" text="General panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
+            <ui:VisualElement name="ContentContainer" style="flex-grow: 1; visibility: visible; display: flex; -unity-background-image-tint-color: rgb(215, 215, 215); background-color: rgb(210, 210, 210);">
+                <ui:VisualElement name="GeneralPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
+                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
+                    <ui:ScrollView>
+                        <ui:DropdownField label="Resolution                                       " name="DropdownField" choices="1920x1080" index="0" class="panelRow" />
+                        <ui:DropdownField label="Graphics Quality                                " name="DropdownField" choices="Low, Medium, High" index="1" class="panelRow" />
+                        <ui:DropdownField label="shadow Quality                                " name="DropdownField" choices="None,A little bit,Dark" index="1" class="panelRow" />
+                    </ui:ScrollView>
                 </ui:VisualElement>
-                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
-                    <ui:Label tabindex="-1" text="Graphics Panel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="font-size: 49px; display: flex;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
-                    <ui:Label tabindex="-1" text="Audio panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="LanguagePanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
-                    <ui:Label tabindex="-1" text="Language panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="AboutPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
-                    <ui:Label tabindex="-1" text="About panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
-                </ui:VisualElement>
+                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
+                <ui:VisualElement name="LanguagePanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
+                <ui:VisualElement name="AboutPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
