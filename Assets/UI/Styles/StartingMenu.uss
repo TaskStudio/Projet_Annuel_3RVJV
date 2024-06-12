@@ -1,5 +1,6 @@
 .title {
     font-size: 185px;
+    opacity: 0.9;
 }
 
 .menu {
@@ -28,12 +29,45 @@
     height: 1000px;
     max-height: initial;
     min-height: initial;
+    text-shadow: 12px 12px 0 rgba(0, 0, 0, 0.64);
 }
 
 .button {
-    background-color: rgba(132, 41, 42, 0);
-    border-left-color: rgba(255, 255, 255, 0);
-    border-right-color: rgba(255, 255, 255, 0);
-    border-top-color: rgba(255, 255, 255, 0);
-    border-bottom-color: rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
+    border-left-color: rgba(231, 231, 231, 0);
+    border-right-color: rgba(231, 231, 231, 0);
+    border-top-color: rgba(231, 231, 231, 0);
+    border-bottom-color: rgba(231, 231, 231, 0);
+    opacity: 0.75;
+    color: rgb(231, 231, 231);
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 80px;
+}
+
+.button:hover {
+    color: rgb(128, 20, 20);
+    opacity: 0.85;
+    font-size: 82px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+}
+
+.button:active {
+    background-color: rgba(255, 255, 255, 0);
+    border-left-color: rgba(231, 231, 231, 0);
+    border-right-color: rgba(231, 231, 231, 0);
+    border-top-color: rgba(231, 231, 231, 0);
+    border-bottom-color: rgba(231, 231, 231, 0);
+    opacity: 0.75;
+    color: rgb(231, 231, 231);
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 80px;
+    margin-top: 2.5px;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
 }
