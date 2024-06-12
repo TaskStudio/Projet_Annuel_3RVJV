@@ -9565,6 +9565,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniMap
       objectReference: {fileID: 0}
+    - target: {fileID: 2898330583337439198, guid: 4c1abbacda47cc04d9887988a4000896, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 118.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707031231983813334, guid: 4c1abbacda47cc04d9887988a4000896, type: 3}
+      propertyPath: far clip plane
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707031231983813334, guid: 4c1abbacda47cc04d9887988a4000896, type: 3}
+      propertyPath: orthographic size
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 5532019736633015472, guid: 4c1abbacda47cc04d9887988a4000896, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

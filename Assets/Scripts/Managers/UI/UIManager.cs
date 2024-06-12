@@ -81,10 +81,18 @@ public class UIManager : MonoBehaviour
     {
         selectedEntitiesList.Clear();
 
-        foreach (var profile in selectedProfiles)
+        for (int i = 0; i < selectedProfiles.Count; i++)
         {
+            var profile = selectedProfiles[i];
             var image = new Image { image = GetProfileImage(profile) };
-            image.AddToClassList("selectedEntity");
+            image.AddToClassList("selectedEntities");
+
+            // Add the class only to the first element
+            if (i == 0)
+            {
+                image.AddToClassList("selectedEntity");
+            }
+
             selectedEntitiesList.Add(image);
         }
     }
