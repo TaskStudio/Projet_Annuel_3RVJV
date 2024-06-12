@@ -1,11 +1,7 @@
 using UnityEngine;
 
-namespace Maps.Interfaces
+internal interface IZone
 {
-    internal interface IZone
-    {
-        Vector3 Position { get; }
-        string Name { get; }
-    }
+    Vector3 Position { get; }
+    string Name { get; }
 }
-

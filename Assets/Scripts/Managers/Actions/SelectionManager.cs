@@ -7,7 +7,7 @@ public class SelectionManager : MonoBehaviour
     public LayerMask clickableLayer;
     public LayerMask groundLayer;
 
-    public readonly List<ISelectable> selectedEntities = new();
+    private readonly List<ISelectable> selectedEntities = new();
     private bool isDragging;
 
     private Vector3 mouseDragStart;
@@ -49,7 +49,6 @@ public class SelectionManager : MonoBehaviour
 
         if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
     }
-
 
     private void OnGUI()
     {
@@ -97,7 +96,7 @@ public class SelectionManager : MonoBehaviour
         if (!anySelected && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) ClearSelection();
     }
 
-    private void SelectEntity(ISelectable entity, bool isMultiSelect = false)
+    public void SelectEntity(ISelectable entity, bool isMultiSelect = false)
     {
         if (!isMultiSelect) ClearSelection();
 
@@ -105,13 +104,35 @@ public class SelectionManager : MonoBehaviour
         {
             entity.Select();
             selectedEntities.Add(entity);
+            UpdateUI();
+        }
+    }
+
+    public void DeselectEntity(ISelectable entity)
+    {
+        if (entity != null && entity.IsSelected)
+        {
+            entity.Deselect();
+            selectedEntities.Remove(entity);
+            UpdateUI();
         }
     }
 
     public void ClearSelection()
     {
-        foreach (var entity in selectedEntities) entity.Deselect();
+        foreach (var entity in selectedEntities.ToList()) DeselectEntity(entity);
         selectedEntities.Clear();
+        UpdateUI();
+    }
+
+    public List<IProfile> GetSelectedProfiles()
+    {
+        return selectedEntities.Select(e => e.GetProfile()).ToList();
+    }
+
+    private void UpdateUI()
+    {
+        UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
     }
 
     public void OnInvokeActionable(int actionIndex)

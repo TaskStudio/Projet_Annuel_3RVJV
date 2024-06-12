@@ -39,7 +39,7 @@ namespace Entities.Production
 
         private void ProduceEntity(string entityID)
         {
-            Entity entity = entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
+            BaseEntity entity = entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
             if (productionQueue.Count > 0)
                 currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
         }

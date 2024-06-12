@@ -9,7 +9,7 @@ namespace Entities
     {
         public List<EntityData> entitiesData;
 
-        public Entity GetEntityPrefab(string entityID)
+        public BaseEntity GetEntityPrefab(string entityID)
         {
             EntityData entityData = entitiesData.Find(data => data.ID == entityID);
             if (entityData == null)
@@ -32,7 +32,7 @@ namespace Entities
     {
         [field: SerializeField] public string ID { get; private set; }
         [field: SerializeField] public string DisplayName { get; private set; }
-        [field: SerializeField] public Entity Prefab { get; private set; }
+        [field: SerializeField] public BaseEntity Prefab { get; private set; }
         [field: SerializeField] public float ProductionTime { get; private set; }
     }
 }
