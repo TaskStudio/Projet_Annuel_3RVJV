@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/StartingMenu.uss?fileID=7433441132597879392&amp;guid=81707f1d5438d0f4da81066e4f379b11&amp;type=3#StartingMenu" />
     <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Images/Background/StartingBackground.png?fileID=2800000&amp;guid=63d4c65c9471efc40820c650977a8be7&amp;type=3#StartingBackground&quot;); -unity-background-image-tint-color: rgb(194, 194, 194); align-items: flex-start; align-self: auto; justify-content: center;">
-        <ui:VisualElement name="Gradient" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Images/Background/Gradient.png?fileID=2800000&amp;guid=378cd275b0f4f6641b885a3e5beb80d6&amp;type=3#Gradient&quot;); width: 100%; -unity-background-image-tint-color: rgba(255, 255, 255, 0.29);">
-            <ui:VisualElement name="Menu" class="menu" style="height: 1000px;">
+        <ui:VisualElement name="Gradient" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Images/Background/Gradient.png?fileID=2800000&amp;guid=378cd275b0f4f6641b885a3e5beb80d6&amp;type=3#Gradient&quot;); width: 100%; -unity-background-image-tint-color: rgba(255, 255, 255, 0.29); flex-direction: row; align-items: center; justify-content: space-between;">
+            <ui:VisualElement name="Menu" class="menu" style="height: 1000px; margin-top: 36px; margin-right: 36px; margin-bottom: 36px; margin-left: 36px;">
                 <ui:Label tabindex="-1" text="Steam Of War" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MenuTitle" class="title" style="-unity-font-definition: initial; font-size: 208px;" />
                 <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; align-items: flex-start; align-self: flex-start; justify-content: center;">
                     <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="button" />
@@ -11,6 +11,7 @@
                     <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Exitbutton" class="button" />
                 </ui:VisualElement>
             </ui:VisualElement>
+            <ui:VisualElement name="Logo" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/Images/Logo/TASK_Logo.png?fileID=2800000&amp;guid=41ea1e9feb8dbf84698f42eec1cac585&amp;type=3#TASK_Logo&quot;); width: 160px; height: 106px; align-self: flex-end; justify-content: flex-end; align-items: auto; margin-bottom: 24px; margin-left: 0; margin-right: 32px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
