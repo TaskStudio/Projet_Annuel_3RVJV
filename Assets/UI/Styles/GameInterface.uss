@@ -11,14 +11,16 @@
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
-    margin-top: 1px;
+    margin-top: 0;
     margin-right: 1px;
-    margin-bottom: 1px;
+    margin-bottom: 2px;
     margin-left: 1px;
     flex-basis: auto;
     flex-direction: row;
     flex-wrap: wrap;
     background-image: url("project://database/Assets/UI/Images/Entities/tank.png?fileID=21300000&guid=732db6787a8cc1b4dacea5496203d6c3&type=3#tank");
+    align-self: auto;
+    align-items: auto;
 }
 
 .selectedEntity {
