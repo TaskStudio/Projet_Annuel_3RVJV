@@ -68,6 +68,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 7368274d92a0ad143b411868b499c440, type: 2}
+  - {fileID: 2100000, guid: 3caaf120e7d55ae48bbaaf8a2d0dc54c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -148,7 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c01c8f9dd02ad8438f929dc82efd73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
+  selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4,
+    type: 3}
 --- !u!114 &-5772077263641427325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  projectilePrefab: {fileID: 4767235098883473521, guid: b2dd30f90556ba249a6303a71de6b72c, type: 3}
+  projectilePrefab: {fileID: 4767235098883473521, guid: b2dd30f90556ba249a6303a71de6b72c,
+    type: 3}
   projectileSpawnPoint: {fileID: 6644346476222915570}
 --- !u!114 &7876752043349608570
 MonoBehaviour:

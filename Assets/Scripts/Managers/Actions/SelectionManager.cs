@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
+    public LayerMask groundLayer;
     public LayerMask clickableLayer;
 
     private readonly List<ISelectable> selectedEntities = new();
     private bool isDragging;
+
     private Vector3 mouseDragStart;
     private bool selectionStarted;
 
@@ -61,8 +63,10 @@ public class SelectionManager : MonoBehaviour
             HandleSingleClick();
         }
 
+        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
         selectionStarted = false;
     }
+
 
     private void HandleSingleClick()
     {
@@ -82,23 +86,13 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if (isDragging)
-        {
-            Rect rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
-            Utils.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
-            Utils.DrawScreenRectBorder(rect, 1, Color.blue);
-        }
-    }
-
     private void SelectEntitiesInDrag()
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
         foreach (ISelectable selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour)selectable).transform.position);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour) selectable).transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
@@ -117,6 +111,7 @@ public class SelectionManager : MonoBehaviour
         if (!entity.IsSelected)
         {
             entity.Select();
+            entity.IsSelected = true;
             selectedEntities.Add(entity);
             UpdateUI();
         }
@@ -127,6 +122,7 @@ public class SelectionManager : MonoBehaviour
         if (entity != null && entity.IsSelected)
         {
             entity.Deselect();
+            entity.IsSelected = false;
             selectedEntities.Remove(entity);
             UpdateUI();
         }
@@ -134,10 +130,7 @@ public class SelectionManager : MonoBehaviour
 
     public void ClearSelection()
     {
-        foreach (var entity in selectedEntities.ToList())
-        {
-            DeselectEntity(entity);
-        }
+        foreach (var entity in selectedEntities.ToList()) DeselectEntity(entity);
         selectedEntities.Clear();
         UpdateUI();
     }
@@ -146,9 +139,16 @@ public class SelectionManager : MonoBehaviour
     {
         return selectedEntities.Select(e => e.GetProfile()).ToList();
     }
-    
+
     private void UpdateUI()
     {
         UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
+    }
+
+    public void OnInvokeActionable(int actionIndex)
+    {
+        if (selectedEntities.Count is 0 or > 1) return;
+        var entity = selectedEntities[0] as Actionable;
+        entity?.actionList[actionIndex].Invoke();
     }
 }

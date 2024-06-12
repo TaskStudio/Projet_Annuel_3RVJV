@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class BaseEntity : MonoBehaviour, ISelectable
 {
-    public EntityProfile profile;  // Assign the profile in the inspector
+    public EntityProfile profile; // Assign the profile in the inspector
     private EntityVisuals visuals;
 
     public bool IsSelected { get; set; }
 
     public void Select()
     {
-        IsSelected = true;
         UpdateVisuals();
     }
 
     public void Deselect()
     {
-        IsSelected = false;
         UpdateVisuals();
     }
 
@@ -26,10 +24,6 @@ public class BaseEntity : MonoBehaviour, ISelectable
 
     public void UpdateVisuals()
     {
-        if (visuals)
-        {
-            visuals.UpdateVisuals(IsSelected);
-        }
+        if (visuals) visuals.UpdateVisuals(IsSelected);
     }
 }
-

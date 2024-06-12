@@ -1,14 +1,8 @@
-using Maps.Classes;
 using UnityEngine;
 
-namespace Maps.Interfaces
+internal interface IMap
 {
-    internal interface IMap
-    {
-        Zone AllianceZone { get; }
-        Zone MonsterZone { get; }
-        Vector3 ClampPositionToLimits(Vector3 position);
-    }
+    Zone AllianceZone { get; }
+    Zone MonsterZone { get; }
+    Vector3 ClampPositionToLimits(Vector3 position);
 }
-
-

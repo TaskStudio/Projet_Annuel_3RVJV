@@ -57,7 +57,7 @@ namespace GameInput
             mousePos.z = mainCamera.nearClipPlane;
             Ray ray = mainCamera.ScreenPointToRay(mousePos);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100f, groundLayer)) lastPosition = hit.point;
+            if (Physics.Raycast(ray, out hit, 200f, groundLayer)) lastPosition = hit.point;
 
             return lastPosition;
         }
