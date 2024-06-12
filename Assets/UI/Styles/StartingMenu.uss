@@ -43,6 +43,7 @@
     -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
     -unity-font-definition: initial;
     font-size: 80px;
+    text-shadow: 3.6px 5.6px 9px rgb(0, 0, 0);
 }
 
 .button:hover {
@@ -53,6 +54,7 @@
     margin-right: 0;
     margin-bottom: 2px;
     margin-left: 0;
+    text-shadow: 3.6px 5.6px 9px rgb(0, 0, 0);
 }
 
 .button:active {
@@ -70,4 +72,5 @@
     margin-right: 0;
     margin-bottom: 2px;
     margin-left: 0;
+    text-shadow: 3.6px 5.6px 0 rgb(0, 0, 0);
 }
