@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3829919120673748802}
   - component: {fileID: 3829919120673748803}
-  - component: {fileID: 8475726496845900639}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -43,19 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3829919120673748801}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8475726496845900639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3829919120673748801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d36369d503109fd4f9b15a1512caf37d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mapCollider: {fileID: 3829919121129709284}
 --- !u!1 &3829919121129709291
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +54,7 @@ GameObject:
   - component: {fileID: 3829919121129709286}
   - component: {fileID: 3829919121129709285}
   - component: {fileID: 3829919121129709284}
+  - component: {fileID: 5631547212803235548}
   m_Layer: 3
   m_Name: GroundPlane
   m_TagString: Untagged
@@ -162,6 +149,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5631547212803235548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829919121129709291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36369d503109fd4f9b15a1512caf37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5916500527151288907
 GameObject:
   m_ObjectHideFlags: 0
