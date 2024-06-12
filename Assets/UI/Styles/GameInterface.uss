@@ -1,0 +1,22 @@
+.selectedEntity {
+    width: 50px;
+    height: 50px;
+    min-width: auto;
+    min-height: auto;
+    border-left-color: rgb(88, 97, 103);
+    border-right-color: rgb(88, 97, 103);
+    border-top-color: rgb(88, 97, 103);
+    border-bottom-color: rgb(88, 97, 103);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    flex-basis: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-image: url("project://database/Assets/UI/Images/Entities/tank.png?fileID=21300000&guid=732db6787a8cc1b4dacea5496203d6c3&type=3#tank");
+}
