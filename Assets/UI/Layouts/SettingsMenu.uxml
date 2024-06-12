@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/SettingsMenu.uss?fileID=7433441132597879392&amp;guid=24636edaf49eeda45973856518320a2d&amp;type=3#SettingsMenu" />
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(98, 19, 19); -unity-text-outline-color: rgba(0, 0, 0, 0); display: flex; visibility: visible;">
+        <ui:VisualElement name="SettingsContainer" style="flex-grow: 1; background-color: rgb(210, 210, 210); margin-top: 104px; margin-right: 104px; margin-bottom: 104px; margin-left: 104px; border-left-color: rgb(159, 71, 71); border-right-color: rgb(159, 71, 71); border-top-color: rgb(159, 71, 71); border-bottom-color: rgb(159, 71, 71); border-top-width: 12px; border-right-width: 12px; border-bottom-width: 12px; border-left-width: 12px; display: flex; visibility: visible;">
+            <ui:VisualElement name="NavBar" style="flex-grow: 0; flex-direction: row; justify-content: space-between; align-self: auto; align-items: flex-start; margin-bottom: auto; text-shadow: 1.4px 1.4px 0 rgba(0, 0, 0, 0); border-bottom-color: rgb(159, 71, 71); border-top-width: 0; border-right-width: 0; border-bottom-width: 4px; border-left-width: 0; visibility: visible;">
+                <ui:Button text="&lt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoBackButton" class="navButton" style="visibility: visible;" />
+                <ui:Button text="General" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GeneralButton" class="button navButton currentPanel" style="visibility: visible;" />
+                <ui:Button text="Graphics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GraphicsButton" class="button navButton" style="visibility: visible;" />
+                <ui:Button text="Audio" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AudioButton" class="button navButton" style="visibility: visible;" />
+                <ui:Button text="Language" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LanguageButton" class="button navButton" style="visibility: visible;" />
+                <ui:Button text="About" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AboutButton" class="button navButton" style="visibility: visible;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ContentContainer" style="flex-grow: 1; visibility: visible; display: flex;">
+                <ui:VisualElement name="GeneralPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible;">
+                    <ui:Label tabindex="-1" text="General panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
+                    <ui:Label tabindex="-1" text="Graphics Panel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="font-size: 49px; display: flex;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
+                    <ui:Label tabindex="-1" text="Audio panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="LanguagePanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
+                    <ui:Label tabindex="-1" text="Language panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AboutPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
+                    <ui:Label tabindex="-1" text="About panel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 49px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
