@@ -21,14 +21,14 @@ public class EntitiesManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))  
+        if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                MoveSelectedEntities(hit.point);
+                MoveEntities(hit.point);
             }
         }
     }
@@ -49,14 +49,48 @@ public class EntitiesManager : MonoBehaviour
         }
     }
 
-    private void MoveSelectedEntities(Vector3 targetPosition)
+    private void MoveEntities(Vector3 targetPosition)
     {
+        List<IMovable> selectedEntities = new List<IMovable>();
+
         foreach (var entity in movableEntities)
         {
-            if (entity != null && entity is ISelectable selectable && selectable.IsSelected)
+            if (entity is ISelectable selectable && selectable.IsSelected)
             {
-                entity.Move(targetPosition);
+                selectedEntities.Add(entity);
             }
+        }
+
+        int numSelected = selectedEntities.Count;
+        if (numSelected == 0)
+        {
+            return;
+        }
+
+        NonEnemy firstEntity = selectedEntities[0] as NonEnemy;
+        if (firstEntity == null)
+        {
+            Debug.LogError("Entities must be of type NonEnemy to calculate their collision radius.");
+            return;
+        }
+
+        float collisionRadius = firstEntity.collisionRadius;
+        float offset = 0.1f;
+        float spacing = collisionRadius * 1.8f + offset;
+
+        int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
+        float totalWidth = entitiesPerRow * spacing;
+        float totalHeight = Mathf.CeilToInt((float)numSelected / entitiesPerRow) * spacing;
+
+        Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
+
+        for (int i = 0; i < selectedEntities.Count; i++)
+        {
+            int row = i / entitiesPerRow;
+            int column = i % entitiesPerRow;
+
+            Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
+            selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
 }

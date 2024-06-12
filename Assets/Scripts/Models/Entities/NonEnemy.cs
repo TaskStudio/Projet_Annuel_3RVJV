@@ -17,6 +17,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     private EntityVisuals visuals;
     private Vector3 targetPosition;
     private Collider entityCollider;
+    private bool isMoving = false;
 
     protected void Start()
     {
@@ -34,10 +35,31 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     protected virtual void Update()
     {
         HandleInput();
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
+
+        float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z));
+        //Debug.Log($"Entity {name} distance to target (x and z): {distanceToTarget}");
+
+        if (distanceToTarget > stoppingDistance)
         {
+            if (!isMoving)
+            {
+                isMoving = true;
+                //Debug.Log($"Entity {name} started moving towards {targetPosition}");
+            }
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
+        }
+        else
+        {
+            if (isMoving)
+            {
+                isMoving = false;
+                //Debug.Log($"Entity {name} has stopped moving at {transform.position}");
+            }
+            else
+            {
+                //Debug.Log($"Entity {name} is not moving and is at position {transform.position}");
+            }
         }
     }
 
@@ -52,15 +74,17 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     public void Move(Vector3 newPosition)
     {
-        if (this != null) 
+        if (this != null)
         {
-            targetPosition = newPosition;
+            //Debug.Log($"Entity {name} received move command to {newPosition}");
+            targetPosition = new Vector3(newPosition.x, transform.position.y, newPosition.z); // Keep y position the same
+            isMoving = true;
         }
     }
 
     protected Vector3 AvoidCollisions()
     {
-        if (Vector3.Distance(transform.position, targetPosition) <= stoppingDistance)
+        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z)) <= stoppingDistance)
         {
             return targetPosition;
         }
@@ -87,8 +111,10 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     protected void MoveTowardsTarget(Vector3 adjustedPosition)
     {
-        if (Vector3.Distance(transform.position, adjustedPosition) <= stoppingDistance)
+        float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(adjustedPosition.x, adjustedPosition.z));
+        if (distanceToTarget <= stoppingDistance)
         {
+            //Debug.Log($"Entity {name} is within stopping distance: {distanceToTarget}");
             return;
         }
 
@@ -108,6 +134,8 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
         Vector3 newPosition = newPositionArray[0];
         newPositionArray.Dispose();
+
+        //Debug.Log($"Entity {name} moved from {transform.position} to {newPosition}");
 
         transform.position = newPosition;
     }
