@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-    public LayerMask clickableLayer;
     public LayerMask groundLayer;
+    public LayerMask clickableLayer;
 
     private readonly List<ISelectable> selectedEntities = new();
     private bool isDragging;
 
     private Vector3 mouseDragStart;
+    private bool selectionStarted;
+
     public static SelectionManager Instance { get; private set; }
 
     private void Awake()
@@ -28,27 +30,9 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            mouseDragStart = Input.mousePosition;
-            isDragging = false;
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (isDragging)
-            {
-                SelectEntitiesInDrag();
-                isDragging = false;
-            }
-            else
-            {
-                HandleSingleClick();
-            }
-        }
-
-        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
+        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
     }
+
 
     private void OnGUI()
     {
@@ -59,6 +43,30 @@ public class SelectionManager : MonoBehaviour
             Utils.DrawScreenRectBorder(rect, 1, Color.blue);
         }
     }
+
+    public void OnSelectStart()
+    {
+        selectionStarted = true;
+        mouseDragStart = Input.mousePosition;
+        isDragging = false;
+    }
+
+    public void OnSelectEnd()
+    {
+        if (isDragging)
+        {
+            SelectEntitiesInDrag();
+            isDragging = false;
+        }
+        else
+        {
+            HandleSingleClick();
+        }
+
+        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
+        selectionStarted = false;
+    }
+
 
     private void HandleSingleClick()
     {
@@ -81,10 +89,10 @@ public class SelectionManager : MonoBehaviour
     private void SelectEntitiesInDrag()
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
-        bool anySelected = false;
-        foreach (var selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
+        var anySelected = false;
+        foreach (ISelectable selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour) selectable).transform.position);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour)selectable).transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
