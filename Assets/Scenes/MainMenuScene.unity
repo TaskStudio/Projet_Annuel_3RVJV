@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 819201642}
   - component: {fileID: 819201641}
   - component: {fileID: 819201640}
+  - component: {fileID: 819201645}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -501,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: 74a7e615d6b18ea41a5a45f3756ecbf7, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: b7164806bd6a1ff40b7d362b08375be7, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 0ddcd0b85f304d0458957bf1d018c67d, type: 3}
   m_SortingOrder: 0
 --- !u!4 &819201644
 Transform:
@@ -518,6 +519,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &819201645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819201639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f740954113e9ab546b71fea7be154c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainUIDocument: {fileID: 1309807368}
 --- !u!1 &942220304
 GameObject:
   m_ObjectHideFlags: 0
