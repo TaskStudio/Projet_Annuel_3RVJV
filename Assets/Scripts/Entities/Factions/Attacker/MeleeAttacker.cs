@@ -22,14 +22,12 @@ public class MeleeAttacker : Attacker
             if (enemy != null)
             {
                 enemy.TakeDamage(meleeDamage);
-                Debug.Log($"{enemy.name} took {meleeDamage} damage, remaining HP: {enemy.hp}");
             }
         }
     }
 
     public override void Attack()
     {
-        // Implement the melee attack logic here
-        // In this case, melee attack is handled via OnCollisionEnter
+        // Implementation of other melee attack logic here
     }
 }

@@ -48,7 +48,6 @@ public class Tank : NonEnemy
             {
                 combinedHp += tank.hp;
                 combinedPosition += tank.transform.position;
-                Debug.Log($"Combining tank at position: {tank.transform.position} with HP: {tank.hp}");
             }
 
             combinedPosition /= _selectedTanks.Count;
@@ -79,7 +78,6 @@ public class Tank : NonEnemy
                 newTank.isCombinedTank = true; // Mark the new tank as a combined tank
 
                 newTank.Start();
-                Debug.Log($"Created new combined tank at position: {newTank.transform.position} with combined HP: {combinedHp}");
             }
 
             _selectedTanks.Clear();
