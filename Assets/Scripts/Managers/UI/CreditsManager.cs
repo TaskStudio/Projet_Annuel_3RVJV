@@ -7,15 +7,12 @@ public class CreditsManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("CreditsManager OnEnable");
-
         var root = GetComponent<UIDocument>().rootVisualElement;
 
         var goBackButton = root.Q<Button>("GoBackButton");
 
         if (goBackButton != null)
         {
-            Debug.Log("GoBackButton found, registering callback");
             goBackButton.RegisterCallback<ClickEvent>(ev => GoBackToMainMenu());
         }
         else
@@ -26,8 +23,6 @@ public class CreditsManager : MonoBehaviour
 
     private void GoBackToMainMenu()
     {
-        Debug.Log("GoBackButton CLICKED!");
-
         // Hide credits UI
         var root = GetComponent<UIDocument>().rootVisualElement;
         root.style.display = DisplayStyle.None;
