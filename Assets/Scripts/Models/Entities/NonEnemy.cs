@@ -1,21 +1,19 @@
-using Managers.Entities;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public class NonEnemy : Entity, IMovable, IShootable
+public class NonEnemy : Entity, IMovable
 {
-    public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
     public GameObject selectionIndicatorPrefab;
     public float moveSpeed = 5f;
     public float stoppingDistance;
     public LayerMask Entity;
-    public float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
+    protected float collisionRadius = 1f;
     private Collider entityCollider;
-    private Vector3 targetPosition;
 
+    protected bool isMoving;
+    private Vector3 targetPosition;
 
     protected void Start()
     {
@@ -26,11 +24,15 @@ public class NonEnemy : Entity, IMovable, IShootable
 
     protected virtual void Update()
     {
-        HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
         }
     }
 
@@ -39,44 +41,10 @@ public class NonEnemy : Entity, IMovable, IShootable
         targetPosition = newPosition;
     }
 
-    public virtual void Shoot(Vector3 target)
-    {
-        if (projectilePrefab && projectileSpawnPoint)
-        {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-
-            Ray ray = Camera.main.ScreenPointToRay(
-                new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane)
-            );
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitPoint = hit.point;
-                hitPoint.y = projectileSpawnPoint.position.y; // Adjust y to be at the spawn point's height if needed
-                Vector3 shootDirection = (hitPoint - projectileSpawnPoint.position).normalized;
-
-                // Initialize the projectile with direction and speed
-                projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f); // Set speed as necessary
-            }
-        }
-    }
-
     public IProfile GetProfile()
     {
         return null;
     }
-
-    protected virtual void HandleInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Z) && IsSelected)
-        {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(
-                new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane)
-            );
-            Shoot(mousePosition);
-        }
-    }
-
 
     protected Vector3 AvoidCollisions()
     {

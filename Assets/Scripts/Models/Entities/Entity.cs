@@ -1,6 +1,3 @@
-using Managers.Entities;
-using UnityEngine;
-
 public abstract class Entity : BaseEntity, IDamageable
 {
     public int hp = 100;
@@ -9,7 +6,7 @@ public abstract class Entity : BaseEntity, IDamageable
     {
         if (EntitiesManager.Instance != null) EntitiesManager.Instance.UnregisterMovableEntity(this as IMovable);
 
-        if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this as ISelectable);
+        if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this);
     }
 
     public virtual void TakeDamage(int damage)
