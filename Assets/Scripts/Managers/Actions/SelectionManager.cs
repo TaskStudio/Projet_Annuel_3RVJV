@@ -135,7 +135,7 @@ public class SelectionManager : MonoBehaviour
         UpdateUI();
     }
 
-    public List<IProfile> GetSelectedProfiles()
+    public List<Profile> GetSelectedProfiles()
     {
         return selectedEntities.Select(e => e.GetProfile()).ToList();
     }

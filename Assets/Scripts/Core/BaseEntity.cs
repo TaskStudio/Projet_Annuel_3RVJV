@@ -1,14 +1,21 @@
 using UnityEngine;
 
-public class BaseEntity : MonoBehaviour, ISelectable
+public class BaseEntity : MonoBehaviour, ISelectable, IDamageable
 {
-    public EntityProfile profile;  // Assign the profile in the inspector
-    private EntityVisuals visuals;
+    public Profile profile; // Assign the profile in the inspector
 
     private ProgressBar progressBarInstance;
-    private int currentHealth;
+    private EntityVisuals visuals;
 
-    public bool IsSelected { get; set; }
+    public int CurrentValue
+    {
+        get => Health;
+        set
+        {
+            Health = value;
+            if (progressBarInstance != null) progressBarInstance.SetValue(Health);
+        }
+    }
 
     private void Start()
     {
@@ -16,28 +23,16 @@ public class BaseEntity : MonoBehaviour, ISelectable
         FindProgressBar();
     }
 
-    private void InitializeProgress()
+    public int Health { get; set; }
+
+    public void TakeDamage(int damage)
     {
-        if (profile != null)
-        {
-            profile.Initialize();
-            currentHealth = profile.CurrentValue;
-        }
+        Health -= damage;
+        if (Health < 0) Health = 0;
+        if (progressBarInstance) progressBarInstance.SetValue(Health);
     }
 
-    private void FindProgressBar()
-    {
-        // Find the ProgressBar component in the child GameObject
-        progressBarInstance = GetComponentInChildren<ProgressBar>();
-        if (progressBarInstance != null)
-        {
-            progressBarInstance.SetMaxValue(profile.MaxValue);
-        }
-        else
-        {
-            Debug.LogWarning("ProgressBar component not found in children.");
-        }
-    }
+    public bool IsSelected { get; set; }
 
     public void Select()
     {
@@ -51,44 +46,33 @@ public class BaseEntity : MonoBehaviour, ISelectable
         UpdateVisuals();
     }
 
-    public IProfile GetProfile()
+    public Profile GetProfile()
     {
         return profile;
     }
 
+    private void InitializeProgress()
+    {
+        if (profile != null)
+        {
+            profile.Initialize();
+            Health = profile.CurrentValue;
+        }
+    }
+
+    private void FindProgressBar()
+    {
+        // Find the ProgressBar component in the child GameObject
+        progressBarInstance = GetComponentInChildren<ProgressBar>();
+        if (progressBarInstance != null)
+            progressBarInstance.SetMaxValue(profile.MaxValue);
+        else
+            Debug.LogWarning("ProgressBar component not found in children.");
+    }
+
     public void UpdateVisuals()
     {
-        if (visuals)
-        {
-            visuals.UpdateVisuals(IsSelected);
-        }
-    }
-
-    public int Health => currentHealth;
-
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        if (currentHealth < 0) currentHealth = 0;
-        if (progressBarInstance)
-        {
-            progressBarInstance.SetValue(currentHealth);
-        }
-    }
-
-    public int MaxValue => profile.MaxValue;
-
-    public int CurrentValue
-    {
-        get => currentHealth;
-        set
-        {
-            currentHealth = value;
-            if (progressBarInstance != null)
-            {
-                progressBarInstance.SetValue(currentHealth);
-            }
-        }
+        if (visuals) visuals.UpdateVisuals(IsSelected);
     }
 
     public void UpdateProgress(int value)

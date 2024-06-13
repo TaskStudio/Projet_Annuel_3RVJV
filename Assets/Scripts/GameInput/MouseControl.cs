@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace GameInput
 {
@@ -45,10 +44,10 @@ namespace GameInput
         public event Action OnClicked, OnReleased, OnExit;
 
 
-        public bool IsPointerOverUI()
-        {
-            return EventSystem.current.IsPointerOverGameObject();
-        }
+        // public bool IsPointerOverUI()
+        // {
+        //     return EventSystem.current.IsPointerOverGameObject();
+        // }
 
 
         public Vector3 GetCursorMapPosition()
