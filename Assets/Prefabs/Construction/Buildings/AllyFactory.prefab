@@ -139,8 +139,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3408335071373445714}
-        m_TargetAssemblyTypeName: Entities.Production.EntityProducer, Assembly-CSharp
-        m_MethodName: AddToProductionQueue
+        m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
+        m_MethodName: RequestProduction
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -153,8 +153,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3408335071373445714}
-        m_TargetAssemblyTypeName: Entities.Production.EntityProducer, Assembly-CSharp
-        m_MethodName: AddToProductionQueue
+        m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
+        m_MethodName: RequestProduction
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -167,8 +167,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3408335071373445714}
-        m_TargetAssemblyTypeName: Entities.Production.EntityProducer, Assembly-CSharp
-        m_MethodName: AddToProductionQueue
+        m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
+        m_MethodName: RequestProduction
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -179,8 +179,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   objectModel: {fileID: 5753385706127408869}
-  entityDatabase: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
   productionPoint: {fileID: 7016845627576012358}
+  entityDatabase: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
 --- !u!4 &5753385705845378410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 475582115488342047, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}

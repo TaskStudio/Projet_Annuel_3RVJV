@@ -1,47 +1,54 @@
 using System.Collections.Generic;
+using Entities;
 using UnityEngine;
 
-namespace Entities.Production
+public class EntityProducer : Actionable
 {
-    public class EntityProducer : Actionable
+    [Space(10)] [Header("Production")]
+    [SerializeField] private EntityDatabaseSO entityDatabase;
+    [SerializeField] private Transform productionPoint;
+    private readonly EntityFactory entityFactory = EntityFactory.Instance;
+
+    private Queue<string> productionQueue;
+    private ResourceManager resourceManager;
+    public float currentProductionTime { get; private set; }
+
+    private void Start()
     {
-        [Space(10)] [Header("Production")]
-        [SerializeField] private EntityDatabaseSO entityDatabase;
-        [SerializeField] private Transform productionPoint;
-        private readonly EntityFactory entityFactory = EntityFactory.Instance;
+        productionQueue = new Queue<string>();
+        resourceManager = ResourceManager.Instance;
+    }
 
-        private Queue<string> productionQueue;
-        public float currentProductionTime { get; private set; }
+    private void Update()
+    {
+        if (productionQueue.Count <= 0) return;
 
-        private void Start()
-        {
-            productionQueue = new Queue<string>();
-        }
+        currentProductionTime -= Time.deltaTime;
 
-        private void Update()
-        {
-            if (productionQueue.Count <= 0) return;
+        if (currentProductionTime > 0) return;
 
-            currentProductionTime -= Time.deltaTime;
+        string entityID = productionQueue.Dequeue();
+        ProduceEntity(entityID);
+    }
 
-            if (currentProductionTime > 0) return;
+    public void RequestProduction(string entityID)
+    {
+        EntityData entityData = entityDatabase.GetEntityData(entityID);
+        if (resourceManager.RequestResource(entityData.ResourceType, entityData.Cost))
+            AddToProductionQueue(entityID);
+    }
 
-            string entityID = productionQueue.Dequeue();
-            ProduceEntity(entityID);
-        }
+    public void AddToProductionQueue(string entityID)
+    {
+        productionQueue.Enqueue(entityID);
+        if (productionQueue.Count == 1)
+            currentProductionTime = entityDatabase.GetEntityData(entityID).ProductionTime;
+    }
 
-        public void AddToProductionQueue(string entityID)
-        {
-            productionQueue.Enqueue(entityID);
-            if (productionQueue.Count == 1)
-                currentProductionTime = entityDatabase.GetEntityData(entityID).ProductionTime;
-        }
-
-        private void ProduceEntity(string entityID)
-        {
-            BaseEntity entity = entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
-            if (productionQueue.Count > 0)
-                currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
-        }
+    private void ProduceEntity(string entityID)
+    {
+        BaseEntity entity = entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
+        if (productionQueue.Count > 0)
+            currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
     }
 }

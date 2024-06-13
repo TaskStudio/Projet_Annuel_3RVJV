@@ -8,7 +8,6 @@ public class BuildingsManager : MonoBehaviour
     private static BuildingsManager instance;
 
     private readonly List<Building> buildings = new();
-    private ResourceManager resourceManager;
 
     private void Awake()
     {
@@ -23,15 +22,8 @@ public class BuildingsManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        resourceManager = ResourceManager.Instance;
-    }
-
     public void RegisterBuilding(Building building)
     {
         buildings.Add(building);
-
-        if (building.behavior is ResourceStorage resourceStorage) resourceManager.RegisterStorage(resourceStorage);
     }
 }

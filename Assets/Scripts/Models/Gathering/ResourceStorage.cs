@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ResourceStorage : MonoBehaviour, IResourceStorage
 {
-    public Dictionary<ResourceNode.ResourceType, int> storedResources = new();
+    private ResourceManager resourceManager;
+
+    private void Start()
+    {
+        resourceManager = ResourceManager.Instance;
+    }
 
     public void AddResource(ResourceNode.ResourceType type, int amount)
     {
-        storedResources.TryAdd(type, 0);
-
-        storedResources[type] += amount;
-    }
-
-    public int GetResourceAmount(ResourceNode.ResourceType type)
-    {
-        return storedResources.GetValueOrDefault(type, 0);
+        resourceManager.RegisterResource(type, amount);
     }
 }
