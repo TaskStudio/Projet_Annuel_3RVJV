@@ -1,4 +1,22 @@
 .button {
     font-size: 74px;
     margin-bottom: 47px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(221, 221, 221);
+    text-shadow: 3.3px 3.1px 10.6px rgb(0, 0, 0);
+}
+
+.button:hover {
+    font-size: 74px;
+    margin-bottom: 47px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(244, 244, 244);
 }
