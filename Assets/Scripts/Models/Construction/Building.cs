@@ -20,6 +20,7 @@ namespace Construction
         [SerializeField] private Material buildingMaterial;
         [Space(5)]
         [SerializeField] private MeshRenderer objectRenderer;
+        public MonoBehaviour behavior;
 
 
         [Space(10)] [Header("Grid")]
@@ -29,7 +30,6 @@ namespace Construction
         [SerializeField] private MeshRenderer gridRenderer;
 
         private float constructionTime;
-
         public BuildingStates state { get; internal set; }
 
         private void Update()
