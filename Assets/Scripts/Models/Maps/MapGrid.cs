@@ -1,5 +1,4 @@
 using Construction;
-using Maps.Interfaces;
 using UnityEngine;
 
 public class MapGrid : MonoBehaviour

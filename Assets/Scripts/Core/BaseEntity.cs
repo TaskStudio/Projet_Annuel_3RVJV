@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseEntity : MonoBehaviour, ISelectable, IDamageable, IProgressable
+public class BaseEntity : MonoBehaviour, ISelectable
 {
     public EntityProfile profile;  // Assign the profile in the inspector
     private EntityVisuals visuals;

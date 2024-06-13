@@ -1,3 +1,4 @@
+using System.Collections;
 using GameInput;
 using UnityEngine;
 
@@ -48,14 +49,13 @@ namespace Construction
         {
             CancelPlacement();
 
-            selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.ID == ID);
+            selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.IdNumber == ID);
             selectedBuilding = Instantiate(selectedBuildingData.Prefab);
             selectedBuilding.PreviewValid();
             selectedBuildingID = ID;
 
             isBuildingSelected = selectedBuilding != null;
-            mouseControl.OnClicked += PlaceBuilding;
-            mouseControl.OnExit += CancelPlacement;
+            StartCoroutine(DelayedAddMouseEvents());
         }
 
         private void PlaceBuilding()
@@ -89,6 +89,15 @@ namespace Construction
                 selectedBuildingData = null;
                 isBuildingSelected = false;
             }
+        }
+
+        private IEnumerator DelayedAddMouseEvents()
+        {
+            // Attendre la fin de la frame actuelle
+            yield return null;
+
+            mouseControl.OnClicked += PlaceBuilding;
+            mouseControl.OnExit += CancelPlacement;
         }
     }
 }

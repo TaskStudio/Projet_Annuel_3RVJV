@@ -76,6 +76,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1980936496969582046}
   - component: {fileID: 7055215080792055561}
+  - component: {fileID: 5896628182864566668}
   m_Layer: 0
   m_Name: EntityManager
   m_TagString: Untagged
@@ -115,6 +116,18 @@ MonoBehaviour:
   spawnDelay: 2
   entitiesPerRow: 5
   spacing: 1
+--- !u!114 &5896628182864566668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003378490406006029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a43901eb5d77410da2f9f850b67beb18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &964533981867208377
 PrefabInstance:
   m_ObjectHideFlags: 0

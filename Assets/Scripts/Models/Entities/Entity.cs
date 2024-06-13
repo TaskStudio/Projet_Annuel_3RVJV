@@ -2,8 +2,7 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IDamageable
 {
-
-    public int Health { get; set; }
+    public int hp = 100;
 
     public virtual void TakeDamage(int damage)
     {
