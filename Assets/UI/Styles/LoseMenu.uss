@@ -1,0 +1,4 @@
+.button {
+    font-size: 74px;
+    margin-bottom: 47px;
+}
