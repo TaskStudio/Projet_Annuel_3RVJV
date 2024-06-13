@@ -45,7 +45,7 @@ public class Tank : NonEnemy
 
             foreach (var tank in _selectedTanks)
             {
-                combinedHp += tank.hp;
+                combinedHp += tank.Health;
                 combinedPosition += tank.transform.position;
                 Debug.Log($"Combining tank at position: {tank.transform.position} with HP: {tank.hp}");
             }
@@ -55,7 +55,7 @@ public class Tank : NonEnemy
 
             foreach (var tank in _selectedTanks)
             {
-                if (EntitiesManager.Instance != null) EntitiesManager.Instance.UnregisterMovableEntity(tank);
+                if (EntitiesManager.Instance) EntitiesManager.Instance.UnregisterMovableEntity(tank);
                 Destroy(tank.gameObject);
             }
 
@@ -63,7 +63,7 @@ public class Tank : NonEnemy
             newTankObject.transform.localScale = new Vector3(2, 2, 2);
 
             Tank newTank = newTankObject.GetComponent<Tank>();
-            if (newTank != null)
+            if (newTank)
             {
                 newTank.hp = combinedHp;
                 newTank.selectionIndicatorPrefab = selectionIndicatorPrefab;

@@ -1,16 +1,23 @@
+using Managers.Entities;
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IDamageable
 {
-    public int hp = 100;
+    [SerializeField] protected int hp;
 
-    public virtual void TakeDamage(int damage)
+    public int Health => hp;
+    public int MaxValue => hp;
+    private int currentHealth;
+    public int CurrentValue
     {
-        Health -= damage;  
-        if (Health <= 0)
-        {
-            DestroyEntity();  
-        }
+        get => currentHealth;
+        set => currentHealth = value;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth < 0) currentHealth = 0;
     }
     
     protected void DestroyEntity()
