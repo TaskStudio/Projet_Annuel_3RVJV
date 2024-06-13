@@ -1,19 +1,23 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewEntityProfile", menuName = "Profiles/EntityProfile")]
-public class EntityProfile : ScriptableObject, IProfile, IDamageable
+public class EntityProfile : ScriptableObject, IProfile, IDamageable, IProgressable
 {
     [SerializeField] private new string name;
     [SerializeField] private string description;
-    [SerializeField] private int health;  // Backing field for Health
+    [SerializeField] private int health;
 
     public string Name => name;
     public string Description => description;
+    public int Health => health;
+    public int MaxValue => health;
 
-    public int Health
+    private int currentHealth;
+
+    public int CurrentValue
     {
-        get => health;
-        set => health = value;  // Allows setting the Health value
+        get => currentHealth;
+        set => currentHealth = value;
     }
 
     public int Mana;
@@ -23,9 +27,21 @@ public class EntityProfile : ScriptableObject, IProfile, IDamageable
     public float AttackSpeed;
     public float MovementSpeed;
 
+    public void Initialize()
+    {
+        currentHealth = health;
+    }
+
     public void TakeDamage(int damage)
     {
-        health -= damage; 
-        if (health < 0) health = 0;  // Ensure health doesn't go below 0
+        currentHealth -= damage;
+        if (currentHealth < 0) currentHealth = 0;
+    }
+
+    public void UpdateProgress(int value)
+    {
+        currentHealth = value;
+        if (currentHealth < 0) currentHealth = 0;
+        if (currentHealth > health) currentHealth = health;
     }
 }
