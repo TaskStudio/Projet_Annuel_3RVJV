@@ -1,7 +1,4 @@
-using Managers.Entities;
-using UnityEngine;
-
-public abstract class Entity : MonoBehaviour, IDamageable
+public abstract class Entity : BaseEntity, IDamageable
 {
     [SerializeField] protected int hp;
 
@@ -31,6 +28,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
         {
             EntitiesManager.Instance.UnregisterMovableEntity(this as IMovable);
         }
+        
         if (SelectionManager.Instance != null)
         {
             SelectionManager.Instance.DeselectEntity(this as ISelectable);

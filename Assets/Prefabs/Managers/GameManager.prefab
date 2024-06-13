@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 0}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 4d342089f87afef40a91d4e1aed1fc5b, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 4d342089f87afef40a91d4e1aed1fc5b,
+    type: 3}
   m_SortingOrder: 0
 --- !u!1 &1471264894498472084
 GameObject:
@@ -156,5 +157,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 0}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 40ec824f9b5992a47a749e6b40ae63ed, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 40ec824f9b5992a47a749e6b40ae63ed,
+    type: 3}
   m_SortingOrder: 0
