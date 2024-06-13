@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
@@ -12,9 +9,17 @@ public class ResourceNode : MonoBehaviour
         Stone
     }
 
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material depletedMaterial;
+
     public ResourceType resourceType;
     public int resourceAmount = 100;
-    public bool isDepleted = false;
+    public bool isDepleted;
+
+    private void Start()
+    {
+        GetComponent<MeshRenderer>().material = defaultMaterial;
+    }
 
     public int GatherResource(int amountRequested)
     {
@@ -23,7 +28,9 @@ public class ResourceNode : MonoBehaviour
         if (resourceAmount <= 0)
         {
             isDepleted = true;
+            GetComponent<MeshRenderer>().material = depletedMaterial;
         }
+
         return amountGathered;
     }
 }
