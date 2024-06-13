@@ -4,6 +4,12 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IDamageable
 {
     public int hp = 100;
+    public int currentHp;
+
+    protected virtual void Start()
+    {
+        currentHp = hp; // Initialize currentHp to the maximum hp value
+    }
 
     protected virtual void OnDestroy()
     {
@@ -14,8 +20,15 @@ public abstract class Entity : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int damage)
     {
-        hp -= damage;
-        if (hp <= 0) DestroyEntity();
+        currentHp -= damage;
+        if (currentHp <= 0) DestroyEntity();
+        if (currentHp > hp) currentHp = hp; // Ensure currentHp does not exceed hp
+    }
+
+    public void Heal(int healAmount)
+    {
+        currentHp += healAmount;
+        if (currentHp > hp) currentHp = hp; // Ensure currentHp does not exceed hp
     }
 
     protected void DestroyEntity()
