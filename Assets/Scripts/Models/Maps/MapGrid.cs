@@ -1,4 +1,3 @@
-using Construction;
 using UnityEngine;
 
 public class MapGrid : MonoBehaviour
