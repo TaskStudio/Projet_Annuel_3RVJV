@@ -70,7 +70,7 @@ public class BaseEntity : MonoBehaviour, ISelectable, IDamageable, IProgressable
     {
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
-        if (progressBarInstance != null)
+        if (progressBarInstance)
         {
             progressBarInstance.SetValue(currentHealth);
         }
