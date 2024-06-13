@@ -8,9 +8,9 @@ public class ResourceManager : MonoBehaviour
     private static ResourceManager instance;
 
     [SerializeField] private TextMeshProUGUI woodText;
+    public int startingWood;
 
     private readonly Dictionary<Resource.Type, int> totalResources = new();
-
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        totalResources.Add(Resource.Type.Wood, 0);
+        totalResources.Add(Resource.Type.Wood, startingWood);
         totalResources.Add(Resource.Type.Stone, 0);
         totalResources.Add(Resource.Type.Gold, 0);
     }
