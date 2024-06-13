@@ -4,7 +4,9 @@ using System.Collections.Generic;
 public class EntitiesManager : MonoBehaviour
 {
     public static EntitiesManager Instance { get; private set; }
-    private List<IMovable> movableEntities = new List<IMovable>();
+    private static List<IMovable> movableEntities = new List<IMovable>();
+
+    public static List<IMovable> MovableEntities => movableEntities;
 
     void Awake()
     {
@@ -28,7 +30,20 @@ public class EntitiesManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                MoveEntities(hit.point);
+                foreach (var entity in movableEntities)
+                {
+                    if (entity is ISelectable selectable && selectable.IsSelected)
+                    {
+                        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                        {
+                            entity.MoveInFormation(hit.point);
+                        }
+                        else
+                        {
+                            entity.Move(hit.point);
+                        }
+                    }
+                }
             }
         }
     }
@@ -46,51 +61,6 @@ public class EntitiesManager : MonoBehaviour
         if (entity != null)
         {
             movableEntities.Remove(entity);
-        }
-    }
-
-    private void MoveEntities(Vector3 targetPosition)
-    {
-        List<IMovable> selectedEntities = new List<IMovable>();
-
-        foreach (var entity in movableEntities)
-        {
-            if (entity is ISelectable selectable && selectable.IsSelected)
-            {
-                selectedEntities.Add(entity);
-            }
-        }
-
-        int numSelected = selectedEntities.Count;
-        if (numSelected == 0)
-        {
-            return;
-        }
-
-        NonEnemy firstEntity = selectedEntities[0] as NonEnemy;
-        if (firstEntity == null)
-        {
-            Debug.LogError("Entities must be of type NonEnemy to calculate their collision radius.");
-            return;
-        }
-
-        float collisionRadius = firstEntity.collisionRadius;
-        float offset = 0.1f;
-        float spacing = collisionRadius * 1.8f + offset;
-
-        int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
-        float totalWidth = entitiesPerRow * spacing;
-        float totalHeight = Mathf.CeilToInt((float)numSelected / entitiesPerRow) * spacing;
-
-        Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
-
-        for (int i = 0; i < selectedEntities.Count; i++)
-        {
-            int row = i / entitiesPerRow;
-            int column = i % entitiesPerRow;
-
-            Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
-            selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
 }

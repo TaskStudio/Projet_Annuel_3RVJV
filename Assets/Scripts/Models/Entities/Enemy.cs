@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : Entity, IMovable
+public class Enemy : Entity
 {
     public float moveSpeed = 5f;
     public int collisionDamage = 100;  // Damage dealt to other objects on collision

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
+using System.Collections.Generic;
 
 public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 {
@@ -37,29 +38,26 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         HandleInput();
 
         float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z));
-        //Debug.Log($"Entity {name} distance to target (x and z): {distanceToTarget}");
 
-        if (distanceToTarget > stoppingDistance)
+        if (distanceToTarget > stoppingDistance || !isMoving)
         {
             if (!isMoving)
             {
                 isMoving = true;
-                //Debug.Log($"Entity {name} started moving towards {targetPosition}");
             }
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
-        else
+        else if (distanceToTarget <= stoppingDistance && isMoving)
         {
-            if (isMoving)
-            {
-                isMoving = false;
-                //Debug.Log($"Entity {name} has stopped moving at {transform.position}");
-            }
-            else
-            {
-                //Debug.Log($"Entity {name} is not moving and is at position {transform.position}");
-            }
+            isMoving = false;
+            targetPosition = transform.position; // Ensure the entity stops moving
+        }
+
+        // Check if entity is pushed away from the target position and move it back
+        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
+        {
+            Move(targetPosition);
         }
     }
 
@@ -76,9 +74,53 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     {
         if (this != null)
         {
-            //Debug.Log($"Entity {name} received move command to {newPosition}");
             targetPosition = new Vector3(newPosition.x, transform.position.y, newPosition.z); // Keep y position the same
             isMoving = true;
+        }
+    }
+
+    public void MoveInFormation(Vector3 targetPosition)
+    {
+        List<IMovable> selectedEntities = new List<IMovable>();
+
+        foreach (var entity in EntitiesManager.MovableEntities)
+        {
+            if (entity is ISelectable selectable && selectable.IsSelected)
+            {
+                selectedEntities.Add(entity);
+            }
+        }
+
+        int numSelected = selectedEntities.Count;
+        if (numSelected == 0)
+        {
+            return;
+        }
+
+        NonEnemy firstEntity = selectedEntities[0] as NonEnemy;
+        if (firstEntity == null)
+        {
+            Debug.LogError("Entities must be of type NonEnemy to calculate their collision radius.");
+            return;
+        }
+
+        float collisionRadius = firstEntity.collisionRadius;
+        float offset = 0.1f;
+        float spacing = collisionRadius * 1.8f + offset;
+
+        int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
+        float totalWidth = entitiesPerRow * spacing;
+        float totalHeight = Mathf.CeilToInt((float)numSelected / entitiesPerRow) * spacing;
+
+        Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
+
+        for (int i = 0; i < selectedEntities.Count; i++)
+        {
+            int row = i / entitiesPerRow;
+            int column = i % entitiesPerRow;
+
+            Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
+            selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
 
@@ -114,7 +156,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(adjustedPosition.x, adjustedPosition.z));
         if (distanceToTarget <= stoppingDistance)
         {
-            //Debug.Log($"Entity {name} is within stopping distance: {distanceToTarget}");
             return;
         }
 
@@ -134,8 +175,6 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
         Vector3 newPosition = newPositionArray[0];
         newPositionArray.Dispose();
-
-        //Debug.Log($"Entity {name} moved from {transform.position} to {newPosition}");
 
         transform.position = newPosition;
     }
