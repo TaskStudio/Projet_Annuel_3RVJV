@@ -25,10 +25,8 @@ public class Gatherer : NonEnemy
 
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log("Hit object: " + hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("ResourceNode"))
                 {
-                    // Debug.Log("Resource node identified");
                     gatheringResources = true;
                     resourceNode = hit.collider.GetComponent<ResourceNode>();
                     resourceStorage = FindNearestResourceStorage();
@@ -49,46 +47,26 @@ public class Gatherer : NonEnemy
 
     private void HandleGatheringBehavior()
     {
-        // Debug.Log("Current resource amount: " + currentResourceAmount);
-        // Debug.Log("Max resource amount: " + maxResourceAmount);
-        // Debug.Log("Resource node: " + (resourceNode == null ? "null" : "not null"));
-        // Debug.Log("Resource node depleted: " + (resourceNode != null ? resourceNode.isDepleted.ToString() : "N/A"));
-
         if (currentResourceAmount < maxResourceAmount)
         {
             if (resourceNode != null && !resourceNode.isDepleted)
             {
-                // Debug.Log("Moving to resource node");
                 Move(resourceNode.transform.position);
                 if (Vector3.Distance(transform.position, resourceNode.transform.position) <= stoppingDistance)
-                {
-                    Debug.Log("Gathering resources from node");
                     GatherResource();
-                }
             }
             else
             {
-                // Debug.Log("Moving to resource storage");
                 Move(resourceStorage.transform.position);
                 if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= stoppingDistance)
-                {
-                    Debug.Log(
-                        "Depositing resources, current : "
-                        + resourceStorage.GetResourceAmount(ResourceNode.ResourceType.Wood)
-                    );
                     DepositResource();
-                }
             }
         }
         else
         {
-            // Debug.Log("Moving to resource storage");
             Move(resourceStorage.transform.position);
             if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= stoppingDistance)
-            {
-                Debug.Log("Depositing resources");
                 DepositResource();
-            }
         }
     }
 
@@ -118,9 +96,6 @@ public class Gatherer : NonEnemy
         {
             int gatheredAmount = resourceNode.GatherResource(maxResourceAmount - currentResourceAmount);
             currentResourceAmount += gatheredAmount;
-            Debug.Log(gatheredAmount);
-            Debug.Log($"Gathered {gatheredAmount} resources. Current amount: {currentResourceAmount}");
-            if (gatheredAmount == 0 && resourceNode.isDepleted) Debug.Log("Resource node is depleted.");
         }
     }
 
@@ -129,10 +104,7 @@ public class Gatherer : NonEnemy
         if (resourceStorage != null)
         {
             resourceStorage.AddResource(resourceNode.resourceType, currentResourceAmount);
-            Debug.Log(resourceStorage.GetResourceAmount(resourceNode.resourceType));
-            Debug.Log($"Deposited {currentResourceAmount} resources of type {resourceNode.resourceType}");
             currentResourceAmount = 0;
         }
-        // Debug.Log("Resource storage is null.");
     }
 }
