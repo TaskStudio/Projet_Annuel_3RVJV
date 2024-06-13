@@ -2,26 +2,19 @@ using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
-    public enum ResourceType
-    {
-        Wood,
-        Gold,
-        Stone
-    }
+    public Resource.Type resourceType;
 
     [SerializeField] private Material defaultMaterial;
     [SerializeField] private Material depletedMaterial;
-
-    public ResourceType resourceType;
     public int resourceAmount = 100;
-    public bool isDepleted;
+    public bool isDepleted { get; private set; }
 
     private void Start()
     {
         GetComponent<MeshRenderer>().material = defaultMaterial;
     }
 
-    public int GatherResource(int amountRequested)
+    public Resource GatherResource(int amountRequested)
     {
         int amountGathered = Mathf.Min(amountRequested, resourceAmount);
         resourceAmount -= amountGathered;
@@ -31,6 +24,6 @@ public class ResourceNode : MonoBehaviour
             GetComponent<MeshRenderer>().material = depletedMaterial;
         }
 
-        return amountGathered;
+        return new Resource(resourceType, amountGathered);
     }
 }

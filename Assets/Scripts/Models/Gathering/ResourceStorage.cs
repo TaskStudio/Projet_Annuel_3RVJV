@@ -9,8 +9,8 @@ public class ResourceStorage : MonoBehaviour, IResourceStorage
         resourceManager = ResourceManager.Instance;
     }
 
-    public void AddResource(ResourceNode.ResourceType type, int amount)
+    public void AddResource(Resource resource)
     {
-        resourceManager.RegisterResource(type, amount);
+        resourceManager.RegisterResource(resource);
     }
 }

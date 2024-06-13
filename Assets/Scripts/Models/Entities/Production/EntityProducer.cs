@@ -9,13 +9,12 @@ public class EntityProducer : Actionable
     [SerializeField] private Transform productionPoint;
     private readonly EntityFactory entityFactory = EntityFactory.Instance;
 
-    private Queue<string> productionQueue;
+    private readonly Queue<string> productionQueue = new();
     private ResourceManager resourceManager;
     public float currentProductionTime { get; private set; }
 
     private void Start()
     {
-        productionQueue = new Queue<string>();
         resourceManager = ResourceManager.Instance;
     }
 
@@ -34,7 +33,7 @@ public class EntityProducer : Actionable
     public void RequestProduction(string entityID)
     {
         EntityData entityData = entityDatabase.GetEntityData(entityID);
-        if (resourceManager.RequestResource(entityData.ResourceType, entityData.Cost))
+        if (resourceManager.RequestResource(new Resource(entityData.ResourceType, entityData.Cost)))
             AddToProductionQueue(entityID);
     }
 
@@ -47,7 +46,7 @@ public class EntityProducer : Actionable
 
     private void ProduceEntity(string entityID)
     {
-        BaseEntity entity = entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
+        entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
         if (productionQueue.Count > 0)
             currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
     }

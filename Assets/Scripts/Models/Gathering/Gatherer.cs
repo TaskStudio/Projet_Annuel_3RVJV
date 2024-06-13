@@ -5,7 +5,7 @@ public class Gatherer : NonEnemy
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
     public int maxResourceAmount = 10;
-    private int currentResourceAmount;
+    private Resource carriedResource;
     private bool gatheringResources;
 
     protected override void Update()
@@ -42,12 +42,11 @@ public class Gatherer : NonEnemy
 
     public override void Shoot(Vector3 target)
     {
-        // Do nothing, Gatherer doesn't shoot
     }
 
     private void HandleGatheringBehavior()
     {
-        if (currentResourceAmount < maxResourceAmount)
+        if (carriedResource == null || carriedResource?.amount < maxResourceAmount)
         {
             if (resourceNode != null && !resourceNode.isDepleted)
             {
@@ -93,18 +92,16 @@ public class Gatherer : NonEnemy
     {
         //a code that use my Ressource node code to make the gatherer gather ressource
         if (resourceNode != null && !resourceNode.isDepleted)
-        {
-            int gatheredAmount = resourceNode.GatherResource(maxResourceAmount - currentResourceAmount);
-            currentResourceAmount += gatheredAmount;
-        }
+            carriedResource =
+                resourceNode.GatherResource(maxResourceAmount - (carriedResource?.amount ?? 0));
     }
 
     private void DepositResource()
     {
-        if (resourceStorage != null)
+        if (resourceStorage != null && carriedResource != null)
         {
-            resourceStorage.AddResource(resourceNode.resourceType, currentResourceAmount);
-            currentResourceAmount = 0;
+            resourceStorage.AddResource(carriedResource);
+            carriedResource = null;
         }
     }
 }

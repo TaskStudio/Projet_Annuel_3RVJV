@@ -35,6 +35,6 @@ namespace Entities
         [field: SerializeField] public BaseEntity Prefab { get; private set; }
         [field: SerializeField] public float ProductionTime { get; private set; }
         [field: SerializeField] public int Cost { get; private set; }
-        [field: SerializeField] public ResourceNode.ResourceType ResourceType { get; private set; }
+        [field: SerializeField] public Resource.Type ResourceType { get; private set; }
     }
 }

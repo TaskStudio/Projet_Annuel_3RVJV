@@ -9,7 +9,7 @@ public class ResourceManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI woodText;
 
-    private readonly Dictionary<ResourceNode.ResourceType, int> totalResources = new();
+    private readonly Dictionary<Resource.Type, int> totalResources = new();
 
 
     private void Awake()
@@ -27,25 +27,26 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        totalResources.Add(ResourceNode.ResourceType.Wood, 0);
+        totalResources.Add(Resource.Type.Wood, 0);
+        totalResources.Add(Resource.Type.Stone, 0);
+        totalResources.Add(Resource.Type.Gold, 0);
     }
 
     public void Update()
     {
-        woodText.text = totalResources[ResourceNode.ResourceType.Wood].ToString();
+        woodText.text = totalResources[Resource.Type.Wood].ToString();
     }
 
-    public void RegisterResource(ResourceNode.ResourceType type, int amount)
+    public void RegisterResource(Resource resource)
     {
-        totalResources.TryAdd(type, 0);
-        totalResources[type] += amount;
+        totalResources[resource.type] += resource.amount;
     }
 
-    public bool RequestResource(ResourceNode.ResourceType type, int cost)
+    public bool RequestResource(Resource requestedResource)
     {
-        if (totalResources[type] < cost) return false;
+        if (totalResources[requestedResource.type] < requestedResource.amount) return false;
 
-        totalResources[type] -= cost;
+        totalResources[requestedResource.type] -= requestedResource.amount;
         return true;
     }
 }
