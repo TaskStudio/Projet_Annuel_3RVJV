@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 namespace Construction
 {
     [Serializable]
-    public class Building : MonoBehaviour
+    public class Building : BaseEntity
     {
         public enum BuildingStates
         {

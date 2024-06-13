@@ -62,7 +62,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         UpdateVisuals();
     }
 
-    public IProfile GetProfile()
+    public Profile GetProfile()
     {
         return null;
     }

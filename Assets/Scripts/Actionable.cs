@@ -24,7 +24,7 @@ public abstract class Actionable : MonoBehaviour, ISelectable
         objectModel.layer = LayerMask.NameToLayer("Default");
     }
 
-    public IProfile GetProfile()
+    public Profile GetProfile()
     {
         return null;
     }
