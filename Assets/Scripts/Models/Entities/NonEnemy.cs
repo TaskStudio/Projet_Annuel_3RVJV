@@ -3,7 +3,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public class NonEnemy : Entity, IMovable, IShootable, ISelectable
+public class NonEnemy : Entity, IMovable, IShootable
 {
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
@@ -16,15 +16,11 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
     private Collider entityCollider;
     private Vector3 targetPosition;
 
-    private EntityVisuals visuals;
 
     protected void Start()
     {
         EntitiesManager.Instance.RegisterMovableEntity(this);
-        visuals = GetComponent<EntityVisuals>();
         entityCollider = GetComponent<Collider>();
-        if (visuals == null) visuals = gameObject.AddComponent<EntityVisuals>();
-        visuals.selectionIndicatorPrefab = selectionIndicatorPrefab;
         targetPosition = transform.position;
     }
 
@@ -40,31 +36,7 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
 
     public void Move(Vector3 newPosition)
     {
-        if (this != null)
-        {
-            // Notify the spawner to free the old position
-            EntitySpawner spawner = FindObjectOfType<EntitySpawner>();
-            if (spawner != null) spawner.FreePosition(transform.position);
-
-            targetPosition = newPosition;
-        }
-    }
-
-    public bool IsSelected { get; set; }
-
-    public void Select()
-    {
-        UpdateVisuals();
-    }
-
-    public void Deselect()
-    {
-        UpdateVisuals();
-    }
-
-    public IProfile GetProfile()
-    {
-        return null;
+        targetPosition = newPosition;
     }
 
     public virtual void Shoot(Vector3 target)
@@ -87,6 +59,11 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
                 projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f); // Set speed as necessary
             }
         }
+    }
+
+    public IProfile GetProfile()
+    {
+        return null;
     }
 
     protected virtual void HandleInput()
@@ -142,10 +119,5 @@ public class NonEnemy : Entity, IMovable, IShootable, ISelectable
         newPositionArray.Dispose();
 
         transform.position = newPosition;
-    }
-
-    public void UpdateVisuals()
-    {
-        if (visuals) visuals.UpdateVisuals(IsSelected);
     }
 }

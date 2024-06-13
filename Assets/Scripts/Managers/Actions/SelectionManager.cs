@@ -149,6 +149,6 @@ public class SelectionManager : MonoBehaviour
     {
         if (selectedEntities.Count is 0 or > 1) return;
         var entity = selectedEntities[0] as Actionable;
-        entity?.actionList[actionIndex].Invoke();
+        entity?.actionList.ElementAtOrDefault(actionIndex)?.Invoke();
     }
 }

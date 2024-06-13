@@ -1,7 +1,7 @@
 using Managers.Entities;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, IDamageable
+public abstract class Entity : BaseEntity, IDamageable
 {
     public int hp = 100;
 

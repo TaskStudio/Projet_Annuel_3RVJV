@@ -12,6 +12,7 @@ namespace Construction
         public bool isBuildingSelected;
 
         public readonly BuildingGridData BuildingGrid = new();
+        private BuildingsManager buildingsManager;
 
         private Building selectedBuilding;
         private BuildingData selectedBuildingData;
@@ -19,6 +20,7 @@ namespace Construction
 
         private void Start()
         {
+            buildingsManager = BuildingsManager.Instance;
             isBuildingSelected = false;
 
             selectedBuilding = null;
@@ -72,6 +74,7 @@ namespace Construction
 
             BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingID, 0);
             selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
+            buildingsManager.RegisterBuilding(selectedBuilding);
             selectedBuilding = null;
             isBuildingSelected = false;
 

@@ -17,7 +17,17 @@ MonoBehaviour:
     <DisplayName>k__BackingField: Attacker
     <Prefab>k__BackingField: {fileID: 4880992001849287840, guid: 6e151576ff27a8a4884cc8c7f6ca70de, type: 3}
     <ProductionTime>k__BackingField: 0.5
+    <Cost>k__BackingField: 30
+    <ResourceType>k__BackingField: 0
   - <ID>k__BackingField: ENT-1
     <DisplayName>k__BackingField: Tank
     <Prefab>k__BackingField: {fileID: 2656921320176481465, guid: 479837c5a94d6b04caedf1998363920e, type: 3}
     <ProductionTime>k__BackingField: 2
+    <Cost>k__BackingField: 0
+    <ResourceType>k__BackingField: 0
+  - <ID>k__BackingField: ENT-2
+    <DisplayName>k__BackingField: Gatherer
+    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: 534d0210f53e8294f86b66c79a87c0e7, type: 3}
+    <ProductionTime>k__BackingField: 2
+    <Cost>k__BackingField: 0
+    <ResourceType>k__BackingField: 0
