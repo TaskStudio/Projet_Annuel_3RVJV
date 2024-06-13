@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Attacker-San
   description: Very dangerous person.
-  HealthPoints: 300
+  health: 500
   Mana: 200
   Image: {fileID: 2800000, guid: 8d82e03d17120684da195ecaa54f3b4c, type: 3}
   PhysicalResistance: 50

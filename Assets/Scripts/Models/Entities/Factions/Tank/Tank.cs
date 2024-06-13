@@ -52,9 +52,9 @@ public class Tank : NonEnemy
 
             foreach (var tank in _selectedTanks)
             {
-                combinedHp += tank.hp;
+                combinedHp += tank.Health;
                 combinedPosition += tank.transform.position;
-                Debug.Log($"Combining tank at position: {tank.transform.position} with HP: {tank.hp}");
+                Debug.Log($"Combining tank at position: {tank.transform.position} with HP: {tank.Health}");
             }
 
             combinedPosition /= _selectedTanks.Count;
@@ -75,7 +75,7 @@ public class Tank : NonEnemy
             Tank newTank = newTankObject.GetComponent<Tank>();
             if (newTank != null)
             {
-                newTank.hp = combinedHp;
+                newTank.Health = combinedHp;
                 newTank.selectionIndicatorPrefab = this.selectionIndicatorPrefab;
                 newTank.moveSpeed = this.moveSpeed;
                 newTank.stoppingDistance = this.stoppingDistance;

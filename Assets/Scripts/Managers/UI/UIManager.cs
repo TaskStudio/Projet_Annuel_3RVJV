@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
 
         if (profile is EntityProfile entityProfile)
         {
-            var hpLabel = new Label { text = "HP: " + entityProfile.HealthPoints };
+            var hpLabel = new Label { text = "HP: " + entityProfile.Health };
             var manaLabel = new Label { text = "Mana: " + entityProfile.Mana };
             var physicalResLabel = new Label { text = "Physical Resistance: " + entityProfile.PhysicalResistance };
             var magicalResLabel = new Label { text = "Magical Resistance: " + entityProfile.MagicalResistance };

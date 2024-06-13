@@ -2,12 +2,13 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IDamageable
 {
-    public int hp = 100;
+
+    public int Health { get; set; }
 
     public virtual void TakeDamage(int damage)
     {
-        hp -= damage;  
-        if (hp <= 0)
+        Health -= damage;  
+        if (Health <= 0)
         {
             DestroyEntity();  
         }
