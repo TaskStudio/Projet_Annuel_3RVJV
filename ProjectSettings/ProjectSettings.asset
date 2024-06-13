@@ -836,13 +836,13 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: c83a316d-6d8e-4245-8fde-b29f6157cf9e
+  cloudProjectId: ce65e92f-46a8-46dc-9cc3-6bc833f116b1
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: projet-annuel
-  organizationId: anamariakaryn
+  organizationId: mrseb06
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

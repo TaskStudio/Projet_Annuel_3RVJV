@@ -10,6 +10,8 @@ TagManager:
   - Projectile
   - EnemyBase
   - EntityBase
+  - RessourceStorage
+  - ResourceNode
   layers:
   - Default
   - TransparentFX
@@ -17,10 +19,11 @@ TagManager:
   - Ground
   - Water
   - UI
-  - UI
+  - 
   - groundLayer
   - Entity
   - Enemy
+  - Outlined
   - 
   - 
   - 
