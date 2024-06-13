@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
-using Unity.Jobs;
-using Unity.Collections;
 
 public class Gatherer : NonEnemy
 {
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
     public int maxResourceAmount = 10;
-    private int currentResourceAmount = 0;
-    private bool gatheringResources = false;
+    private int currentResourceAmount;
+    private bool gatheringResources;
 
     protected override void Update()
     {
         HandleInput();
         base.Update();
 
-        if (gatheringResources)
-        {
-            HandleGatheringBehavior();
-        }
+        if (gatheringResources) HandleGatheringBehavior();
     }
 
     protected override void HandleInput()
@@ -65,7 +60,7 @@ public class Gatherer : NonEnemy
             {
                 // Debug.Log("Moving to resource node");
                 Move(resourceNode.transform.position);
-                if (Vector3.Distance(this.transform.position, resourceNode.transform.position) <= stoppingDistance)
+                if (Vector3.Distance(transform.position, resourceNode.transform.position) <= stoppingDistance)
                 {
                     Debug.Log("Gathering resources from node");
                     GatherResource();
@@ -77,7 +72,10 @@ public class Gatherer : NonEnemy
                 Move(resourceStorage.transform.position);
                 if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= stoppingDistance)
                 {
-                    Debug.Log("Depositing resources");
+                    Debug.Log(
+                        "Depositing resources, current : "
+                        + resourceStorage.GetResourceAmount(ResourceNode.ResourceType.Wood)
+                    );
                     DepositResource();
                 }
             }
@@ -96,7 +94,7 @@ public class Gatherer : NonEnemy
 
     private ResourceStorage FindNearestResourceStorage()
     {
-        ResourceStorage[] storages = GameObject.FindObjectsOfType<ResourceStorage>();
+        ResourceStorage[] storages = FindObjectsOfType<ResourceStorage>();
         ResourceStorage nearestStorage = null;
         float minDistance = float.MaxValue;
 
@@ -122,10 +120,7 @@ public class Gatherer : NonEnemy
             currentResourceAmount += gatheredAmount;
             Debug.Log(gatheredAmount);
             Debug.Log($"Gathered {gatheredAmount} resources. Current amount: {currentResourceAmount}");
-            if (gatheredAmount == 0 && resourceNode.isDepleted)
-            {
-                Debug.Log("Resource node is depleted.");
-            }
+            if (gatheredAmount == 0 && resourceNode.isDepleted) Debug.Log("Resource node is depleted.");
         }
     }
 
@@ -138,9 +133,6 @@ public class Gatherer : NonEnemy
             Debug.Log($"Deposited {currentResourceAmount} resources of type {resourceNode.resourceType}");
             currentResourceAmount = 0;
         }
-        else
-        {
-            // Debug.Log("Resource storage is null.");
-        }
+        // Debug.Log("Resource storage is null.");
     }
 }
