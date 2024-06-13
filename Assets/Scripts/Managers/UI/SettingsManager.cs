@@ -7,7 +7,6 @@ public class SettingsManager : MonoBehaviour
     private VisualElement graphicsPanel;
     private VisualElement audioPanel;
     private VisualElement languagePanel;
-    private VisualElement aboutPanel;
     private Button currentButton;
 
     public UIDocument mainUIDocument;
@@ -27,13 +26,11 @@ public class SettingsManager : MonoBehaviour
         graphicsPanel = root.Q<VisualElement>("GraphicsPanel");
         audioPanel = root.Q<VisualElement>("AudioPanel");
         languagePanel = root.Q<VisualElement>("LanguagePanel");
-        aboutPanel = root.Q<VisualElement>("AboutPanel");
 
         generalButton?.RegisterCallback<ClickEvent>(ev => ShowPanel(generalPanel, generalButton));
         graphicsButton?.RegisterCallback<ClickEvent>(ev => ShowPanel(graphicsPanel, graphicsButton));
         audioButton?.RegisterCallback<ClickEvent>(ev => ShowPanel(audioPanel, audioButton));
         languageButton?.RegisterCallback<ClickEvent>(ev => ShowPanel(languagePanel, languageButton));
-        aboutButton?.RegisterCallback<ClickEvent>(ev => ShowPanel(aboutPanel, aboutButton));
         goBackButton?.RegisterCallback<ClickEvent>(ev => GoBackToMainMenu());
 
         // Show the General panel by default
@@ -47,7 +44,6 @@ public class SettingsManager : MonoBehaviour
         graphicsPanel.style.display = DisplayStyle.None;
         audioPanel.style.display = DisplayStyle.None;
         languagePanel.style.display = DisplayStyle.None;
-        aboutPanel.style.display = DisplayStyle.None;
 
         // Show the selected panel
         panelToShow.style.display = DisplayStyle.Flex;

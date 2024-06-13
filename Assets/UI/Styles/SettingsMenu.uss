@@ -55,6 +55,8 @@
     -unity-font-definition: initial;
     font-size: 56px;
     background-color: rgba(255, 255, 255, 0.09);
+    align-self: center;
+    min-width: 858px;
 }
 
 .panelRow {

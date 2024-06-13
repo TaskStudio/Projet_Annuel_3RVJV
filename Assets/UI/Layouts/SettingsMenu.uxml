@@ -1,27 +1,36 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/SettingsMenu.uss?fileID=7433441132597879392&amp;guid=24636edaf49eeda45973856518320a2d&amp;type=3#SettingsMenu" />
     <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(103, 49, 49); -unity-text-outline-color: rgba(0, 0, 0, 0); display: flex; visibility: visible; background-image: none; -unity-background-image-tint-color: rgba(255, 255, 255, 0.62);">
-        <ui:VisualElement name="SettingsContainer" style="flex-grow: 1; background-color: rgb(210, 210, 210); margin-top: 104px; margin-right: 104px; margin-bottom: 104px; margin-left: 104px; border-left-color: rgb(159, 71, 71); border-right-color: rgb(159, 71, 71); border-top-color: rgb(159, 71, 71); border-bottom-color: rgb(159, 71, 71); border-top-width: 12px; border-right-width: 12px; border-bottom-width: 12px; border-left-width: 12px; display: flex; visibility: visible; opacity: 0.95;">
+        <ui:VisualElement name="SettingsContainer" style="flex-grow: 1; background-color: rgb(210, 210, 210); margin-top: 148px; margin-right: 180px; margin-bottom: 148px; margin-left: 180px; border-left-color: rgb(159, 71, 71); border-right-color: rgb(159, 71, 71); border-top-color: rgb(159, 71, 71); border-bottom-color: rgb(159, 71, 71); border-top-width: 12px; border-right-width: 12px; border-bottom-width: 12px; border-left-width: 12px; display: flex; visibility: visible; opacity: 0.95;">
             <ui:VisualElement name="NavBar" style="flex-grow: 0; flex-direction: row; justify-content: space-between; align-self: auto; align-items: flex-start; margin-bottom: auto; text-shadow: 1.4px 1.4px 0 rgba(0, 0, 0, 0); border-bottom-color: rgb(159, 71, 71); border-top-width: 0; border-right-width: 0; border-bottom-width: 4px; border-left-width: 0; visibility: visible;">
                 <ui:Button text="&lt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoBackButton" class="navButton" style="visibility: visible;" />
                 <ui:Button text="General" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GeneralButton" class="button navButton currentPanel" style="visibility: visible;" />
-                <ui:Button text="Graphics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GraphicsButton" class="button navButton" style="visibility: visible;" />
+                <ui:Button text="Graphics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GraphicsButton" class="button navButton" style="visibility: visible; display: flex;" />
                 <ui:Button text="Audio" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AudioButton" class="button navButton" style="visibility: visible;" />
                 <ui:Button text="Language" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LanguageButton" class="button navButton" style="visibility: visible;" />
-                <ui:Button text="About" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AboutButton" class="button navButton" style="visibility: visible;" />
             </ui:VisualElement>
             <ui:VisualElement name="ContentContainer" style="flex-grow: 1; visibility: visible; display: flex; -unity-background-image-tint-color: rgb(215, 215, 215); background-color: rgb(210, 210, 210);">
                 <ui:VisualElement name="GeneralPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
-                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
-                    <ui:ScrollView>
-                        <ui:DropdownField label="Resolution                                       " name="DropdownField" choices="1920x1080" index="0" class="panelRow" />
-                        <ui:DropdownField label="Graphics Quality                                " name="DropdownField" choices="Low, Medium, High" index="1" class="panelRow" />
-                        <ui:DropdownField label="shadow Quality                                " name="DropdownField" choices="None,A little bit,Dark" index="1" class="panelRow" />
+                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
+                    <ui:ScrollView class="scrollPanel">
+                        <ui:DropdownField label="Resolution                               " name="DropdownField" choices="1920x1080" index="0" class="panelRow" />
+                        <ui:DropdownField label="Graphics Quality                         " name="DropdownField" choices="Low, Medium, High" index="1" class="panelRow" />
+                        <ui:DropdownField label="shadow Quality                           " name="DropdownField" choices="None,Low,Medium,High" index="2" class="panelRow" />
                     </ui:ScrollView>
                 </ui:VisualElement>
-                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
-                <ui:VisualElement name="LanguagePanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
-                <ui:VisualElement name="AboutPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
+                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
+                    <ui:ScrollView style="display: flex;">
+                        <ui:SliderInt label="General Volume                   " high-value="100" low-value="0" direction="Horizontal" inverted="false" style="align-items: stretch; justify-content: flex-start; align-self: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+                        <ui:SliderInt label="Music                              " high-value="100" />
+                        <ui:SliderInt label="Ambient sound                     " high-value="100" />
+                        <ui:SliderInt label="Voices                             " high-value="100" />
+                    </ui:ScrollView>
+                </ui:VisualElement>
+                <ui:VisualElement name="LanguagePanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
+                    <ui:ScrollView class="scrollPanel">
+                        <ui:DropdownField label="Language                                          " name="DropdownField" choices="English,Français" index="0" class="panelRow" />
+                    </ui:ScrollView>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

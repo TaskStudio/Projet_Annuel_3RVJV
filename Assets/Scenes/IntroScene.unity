@@ -632,6 +632,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2909849709131727399, guid: 4720cc11faaf93b4f899b0b921474332, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4579492689925744943, guid: 4720cc11faaf93b4f899b0b921474332, type: 3}
       propertyPath: m_LocalPosition.x
       value: 198.25159
@@ -697,6 +701,10 @@ PrefabInstance:
       propertyPath: videoPlayer
       value: 
       objectReference: {fileID: 1702236648}
+    - target: {fileID: 920660932535896214, guid: c4e4ba4344264cb41a9da0ba7965c766, type: 3}
+      propertyPath: nextSceneName
+      value: MainScene
+      objectReference: {fileID: 0}
     - target: {fileID: 3328766109165379595, guid: c4e4ba4344264cb41a9da0ba7965c766, type: 3}
       propertyPath: m_Name
       value: FadeOutManager
@@ -739,6 +747,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4983439780486511183, guid: c4e4ba4344264cb41a9da0ba7965c766, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683805390395366374, guid: c4e4ba4344264cb41a9da0ba7965c766, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

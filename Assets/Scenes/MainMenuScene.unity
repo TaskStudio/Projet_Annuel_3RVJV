@@ -813,7 +813,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 74a7e615d6b18ea41a5a45f3756ecbf7, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 74b6a26711118ed48b240b70f26c963d, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!4 &1309807369
 Transform:
   m_ObjectHideFlags: 0
@@ -1320,6 +1320,10 @@ PrefabInstance:
       propertyPath: fadeDuration
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2909849709131727399, guid: 4720cc11faaf93b4f899b0b921474332, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4579492689925744943, guid: 4720cc11faaf93b4f899b0b921474332, type: 3}
       propertyPath: m_LocalPosition.x
       value: 198.25159
@@ -1406,6 +1410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0148b145517fcc04ea69c2170545c5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextScene: MainMenu
   mainUIDocument: {fileID: 1309807368}
   settingsDocument: {fileID: 1310673112}
   creditsDocument: {fileID: 819201643}

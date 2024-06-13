@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 public class ButtonActionManager : MonoBehaviour
 {
+    public string nextScene;
     public UIDocument mainUIDocument;
     public UIDocument settingsDocument;
     public UIDocument creditsDocument;
@@ -36,7 +37,7 @@ public class ButtonActionManager : MonoBehaviour
 
     private void OnStartButtonClick()
     {
-        SceneManager.LoadScene("MainScene"); // Replace "MainScene" with your actual scene name
+        SceneManager.LoadScene(nextScene); // Replace "MainScene" with your actual scene name
     }
 
     private void OnSettingsButtonClick()
