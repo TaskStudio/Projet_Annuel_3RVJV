@@ -16,7 +16,7 @@ public class Gatherer : NonEnemy
         if (gatheringResources) HandleGatheringBehavior();
     }
 
-    protected override void HandleInput()
+    protected void HandleInput()
     {
         if (Input.GetMouseButtonDown(1) && IsSelected)
         {
@@ -38,10 +38,6 @@ public class Gatherer : NonEnemy
                 }
             }
         }
-    }
-
-    public override void Shoot(Vector3 target)
-    {
     }
 
     private void HandleGatheringBehavior()

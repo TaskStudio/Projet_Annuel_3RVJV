@@ -1,19 +1,19 @@
-using UnityEngine;
-using Unity.Jobs;
 using Unity.Collections;
+using Unity.Jobs;
+using UnityEngine;
 
-public class NonEnemy : Entity, IMovable, IShootable
+public class NonEnemy : Entity, IMovable
 {
     public GameObject selectionIndicatorPrefab;
     public float moveSpeed = 5f;
     public float stoppingDistance;
     public LayerMask Entity;
-    protected float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
+    protected float collisionRadius = 1f;
     private Collider entityCollider;
-    private Vector3 targetPosition;
 
-    protected bool isMoving = false;
+    protected bool isMoving;
+    private Vector3 targetPosition;
 
     protected void Start()
     {
@@ -24,7 +24,6 @@ public class NonEnemy : Entity, IMovable, IShootable
 
     protected virtual void Update()
     {
-        HandleInput();
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             Vector3 adjustedPosition = AvoidCollisions();
@@ -40,28 +39,6 @@ public class NonEnemy : Entity, IMovable, IShootable
     public void Move(Vector3 newPosition)
     {
         targetPosition = newPosition;
-    }
-
-    public virtual void Shoot(Vector3 target)
-    {
-        if (projectilePrefab && projectileSpawnPoint)
-        {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-
-            Ray ray = Camera.main.ScreenPointToRay(
-                new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane)
-            );
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitPoint = hit.point;
-                hitPoint.y = projectileSpawnPoint.position.y; // Adjust y to be at the spawn point's height if needed
-                Vector3 shootDirection = (hitPoint - projectileSpawnPoint.position).normalized;
-
-                // Initialize the projectile with direction and speed
-                projectile.GetComponent<Projectile>().Initialize(shootDirection, 20f); // Set speed as necessary
-            }
-        }
     }
 
     public IProfile GetProfile()
