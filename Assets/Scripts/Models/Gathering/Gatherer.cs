@@ -59,6 +59,7 @@ public class Gatherer : NonEnemy
         }
         else
         {
+            if (resourceStorage == null) return;
             Move(resourceStorage.transform.position);
             if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= stoppingDistance)
                 DepositResource();
