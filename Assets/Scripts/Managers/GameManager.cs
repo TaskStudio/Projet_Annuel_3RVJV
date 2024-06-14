@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour
     public string nextScene;
     public UIDocument winUIDocument;
     public UIDocument loseUIDocument;
+    private VisualElement loseRoot;
 
     private VisualElement winRoot;
-    private VisualElement loseRoot;
 
     private void Start()
     {
@@ -19,11 +19,11 @@ public class GameManager : MonoBehaviour
         winRoot.style.display = DisplayStyle.None;
         loseRoot.style.display = DisplayStyle.None;
 
-        var winRestartButton = winRoot.Q<Button>("restartButton");
-        var winExitButton = winRoot.Q<Button>("exitButton");
+        var winRestartButton = winRoot.Q<Button>("RestartButton");
+        var winExitButton = winRoot.Q<Button>("ExitButton");
 
-        var loseRestartButton = loseRoot.Q<Button>("restartButton");
-        var loseExitButton = loseRoot.Q<Button>("exitButton");
+        var loseRestartButton = loseRoot.Q<Button>("RestartButton");
+        var loseExitButton = loseRoot.Q<Button>("ExitButton");
 
         winRestartButton.clicked += RestartGame;
         winExitButton.clicked += ExitGame;
@@ -35,13 +35,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (CheckWinCondition())
-        {
             ShowWinScreen();
-        }
-        else if (CheckLoseCondition())
-        {
-            ShowLoseScreen();
-        }
+        else if (CheckLoseCondition()) ShowLoseScreen();
     }
 
     private bool CheckWinCondition()
