@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Healer-Kun
   description: Annoying moffo.
-  HealthPoints: 300
+  health: 200
   Mana: 400
   Image: {fileID: 2800000, guid: e3c7f3288b1d7cb468e9249c117af478, type: 3}
   PhysicalResistance: 100

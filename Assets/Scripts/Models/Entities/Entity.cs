@@ -1,6 +1,11 @@
+using UnityEngine;
+
 public abstract class Entity : BaseEntity, IDamageable
 {
-    public int hp = 100;
+    [SerializeField] protected int hp;
+    public int MaxValue => hp;
+
+    public int CurrentValue { get; set; }
 
     protected virtual void OnDestroy()
     {
@@ -9,10 +14,12 @@ public abstract class Entity : BaseEntity, IDamageable
         if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this);
     }
 
-    public virtual void TakeDamage(int damage)
+    public int Health => hp;
+
+    public void TakeDamage(int damage)
     {
-        hp -= damage;
-        if (hp <= 0) DestroyEntity();
+        CurrentValue -= damage;
+        if (CurrentValue < 0) CurrentValue = 0;
     }
 
     protected void DestroyEntity()

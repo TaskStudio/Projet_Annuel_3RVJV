@@ -1,0 +1,68 @@
+.navButton {
+    flex-grow: 1;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 55px;
+    height: 88px;
+    border-left-color: rgba(98, 3, 3, 0);
+    border-right-color: rgba(98, 3, 3, 0);
+    border-top-color: rgba(98, 3, 3, 0);
+    border-bottom-color: rgba(98, 3, 3, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgb(225, 225, 225);
+}
+
+.navButton:hover {
+    flex-grow: 1;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 55px;
+    height: 88px;
+    border-left-color: rgba(98, 3, 3, 0);
+    border-right-color: rgba(98, 3, 3, 0);
+    border-top-color: rgba(98, 3, 3, 0);
+    border-bottom-color: rgba(98, 3, 3, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgb(119, 44, 44);
+    color: rgb(228, 228, 228);
+}
+
+.currentPanel {
+    background-color: rgb(119, 44, 44);
+    color: rgb(228, 228, 228);
+}
+
+.panel {
+    padding-top: 80px;
+    padding-right: 50px;
+    padding-bottom: 80px;
+    padding-left: 50px;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 56px;
+    background-color: rgba(255, 255, 255, 0.09);
+    align-self: center;
+    min-width: 858px;
+}
+
+.panelRow {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 50px;
+    margin-left: 0;
+    flex-grow: 1;
+}

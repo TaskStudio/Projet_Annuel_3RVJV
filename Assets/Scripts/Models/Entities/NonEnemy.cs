@@ -41,7 +41,7 @@ public class NonEnemy : Entity, IMovable
         targetPosition = newPosition;
     }
 
-    public IProfile GetProfile()
+    public Profile GetProfile()
     {
         return null;
     }
