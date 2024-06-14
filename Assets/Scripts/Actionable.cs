@@ -7,21 +7,21 @@ public abstract class Actionable : MonoBehaviour, ISelectable
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
 
-    [Space(10)]
-    [SerializeField] private GameObject objectModel;
+    [Space(10)] [Header("Selection")]
+    [SerializeField] private GameObject model;
 
-
-    // ISelectable implementation
     public bool IsSelected { get; set; }
 
     public void Select()
     {
-        objectModel.layer = LayerMask.NameToLayer("Outlined");
+        IsSelected = true;
+        UpdateVisuals();
     }
 
     public void Deselect()
     {
-        objectModel.layer = LayerMask.NameToLayer("Default");
+        IsSelected = false;
+        UpdateVisuals();
     }
 
     public Profile GetProfile()
@@ -31,5 +31,9 @@ public abstract class Actionable : MonoBehaviour, ISelectable
 
     public void UpdateVisuals()
     {
+        if (IsSelected)
+            model.layer = LayerMask.NameToLayer("Outlined");
+        else
+            model.layer = LayerMask.NameToLayer("Default");
     }
 }

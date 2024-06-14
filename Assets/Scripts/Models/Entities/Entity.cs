@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public abstract class Entity : BaseEntity
+public abstract class Entity : BaseEntity, ISelectable
 {
     public int currentHp;
     [SerializeField] protected int hp;
+    private EntityVisuals visuals;
     public int Health => hp;
     public int MaxValue => hp;
     public int CurrentValue { get; set; }
@@ -18,6 +19,25 @@ public abstract class Entity : BaseEntity
         if (EntitiesManager.Instance != null) EntitiesManager.Instance.UnregisterMovableEntity(this as IMovable);
 
         if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this);
+    }
+
+    public bool IsSelected { get; set; }
+
+    public void Select()
+    {
+        IsSelected = true;
+        UpdateVisuals();
+    }
+
+    public void Deselect()
+    {
+        IsSelected = false;
+        UpdateVisuals();
+    }
+
+    public void UpdateVisuals()
+    {
+        if (visuals) visuals.UpdateVisuals(IsSelected);
     }
 
 
