@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [Serializable]
-public class Building : MonoBehaviour
+public class Building : BaseEntity
 {
     public enum BuildingStates
     {
@@ -18,7 +18,7 @@ public class Building : MonoBehaviour
     [SerializeField] private Material buildingMaterial;
     [Space(5)]
     [SerializeField] private MeshRenderer objectRenderer;
-    public MonoBehaviour behavior;
+    // public MonoBehaviour behavior;
 
 
     [Space(10)] [Header("Grid")]
