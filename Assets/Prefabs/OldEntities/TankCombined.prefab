@@ -152,16 +152,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83b9706a7b4efb9b37ad1cc9af9adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: c124242a8bcf6024f93035c23dd3b613, type: 2}
+  currentHp: 0
   hp: 100
-  projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
-  projectileSpawnPoint: {fileID: 5488785502238640570}
   selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
   moveSpeed: 5
   stoppingDistance: 0
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  collisionRadius: 1
   avoidanceStrength: 5
   combinedTankPrefab: {fileID: 0}
   tauntRadius: 10

@@ -1,6 +1,3 @@
-using Managers.Entities;
-using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 
 public class Support : NonEnemy
@@ -14,9 +11,6 @@ public class Support : NonEnemy
     {
         base.Start();
         healTimer = healCooldown;
-        
-        projectilePrefab = null;
-        projectileSpawnPoint = null;
     }
 
     protected new void Update()
@@ -39,7 +33,10 @@ public class Support : NonEnemy
             Entity entity = hitCollider.GetComponent<Entity>();
             if (entity != null && !(entity is Enemy)) // Heal only non-enemy entities
             {
-                int healableAmount = Mathf.Min(healAmount, entity.hp - entity.currentHp); // Ensure we don't exceed max HP
+                int healableAmount = Mathf.Min(
+                    healAmount,
+                    entity.Health - entity.currentHp
+                ); // Ensure we don't exceed max HP
                 entity.Heal(healableAmount); // Use the Heal method to increase currentHp
                 //Debug.Log($"Healed {entity.gameObject.name} by {healableAmount} HP");
             }

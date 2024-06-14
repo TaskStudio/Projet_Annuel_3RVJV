@@ -26,6 +26,12 @@ MonoBehaviour:
     <Cost>k__BackingField: 30
     <ResourceType>k__BackingField: 0
   - <ID>k__BackingField: ENT-2
+    <DisplayName>k__BackingField: Support
+    <Prefab>k__BackingField: {fileID: -3996997979273391450, guid: 3da30fbce40d4654fbc0401185fc7e14, type: 3}
+    <ProductionTime>k__BackingField: 2
+    <Cost>k__BackingField: 30
+    <ResourceType>k__BackingField: 0
+  - <ID>k__BackingField: ENT-3
     <DisplayName>k__BackingField: Gatherer
     <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: 534d0210f53e8294f86b66c79a87c0e7, type: 3}
     <ProductionTime>k__BackingField: 2
