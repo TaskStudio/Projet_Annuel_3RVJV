@@ -1,18 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }
+    private readonly List<Profile> selectedProfiles = new();
+    public VisualElement faceContainer;
 
     public VisualElement selectedEntitiesList;
     public VisualElement statisticsScrollView;
-    public VisualElement faceContainer;
+    public static UIManager Instance { get; private set; }
 
-    private List<IProfile> selectedProfiles = new List<IProfile>();
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -25,7 +24,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         if (rootVisualElement == null)
@@ -37,39 +36,33 @@ public class UIManager : MonoBehaviour
         selectedEntitiesList = rootVisualElement.Q<VisualElement>("SelectedEntitiesList");
         statisticsScrollView = rootVisualElement.Q<VisualElement>("StatisticsScrollView");
         faceContainer = rootVisualElement.Q<VisualElement>("FaceContainer");
-        
+
         if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null)
-        {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
-            return;
-        }
     }
 
-    private Texture2D GetProfileImage(IProfile profile)
+    private Texture2D GetProfileImage(Profile profile)
     {
-        if (profile is EntityProfile entityProfile)
-        {
-            return entityProfile.Image;
-        }
+        if (profile is EntityProfile entityProfile) return entityProfile.Image;
         return null;
     }
 
-    public void UpdateSelectedEntities(List<IProfile> newSelectedProfiles)
+    public void UpdateSelectedEntities(List<Profile> newSelectedProfiles)
     {
         selectedProfiles.Clear();
         selectedProfiles.AddRange(newSelectedProfiles);
 
         UpdateSelectedEntitiesList();
         var selectedProfile = selectedProfiles.Count > 0 ? selectedProfiles[0] : null;
-        UpdateFirstSelectedEntity(selectedProfile);// Display the face of the first entity selected 
+        UpdateFirstSelectedEntity(selectedProfile); // Display the face of the first entity selected 
         UpdateStatisticsContainer(selectedProfile); // Display the stats of the first entity selected 
     }
-    
-    private void UpdateFirstSelectedEntity(IProfile profile)
+
+    private void UpdateFirstSelectedEntity(Profile profile)
     {
         faceContainer.Clear();
         if (profile == null) return;
-        
+
         if (profile is EntityProfile entityProfile)
         {
             var image = new Image { image = GetProfileImage(profile) };
@@ -81,15 +74,20 @@ public class UIManager : MonoBehaviour
     {
         selectedEntitiesList.Clear();
 
-        foreach (var profile in selectedProfiles)
+        for (int i = 0; i < selectedProfiles.Count; i++)
         {
+            var profile = selectedProfiles[i];
             var image = new Image { image = GetProfileImage(profile) };
-            image.AddToClassList("selectedEntity");
+            image.AddToClassList("selectedEntities");
+
+            // Add the class only to the first element
+            if (i == 0) image.AddToClassList("selectedEntity");
+
             selectedEntitiesList.Add(image);
         }
     }
 
-    private void UpdateStatisticsContainer(IProfile profile)
+    private void UpdateStatisticsContainer(Profile profile)
     {
         statisticsScrollView.Clear();
         if (profile == null) return;
@@ -102,7 +100,7 @@ public class UIManager : MonoBehaviour
 
         if (profile is EntityProfile entityProfile)
         {
-            var hpLabel = new Label { text = "HP: " + entityProfile.HealthPoints };
+            var hpLabel = new Label { text = "HP: " + entityProfile.health };
             var manaLabel = new Label { text = "Mana: " + entityProfile.Mana };
             var physicalResLabel = new Label { text = "Physical Resistance: " + entityProfile.PhysicalResistance };
             var magicalResLabel = new Label { text = "Magical Resistance: " + entityProfile.MagicalResistance };

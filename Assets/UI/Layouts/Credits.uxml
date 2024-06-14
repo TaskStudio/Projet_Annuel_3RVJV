@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/Credit.uss?fileID=7433441132597879392&amp;guid=bc401928e38f2464894d13df10c2934d&amp;type=3#Credit" />
+    <ui:VisualElement name="Main" style="flex-grow: 1; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&amp;guid=6019abab86d8e1d41b433e4c94956583&amp;type=3#Steamwreck&quot;); -unity-font-definition: initial; background-color: rgb(192, 92, 91);">
+        <ui:ScrollView style="align-items: auto; justify-content: flex-start; align-self: auto; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0);">
+            <ui:VisualElement name="Container" style="flex-grow: 1; align-self: center; margin-top: 60px; margin-bottom: 60px;">
+                <ui:Label tabindex="-1" text="Steam of War" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 154px; color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 27px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; text-shadow: 5px 4.9px 0 rgba(0, 0, 0, 0.52); align-self: center;" />
+                <ui:VisualElement name="DeveloppedBy" class="section" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.12);">
+                    <ui:Label tabindex="-1" text="&gt; Developped by TASK Studio&#10;&#10;- Teddy Truong&#10;- Anamaria Buliga&#10;- Sebastian Mihnea&#10;- Kamil Tebani" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 25px; padding-bottom: 25px; padding-left: 25px; color: rgb(236, 236, 236);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="SpecialThanks" class="section" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.12);">
+                    <ui:Label tabindex="-1" text="&gt; Special thanks &#10;Our families and friends&#10;Our Teachers, especially Mr. Vidal&#10;The corgis community" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 25px; padding-bottom: 25px; padding-left: 25px; color: rgb(236, 236, 236);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Music" class="section" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.12);">
+                    <ui:Label tabindex="-1" text="&gt; Music &#10;Steam City by Derek Fiechter" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 25px; padding-bottom: 25px; padding-left: 25px; color: rgb(236, 236, 236);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Publisher" class="section" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.12);">
+                    <ui:Label tabindex="-1" text="&gt; Publisher&#10;TASK Studio" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 25px; padding-bottom: 25px; padding-left: 25px; color: rgb(236, 236, 236);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Copyrights" class="section" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.12);">
+                    <ui:Label tabindex="-1" text="&gt; Copyright&#10;© 2024 TASK Studio. All rights reserved." parse-escape-sequences="true" display-tooltip-when-elided="true" class="text" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 25px; padding-bottom: 25px; padding-left: 25px; color: rgb(236, 236, 236);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button text="&lt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoBackButton" tabindex="1000" class="goBackButton" style="position: absolute; height: 180px; width: 180px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; font-size: 140px; color: rgb(255, 255, 255); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); top: 70px; left: 103px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

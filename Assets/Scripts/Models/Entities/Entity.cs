@@ -1,10 +1,12 @@
-using Managers.Entities;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, IDamageable
+public abstract class Entity : BaseEntity
 {
-    public int hp = 100;
     public int currentHp;
+    [SerializeField] protected int hp;
+    public int Health => hp;
+    public int MaxValue => hp;
+    public int CurrentValue { get; set; }
 
     protected virtual void Start()
     {
@@ -15,10 +17,11 @@ public abstract class Entity : MonoBehaviour, IDamageable
     {
         if (EntitiesManager.Instance != null) EntitiesManager.Instance.UnregisterMovableEntity(this as IMovable);
 
-        if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this as ISelectable);
+        if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this);
     }
 
-    public virtual void TakeDamage(int damage)
+
+    public void TakeDamage(int damage)
     {
         currentHp -= damage;
         if (currentHp <= 0) DestroyEntity();

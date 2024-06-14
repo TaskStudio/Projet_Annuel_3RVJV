@@ -3,7 +3,8 @@ using UnityEngine;
 public class Enemy : Entity, IMovable
 {
     public float moveSpeed = 5f;
-    public int collisionDamage = 100;  // Damage dealt to other objects on collision
+    protected int collisionDamage = 20; // Damage dealt to other objects on collision
+    protected  float bumpDistance = 1f; // Distance to bump back after taking damage
     private Vector3 tauntTarget;
     private bool isTaunted;
 
@@ -20,7 +21,7 @@ public class Enemy : Entity, IMovable
     public void Move(Vector3 targetPosition)
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-        
+
         if (targetPosition != transform.position) // Ensure there is a movement towards a target
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
@@ -79,17 +80,25 @@ public class Enemy : Entity, IMovable
             NonEnemy entity = collision.gameObject.GetComponent<NonEnemy>();
             if (entity != null)
             {
+
+                // Apply damage to the entity
                 entity.TakeDamage(collisionDamage);
+
+                // Apply bump back effect
+                Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
+                transform.position += bumpDirection * bumpDistance;
+                
+            
             }
-            Destroy(gameObject);
         }
-        
+
         if (collision.gameObject.CompareTag("EntityBase"))
         {
-            EntityBases entitybase = collision.gameObject.GetComponent<EntityBases>();
-            if (entitybase != null)
+            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
+            if (entityBase != null)
             {
-                entitybase.TakeDamage(1000);
+                entityBase.TakeDamage(1000);
+  
             }
             Destroy(gameObject);
         }
