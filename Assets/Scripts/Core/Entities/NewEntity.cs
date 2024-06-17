@@ -7,7 +7,11 @@ public class NewEntity : BaseObject
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
 
-    public Profile profile; // Assign the profile in the inspector
+    public int hp { get; private set; }
 
-    public int hp { get; }
+    public void TakeDamage(int damage)
+    {
+        hp -= damage;
+        if (hp < 0) hp = 0;
+    }
 }
