@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public abstract class Attacker : NonEnemy
+public abstract class Attacker : Fighter
 {
     protected new void Start()
     {

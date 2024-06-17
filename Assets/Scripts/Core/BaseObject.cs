@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class BaseObject : MonoBehaviour, ISelectable
@@ -17,11 +16,6 @@ public abstract class BaseObject : MonoBehaviour, ISelectable
     {
         IsSelected = false;
         UpdateVisuals();
-    }
-
-    public Profile GetProfile()
-    {
-        throw new NotImplementedException(); // TODO: get profile
     }
 
     public void UpdateVisuals()
