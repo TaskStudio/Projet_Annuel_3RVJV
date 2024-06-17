@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [Serializable]
-public class Building : BaseEntity
+public class Building : NewEntity
 {
     public enum BuildingStates
     {
