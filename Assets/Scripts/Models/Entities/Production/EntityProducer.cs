@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Entities;
 using UnityEngine;
 
-public class EntityProducer : Actionable
+public class EntityProducer : Building
 {
     [Space(10)] [Header("Production")]
     [SerializeField] private EntityDatabaseSO entityDatabase;

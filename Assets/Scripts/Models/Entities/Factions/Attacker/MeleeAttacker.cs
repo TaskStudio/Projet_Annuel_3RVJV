@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MeleeAttacker : Attacker
 {
-    private int meleeDamage = 40;
+    private readonly int meleeDamage = 40;
 
     protected new void Start()
     {
@@ -19,10 +19,7 @@ public class MeleeAttacker : Attacker
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(meleeDamage);
-            }
+            if (enemy != null) enemy.TakeDamage(meleeDamage);
         }
     }
 

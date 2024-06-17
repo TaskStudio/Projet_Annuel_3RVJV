@@ -47,9 +47,7 @@ public class RangedAttacker : Attacker
             // Initialize the projectile with direction, speed, and range
             Projectile projectileScript = projectile.GetComponent<Projectile>();
             if (projectileScript != null)
-            {
                 projectileScript.Initialize(shootDirection, 20f, shootRange); // Set speed and range as necessary
-            }
         }
     }
 }

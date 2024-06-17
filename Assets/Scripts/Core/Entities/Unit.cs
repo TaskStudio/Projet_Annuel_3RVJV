@@ -37,6 +37,13 @@ public class Unit : NewEntity, IMovable
         }
     }
 
+    protected virtual void OnDestroy()
+    {
+        if (EntitiesManager.Instance != null) EntitiesManager.Instance.UnregisterMovableEntity(this);
+
+        if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this);
+    }
+
     public void Move(Vector3 newPosition)
     {
         targetPosition = newPosition;

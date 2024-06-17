@@ -1,24 +1,45 @@
 using UnityEngine;
 
-public class Enemy : Entity, IMovable
+public class Enemy : Unit, IMovable
 {
     public float moveSpeed = 5f;
+    protected float bumpDistance = 1f; // Distance to bump back after taking damage
     protected int collisionDamage = 20; // Damage dealt to other objects on collision
-    protected  float bumpDistance = 1f; // Distance to bump back after taking damage
-    private Vector3 tauntTarget;
     private bool isTaunted;
+    private Vector3 tauntTarget;
 
-    void Update()
+    private void Update()
     {
-        if (isTaunted)
-        {
-            Move(tauntTarget);
-        }
+        if (isTaunted) Move(tauntTarget);
         Vector3 moveTarget = isTaunted ? tauntTarget : FindNearestTarget();
         Move(moveTarget);
     }
 
-    public void Move(Vector3 targetPosition)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Entity"))
+        {
+            Unit entity = collision.gameObject.GetComponent<Unit>();
+            if (entity != null)
+            {
+                // Apply damage to the entity
+                entity.TakeDamage(collisionDamage);
+
+                // Apply bump back effect
+                Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
+                transform.position += bumpDirection * bumpDistance;
+            }
+        }
+
+        if (collision.gameObject.CompareTag("EntityBase"))
+        {
+            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
+            if (entityBase != null) entityBase.TakeDamage(1000);
+            Destroy(gameObject);
+        }
+    }
+
+    public new void Move(Vector3 targetPosition)
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
@@ -34,7 +55,7 @@ public class Enemy : Entity, IMovable
     {
         GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
         GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
-        Vector3 currentPosition = this.transform.position;
+        Vector3 currentPosition = transform.position;
 
         GameObject closestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -51,7 +72,6 @@ public class Enemy : Entity, IMovable
         }
 
         if (closestTarget == null && entityBases.Length > 0)
-        {
             foreach (GameObject entityBase in entityBases)
             {
                 Vector3 directionToTarget = entityBase.transform.position - currentPosition;
@@ -62,7 +82,6 @@ public class Enemy : Entity, IMovable
                     closestTarget = entityBase;
                 }
             }
-        }
 
         return closestTarget != null ? closestTarget.transform.position : Vector3.positiveInfinity;
     }
@@ -71,36 +90,5 @@ public class Enemy : Entity, IMovable
     {
         tauntTarget = taunter.transform.position;
         isTaunted = true;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Entity"))
-        {
-            NonEnemy entity = collision.gameObject.GetComponent<NonEnemy>();
-            if (entity != null)
-            {
-
-                // Apply damage to the entity
-                entity.TakeDamage(collisionDamage);
-
-                // Apply bump back effect
-                Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
-                transform.position += bumpDirection * bumpDistance;
-                
-            
-            }
-        }
-
-        if (collision.gameObject.CompareTag("EntityBase"))
-        {
-            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
-            if (entityBase != null)
-            {
-                entityBase.TakeDamage(1000);
-  
-            }
-            Destroy(gameObject);
-        }
     }
 }

@@ -184,16 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2276d58d3ee8a847b779b27c41bcf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: b0a67b2b998aae440b577ccd03371003, type: 2}
-  currentHp: 0
-  hp: 100
-  selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
-  moveSpeed: 5
-  stoppingDistance: 0
+  model: {fileID: 2935270463738046425}
+  actionList: []
+  avoidanceStrength: 5
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  avoidanceStrength: 5
+  moveSpeed: 5
+  profile: {fileID: 11400000, guid: b0a67b2b998aae440b577ccd03371003, type: 2}
+  stoppingDistance: 0
+  target: {fileID: 0}
   projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
   projectileSpawnPoint: {fileID: 7029586908058436446}
   shootRange: 20

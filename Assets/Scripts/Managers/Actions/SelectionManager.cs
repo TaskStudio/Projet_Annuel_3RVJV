@@ -113,7 +113,6 @@ public class SelectionManager : MonoBehaviour
             entity.Select();
             entity.IsSelected = true;
             selectedEntities.Add(entity);
-            UpdateUI();
         }
     }
 
@@ -124,7 +123,6 @@ public class SelectionManager : MonoBehaviour
             entity.Deselect();
             entity.IsSelected = false;
             selectedEntities.Remove(entity);
-            UpdateUI();
         }
     }
 
@@ -132,23 +130,12 @@ public class SelectionManager : MonoBehaviour
     {
         foreach (var entity in selectedEntities.ToList()) DeselectEntity(entity);
         selectedEntities.Clear();
-        UpdateUI();
-    }
-
-    public List<Profile> GetSelectedProfiles()
-    {
-        return selectedEntities.Select(e => e.GetProfile()).ToList();
-    }
-
-    private void UpdateUI()
-    {
-        UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
     }
 
     public void OnInvokeActionable(int actionIndex)
     {
         if (selectedEntities.Count is 0 or > 1) return;
-        var entity = selectedEntities[0] as Actionable;
+        var entity = selectedEntities[0] as NewEntity;
         entity?.actionList.ElementAtOrDefault(actionIndex)?.Invoke();
     }
 }

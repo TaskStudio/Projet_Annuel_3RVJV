@@ -1,42 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tank : NonEnemy
+public class Tank : Fighter
 {
-    private static List<Tank> _selectedTanks = new List<Tank>();
+    private static readonly List<Tank> _selectedTanks = new();
     public GameObject combinedTankPrefab;
     public float tauntRadius = 10f;
-    private bool isCombinedTank = false; // Flag to indicate if the tank is a combined tank
+    private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
 
     protected new void Start()
     {
         base.Start();
-       
     }
 
     protected new void Update()
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            CombineSelectedTanks();
-        }
+        if (Input.GetKeyDown(KeyCode.P)) CombineSelectedTanks();
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            TauntEnemies();
-        }
+        if (Input.GetKeyDown(KeyCode.O)) TauntEnemies();
     }
-    
 
     public void CombineSelectedTanks()
     {
         // Add only selected normal tanks to the list
-        if (IsSelected && !_selectedTanks.Contains(this) && !isCombinedTank)
-        {
-            _selectedTanks.Add(this);
-        }
+        if (IsSelected && !_selectedTanks.Contains(this) && !isCombinedTank) _selectedTanks.Add(this);
 
         // Ensure only normal tanks are in the selection
         if (_selectedTanks.Count == 10)
@@ -46,7 +35,7 @@ public class Tank : NonEnemy
 
             foreach (var tank in _selectedTanks)
             {
-                combinedHp += tank.Health;
+                combinedHp += tank.hp;
                 combinedPosition += tank.transform.position;
             }
 
@@ -66,12 +55,11 @@ public class Tank : NonEnemy
             if (newTank)
             {
                 newTank.hp = combinedHp;
-                newTank.selectionIndicatorPrefab = this.selectionIndicatorPrefab;
-                newTank.moveSpeed = this.moveSpeed;
-                newTank.stoppingDistance = this.stoppingDistance;
-                newTank.Entity = this.Entity;
+                newTank.moveSpeed = moveSpeed;
+                newTank.stoppingDistance = stoppingDistance;
+                newTank.Entity = Entity;
                 newTank.collisionRadius = 2f;
-                newTank.avoidanceStrength = this.avoidanceStrength;
+                newTank.avoidanceStrength = avoidanceStrength;
                 newTank.isCombinedTank = true; // Mark the new tank as a combined tank
 
                 newTank.Start();
@@ -80,7 +68,7 @@ public class Tank : NonEnemy
             _selectedTanks.Clear();
 
             SelectionManager.Instance.ClearSelection();
-            SelectionManager.Instance.SelectEntity(newTank, false);
+            SelectionManager.Instance.SelectEntity(newTank);
         }
     }
 
@@ -90,10 +78,7 @@ public class Tank : NonEnemy
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.Taunt(this);
-            }
+            if (enemy != null) enemy.Taunt(this);
         }
     }
 }
