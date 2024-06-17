@@ -20,6 +20,8 @@ public class EntityProducer : Building
 
     private void Update()
     {
+        base.Update();
+
         if (productionQueue.Count <= 0) return;
 
         currentProductionTime -= Time.deltaTime;

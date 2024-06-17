@@ -30,7 +30,7 @@ public class Building : NewEntity
     private float constructionTime;
     public BuildingStates state { get; internal set; }
 
-    private void Update()
+    public void Update()
     {
         if (state == BuildingStates.Constructing)
         {
