@@ -46,11 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c83c6ab758a3b49a903ce06fac26ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 475582116273836944}
+  actionList: []
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 905cc732777d7444186842b05d389e8e, type: 2}
   objectRenderer: {fileID: 475582116273836946}
-  behavior: {fileID: 0}
   gridMaterial: {fileID: 2100000, guid: d103cd69a05372a4b941a461d8b39d14, type: 2}
   gridInvalidMaterial: {fileID: 2100000, guid: a90942068c797c647b8f9ad3389e033e, type: 2}
   gridRenderer: {fileID: 6479919993329444962}

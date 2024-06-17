@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c959a675dda342d08e3d5e4143776592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 5753385706127408869}
   actionList:
   - m_PersistentCalls:
       m_Calls:
@@ -317,7 +318,13 @@ MonoBehaviour:
           m_StringArgument: ENT-3
           m_BoolArgument: 0
         m_CallState: 2
-  model: {fileID: 5753385706127408869}
+  previewMaterial: {fileID: 0}
+  previewInvalidMaterial: {fileID: 0}
+  buildingMaterial: {fileID: 0}
+  objectRenderer: {fileID: 0}
+  gridMaterial: {fileID: 0}
+  gridInvalidMaterial: {fileID: 0}
+  gridRenderer: {fileID: 0}
   entityDatabase: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
   productionPoint: {fileID: 7016845627576012358}
 --- !u!4 &5753385705845378410 stripped
