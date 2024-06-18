@@ -1,4 +1,4 @@
 public class Fighter : Unit
 {
-    public NewEntity target;
+    public Entity target;
 }

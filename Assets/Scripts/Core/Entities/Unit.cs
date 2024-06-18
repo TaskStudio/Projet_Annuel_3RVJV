@@ -2,7 +2,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public class Unit : NewEntity, IMovable
+public class Unit : Entity, IMovable
 {
     public float avoidanceStrength = 5f;
     public LayerMask Entity;
