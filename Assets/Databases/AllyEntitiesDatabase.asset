@@ -20,8 +20,8 @@ MonoBehaviour:
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0
   - <ID>k__BackingField: ENT-1
-    <DisplayName>k__BackingField: Melee
-    <Prefab>k__BackingField: {fileID: -6306684914370895650, guid: 1d61e372c2d3e4a4faa963abd69a52bf, type: 3}
+    <DisplayName>k__BackingField: Tank
+    <Prefab>k__BackingField: {fileID: 3338444241343951891, guid: 479837c5a94d6b04caedf1998363920e, type: 3}
     <ProductionTime>k__BackingField: 0.5
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0

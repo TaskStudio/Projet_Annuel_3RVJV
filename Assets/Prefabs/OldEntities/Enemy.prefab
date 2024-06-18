@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1091520f08248a6b6ab36d6bd9f389a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 0}
+  model: {fileID: 3993162152066650152}
   actionList: []
+  hp: 0
   avoidanceStrength: 5
   Entity:
     serializedVersion: 2

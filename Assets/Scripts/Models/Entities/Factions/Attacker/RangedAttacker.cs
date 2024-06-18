@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RangedAttacker : Attacker
@@ -28,11 +29,12 @@ public class RangedAttacker : Attacker
 
     public override void Attack()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRange, enemyLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRange);
         if (hitColliders.Length > 0)
         {
-            Vector3 enemyPosition = hitColliders[0].transform.position; // Attack the first enemy found
-            Shoot(enemyPosition);
+            Vector3? enemyPosition = Array.Find(hitColliders, c => c.CompareTag("Enemy") || c.CompareTag("EnemyBase"))
+                ?.transform.position;
+            if (enemyPosition != null) Shoot(enemyPosition ?? Vector3.zero); // Do not delete because Unity cries :(
         }
     }
 
