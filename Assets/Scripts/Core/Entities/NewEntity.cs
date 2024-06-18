@@ -7,7 +7,7 @@ public class NewEntity : BaseObject
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
 
-    public int hp { get; set; }
+    public int hp;
     public int maxHp { get; }
 
     public void TakeDamage(int damage)

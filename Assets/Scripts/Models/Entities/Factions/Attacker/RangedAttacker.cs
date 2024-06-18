@@ -19,7 +19,7 @@ public class RangedAttacker : Attacker
     protected new void Update()
     {
         base.Update();
-        if (!isMoving && Time.time >= lastShootTime + shootCooldown)
+        if (Time.time >= lastShootTime + shootCooldown)
         {
             Attack();
             lastShootTime = Time.time; // Update the last shoot time
