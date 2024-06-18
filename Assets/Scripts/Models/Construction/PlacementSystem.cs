@@ -10,7 +10,6 @@ public class PlacementSystem : MonoBehaviour
     public bool isBuildingSelected;
 
     public readonly BuildingGridData BuildingGrid = new();
-    private BuildingsManager buildingsManager;
 
     private Building selectedBuilding;
     private BuildingData selectedBuildingData;
@@ -18,7 +17,6 @@ public class PlacementSystem : MonoBehaviour
 
     private void Start()
     {
-        buildingsManager = BuildingsManager.Instance;
         isBuildingSelected = false;
 
         selectedBuilding = null;
@@ -72,7 +70,6 @@ public class PlacementSystem : MonoBehaviour
 
         BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingID, 0);
         selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
-        buildingsManager.RegisterBuilding(selectedBuilding);
         selectedBuilding = null;
         isBuildingSelected = false;
 

@@ -2,13 +2,14 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public class NonEnemy : Entity, IMovable
+public class Unit : Entity
 {
-    public GameObject selectionIndicatorPrefab;
-    public float moveSpeed = 5f;
-    public float stoppingDistance;
-    public LayerMask Entity;
     public float avoidanceStrength = 5f;
+    public LayerMask Entity;
+
+    public float moveSpeed = 5f;
+    [SerializeField] private Profile profile;
+    public float stoppingDistance;
     protected float collisionRadius = 1f;
     private Collider entityCollider;
 
@@ -36,14 +37,16 @@ public class NonEnemy : Entity, IMovable
         }
     }
 
+    protected virtual void OnDestroy()
+    {
+        if (EntitiesManager.Instance != null) EntitiesManager.Instance.UnregisterMovableEntity(this);
+
+        if (SelectionManager.Instance != null) SelectionManager.Instance.DeselectEntity(this);
+    }
+
     public void Move(Vector3 newPosition)
     {
         targetPosition = newPosition;
-    }
-
-    public Profile GetProfile()
-    {
-        return null;
     }
 
     protected Vector3 AvoidCollisions()

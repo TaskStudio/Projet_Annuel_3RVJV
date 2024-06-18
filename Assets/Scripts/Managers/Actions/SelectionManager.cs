@@ -7,7 +7,7 @@ public class SelectionManager : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask clickableLayer;
 
-    private readonly List<ISelectable> selectedEntities = new();
+    private readonly List<BaseObject> selectedEntities = new();
     private bool isDragging;
 
     private Vector3 mouseDragStart;
@@ -74,7 +74,7 @@ public class SelectionManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
         {
-            var selectable = hit.collider.GetComponent<ISelectable>();
+            var selectable = hit.collider.GetComponent<BaseObject>();
             if (selectable != null)
                 SelectEntity(selectable, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
             else
@@ -90,9 +90,9 @@ public class SelectionManager : MonoBehaviour
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
-        foreach (ISelectable selectable in FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>())
+        foreach (BaseObject selectable in FindObjectsOfType<MonoBehaviour>().OfType<BaseObject>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(((MonoBehaviour) selectable).transform.position);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
@@ -104,7 +104,7 @@ public class SelectionManager : MonoBehaviour
         if (!anySelected && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) ClearSelection();
     }
 
-    public void SelectEntity(ISelectable entity, bool isMultiSelect = false)
+    public void SelectEntity(BaseObject entity, bool isMultiSelect = false)
     {
         if (!isMultiSelect) ClearSelection();
 
@@ -113,18 +113,16 @@ public class SelectionManager : MonoBehaviour
             entity.Select();
             entity.IsSelected = true;
             selectedEntities.Add(entity);
-            UpdateUI();
         }
     }
 
-    public void DeselectEntity(ISelectable entity)
+    public void DeselectEntity(BaseObject entity)
     {
         if (entity != null && entity.IsSelected)
         {
             entity.Deselect();
             entity.IsSelected = false;
             selectedEntities.Remove(entity);
-            UpdateUI();
         }
     }
 
@@ -132,23 +130,12 @@ public class SelectionManager : MonoBehaviour
     {
         foreach (var entity in selectedEntities.ToList()) DeselectEntity(entity);
         selectedEntities.Clear();
-        UpdateUI();
-    }
-
-    public List<Profile> GetSelectedProfiles()
-    {
-        return selectedEntities.Select(e => e.GetProfile()).ToList();
-    }
-
-    private void UpdateUI()
-    {
-        UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
     }
 
     public void OnInvokeActionable(int actionIndex)
     {
         if (selectedEntities.Count is 0 or > 1) return;
-        var entity = selectedEntities[0] as Actionable;
+        var entity = selectedEntities[0] as Entity;
         entity?.actionList.ElementAtOrDefault(actionIndex)?.Invoke();
     }
 }

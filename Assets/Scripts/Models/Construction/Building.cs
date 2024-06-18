@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [Serializable]
-public class Building : BaseEntity
+public class Building : Entity
 {
     public enum BuildingStates
     {
@@ -30,7 +30,7 @@ public class Building : BaseEntity
     private float constructionTime;
     public BuildingStates state { get; internal set; }
 
-    private void Update()
+    public void Update()
     {
         if (state == BuildingStates.Constructing)
         {

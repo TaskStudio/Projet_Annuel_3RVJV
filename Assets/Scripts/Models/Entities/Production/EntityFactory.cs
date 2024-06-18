@@ -8,7 +8,7 @@ namespace Entities
         private static EntityFactory instance;
         public static EntityFactory Instance;
 
-        private readonly Dictionary<string, Queue<BaseEntity>> entityPools = new();
+        private readonly Dictionary<string, Queue<Unit>> entityPools = new();
 
         private void Awake()
         {
@@ -23,11 +23,11 @@ namespace Entities
             }
         }
 
-        public BaseEntity SpawnEntity(string entityID, Vector3 position, EntityDatabaseSO entityDatabase)
+        public Unit SpawnEntity(string entityID, Vector3 position, EntityDatabaseSO entityDatabase)
         {
-            if (!entityPools.ContainsKey(entityID)) entityPools.Add(entityID, new Queue<BaseEntity>());
+            if (!entityPools.ContainsKey(entityID)) entityPools.Add(entityID, new Queue<Unit>());
 
-            BaseEntity entity;
+            Unit entity;
             if (entityPools[entityID].Count > 0)
             {
                 entity = entityPools[entityID].Dequeue();
@@ -42,10 +42,10 @@ namespace Entities
             return entity;
         }
 
-        public void ReturnEntity(BaseEntity entity, string entityID)
+        public void ReturnEntity(Unit entity, string entityID)
         {
             entity.gameObject.SetActive(false);
-            if (!entityPools.ContainsKey(entityID)) entityPools.Add(entityID, new Queue<BaseEntity>());
+            if (!entityPools.ContainsKey(entityID)) entityPools.Add(entityID, new Queue<Unit>());
             entityPools[entityID].Enqueue(entity);
         }
     }

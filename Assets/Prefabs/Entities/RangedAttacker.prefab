@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 103931820088319264}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.479, z: 0.703}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41,11 +41,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4774213763155601987}
   - component: {fileID: 2574133388038332588}
-  - component: {fileID: 6892743760970101227}
   - component: {fileID: 215891356259220216}
   m_Layer: 8
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,29 +106,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6892743760970101227
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2935270463738046425}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &215891356259220216
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -147,6 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2527122653330387678}
+  - component: {fileID: 5990900936263666802}
   - component: {fileID: 8655188874191478200}
   m_Layer: 8
   m_Name: RangedAttacker
@@ -172,6 +149,29 @@ Transform:
   - {fileID: 7029586908058436446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5990900936263666802
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584369975808432527}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8655188874191478200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,16 +184,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2276d58d3ee8a847b779b27c41bcf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: b0a67b2b998aae440b577ccd03371003, type: 2}
-  currentHp: 0
-  hp: 100
-  selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
-  moveSpeed: 5
-  stoppingDistance: 0
+  model: {fileID: 2935270463738046425}
+  actionList: []
+  hp: 40
+  avoidanceStrength: 5
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  avoidanceStrength: 5
+  moveSpeed: 5
+  profile: {fileID: 11400000, guid: b0a67b2b998aae440b577ccd03371003, type: 2}
+  stoppingDistance: 0
+  target: {fileID: 0}
   projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
   projectileSpawnPoint: {fileID: 7029586908058436446}
   shootRange: 20

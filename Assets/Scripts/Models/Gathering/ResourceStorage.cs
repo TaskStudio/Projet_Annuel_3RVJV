@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ResourceStorage : MonoBehaviour, IResourceStorage
+public class ResourceStorage : MonoBehaviour
 {
     private ResourceManager resourceManager;
 

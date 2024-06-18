@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Gatherer : NonEnemy
+public class Gatherer : Unit
 {
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;

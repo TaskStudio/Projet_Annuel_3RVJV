@@ -13,7 +13,7 @@ public class TestDamage : MonoBehaviour
     private void ApplyDamage()
     {
         if (entity != null)
-            entity.GetComponent<IDamageable>()?.TakeDamage(damageAmount);
+            entity.GetComponent<Entity>()?.TakeDamage(damageAmount);
         else
             Debug.LogWarning("No entity assigned to TestDamage script.");
     }

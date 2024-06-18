@@ -152,15 +152,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83b9706a7b4efb9b37ad1cc9af9adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: c124242a8bcf6024f93035c23dd3b613, type: 2}
-  currentHp: 0
-  hp: 100
-  selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
-  moveSpeed: 5
-  stoppingDistance: 0
+  model: {fileID: 0}
+  actionList: []
+  hp: 200
+  avoidanceStrength: 5
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  avoidanceStrength: 5
+  moveSpeed: 5
+  profile: {fileID: 11400000, guid: c124242a8bcf6024f93035c23dd3b613, type: 2}
+  stoppingDistance: 0
+  target: {fileID: 0}
   combinedTankPrefab: {fileID: 0}
   tauntRadius: 10

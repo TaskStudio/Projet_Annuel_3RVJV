@@ -229,7 +229,8 @@ PrefabInstance:
       propertyPath: productionPoint
       value: 
       objectReference: {fileID: 7016845627576012358}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8271199780258581595, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 475582115488342047, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
@@ -243,6 +244,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3408335071373445714}
   m_SourcePrefab: {fileID: 100100000, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+--- !u!23 &1201606083195766039 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6479919993329444962, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+  m_PrefabInstance: {fileID: 5278705551038967157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5753385705845378409 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 475582115488342044, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
@@ -260,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c959a675dda342d08e3d5e4143776592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 5753385706127408869}
   actionList:
   - m_PersistentCalls:
       m_Calls:
@@ -317,7 +324,13 @@ MonoBehaviour:
           m_StringArgument: ENT-3
           m_BoolArgument: 0
         m_CallState: 2
-  model: {fileID: 5753385706127408869}
+  previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
+  objectRenderer: {fileID: 5753385706127408871}
+  gridMaterial: {fileID: 2100000, guid: d103cd69a05372a4b941a461d8b39d14, type: 2}
+  gridInvalidMaterial: {fileID: 2100000, guid: a90942068c797c647b8f9ad3389e033e, type: 2}
+  gridRenderer: {fileID: 1201606083195766039}
   entityDatabase: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
   productionPoint: {fileID: 7016845627576012358}
 --- !u!4 &5753385705845378410 stripped
@@ -328,5 +341,10 @@ Transform:
 --- !u!1 &5753385706127408869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 475582116273836944, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+  m_PrefabInstance: {fileID: 5278705551038967157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5753385706127408871 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 475582116273836946, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
   m_PrefabInstance: {fileID: 5278705551038967157}
   m_PrefabAsset: {fileID: 0}

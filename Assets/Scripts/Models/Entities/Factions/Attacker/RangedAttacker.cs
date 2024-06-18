@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RangedAttacker : Attacker
@@ -19,7 +20,7 @@ public class RangedAttacker : Attacker
     protected new void Update()
     {
         base.Update();
-        if (!isMoving && Time.time >= lastShootTime + shootCooldown)
+        if (Time.time >= lastShootTime + shootCooldown)
         {
             Attack();
             lastShootTime = Time.time; // Update the last shoot time
@@ -28,11 +29,12 @@ public class RangedAttacker : Attacker
 
     public override void Attack()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRange, enemyLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRange);
         if (hitColliders.Length > 0)
         {
-            Vector3 enemyPosition = hitColliders[0].transform.position; // Attack the first enemy found
-            Shoot(enemyPosition);
+            Vector3? enemyPosition = Array.Find(hitColliders, c => c.CompareTag("Enemy") || c.CompareTag("EnemyBase"))
+                ?.transform.position;
+            if (enemyPosition != null) Shoot(enemyPosition ?? Vector3.zero); // Do not delete because Unity cries :(
         }
     }
 
@@ -47,9 +49,7 @@ public class RangedAttacker : Attacker
             // Initialize the projectile with direction, speed, and range
             Projectile projectileScript = projectile.GetComponent<Projectile>();
             if (projectileScript != null)
-            {
                 projectileScript.Initialize(shootDirection, 20f, shootRange); // Set speed and range as necessary
-            }
         }
     }
 }
