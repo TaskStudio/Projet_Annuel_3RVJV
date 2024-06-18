@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : Unit, IMovable
+public class Enemy : Unit
 {
     protected float bumpDistance = 1f; // Distance to bump back after taking damage
     protected int collisionDamage = 20; // Damage dealt to other objects on collision

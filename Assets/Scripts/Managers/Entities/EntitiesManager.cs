@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EntitiesManager : MonoBehaviour
 {
-    private readonly List<IMovable> movableEntities = new();
+    private readonly List<Unit> movableEntities = new();
     public static EntitiesManager Instance { get; private set; }
 
     private void Awake()
@@ -31,12 +31,12 @@ public class EntitiesManager : MonoBehaviour
         }
     }
 
-    public void RegisterMovableEntity(IMovable entity)
+    public void RegisterMovableEntity(Unit entity)
     {
         if (entity != null && !movableEntities.Contains(entity)) movableEntities.Add(entity);
     }
 
-    public void UnregisterMovableEntity(IMovable entity)
+    public void UnregisterMovableEntity(Unit entity)
     {
         if (entity != null) movableEntities.Remove(entity);
     }
@@ -50,9 +50,9 @@ public class EntitiesManager : MonoBehaviour
 
         int entityIndex = 0;
         foreach (var entity in movableEntities)
-            if (entity != null && entity is ISelectable selectable && selectable.IsSelected)
+            if (entity != null && entity is BaseObject selectable && selectable.IsSelected)
             {
-                if (entity as MonoBehaviour != null)
+                if (entity != null)
                 {
                     int row = entityIndex / entitiesPerSide;
                     int column = entityIndex % entitiesPerSide;

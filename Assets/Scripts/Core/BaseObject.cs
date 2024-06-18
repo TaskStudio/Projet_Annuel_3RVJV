@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseObject : MonoBehaviour, ISelectable
+public abstract class BaseObject : MonoBehaviour
 {
     [Space(10)] [Header("Visuals")]
     [SerializeField] private GameObject model;
