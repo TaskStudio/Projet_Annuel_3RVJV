@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class EntitiesManager : MonoBehaviour
 {
-    private readonly List<Unit> movableEntities = new();
     public static EntitiesManager Instance { get; private set; }
+    private static List<Unit> movableEntities = new List<Unit>();
 
-    private void Awake()
+    public static List<Unit> MovableEntities => movableEntities;
+
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -19,7 +21,7 @@ public class EntitiesManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
@@ -27,43 +29,38 @@ public class EntitiesManager : MonoBehaviour
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-                MoveEntitiesInGrid(hit.point);
+            {
+                foreach (var entity in movableEntities)
+                {
+                    if (entity is BaseObject selectable && selectable.IsSelected)
+                    {
+                        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                        {
+                            entity.MoveInFormation(hit.point);
+                        }
+                        else
+                        {
+                            entity.Move(hit.point);
+                        }
+                    }
+                }
+            }
         }
     }
 
     public void RegisterMovableEntity(Unit entity)
     {
-        if (entity != null && !movableEntities.Contains(entity)) movableEntities.Add(entity);
+        if (entity != null && !movableEntities.Contains(entity))
+        {
+            movableEntities.Add(entity);
+        }
     }
 
     public void UnregisterMovableEntity(Unit entity)
     {
-        if (entity != null) movableEntities.Remove(entity);
-    }
-
-    private void MoveEntitiesInGrid(Vector3 targetPosition)
-    {
-        int entitiesPerSide = Mathf.CeilToInt(Mathf.Sqrt(movableEntities.Count));
-        float spacing = 1f;
-        float totalLength = spacing * (entitiesPerSide - 1);
-        Vector3 startPoint = targetPosition - new Vector3(totalLength / 2, 0, totalLength / 2);
-
-        int entityIndex = 0;
-        foreach (var entity in movableEntities)
-            if (entity != null && entity is BaseObject selectable && selectable.IsSelected)
-            {
-                if (entity != null)
-                {
-                    int row = entityIndex / entitiesPerSide;
-                    int column = entityIndex % entitiesPerSide;
-                    Vector3 gridPosition = startPoint + new Vector3(spacing * column, 0, spacing * row);
-                    entity.Move(gridPosition);
-                    entityIndex++;
-                }
-                else
-                {
-                    UnregisterMovableEntity(entity);
-                }
-            }
+        if (entity != null)
+        {
+            movableEntities.Remove(entity);
+        }
     }
 }

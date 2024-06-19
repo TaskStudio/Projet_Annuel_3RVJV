@@ -18,7 +18,7 @@ public class EntityProducer : Building
         resourceManager = ResourceManager.Instance;
     }
 
-    private void Update()
+    private new void Update()
     {
         base.Update();
 

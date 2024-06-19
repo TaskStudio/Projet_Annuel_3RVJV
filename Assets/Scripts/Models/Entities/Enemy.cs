@@ -7,7 +7,7 @@ public class Enemy : Unit
     private bool isTaunted;
     private Vector3 tauntTarget;
 
-    private void Update()
+    private new void Update()
     {
         if (isTaunted) Move(tauntTarget);
         Vector3 moveTarget = isTaunted ? tauntTarget : FindNearestTarget();
