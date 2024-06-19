@@ -75,7 +75,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1980936496969582046}
-  - component: {fileID: 7055215080792055561}
   - component: {fileID: 5896628182864566668}
   m_Layer: 0
   m_Name: EntityManager
@@ -99,23 +98,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5944178815747380586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7055215080792055561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4003378490406006029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c5ce83238d45da4a97283ee374d0255, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityPrefab: {fileID: 4489774148682684672, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
-  spawnCenter: {fileID: 1622558585745854228}
-  spawnDelay: 2
-  entitiesPerRow: 5
-  spacing: 1
 --- !u!114 &5896628182864566668
 MonoBehaviour:
   m_ObjectHideFlags: 0

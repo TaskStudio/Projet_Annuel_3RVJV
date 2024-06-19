@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6215106706279321810}
   - component: {fileID: 424613810616876839}
-  - component: {fileID: 5443982664294859417}
   m_Layer: 8
   m_Name: NonEnemy
   m_TagString: Entity
@@ -43,29 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4489774148682684672}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &5443982664294859417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4489774148682684672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf517fcffe649f2b080490ec639e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 100
-  projectilePrefab: {fileID: 4767235098883473521, guid: f66609575fd5a384e994d246697aea55, type: 3}
-  projectileSpawnPoint: {fileID: 6644346476222915570}
-  selectionIndicatorPrefab: {fileID: 919132149155446097, guid: 0bdbd1def777b86498320439c3f29de4, type: 3}
-  moveSpeed: 5
-  stoppingDistance: 0
-  Entity:
-    serializedVersion: 2
-    m_Bits: 256
-  collisionRadius: 1
-  avoidanceStrength: 5
 --- !u!1 &6474036145557002104
 GameObject:
   m_ObjectHideFlags: 0

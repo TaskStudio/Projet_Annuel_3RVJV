@@ -156,13 +156,13 @@ MonoBehaviour:
   model: {fileID: 5030648350073043957}
   actionList: []
   hp: 100
-  avoidanceStrength: 5
+  moveSpeed: 5
+  stoppingDistance: 0.5
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  moveSpeed: 5
-  profile: {fileID: 11400000, guid: c124242a8bcf6024f93035c23dd3b613, type: 2}
-  stoppingDistance: 0
+  collisionRadius: 1
+  avoidanceStrength: 5
   target: {fileID: 0}
   combinedTankPrefab: {fileID: 2884455645672525367, guid: 4f0eaa09c3abf0b4786105182bad5b7b, type: 3}
   tauntRadius: 10
