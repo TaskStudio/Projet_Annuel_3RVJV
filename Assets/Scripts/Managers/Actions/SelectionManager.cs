@@ -76,7 +76,9 @@ public class SelectionManager : MonoBehaviour
         {
             var selectable = hit.collider.GetComponent<BaseObject>();
             if (selectable != null)
+            {
                 SelectEntity(selectable, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+            }
             else
                 ClearSelection();
         }
@@ -113,6 +115,7 @@ public class SelectionManager : MonoBehaviour
             entity.Select();
             entity.IsSelected = true;
             selectedEntities.Add(entity);
+            UpdateUI();
         }
     }
 
@@ -123,6 +126,7 @@ public class SelectionManager : MonoBehaviour
             entity.Deselect();
             entity.IsSelected = false;
             selectedEntities.Remove(entity);
+            UpdateUI();
         }
     }
 
@@ -130,8 +134,19 @@ public class SelectionManager : MonoBehaviour
     {
         foreach (var entity in selectedEntities.ToList()) DeselectEntity(entity);
         selectedEntities.Clear();
+        UpdateUI();
     }
 
+    public List<BaseObject> GetSelectedProfiles()
+    {
+        return selectedEntities;
+    }
+
+    private void UpdateUI()
+    {
+        UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
+    }
+    
     public void OnInvokeActionable(int actionIndex)
     {
         if (selectedEntities.Count is 0 or > 1) return;
