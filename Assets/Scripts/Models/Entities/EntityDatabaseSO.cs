@@ -7,11 +7,11 @@ namespace Entities
     [CreateAssetMenu]
     public class EntityDatabaseSO : ScriptableObject
     {
-        public List<EntityData> entitiesData;
+        public List<EntityGathererData> entitiesData;
 
         public Unit GetEntityPrefab(string entityID)
         {
-            EntityData entityData = entitiesData.Find(data => data.ID == entityID);
+            EntityGathererData entityData = entitiesData.Find(data => data.ID == entityID);
             if (entityData == null)
             {
                 Debug.LogError("Entity with ID " + entityID + " not found in database.");
@@ -21,15 +21,15 @@ namespace Entities
             return entityData.Prefab;
         }
 
-        public EntityData GetEntityData(string entityID)
+        public EntityGathererData GetEntityData(string entityID)
         {
             return entitiesData.Find(data => data.ID == entityID);
         }
     }
 
     [Serializable]
-    public class EntityData
-    {
+    public class EntityGathererData{
+        
         [field: SerializeField] public string ID { get; private set; }
         [field: SerializeField] public string DisplayName { get; private set; }
         [field: SerializeField] public Unit Prefab { get; private set; }
