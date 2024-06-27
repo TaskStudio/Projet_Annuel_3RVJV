@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 8262219947216658707, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+      propertyPath: <AssetPathHash>k__BackingField
+      value: 14180505574921835647
+      objectReference: {fileID: 0}
     - target: {fileID: 8271199780258581595, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
       propertyPath: profile
       value: 

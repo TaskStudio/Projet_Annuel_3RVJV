@@ -98,16 +98,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1091520f08248a6b6ab36d6bd9f389a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   model: {fileID: 3993162152066650152}
   actionList: []
   hp: 0
-  avoidanceStrength: 5
+  moveSpeed: 5
+  stoppingDistance: 0
   Entity:
     serializedVersion: 2
     m_Bits: 0
-  moveSpeed: 5
-  profile: {fileID: 0}
-  stoppingDistance: 0
+  collisionRadius: 1
+  avoidanceStrength: 5
 --- !u!136 &1471721828386528145
 CapsuleCollider:
   m_ObjectHideFlags: 0

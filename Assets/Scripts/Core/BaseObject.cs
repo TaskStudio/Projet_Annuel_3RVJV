@@ -1,9 +1,12 @@
+using FishNet.Object;
 using UnityEngine;
 
-public abstract class BaseObject : MonoBehaviour
+public abstract class BaseObject : NetworkBehaviour
 {
-    [Space(10)] [Header("Visuals")]
+    [Space(height: 10)]
+    [Header("Visuals")]
     [SerializeField] private GameObject model;
+
     public bool IsSelected { get; set; }
 
     public void Select()
@@ -21,8 +24,12 @@ public abstract class BaseObject : MonoBehaviour
     public void UpdateVisuals()
     {
         if (IsSelected)
+        {
             model.layer = LayerMask.NameToLayer("Outlined");
+        }
         else
+        {
             model.layer = LayerMask.NameToLayer("Default");
+        }
     }
 }

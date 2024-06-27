@@ -213,6 +213,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 8262219947216658707, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262219947216658707, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+      propertyPath: <AssetPathHash>k__BackingField
+      value: 17258284705976956833
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262219947216658707, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+      propertyPath: _networkBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 3408335071373445714}
     - target: {fileID: 8271199780258581595, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
       propertyPath: profile
       value: 
@@ -249,6 +261,17 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6479919993329444962, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
   m_PrefabInstance: {fileID: 5278705551038967157}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4316972918672297062 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8262219947216658707, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
+  m_PrefabInstance: {fileID: 5278705551038967157}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753385705845378409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5753385705845378409 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 475582115488342044, guid: 34ac8eed93170d24d8088771db23fa16, type: 3}
@@ -266,6 +289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c959a675dda342d08e3d5e4143776592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 4316972918672297062}
+  _networkObjectCache: {fileID: 4316972918672297062}
   model: {fileID: 5753385706127408869}
   actionList:
   - m_PersistentCalls:
@@ -324,6 +350,7 @@ MonoBehaviour:
           m_StringArgument: ENT-3
           m_BoolArgument: 0
         m_CallState: 2
+  hp: 0
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
