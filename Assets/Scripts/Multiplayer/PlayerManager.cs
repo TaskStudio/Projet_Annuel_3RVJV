@@ -1,59 +1,47 @@
-using System.Collections.Generic;
-using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Transporting;
+using System.Collections.Generic;
+using FishNet;
 using UnityEngine;
 
 public class PlayerManager : NetworkBehaviour
 {
     public List<GameObject> meleeAttackers;
     public List<GameObject> rangedAttackers;
+    public List<GameObject> supports;
+    public List<GameObject> tanks;
 
     private Dictionary<NetworkConnection, GameObject> playerInstances = new Dictionary<NetworkConnection, GameObject>();
 
-    public override void OnStartNetwork()
+    public override void OnStartServer()
     {
-        base.OnStartNetwork();
-        InstanceFinder.ServerManager.OnServerConnectionState += OnServerConnectionState;
-        InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
+        base.OnStartServer();
+        InstanceFinder.ServerManager.OnRemoteConnectionState += OnClientConnected;
     }
 
-    private void OnServerConnectionState(ServerConnectionStateArgs args)
+    private void OnClientConnected(NetworkConnection conn, RemoteConnectionStateArgs args)
     {
-        if (args.ConnectionState == LocalConnectionState.Started)
+        if (args.ConnectionState == RemoteConnectionState.Started)
         {
-            Debug.Log("Server started");
+            AssignPlayerClass(conn);
         }
-    }
-
-    private void OnClientConnectionState(ClientConnectionStateArgs args)
-    {
-        if (args.ConnectionState == LocalConnectionState.Started)
-        {
-            if (IsHost)
-            {
-                AssignPlayerInstance(InstanceFinder.ClientManager.Connection);
-            }
-        }
-    }
-
-    public override void OnStopNetwork()
-    {
-        base.OnStopNetwork();
-        InstanceFinder.ServerManager.OnServerConnectionState -= OnServerConnectionState;
-        InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
 
     [Server]
-    public void AssignPlayerInstance(NetworkConnection conn)
+    private void AssignPlayerClass(NetworkConnection conn)
     {
-        GameObject playerInstance = conn.ClientId % 2 == 0 ? GetAvailableMeleeAttacker() : GetAvailableRangedAttacker();
+        PlayerClass assignedClass = GetRandomPlayerClass();
+        GameObject playerInstance = GetAvailableEntity(assignedClass);
+
         if (playerInstance != null)
         {
-            // Give ownership to the connecting player
             playerInstance.GetComponent<NetworkObject>().GiveOwnership(conn);
-            playerInstances.Add(conn, playerInstance);
+            playerInstances[conn] = playerInstance;
+
+            // Set player class on the Player component
+            Player playerComponent = playerInstance.GetComponent<Player>();
+            playerComponent.PlayerClass = assignedClass;
         }
         else
         {
@@ -61,39 +49,46 @@ public class PlayerManager : NetworkBehaviour
         }
     }
 
-    private GameObject GetAvailableMeleeAttacker()
+    private PlayerClass GetRandomPlayerClass()
     {
-        foreach (var attacker in meleeAttackers)
+        int randomValue = Random.Range(0, 4);
+        return (PlayerClass)randomValue;
+    }
+
+    private GameObject GetAvailableEntity(PlayerClass playerClass)
+    {
+        List<GameObject> list = null;
+
+        switch (playerClass)
         {
-            if (!attacker.GetComponent<NetworkObject>().IsOwner)
+            case PlayerClass.MeleeAttacker:
+                list = meleeAttackers;
+                break;
+            case PlayerClass.RangedAttacker:
+                list = rangedAttackers;
+                break;
+            case PlayerClass.Support:
+                list = supports;
+                break;
+            case PlayerClass.Tank:
+                list = tanks;
+                break;
+        }
+
+        foreach (var entity in list)
+        {
+            if (!entity.GetComponent<NetworkObject>().IsOwner)
             {
-                return attacker;
+                return entity;
             }
         }
+
         return null;
     }
 
-    private GameObject GetAvailableRangedAttacker()
+    public override void OnStopServer()
     {
-        foreach (var attacker in rangedAttackers)
-        {
-            if (!attacker.GetComponent<NetworkObject>().IsOwner)
-            {
-                return attacker;
-            }
-        }
-        return null;
-    }
-
-    public void OnNetworkDespawn()
-    {
-        foreach (var playerInstance in playerInstances.Values)
-        {
-            if (playerInstance != null)
-            {
-                playerInstance.GetComponent<NetworkObject>().RemoveOwnership();
-            }
-        }
-        playerInstances.Clear();
+        base.OnStopServer();
+        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnClientConnected;
     }
 }
