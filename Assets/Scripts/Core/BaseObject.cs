@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Class <c>BaseObject</c> represents a Base Object in the game, that can be selected
+/// </summary>
 public abstract class BaseObject : MonoBehaviour
 {
     [Space(10)] [Header("Visuals")]

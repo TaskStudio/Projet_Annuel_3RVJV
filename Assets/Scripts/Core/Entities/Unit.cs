@@ -1,19 +1,21 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+/// <summary>
+///     Class <c>Unit</c> represents an Entity that can move
+/// </summary>
 public class Unit : Entity
 {
- public float moveSpeed = 5f;
+    public float moveSpeed = 5f;
     public float stoppingDistance = 0.5f;
     public LayerMask Entity;
     public float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
-    private Vector3 targetPosition;
     private Collider entityCollider;
-    private bool isMoving = false;
+    private bool isMoving;
+    private Vector3 targetPosition;
 
     protected void Start()
     {
@@ -23,15 +25,14 @@ public class Unit : Entity
 
     protected virtual void Update()
     {
-
-        float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z));
+        float distanceToTarget = Vector2.Distance(
+            new Vector2(transform.position.x, transform.position.z),
+            new Vector2(targetPosition.x, targetPosition.z)
+        );
 
         if (distanceToTarget > stoppingDistance || !isMoving)
         {
-            if (!isMoving)
-            {
-                isMoving = true;
-            }
+            if (!isMoving) isMoving = true;
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
@@ -42,40 +43,34 @@ public class Unit : Entity
         }
 
         // Check if entity is pushed away from the target position and move it back
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
-        {
-            Move(targetPosition);
-        }
+        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance) Move(targetPosition);
     }
 
     public void Move(Vector3 newPosition)
     {
         if (this != null)
         {
-            targetPosition = new Vector3(newPosition.x, transform.position.y, newPosition.z); // Keep y position the same
+            targetPosition = new Vector3(
+                newPosition.x,
+                transform.position.y,
+                newPosition.z
+            ); // Keep y position the same
             isMoving = true;
         }
     }
 
     public void MoveInFormation(Vector3 targetPosition)
     {
-        List<Unit> selectedEntities = new List<Unit>();
+        List<Unit> selectedEntities = new();
 
         foreach (var Unit in EntitiesManager.MovableEntities)
-        {
             if (Unit is BaseObject selectable && selectable.IsSelected)
-            {
                 selectedEntities.Add(Unit);
-            }
-        }
 
         int numSelected = selectedEntities.Count;
-        if (numSelected == 0)
-        {
-            return;
-        }
+        if (numSelected == 0) return;
 
-        Unit firstEntity = selectedEntities[0] as Unit;
+        Unit firstEntity = selectedEntities[0];
         if (firstEntity == null)
         {
             Debug.LogError("Entities must be of type NonEnemy to calculate their collision radius.");
@@ -88,7 +83,7 @@ public class Unit : Entity
 
         int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
         float totalWidth = entitiesPerRow * spacing;
-        float totalHeight = Mathf.CeilToInt((float)numSelected / entitiesPerRow) * spacing;
+        float totalHeight = Mathf.CeilToInt((float) numSelected / entitiesPerRow) * spacing;
 
         Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
 
@@ -104,40 +99,36 @@ public class Unit : Entity
 
     protected Vector3 AvoidCollisions()
     {
-        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z)) <= stoppingDistance)
-        {
-            return targetPosition;
-        }
+        if (Vector2.Distance(
+                new Vector2(transform.position.x, transform.position.z),
+                new Vector2(targetPosition.x, targetPosition.z)
+            )
+            <= stoppingDistance) return targetPosition;
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, Entity);
         Vector3 avoidanceVector = Vector3.zero;
 
         foreach (var hitCollider in hitColliders)
-        {
             if (hitCollider != entityCollider)
             {
                 Vector3 collisionDirection = transform.position - hitCollider.transform.position;
                 avoidanceVector += collisionDirection.normalized;
             }
-        }
 
-        if (avoidanceVector != Vector3.zero)
-        {
-            avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
-        }
+        if (avoidanceVector != Vector3.zero) avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
 
         return targetPosition + avoidanceVector;
     }
 
     protected void MoveTowardsTarget(Vector3 adjustedPosition)
     {
-        float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(adjustedPosition.x, adjustedPosition.z));
-        if (distanceToTarget <= stoppingDistance)
-        {
-            return;
-        }
+        float distanceToTarget = Vector2.Distance(
+            new Vector2(transform.position.x, transform.position.z),
+            new Vector2(adjustedPosition.x, adjustedPosition.z)
+        );
+        if (distanceToTarget <= stoppingDistance) return;
 
-        NativeArray<Vector3> newPositionArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+        NativeArray<Vector3> newPositionArray = new(1, Allocator.TempJob);
 
         var moveJob = new MoveJob
         {
