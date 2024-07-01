@@ -187,9 +187,10 @@ MonoBehaviour:
   objectName: 
   description: 
   image: {fileID: 0}
+  data: {fileID: 0}
   model: {fileID: 2935270463738046425}
   actionList: []
-  entityData: {fileID: 11400000, guid: c6fad14c6c037e14fa0f202522f4cb5a, type: 2}
+  entityData: {fileID: 11400000, guid: d6a72913c9fafd846b8b219f38825427, type: 2}
   currentHealth: 0
   currentMana: 0
   attackSpeed: 1
