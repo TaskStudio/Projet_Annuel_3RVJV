@@ -152,10 +152,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0659c37252e19e0419517ad8b629edca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: 
+  description: 
+  image: {fileID: 0}
   model: {fileID: 5243948296936631734}
   actionList: []
-  hp: 40
-  moveSpeed: 5
+  entityData: {fileID: 11400000, guid: c6fad14c6c037e14fa0f202522f4cb5a, type: 2}
+  currentHealth: 0
+  currentMana: 0
+  attackSpeed: 1
+  movementSpeed: 0.5
+  race: 
   stoppingDistance: 0.5
   Entity:
     serializedVersion: 2

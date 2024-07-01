@@ -40,13 +40,13 @@ public class Enemy : Unit
 
     public new void Move(Vector3 targetPosition)
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
         if (targetPosition != transform.position) // Ensure there is a movement towards a target
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * moveSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * movementSpeed);
         }
     }
 
