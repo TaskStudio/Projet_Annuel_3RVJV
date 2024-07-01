@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Unit : Entity
 {
- public float moveSpeed = 5f;
     public float stoppingDistance = 0.5f;
     public LayerMask Entity;
     public float collisionRadius = 1f;
@@ -17,6 +16,7 @@ public class Unit : Entity
 
     protected void Start()
     {
+        base.Start();
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
     }
@@ -143,7 +143,7 @@ public class Unit : Entity
         {
             currentPosition = transform.position,
             targetPosition = adjustedPosition,
-            moveSpeed = moveSpeed,
+            moveSpeed = movementSpeed,
             deltaTime = Time.deltaTime,
             newPosition = newPositionArray
         };
