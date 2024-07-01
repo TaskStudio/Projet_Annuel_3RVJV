@@ -15,7 +15,7 @@ MonoBehaviour:
   entitiesData:
   - <ID>k__BackingField: ENT-0
     <DisplayName>k__BackingField: Ranged
-    <Prefab>k__BackingField: {fileID: 8655188874191478200, guid: 5d002feae54ec944cb353f706d3fdb53, type: 3}
+    <Prefab>k__BackingField: {fileID: 3450864258271869153, guid: 5d002feae54ec944cb353f706d3fdb53, type: 3}
     <ProductionTime>k__BackingField: 0.5
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0

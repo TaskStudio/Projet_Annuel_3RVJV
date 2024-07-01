@@ -15,7 +15,7 @@ public class Unit : Entity
     public float avoidanceStrength = 5f;
     private Collider entityCollider;
     private bool isMoving;
-    private Vector3 targetPosition;
+    protected Vector3 targetPosition;
 
     protected void Start()
     {
