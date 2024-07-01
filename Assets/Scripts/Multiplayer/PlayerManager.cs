@@ -31,21 +31,40 @@ public class PlayerManager : NetworkBehaviour
     [Server]
     private void AssignPlayerClass(NetworkConnection conn)
     {
+        if (conn == null)
+        {
+            Debug.LogError("AssignPlayerClass: NetworkConnection is null.");
+            return;
+        }
+
         PlayerClass assignedClass = GetRandomPlayerClass();
         GameObject playerInstance = GetAvailableEntity(assignedClass);
 
         if (playerInstance != null)
         {
-            playerInstance.GetComponent<NetworkObject>().GiveOwnership(conn);
+            NetworkObject networkObject = playerInstance.GetComponent<NetworkObject>();
+            if (networkObject == null)
+            {
+                Debug.LogError("AssignPlayerClass: NetworkObject component is missing on player instance.");
+                return;
+            }
+
+            networkObject.GiveOwnership(conn);
             playerInstances[conn] = playerInstance;
 
             // Set player class on the Player component
             Player playerComponent = playerInstance.GetComponent<Player>();
+            if (playerComponent == null)
+            {
+                Debug.LogError("AssignPlayerClass: Player component is missing on player instance.");
+                return;
+            }
+
             playerComponent.PlayerClass = assignedClass;
         }
         else
         {
-            Debug.LogWarning("No available player instance to assign.");
+            Debug.LogWarning("No available player instance to assign for class: " + assignedClass);
         }
     }
 
@@ -75,9 +94,28 @@ public class PlayerManager : NetworkBehaviour
                 break;
         }
 
+        if (list == null)
+        {
+            Debug.LogError($"GetAvailableEntity: List for {playerClass} is null.");
+            return null;
+        }
+
         foreach (var entity in list)
         {
-            if (!entity.GetComponent<NetworkObject>().IsOwner)
+            if (entity == null)
+            {
+                Debug.LogError("GetAvailableEntity: Entity in list is null.");
+                continue;
+            }
+
+            NetworkObject networkObject = entity.GetComponent<NetworkObject>();
+            if (networkObject == null)
+            {
+                Debug.LogError("GetAvailableEntity: NetworkObject component is missing on entity.");
+                continue;
+            }
+
+            if (!networkObject.IsOwner)
             {
                 return entity;
             }

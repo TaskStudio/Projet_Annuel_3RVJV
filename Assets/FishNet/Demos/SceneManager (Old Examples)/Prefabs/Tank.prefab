@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 7253527715025124553}
   - component: {fileID: 3338444241343951891}
   - component: {fileID: 4492883922181315466}
+  - component: {fileID: 4411795365865871619}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Entity
@@ -215,6 +216,21 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &4411795365865871619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298294565352855209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9df51ae4a2bae4f9b2f63c042f2ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
 --- !u!1001 &6761241495678149567
 PrefabInstance:
   m_ObjectHideFlags: 0
