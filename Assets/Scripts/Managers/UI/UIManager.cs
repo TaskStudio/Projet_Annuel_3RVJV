@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
         statisticsScrollView.Clear();
         if (profile == null) return;
 
-        var nameLabel = new Label { text = profile.name };
+        var nameLabel = new Label { text = profile.objectName };
         var descriptionLabel = new Label { text = profile.description };
 
         statisticsScrollView.Add(nameLabel);
