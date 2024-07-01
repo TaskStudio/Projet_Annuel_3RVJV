@@ -16,6 +16,7 @@ public class Unit : Entity
 
     protected void Start()
     {
+        base.Start();
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
     }

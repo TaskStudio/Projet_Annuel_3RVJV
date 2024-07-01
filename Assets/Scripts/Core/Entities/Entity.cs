@@ -14,23 +14,20 @@ public class Entity : BaseObject
     public float movementSpeed = 0.5f;
     public string race;
 
-    private void Start()
+    protected void Start()
     {
-        Initialize(entityData);
+        data = entityData;
+        Initialize();
     }
     
-    public override void Initialize(ObjectData data)
+    public override void Initialize()
     {
-        base.Initialize(data);
-        if (data is EntityData entityData)
-        {
-            this.entityData = entityData;
-            currentHealth = entityData.maxHealthPoints;
-            currentMana = entityData.maxManaPoints;
-            attackSpeed = entityData.attackSpeed;
-            movementSpeed = entityData.movementSpeed;
-            race = entityData.race;
-        }
+        base.Initialize();
+        currentHealth = entityData.maxHealthPoints;
+        currentMana = entityData.maxManaPoints;
+        attackSpeed = entityData.attackSpeed;
+        movementSpeed = entityData.movementSpeed;
+        race = entityData.race;
     }
 
     public void TakeDamage(int damage)
