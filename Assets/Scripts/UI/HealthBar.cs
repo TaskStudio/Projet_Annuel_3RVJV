@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Entities;
 
 public class HealthBar : MonoBehaviour
 {
@@ -7,11 +8,12 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public Image fill;
     private Camera mainCamera;
-    private IDamageable damageableEntity;
+    public Entity damageableEntity;
 
     private void Start()
     {
         mainCamera = Camera.main;
+        Initialize(damageableEntity);
     }
 
     private void Update()
@@ -25,15 +27,16 @@ public class HealthBar : MonoBehaviour
         
         if (damageableEntity != null)
         {
+            // Assuming GetHealthPoints() is an extension method or part of some system
             SetValue(damageableEntity.GetHealthPoints());
         }
     }
 
-    public void Initialize(IDamageable damageable)
+    public void Initialize(Entity myEntity)
     {
-        damageableEntity = damageable;
-        SetMaxValue(damageable.GetMaxHealthPoints());
-        SetValue(damageable.GetHealthPoints()); 
+        damageableEntity = myEntity;
+        SetMaxValue(damageableEntity.GetMaxHealthPoints());
+        SetValue(damageableEntity.GetHealthPoints()); 
     }
 
     public void SetMaxValue(int maxValue)
