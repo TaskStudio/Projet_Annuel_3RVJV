@@ -112,16 +112,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1898e4d99284c9ba2e8e36a7d36fb0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: 
+  description: 
+  image: {fileID: 0}
+  data: {fileID: 0}
   model: {fileID: 6961670147184191123}
   actionList: []
-  hp: 100
-  avoidanceStrength: 5
+  entityData: {fileID: 11400000, guid: d1b13cb28910e8040ac170a3a50c0df5, type: 2}
+  currentHealth: 0
+  currentMana: 0
+  attackSpeed: 1
+  movementSpeed: 0.5
+  race: 
+  stoppingDistance: 2
   Entity:
     serializedVersion: 2
     m_Bits: 256
-  moveSpeed: 5
-  profile: {fileID: 0}
-  stoppingDistance: 2
+  collisionRadius: 1
+  avoidanceStrength: 5
   resourceNode: {fileID: 0}
   resourceStorage: {fileID: 0}
   maxResourceAmount: 10

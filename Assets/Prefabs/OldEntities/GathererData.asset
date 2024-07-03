@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76eeac99ef5862742b40306569993982, type: 3}
-  m_Name: RangedAttacker
+  m_Name: GathererData
   m_EditorClassIdentifier: 
-  objectName: Ranger
-  description: Piou piou
-  image: {fileID: 2800000, guid: 714749f678b985c42bffe0d64cc743de, type: 3}
-  maxHealthPoints: 300
-  maxManaPoints: 100
-  attackSpeed: 0.1
-  movementSpeed: 10
-  race: Human
+  objectName: Gatherer
+  description: 
+  image: {fileID: 0}
+  maxHealthPoints: 0
+  maxManaPoints: 0
+  attackSpeed: 0
+  movementSpeed: 5
+  race: 
