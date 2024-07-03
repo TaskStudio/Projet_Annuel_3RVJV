@@ -16,10 +16,10 @@ MonoBehaviour:
   - <IdNumber>k__BackingField: 0
     <DisplayName>k__BackingField: Factory
     <Size>k__BackingField: {x: 11, y: 11}
-    <Prefab>k__BackingField: {fileID: 2563002099852903821, guid: 690125c223b77e54099de8a6cf659fe6, type: 3}
+    <Prefab>k__BackingField: {fileID: 2563002099852903821, guid: 0369693cd82a317469307315d3d4b0af, type: 3}
     <ConstructionTime>k__BackingField: 2
   - <IdNumber>k__BackingField: 1
     <DisplayName>k__BackingField: Resource Storage
     <Size>k__BackingField: {x: 3, y: 3}
-    <Prefab>k__BackingField: {fileID: 3839866909170121505, guid: 04028711c349fdb46a8d2fc4f88df657, type: 3}
+    <Prefab>k__BackingField: {fileID: -7895516278856363670, guid: 04028711c349fdb46a8d2fc4f88df657, type: 3}
     <ConstructionTime>k__BackingField: 1

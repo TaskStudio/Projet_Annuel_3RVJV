@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1000424888568330163, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c83b43f3cc47d3d459315dd19dbe591b, type: 2}
+      objectReference: {fileID: 2100000, guid: f7c4e44c00503cb4b8f8eefdfacfe156, type: 2}
     - target: {fileID: 6360531313985046582, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -54,20 +54,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8287725217286078115, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_Name
-      value: AttackerFactory
+      value: EnemyFactory
       objectReference: {fileID: 0}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: data
       value: 
-      objectReference: {fileID: 11400000, guid: 15356c2a6d902b44e89565ea87efe815, type: 2}
+      objectReference: {fileID: 11400000, guid: 7a2df57bed5a7ec4dbafd20a7e9d1ff0, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: entityData
       value: 
-      objectReference: {fileID: 11400000, guid: 15356c2a6d902b44e89565ea87efe815, type: 2}
+      objectReference: {fileID: 11400000, guid: 7a2df57bed5a7ec4dbafd20a7e9d1ff0, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: entityDatabase
       value: 
-      objectReference: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
+      objectReference: {fileID: 11400000, guid: 30e3ea77008681b45ab31d7d46184a18, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
