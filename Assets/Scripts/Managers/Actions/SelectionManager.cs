@@ -76,9 +76,7 @@ public class SelectionManager : MonoBehaviour
         {
             var selectable = hit.collider.GetComponent<BaseObject>();
             if (selectable != null)
-            {
                 SelectEntity(selectable, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
-            }
             else
                 ClearSelection();
         }
@@ -92,7 +90,8 @@ public class SelectionManager : MonoBehaviour
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
-        foreach (BaseObject selectable in FindObjectsOfType<MonoBehaviour>().OfType<BaseObject>())
+        foreach (BaseObject selectable in FindObjectsOfType<MonoBehaviour>()
+                     .OfType<BaseObject>())
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
@@ -110,21 +109,19 @@ public class SelectionManager : MonoBehaviour
     {
         if (!isMultiSelect) ClearSelection();
 
-        if (!entity.IsSelected)
+        if (!entity.isSelected)
         {
             entity.Select();
-            entity.IsSelected = true;
             selectedEntities.Add(entity);
             UpdateUI();
         }
     }
 
-    public void DeselectEntity(BaseObject entity)
+    private void DeselectEntity(BaseObject entity)
     {
-        if (entity != null && entity.IsSelected)
+        if (entity != null && entity.isSelected)
         {
             entity.Deselect();
-            entity.IsSelected = false;
             selectedEntities.Remove(entity);
             UpdateUI();
         }
@@ -137,7 +134,7 @@ public class SelectionManager : MonoBehaviour
         UpdateUI();
     }
 
-    public List<BaseObject> GetSelectedProfiles()
+    private List<BaseObject> GetSelectedProfiles()
     {
         return selectedEntities;
     }
@@ -146,7 +143,7 @@ public class SelectionManager : MonoBehaviour
     {
         UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
     }
-    
+
     public void OnInvokeActionable(int actionIndex)
     {
         if (selectedEntities.Count is 0 or > 1) return;

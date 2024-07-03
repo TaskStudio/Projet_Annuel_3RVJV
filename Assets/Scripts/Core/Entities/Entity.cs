@@ -2,52 +2,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Entity : BaseObject
+public abstract class Entity : Entity<EntityData>
+{
+}
+
+public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType : EntityData
 {
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
-    
-    public EntityData entityData;
-    public int currentHealth;
-    public int currentMana = 0;
-    public float attackSpeed = 1.0f;
-    public float movementSpeed = 0.5f;
-    public string race;
 
-    protected void Start()
-    {
-        data = entityData;
-        Initialize();
-    }
-    
-    public override void Initialize()
-    {
-        base.Initialize();
-        currentHealth = entityData.maxHealthPoints;
-        currentMana = entityData.maxManaPoints;
-        attackSpeed = entityData.attackSpeed;
-        movementSpeed = entityData.movementSpeed;
-        race = entityData.race;
-    }
+    public int currentHealth { get; protected set; }
+    public string faction { get; private set; }
 
-    public void TakeDamage(int damage)
+    protected override void Initialize()
     {
-        currentHealth -= damage;
-        if (currentHealth < 0)
-        {
-            currentHealth = 0;
-        }
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        currentHealth = data.maxHealthPoints;
+        faction = data.faction;
     }
 
     public int GetHealthPoints()
     {
         return currentHealth;
     }
-    
+
     public void SetHealthPoints(int currentHealthPoints)
     {
         currentHealth = currentHealthPoints;
@@ -55,15 +32,22 @@ public class Entity : BaseObject
 
     public int GetMaxHealthPoints()
     {
-        return entityData.maxHealthPoints;
+        return data.maxHealthPoints;
     }
 
-    public void SetMaxHealthPoints(int maxHealthPoints)
+    protected void SetMaxHealthPoints(int maxHealthPoints)
     {
-        entityData.maxHealthPoints = maxHealthPoints;
+        data.maxHealthPoints = maxHealthPoints;
     }
 
-    protected virtual void Die()
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth < 0) currentHealth = 0;
+        if (currentHealth <= 0) Die();
+    }
+
+    private void Die()
     {
         gameObject.SetActive(false);
     }

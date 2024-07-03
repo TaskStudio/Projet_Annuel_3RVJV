@@ -11,7 +11,7 @@ public class EntityProducer : Building
 
     private readonly Queue<string> productionQueue = new();
     private ResourceManager resourceManager;
-    public float currentProductionTime { get; private set; }
+    private float currentProductionTime { get; set; }
 
     private void Start()
     {

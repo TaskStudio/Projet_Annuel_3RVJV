@@ -2,12 +2,10 @@ using UnityEngine;
 
 public abstract class BaseObject : MonoBehaviour
 {
-    public ObjectData data;
-
-    [Space(10)] [Header("Visuals")]
+    [Space(5)] [Header("Visuals")]
     [SerializeField] private GameObject model;
+    public abstract ObjectData Data { get; }
 
-    private bool isSelected;
 
     public bool IsSelected
     {
@@ -19,6 +17,15 @@ public abstract class BaseObject : MonoBehaviour
         }
     }
 
+    public bool isSelected { get; private set; }
+
+    protected virtual void Awake()
+    {
+        Initialize();
+    }
+
+    protected abstract void Initialize();
+
     public void Select()
     {
         IsSelected = true;
@@ -29,8 +36,17 @@ public abstract class BaseObject : MonoBehaviour
         IsSelected = false;
     }
 
+
     private void UpdateVisuals()
     {
         model.layer = LayerMask.NameToLayer(isSelected ? "Outlined" : "Default");
     }
+}
+
+public abstract class BaseObject<TDataType> : BaseObject where TDataType : ObjectData
+{
+    [Space(5)] [Header("Data")]
+    public TDataType data;
+
+    public override ObjectData Data => data;
 }
