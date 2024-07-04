@@ -30,9 +30,16 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
-    }
+        if (UIManager.Instance.IsMouseOverUI())
+        {
+            return; // Disable functionality when hovering UI
+        }
 
+        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5)
+        {
+            isDragging = true;
+        }
+    }
 
     private void OnGUI()
     {
@@ -46,6 +53,11 @@ public class SelectionManager : MonoBehaviour
 
     public void OnSelectStart()
     {
+        if (UIManager.Instance.IsMouseOverUI())
+        {
+            return; // Disable functionality when hovering UI
+        }
+
         selectionStarted = true;
         mouseDragStart = Input.mousePosition;
         isDragging = false;
@@ -53,6 +65,11 @@ public class SelectionManager : MonoBehaviour
 
     public void OnSelectEnd()
     {
+        if (UIManager.Instance.IsMouseOverUI())
+        {
+            return; // Disable functionality when hovering UI
+        }
+
         if (isDragging)
         {
             SelectEntitiesInDrag();
@@ -63,13 +80,20 @@ public class SelectionManager : MonoBehaviour
             HandleSingleClick();
         }
 
-        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
+        if (Input.GetMouseButton(0) && (Input.mousePosition - mouseDragStart).magnitude > 5)
+        {
+            isDragging = true;
+        }
         selectionStarted = false;
     }
 
-
     private void HandleSingleClick()
     {
+        if (UIManager.Instance.IsMouseOverUI())
+        {
+            return; // Disable functionality when hovering UI
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
@@ -80,7 +104,9 @@ public class SelectionManager : MonoBehaviour
                 SelectEntity(selectable, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
             }
             else
+            {
                 ClearSelection();
+            }
         }
         else
         {
@@ -90,6 +116,11 @@ public class SelectionManager : MonoBehaviour
 
     private void SelectEntitiesInDrag()
     {
+        if (UIManager.Instance.IsMouseOverUI())
+        {
+            return; // Disable functionality when hovering UI
+        }
+
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
         foreach (BaseObject selectable in FindObjectsOfType<MonoBehaviour>().OfType<BaseObject>())
@@ -103,12 +134,18 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
-        if (!anySelected && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) ClearSelection();
+        if (!anySelected && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
+        {
+            ClearSelection();
+        }
     }
 
     public void SelectEntity(BaseObject entity, bool isMultiSelect = false)
     {
-        if (!isMultiSelect) ClearSelection();
+        if (!isMultiSelect)
+        {
+            ClearSelection();
+        }
 
         if (!entity.IsSelected)
         {
@@ -132,7 +169,10 @@ public class SelectionManager : MonoBehaviour
 
     public void ClearSelection()
     {
-        foreach (var entity in selectedEntities.ToList()) DeselectEntity(entity);
+        foreach (var entity in selectedEntities.ToList())
+        {
+            DeselectEntity(entity);
+        }
         selectedEntities.Clear();
         UpdateUI();
     }
@@ -146,10 +186,13 @@ public class SelectionManager : MonoBehaviour
     {
         UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
     }
-    
+
     public void OnInvokeActionable(int actionIndex)
     {
-        if (selectedEntities.Count is 0 or > 1) return;
+        if (selectedEntities.Count is 0 or > 1)
+        {
+            return;
+        }
         var entity = selectedEntities[0] as Entity;
         entity?.actionList.ElementAtOrDefault(actionIndex)?.Invoke();
     }
