@@ -35,7 +35,7 @@ public class Tank : Fighter
 
             foreach (var tank in _selectedTanks)
             {
-                combinedHp += tank.hp;
+                combinedHp += tank.GetMaxHealthPoints();
                 combinedPosition += tank.transform.position;
             }
 
@@ -54,8 +54,9 @@ public class Tank : Fighter
             Tank newTank = newTankObject.GetComponent<Tank>();
             if (newTank)
             {
-                newTank.hp = combinedHp;
-                newTank.moveSpeed = moveSpeed;
+                newTank.currentHealth = combinedHp;
+                newTank.SetMaxHealthPoints(combinedHp);
+                newTank.movementSpeed = movementSpeed;
                 newTank.stoppingDistance = stoppingDistance;
                 newTank.Entity = Entity;
                 newTank.collisionRadius = 2f;

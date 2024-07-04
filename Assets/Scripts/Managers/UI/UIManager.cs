@@ -4,9 +4,9 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-    private readonly List<Profile> selectedProfiles = new();
+    private readonly List<BaseObject> selectedProfiles = new();
+    
     public VisualElement faceContainer;
-
     public VisualElement selectedEntitiesList;
     public VisualElement statisticsScrollView;
     public static UIManager Instance { get; private set; }
@@ -41,13 +41,13 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
     }
 
-    private Texture2D GetProfileImage(Profile profile)
+    private Texture2D GetProfileImage(BaseObject profile)
     {
-        if (profile is EntityProfile entityProfile) return entityProfile.Image;
+        if (profile is BaseObject objectProfile) return objectProfile.image;
         return null;
     }
 
-    public void UpdateSelectedEntities(List<Profile> newSelectedProfiles)
+    public void UpdateSelectedEntities(List<BaseObject> newSelectedProfiles)
     {
         selectedProfiles.Clear();
         selectedProfiles.AddRange(newSelectedProfiles);
@@ -58,12 +58,12 @@ public class UIManager : MonoBehaviour
         UpdateStatisticsContainer(selectedProfile); // Display the stats of the first entity selected 
     }
 
-    private void UpdateFirstSelectedEntity(Profile profile)
+    private void UpdateFirstSelectedEntity(BaseObject profile)
     {
         faceContainer.Clear();
         if (profile == null) return;
 
-        if (profile is EntityProfile entityProfile)
+        if (profile is BaseObject entityProfile)
         {
             var image = new Image { image = GetProfileImage(profile) };
             faceContainer.Add(image);
@@ -87,32 +87,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void UpdateStatisticsContainer(Profile profile)
+    private void UpdateStatisticsContainer(BaseObject profile)
     {
         statisticsScrollView.Clear();
         if (profile == null) return;
 
-        var nameLabel = new Label { text = profile.Name };
-        var descriptionLabel = new Label { text = profile.Description };
+        var nameLabel = new Label { text = profile.objectName };
+        var descriptionLabel = new Label { text = profile.description };
 
         statisticsScrollView.Add(nameLabel);
         statisticsScrollView.Add(descriptionLabel);
 
-        if (profile is EntityProfile entityProfile)
+        if (profile is Entity entityProfile)
         {
-            var hpLabel = new Label { text = "HP: " + entityProfile.health };
-            var manaLabel = new Label { text = "Mana: " + entityProfile.Mana };
-            var physicalResLabel = new Label { text = "Physical Resistance: " + entityProfile.PhysicalResistance };
-            var magicalResLabel = new Label { text = "Magical Resistance: " + entityProfile.MagicalResistance };
-            var attackSpeedLabel = new Label { text = "Attack Speed: " + entityProfile.AttackSpeed };
-            var movementSpeedLabel = new Label { text = "Movement Speed: " + entityProfile.MovementSpeed };
+            var hpLabel = new Label { text = "HP : " + entityProfile.currentHealth };
+            var manaLabel = new Label { text = "Mana : " + entityProfile.currentMana };
+            var attackSpeedLabel = new Label { text = "Attack Speed : " + entityProfile.attackSpeed };
+            var movementSpeedLabel = new Label { text = "Movement Speed : " + entityProfile.movementSpeed };
+            var raceLabel = new Label { text = "Race : " + entityProfile.race };
 
             statisticsScrollView.Add(hpLabel);
             statisticsScrollView.Add(manaLabel);
-            statisticsScrollView.Add(physicalResLabel);
-            statisticsScrollView.Add(magicalResLabel);
             statisticsScrollView.Add(attackSpeedLabel);
             statisticsScrollView.Add(movementSpeedLabel);
+            statisticsScrollView.Add(raceLabel);
         }
     }
 }

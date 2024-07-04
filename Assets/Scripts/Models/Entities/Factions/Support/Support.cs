@@ -35,7 +35,7 @@ public class Support : Fighter
             {
                 int healableAmount = Mathf.Min(
                     healAmount,
-                    entity.maxHp - entity.hp
+                    entity.GetMaxHealthPoints() - entity.GetHealthPoints()
                 ); // Ensure we don't exceed max HP
                 // entity.Heal(healableAmount); // Use the Heal method to increase currentHp
                 //Debug.Log($"Healed {entity.gameObject.name} by {healableAmount} HP");

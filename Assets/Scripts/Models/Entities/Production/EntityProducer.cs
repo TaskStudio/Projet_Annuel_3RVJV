@@ -34,7 +34,7 @@ public class EntityProducer : Building
 
     public void RequestProduction(string entityID)
     {
-        EntityData entityData = entityDatabase.GetEntityData(entityID);
+        EntityGathererData entityData = entityDatabase.GetEntityData(entityID);
         if (resourceManager.RequestResource(new Resource(entityData.ResourceType, entityData.Cost)))
             AddToProductionQueue(entityID);
     }

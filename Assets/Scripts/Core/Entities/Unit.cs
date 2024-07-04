@@ -3,11 +3,9 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using FishNet.Object;
 
 public class Unit : Entity
 {
-    public float moveSpeed = 5f;
     public float stoppingDistance = 0.5f;
     public LayerMask Entity;
     public float collisionRadius = 1f;
@@ -18,13 +16,13 @@ public class Unit : Entity
 
     protected void Start()
     {
+        base.Start();
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
     }
 
     protected virtual void Update()
     {
-        if (!IsOwner) return; // Only the owner can move the entity
 
         float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z));
 
@@ -46,23 +44,8 @@ public class Unit : Entity
         // Check if entity is pushed away from the target position and move it back
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            RequestMove(targetPosition);
+            Move(targetPosition);
         }
-    }
-
-    public void RequestMove(Vector3 newPosition)
-    {
-        if (IsOwner)
-        {
-            ServerMoveRequest(newPosition);
-        }
-    }
-
-    [ServerRpc]
-    private void ServerMoveRequest(Vector3 newPosition)
-    {
-        if (!IsOwner) return; // Server should check if the requester is the owner
-        Move(newPosition);
     }
 
     public void Move(Vector3 newPosition)
@@ -115,7 +98,7 @@ public class Unit : Entity
             int column = i % entitiesPerRow;
 
             Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
-            selectedEntities[i].RequestMove(topLeftPosition + offsetPosition);
+            selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
 
@@ -160,7 +143,7 @@ public class Unit : Entity
         {
             currentPosition = transform.position,
             targetPosition = adjustedPosition,
-            moveSpeed = moveSpeed,
+            moveSpeed = movementSpeed,
             deltaTime = Time.deltaTime,
             newPosition = newPositionArray
         };
