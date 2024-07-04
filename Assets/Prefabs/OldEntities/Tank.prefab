@@ -155,10 +155,18 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
+  objectName: 
+  description: 
+  image: {fileID: 0}
+  data: {fileID: 0}
   model: {fileID: 0}
   actionList: []
-  hp: 100
-  moveSpeed: 5
+  entityData: {fileID: 0}
+  currentHealth: 0
+  currentMana: 0
+  attackSpeed: 1
+  movementSpeed: 0.5
+  race: 
   stoppingDistance: 0
   Entity:
     serializedVersion: 2

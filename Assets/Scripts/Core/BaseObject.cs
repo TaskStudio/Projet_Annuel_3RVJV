@@ -1,7 +1,7 @@
-using System;
+using FishNet.Object;
 using UnityEngine;
 
-public abstract class BaseObject : MonoBehaviour
+public abstract class BaseObject : NetworkBehaviour
 {
     public string objectName;
     public string description;

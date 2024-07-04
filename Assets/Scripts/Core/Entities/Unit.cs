@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FishNet.Object;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEditor.Experimental.GraphView;
@@ -23,6 +24,7 @@ public class Unit : Entity
 
     protected virtual void Update()
     {
+        if (!IsOwner) return;
 
         float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z));
 
@@ -46,6 +48,21 @@ public class Unit : Entity
         {
             Move(targetPosition);
         }
+    }
+    
+    public void RequestMove(Vector3 newPosition)
+    {
+        if (IsOwner)
+        {
+            ServerMoveRequest(newPosition);
+        }
+    }
+
+    [ServerRpc]
+    private void ServerMoveRequest(Vector3 newPosition)
+    {
+        if (!IsOwner) return; // Server should check if the requester is the owner
+        Move(newPosition);
     }
 
     public void Move(Vector3 newPosition)

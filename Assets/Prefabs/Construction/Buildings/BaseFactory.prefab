@@ -267,6 +267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c959a675dda342d08e3d5e4143776592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   objectName: 
   description: 
   image: {fileID: 0}
@@ -303,6 +306,10 @@ MonoBehaviour:
         m_CallState: 2
   entityData: {fileID: 0}
   currentHealth: 100
+  currentMana: 0
+  attackSpeed: 1
+  movementSpeed: 0.5
+  race: 
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
