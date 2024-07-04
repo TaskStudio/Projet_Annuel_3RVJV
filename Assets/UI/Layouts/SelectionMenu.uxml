@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/SelectionMenu.uss?fileID=7433441132597879392&amp;guid=b353ae45ec2b6a9478810aedfb89e487&amp;type=3#SelectionMenu" />
+    <ui:VisualElement name="Main" style="flex-grow: 1; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&amp;guid=6019abab86d8e1d41b433e4c94956583&amp;type=3#Steamwreck&quot;); -unity-font-definition: initial; padding-top: 74px; padding-right: 74px; padding-bottom: 74px; padding-left: 74px; background-color: rgb(160, 88, 88);">
+        <ui:Label tabindex="-1" text="Select your side " parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="align-items: center; align-self: center; font-size: 105px; justify-content: flex-start; -unity-text-align: middle-center; color: rgb(255, 255, 255);" />
+        <ui:VisualElement name="Selection" style="flex-grow: 1; flex-direction: row; justify-content: space-between; align-self: center; align-items: center; width: auto;">
+            <ui:VisualElement name="AllySide" class="Side">
+                <ui:VisualElement name="AllyImage" class="SideImage" style="background-image: url(&quot;project://database/Assets/UI/Images/Emblems/AllyLogo.png?fileID=21300000&amp;guid=f9226abc7eac56242920f6c76ea11921&amp;type=3#AllyLogo&quot;);" />
+                <ui:Button text="Ally" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SelectAlly" class="SelectedSideButton" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="MonsterSide" class="Side">
+                <ui:VisualElement name="MonsterImage" class="SideImage" style="background-image: url(&quot;project://database/Assets/UI/Images/Emblems/MonsterLogo.png?fileID=21300000&amp;guid=a816c0e0dbeab1a48bdb0895a627e034&amp;type=3#MonsterLogo&quot;);" />
+                <ui:Button text="Monster" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SelectMonster" class="SelectedSideButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Button text="&lt;" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" style="position: absolute; height: 113px; width: 119px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(255, 255, 255, 0); font-size: 139px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; top: 32px; left: 24px; color: rgb(215, 215, 215);" />
+    </ui:VisualElement>
+</ui:UXML>
