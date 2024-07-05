@@ -45,8 +45,7 @@ public abstract class BaseObject : MonoBehaviour
 
 public abstract class BaseObject<TDataType> : BaseObject where TDataType : ObjectData
 {
-    [Space(5)] [Header("Data")]
-    public TDataType data;
+    [SerializeField] protected TDataType data;
 
     public override ObjectData Data => data;
 }
