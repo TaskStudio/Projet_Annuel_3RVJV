@@ -16,7 +16,7 @@ MonoBehaviour:
   description: 
   image: {fileID: 0}
   maxHealthPoints: 30
-  factionEnum: 0
+  faction: 0
   maxManaPoints: 0
   attackSpeed: 1
-  movementSpeed: 5
+  movementSpeed: 7
