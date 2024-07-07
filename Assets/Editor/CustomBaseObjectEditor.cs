@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ public class CustomBaseObjectEditor : Editor
         EditorGUILayout.LabelField("Object Data", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(data);
 
+        GUILayout.Space(5);
+
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
 
@@ -30,10 +33,12 @@ public class CustomBaseObjectEditor : Editor
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
+        GUILayout.Space(5);
+
         EditorGUILayout.Space(10);
 
         SerializedProperty property = serializedObject.GetIterator();
-        property.NextVisible(true); // Skip the script reference
+        property.NextVisible(true);
         do
         {
             if (property.name == "data")
@@ -47,17 +52,10 @@ public class CustomBaseObjectEditor : Editor
 
     private void CreateData()
     {
-        Type dataType = GetDataTypeFromTarget();
-        if (dataType == null)
+        ObjectData dataTypeInstance = GetDataTypeInstanceFromTarget();
+        if (dataTypeInstance == null)
         {
             Debug.LogError("The 'data' type could not be determined.");
-            return;
-        }
-
-        var newData = CreateInstance(dataType);
-        if (newData == null)
-        {
-            Debug.LogError($"Could not create an instance of {dataType}.");
             return;
         }
 
@@ -71,14 +69,19 @@ public class CustomBaseObjectEditor : Editor
         string assetPath = Path.Combine(directoryPath, target.name + "Data.asset");
         assetPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
 
-        // Save the ScriptableObject as an asset
-        AssetDatabase.CreateAsset(newData, assetPath);
+        dataTypeInstance.objectName = ToSentenceCase(target.name);
+
+        AssetDatabase.CreateAsset(dataTypeInstance, assetPath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
-        // Assign the created ScriptableObject to the data field
-        data.objectReferenceValue = newData;
+        data.objectReferenceValue = dataTypeInstance;
         serializedObject.ApplyModifiedProperties();
+    }
+
+    private string ToSentenceCase(string str)
+    {
+        return Regex.Replace(str, "[a-z][A-Z]", m => m.Value[0] + " " + char.ToLower(m.Value[1]));
     }
 
     private string GetCurrentObjectDirectory()
@@ -90,13 +93,19 @@ public class CustomBaseObjectEditor : Editor
     }
 
 
-    private Type GetDataTypeFromTarget()
+    private ObjectData GetDataTypeInstanceFromTarget()
     {
         Type targetType = target.GetType();
         while (targetType != null && targetType != typeof(BaseObject))
         {
             if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(BaseObject<>))
-                return targetType.GetGenericArguments()[0];
+            {
+                Type dataType = targetType.GetGenericArguments()[0];
+                if (typeof(ObjectData).IsAssignableFrom(dataType))
+                    return (ObjectData) CreateInstance(dataType);
+                return null;
+            }
+
             targetType = targetType.BaseType;
         }
 
