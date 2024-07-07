@@ -90,8 +90,7 @@ public class SelectionManager : MonoBehaviour
     {
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
-        foreach (BaseObject selectable in FindObjectsOfType<MonoBehaviour>()
-                     .OfType<BaseObject>())
+        foreach (BaseObject selectable in FindObjectsOfType<BaseObject>())
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
