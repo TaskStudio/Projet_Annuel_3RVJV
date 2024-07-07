@@ -12,12 +12,10 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
     public List<UnityEvent> actionList;
 
     public int currentHealth { get; protected set; }
-    public string faction { get; private set; }
 
     protected override void Initialize()
     {
         currentHealth = data.maxHealthPoints;
-        faction = data.faction;
     }
 
     public int GetHealthPoints()

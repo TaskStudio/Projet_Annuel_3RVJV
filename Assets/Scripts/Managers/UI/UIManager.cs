@@ -100,11 +100,12 @@ public class UIManager : MonoBehaviour
 
         if (profile is Unit unit)
         {
+            UnitData unitData = (UnitData) unit.Data;
             var hpLabel = new Label { text = "HP : " + unit.currentHealth };
             var manaLabel = new Label { text = "Mana : " + unit.currentMana };
             var attackSpeedLabel = new Label { text = "Attack Speed : " + unit.attackSpeed };
             var movementSpeedLabel = new Label { text = "Movement Speed : " + unit.movementSpeed };
-            var raceLabel = new Label { text = "Race : " + unit.faction };
+            var raceLabel = new Label { text = "Race : " + unitData.faction };
 
             statisticsScrollView.Add(hpLabel);
             statisticsScrollView.Add(manaLabel);
