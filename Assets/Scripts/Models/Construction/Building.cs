@@ -40,6 +40,12 @@ public class Building : Entity
         }
     }
 
+    public void SetGridCellSize(float cellSize)
+    {
+        gridMaterial.SetVector("_Size", new Vector4(1.0f / cellSize, 1.0f / cellSize, 0, 0));
+        gridInvalidMaterial.SetVector("_Size", new Vector4(1.0f / cellSize, 1.0f / cellSize, 0, 0));
+    }
+
 
     internal void PreviewValid()
     {

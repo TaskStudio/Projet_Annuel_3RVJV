@@ -4,15 +4,16 @@ public class MapGrid : MonoBehaviour
 {
     [SerializeField] private Grid grid;
     [SerializeField] private Transform groundTransform;
-    [SerializeField] private PlacementSystem placementSystem;
-    public IGridData Buildings { get; private set; }
+    [SerializeField] private Material gridMaterial;
 
-    private void OnEnable()
+    public Grid Grid => grid;
+
+    public void SetGridCellSize(float cellSize)
     {
-        Buildings = placementSystem.BuildingGrid;
-
         Vector3 scale = groundTransform.localScale;
-        grid.cellSize = new Vector3(1.0f / scale.x, 1.0f / scale.y, 1.0f / scale.z);
+
+        gridMaterial.SetVector("_Size", new Vector4(1.0f / cellSize, 1.0f / cellSize, 0, 0));
+        grid.cellSize = new Vector3(cellSize / scale.x, 1.0f / scale.y, cellSize / scale.z);
         transform.localScale = scale;
     }
 }
