@@ -5,6 +5,7 @@ public class Gatherer : Unit
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
     public int maxResourceAmount = 10;
+    [SerializeField] private float gatheringDistance = 1.5f;
     private Resource carriedResource;
     private bool gatheringResources;
 
@@ -47,13 +48,13 @@ public class Gatherer : Unit
             if (resourceNode != null && !resourceNode.isDepleted)
             {
                 Move(resourceNode.transform.position);
-                if (Vector3.Distance(transform.position, resourceNode.transform.position) <= stoppingDistance)
+                if (Vector3.Distance(transform.position, resourceNode.transform.position) <= gatheringDistance)
                     GatherResource();
             }
             else
             {
                 Move(resourceStorage.transform.position);
-                if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= stoppingDistance)
+                if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= gatheringDistance)
                     DepositResource();
             }
         }
@@ -61,7 +62,7 @@ public class Gatherer : Unit
         {
             if (resourceStorage == null) return;
             Move(resourceStorage.transform.position);
-            if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= stoppingDistance)
+            if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= gatheringDistance)
                 DepositResource();
         }
     }
