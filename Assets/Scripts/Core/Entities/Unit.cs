@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Unit : Entity
@@ -11,19 +10,22 @@ public class Unit : Entity
     public float collisionRadius = 1f;
     public float avoidanceStrength = 5f;
     private Vector3 targetPosition;
+    private Vector3 originalTargetPosition; // Store the original target position
     private Collider entityCollider;
     private bool isMoving = false;
+    private bool needsCollisionAvoidance = false;
+    private bool isInFormation = false; // Track if the unit is moving in formation
 
     protected void Start()
     {
         base.Start();
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
+        originalTargetPosition = transform.position; // Initialize original target position
     }
 
     protected virtual void Update()
     {
-
         float distanceToTarget = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z));
 
         if (distanceToTarget > stoppingDistance || !isMoving)
@@ -38,13 +40,20 @@ public class Unit : Entity
         else if (distanceToTarget <= stoppingDistance && isMoving)
         {
             isMoving = false;
-            targetPosition = transform.position; // Ensure the entity stops moving
+            targetPosition = transform.position;
+            needsCollisionAvoidance = true;
         }
 
-        // Check if entity is pushed away from the target position and move it back
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
+        // Ensure entity returns to the original target position if displaced
+        if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
-            Move(targetPosition);
+            Move(originalTargetPosition);
+        }
+
+        // Handle formation movement
+        if (isInFormation)
+        {
+            HandleFormationMovement();
         }
     }
 
@@ -53,7 +62,10 @@ public class Unit : Entity
         if (this != null)
         {
             targetPosition = new Vector3(newPosition.x, transform.position.y, newPosition.z); // Keep y position the same
+            originalTargetPosition = targetPosition; // Update original target position
             isMoving = true;
+            needsCollisionAvoidance = false;
+            isInFormation = false; // Reset formation flag
         }
     }
 
@@ -99,12 +111,26 @@ public class Unit : Entity
 
             Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
+            selectedEntities[i].isInFormation = true; // Set formation flag
+        }
+    }
+
+    private void HandleFormationMovement()
+    {
+        // Ensure entity moves to the original target position while avoiding collisions
+        Vector3 adjustedPosition = AvoidCollisions();
+        MoveTowardsTarget(adjustedPosition);
+
+        // Stop formation flag if the entity has reached its target position
+        if (Vector3.Distance(transform.position, originalTargetPosition) <= stoppingDistance)
+        {
+            isInFormation = false;
         }
     }
 
     protected Vector3 AvoidCollisions()
     {
-        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z)) <= stoppingDistance)
+        if (!needsCollisionAvoidance && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetPosition.x, targetPosition.z)) <= stoppingDistance)
         {
             return targetPosition;
         }

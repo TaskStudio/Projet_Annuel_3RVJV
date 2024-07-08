@@ -116,7 +116,7 @@ MonoBehaviour:
   stoppingDistance: 0.5
   Entity:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   collisionRadius: 1
   avoidanceStrength: 5
   target: {fileID: 0}

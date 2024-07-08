@@ -18,5 +18,5 @@ MonoBehaviour:
   maxHealthPoints: 0
   maxManaPoints: 0
   attackSpeed: 0
-  movementSpeed: 0
+  movementSpeed: 10
   race: 
