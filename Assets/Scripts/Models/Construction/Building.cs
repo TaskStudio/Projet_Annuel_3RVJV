@@ -73,4 +73,8 @@ public class Building : Entity
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
     }
+
+    protected override void Initialize()
+    {
+    }
 }

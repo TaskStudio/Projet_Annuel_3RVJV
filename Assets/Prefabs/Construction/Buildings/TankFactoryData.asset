@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2c39989e0a445f7ba58c76e3c220aa6, type: 3}
-  m_Name: GathererData
+  m_Script: {fileID: 11500000, guid: 76eeac99ef5862742b40306569993982, type: 3}
+  m_Name: TankFactoryData
   m_EditorClassIdentifier: 
-  objectName: Gatherer
+  objectName: Tank Factory
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 30
+  maxHealthPoints: 150
   factionEnum: 0
-  maxManaPoints: 0
-  attackSpeed: 1
-  movementSpeed: 5

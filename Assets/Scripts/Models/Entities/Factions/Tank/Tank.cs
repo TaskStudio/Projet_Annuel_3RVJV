@@ -56,9 +56,10 @@ public class Tank : Fighter
             {
                 newTank.currentHealth = combinedHp;
                 newTank.SetMaxHealthPoints(combinedHp);
+
                 newTank.movementSpeed = movementSpeed;
                 newTank.stoppingDistance = stoppingDistance;
-                newTank.Entity = Entity;
+                newTank.entityLayer = entityLayer;
                 newTank.collisionRadius = 2f;
                 newTank.avoidanceStrength = avoidanceStrength;
                 newTank.isCombinedTank = true; // Mark the new tank as a combined tank

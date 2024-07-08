@@ -1,51 +1,71 @@
-using System;
+using UnityEditor;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public abstract class BaseObject : MonoBehaviour
 {
-    public string objectName;
-    public string description;
-    public Texture2D image;
-    public ObjectData data;
-    
-    [Space(10)] [Header("Visuals")]
+    [Space(5)] [Header("Visuals")]
     [SerializeField] private GameObject model;
-    public bool IsSelected { get; set; }
+    public abstract ObjectData Data { get; }
 
-    public virtual void Initialize()
+    public bool IsSelected
     {
-        objectName = data.objectName;
-        description = data.description;
-        image = data.image;
-    }
-    
-    public string GetName()
-    {
-        return objectName;
+        get => isSelected;
+        private set
+        {
+            isSelected = value;
+            UpdateVisuals();
+        }
     }
 
-    public string GetDescription()
+    public bool isSelected { get; private set; }
+
+    protected virtual void Awake()
     {
-        return description;
+        Initialize();
     }
+
+    protected virtual void OnEnable()
+    {
+        ValidateData();
+    }
+
+    protected virtual void OnValidate()
+    {
+        ValidateData();
+    }
+
+    private void ValidateData()
+    {
+        if (Data == null)
+        {
+            string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gameObject);
+            Debug.LogError($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path, this);
+        }
+    }
+
+    protected abstract void Initialize();
 
     public void Select()
     {
         IsSelected = true;
-        UpdateVisuals();
     }
 
     public void Deselect()
     {
         IsSelected = false;
-        UpdateVisuals();
     }
 
-    public void UpdateVisuals()
+
+    private void UpdateVisuals()
     {
-        if (IsSelected)
-            model.layer = LayerMask.NameToLayer("Outlined");
-        else
-            model.layer = LayerMask.NameToLayer("Default");
+        model.layer = LayerMask.NameToLayer(isSelected ? "Outlined" : "Default");
     }
+}
+
+public abstract class BaseObject<TDataType> : BaseObject where TDataType : ObjectData
+{
+    [SerializeField] protected TDataType data;
+
+    public override ObjectData Data => data;
 }
