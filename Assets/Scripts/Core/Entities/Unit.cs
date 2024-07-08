@@ -14,7 +14,6 @@ public class Unit : Entity
     private Collider entityCollider;
     private bool isMoving = false;
     private bool needsCollisionAvoidance = false;
-    private bool isInFormation = false; // Track if the unit is moving in formation
 
     protected void Start()
     {
@@ -44,16 +43,11 @@ public class Unit : Entity
             needsCollisionAvoidance = true;
         }
 
-        // Ensure entity returns to the original target position if displaced
-        if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
+        // Check if entity is pushed away from the target position and move it back
+        if (Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
             Move(originalTargetPosition);
-        }
-
-        // Handle formation movement
-        if (isInFormation)
-        {
-            HandleFormationMovement();
+            needsCollisionAvoidance = false;
         }
     }
 
@@ -61,11 +55,10 @@ public class Unit : Entity
     {
         if (this != null)
         {
-            targetPosition = new Vector3(newPosition.x, transform.position.y, newPosition.z); // Keep y position the same
+            targetPosition = new Vector3(newPosition.x, transform.position.y, newPosition.z);
             originalTargetPosition = targetPosition; // Update original target position
             isMoving = true;
             needsCollisionAvoidance = false;
-            isInFormation = false; // Reset formation flag
         }
     }
 
@@ -111,20 +104,6 @@ public class Unit : Entity
 
             Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
-            selectedEntities[i].isInFormation = true; // Set formation flag
-        }
-    }
-
-    private void HandleFormationMovement()
-    {
-        // Ensure entity moves to the original target position while avoiding collisions
-        Vector3 adjustedPosition = AvoidCollisions();
-        MoveTowardsTarget(adjustedPosition);
-
-        // Stop formation flag if the entity has reached its target position
-        if (Vector3.Distance(transform.position, originalTargetPosition) <= stoppingDistance)
-        {
-            isInFormation = false;
         }
     }
 
