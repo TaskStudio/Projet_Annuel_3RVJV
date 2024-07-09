@@ -12,8 +12,10 @@ public class Unit : Entity<UnitData>
 
     private Collider entityCollider;
     private bool isMoving;
+    private bool needsCollisionAvoidance = false;
     protected float stoppingDistance = 0.5f;
     private Vector3 targetPosition;
+    private Vector3 originalTargetPosition; // Store the original target position
 
     public int currentMana { get; private set; }
     public float movementSpeed { get; protected set; } = 0.5f;
@@ -23,6 +25,8 @@ public class Unit : Entity<UnitData>
     {
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
+        originalTargetPosition = transform.position; // Initialize original target position
+        entityCollider = GetComponent<Collider>();
     }
 
     protected virtual void Update()
@@ -34,18 +38,26 @@ public class Unit : Entity<UnitData>
 
         if (distanceToTarget > stoppingDistance || !isMoving)
         {
-            if (!isMoving) isMoving = true;
+            if (!isMoving)
+            {
+                isMoving = true;
+            }
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
         else if (distanceToTarget <= stoppingDistance && isMoving)
         {
             isMoving = false;
-            targetPosition = transform.position; // Ensure the entity stops moving
+            targetPosition = transform.position;
+            needsCollisionAvoidance = true;
         }
 
-        // Check if entity is pushed away from the target position and move it back
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance) Move(targetPosition);
+        // Ensure entity returns to the original target position if displaced
+        if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
+        {
+            Move(originalTargetPosition);
+            needsCollisionAvoidance = false;
+        }
     }
 
     protected override void Initialize()
@@ -64,7 +76,9 @@ public class Unit : Entity<UnitData>
                 transform.position.y,
                 newPosition.z
             ); // Keep y position the same
+            originalTargetPosition = targetPosition; // Update original target position
             isMoving = true;
+            needsCollisionAvoidance = false;
         }
     }
 
@@ -108,21 +122,25 @@ public class Unit : Entity<UnitData>
 
     private Vector3 AvoidCollisions()
     {
-        if (Vector2.Distance(
+        if (!needsCollisionAvoidance && Vector2.Distance(
                 new Vector2(transform.position.x, transform.position.z),
                 new Vector2(targetPosition.x, targetPosition.z)
-            )
-            <= stoppingDistance) return targetPosition;
+            ) <= stoppingDistance)
+        {
+            return targetPosition;
+        }
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, entityLayer);
         Vector3 avoidanceVector = Vector3.zero;
 
         foreach (var hitCollider in hitColliders)
+        {
             if (hitCollider != entityCollider)
             {
                 Vector3 collisionDirection = transform.position - hitCollider.transform.position;
                 avoidanceVector += collisionDirection.normalized;
             }
+        }
 
         if (avoidanceVector != Vector3.zero) avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
 

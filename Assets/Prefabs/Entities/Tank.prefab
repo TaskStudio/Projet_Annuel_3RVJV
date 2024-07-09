@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5898561806492086805}
   - component: {fileID: 7253527715025124553}
   - component: {fileID: 3338444241343951891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tank
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ MonoBehaviour:
   actionList: []
   entityLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   collisionRadius: 1
   avoidanceStrength: 5
   target: {fileID: 0}
