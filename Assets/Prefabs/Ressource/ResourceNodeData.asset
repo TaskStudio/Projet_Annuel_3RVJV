@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76eeac99ef5862742b40306569993982, type: 3}
-  m_Name: ResourceStorageData
+  m_Name: ResourceNodeData
   m_EditorClassIdentifier: 
-  objectName: Resource storage
+  objectName: Resource node
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 40
+  maxHealthPoints: 0
   faction: 0

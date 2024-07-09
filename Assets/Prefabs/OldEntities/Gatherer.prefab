@@ -118,7 +118,7 @@ MonoBehaviour:
   entityLayer:
     serializedVersion: 2
     m_Bits: 0
-  collisionRadius: 1
+  collisionRadius: 0
   avoidanceStrength: 5
   resourceNode: {fileID: 0}
   resourceStorage: {fileID: 0}

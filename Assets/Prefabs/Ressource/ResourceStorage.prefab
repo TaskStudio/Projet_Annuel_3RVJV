@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3089918829989370433}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 0.3, y: 1, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,10 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7974219844798317165}
   - component: {fileID: 3839866909170121505}
-  - component: {fileID: -7895516278856363670}
   m_Layer: 0
-  m_Name: RessourceStorage
-  m_TagString: Untagged
+  m_Name: ResourceStorage
+  m_TagString: RessourceStorage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,37 +129,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed2c08af9844b3db196e4e1cd288a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7895516278856363670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4393059881588511033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1c83c6ab758a3b49a903ce06fac26ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectName: 
-  description: 
-  image: {fileID: 0}
-  data: {fileID: 0}
   model: {fileID: 5188801423096406016}
+  data: {fileID: 11400000, guid: e18b69ace3794154bb082854133170ca, type: 2}
   actionList: []
-  entityData: {fileID: 11400000, guid: e18b69ace3794154bb082854133170ca, type: 2}
-  currentHealth: 0
-  currentMana: 0
-  attackSpeed: 1
-  movementSpeed: 0.5
-  race: 
-  previewMaterial: {fileID: 0}
-  previewInvalidMaterial: {fileID: 0}
-  buildingMaterial: {fileID: 0}
-  objectRenderer: {fileID: 0}
-  gridMaterial: {fileID: 0}
-  gridInvalidMaterial: {fileID: 0}
-  gridRenderer: {fileID: 0}
+  previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
+  objectRenderer: {fileID: 3961407437812346055}
+  gridMaterial: {fileID: 2100000, guid: d103cd69a05372a4b941a461d8b39d14, type: 2}
+  gridInvalidMaterial: {fileID: 2100000, guid: a90942068c797c647b8f9ad3389e033e, type: 2}
+  gridRenderer: {fileID: 3647263439748048454}
 --- !u!1 &5188801423096406016
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d151bbda7b1cf4341a8f5e12a9b884a8, type: 2}
+  - {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
