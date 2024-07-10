@@ -13,7 +13,7 @@ public class Unit : Entity<UnitData>
     private Collider entityCollider;
     private bool isMoving;
     private bool needsCollisionAvoidance = false;
-    protected float stoppingDistance = 0.5f;
+    protected float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
     private Vector3 originalTargetPosition; // Store the original target position
 
@@ -122,14 +122,6 @@ public class Unit : Entity<UnitData>
 
     private Vector3 AvoidCollisions()
     {
-        if (!needsCollisionAvoidance && Vector2.Distance(
-                new Vector2(transform.position.x, transform.position.z),
-                new Vector2(targetPosition.x, targetPosition.z)
-            ) <= stoppingDistance)
-        {
-            return targetPosition;
-        }
-
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, entityLayer);
         Vector3 avoidanceVector = Vector3.zero;
 
@@ -138,14 +130,25 @@ public class Unit : Entity<UnitData>
             if (hitCollider != entityCollider)
             {
                 Vector3 collisionDirection = transform.position - hitCollider.transform.position;
-                avoidanceVector += collisionDirection.normalized;
+                float distance = collisionDirection.magnitude;
+
+                if (distance < collisionRadius)
+                {
+                    // Increase avoidance strength dynamically based on distance
+                    float strength = avoidanceStrength * (1 / distance);
+                    avoidanceVector += collisionDirection.normalized * strength;
+                }
             }
         }
 
-        if (avoidanceVector != Vector3.zero) avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
+        if (avoidanceVector != Vector3.zero)
+        {
+            avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
+        }
 
         return targetPosition + avoidanceVector;
     }
+
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
