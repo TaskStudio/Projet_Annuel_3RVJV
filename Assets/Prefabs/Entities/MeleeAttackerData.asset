@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c39989e0a445f7ba58c76e3c220aa6, type: 3}
   m_Name: MeleeAttackerData
   m_EditorClassIdentifier: 
-  objectName: Melee Attacker
+  objectName: Melee attacker
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 40
+  maxHealthPoints: 0
   faction: 0
   maxManaPoints: 0
   attackSpeed: 1
-  movementSpeed: 7
+  movementSpeed: 5

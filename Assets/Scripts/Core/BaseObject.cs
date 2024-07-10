@@ -1,7 +1,7 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public abstract class BaseObject : MonoBehaviour
 {
     [Space(5)] [Header("Visuals")]
@@ -20,19 +20,17 @@ public abstract class BaseObject : MonoBehaviour
 
     public bool isSelected { get; private set; }
 
-    protected virtual void Awake()
-    {
-        Initialize();
-    }
-
-    protected virtual void OnEnable()
-    {
-        ValidateData();
-    }
-
     protected virtual void OnValidate()
     {
-        ValidateData();
+        try
+        {
+            ValidateData();
+            Initialize();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 
     private void ValidateData()
@@ -40,7 +38,7 @@ public abstract class BaseObject : MonoBehaviour
         if (Data == null)
         {
             string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gameObject);
-            Debug.LogError($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path, this);
+            throw new Exception($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path);
         }
     }
 
