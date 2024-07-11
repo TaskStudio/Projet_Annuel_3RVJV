@@ -135,30 +135,32 @@ public class Unit : Entity<UnitData>
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        avoidanceVector = Vector3.zero;
-
-        foreach (var neighbor in neighbors)
+        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
+        for (int i = 0; i < neighbors.Count; i++)
         {
-            if (neighbor != this)
-            {
-                Vector3 collisionDirection = transform.position - neighbor.transform.position;
-                float distance = collisionDirection.magnitude;
-
-                if (distance < collisionRadius)
-                {
-                    // Increase avoidance strength dynamically based on distance
-                    float strength = avoidanceStrength * (1 / distance);
-                    avoidanceVector += collisionDirection.normalized * strength;
-                }
-            }
+            unitPositions[i] = neighbors[i].transform.position;
         }
 
-        if (avoidanceVector != Vector3.zero)
-        {
-            avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
-        }
+        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
 
-        return targetPosition + avoidanceVector;
+        var job = new AvoidCollisionsJob
+        {
+            unitPositions = unitPositions,
+            currentPosition = transform.position,
+            collisionRadius = collisionRadius,
+            avoidanceStrength = avoidanceStrength,
+            avoidanceVector = avoidanceVectorArray
+        };
+
+        JobHandle handle = job.Schedule();
+        handle.Complete();
+
+        Vector3 avoidance = avoidanceVectorArray[0];
+
+        unitPositions.Dispose();
+        avoidanceVectorArray.Dispose();
+
+        return targetPosition + avoidance;
     }
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
