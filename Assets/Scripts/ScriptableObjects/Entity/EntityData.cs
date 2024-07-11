@@ -1,11 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewEntityData", menuName = "Entities/Entity")]
+[CreateAssetMenu(fileName = "NewEntityData", menuName = "ObjectData/Entity")]
 public class EntityData : ObjectData
 {
+    [Space(10)]
+    [Header("Entity Data")]
     public int maxHealthPoints;
-    public int maxManaPoints;
-    public float attackSpeed;
-    public float movementSpeed;
-    public string race; 
+    public FactionEnum faction;
 }

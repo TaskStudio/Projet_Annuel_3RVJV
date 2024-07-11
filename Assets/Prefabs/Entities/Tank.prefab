@@ -53,7 +53,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6e495341896163d40bb4166565e2fd6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5898561806492086805}
   - component: {fileID: 7253527715025124553}
   - component: {fileID: 3338444241343951891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tank
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -152,19 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83b9706a7b4efb9b37ad1cc9af9adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
-  description: 
-  image: {fileID: 0}
   model: {fileID: 5030648350073043957}
+  data: {fileID: 11400000, guid: 5605f44563a991746a6f0098b9306045, type: 2}
   actionList: []
-  entityData: {fileID: 11400000, guid: c6fad14c6c037e14fa0f202522f4cb5a, type: 2}
-  currentHealth: 0
-  currentMana: 0
-  attackSpeed: 1
-  movementSpeed: 0.5
-  race: 
-  stoppingDistance: 0.5
-  Entity:
+  entityLayer:
     serializedVersion: 2
     m_Bits: 256
   collisionRadius: 1

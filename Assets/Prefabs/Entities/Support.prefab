@@ -101,21 +101,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28df922288a5a04296c2b5330b30030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
-  description: 
-  image: {fileID: 0}
   model: {fileID: 7803721072550619435}
+  data: {fileID: 11400000, guid: c6002954abb101c49a4e358f1dc9fc78, type: 2}
   actionList: []
-  entityData: {fileID: 11400000, guid: c6fad14c6c037e14fa0f202522f4cb5a, type: 2}
-  currentHealth: 0
-  currentMana: 0
-  attackSpeed: 1
-  movementSpeed: 0.5
-  race: 
-  stoppingDistance: 0.5
-  Entity:
+  entityLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   collisionRadius: 1
   avoidanceStrength: 5
   target: {fileID: 0}

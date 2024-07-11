@@ -6,12 +6,13 @@ public class ResourceNode : MonoBehaviour
 
     [SerializeField] private Material defaultMaterial;
     [SerializeField] private Material depletedMaterial;
+    [SerializeField] private MeshRenderer meshRenderer;
     public int resourceAmount = 100;
     public bool isDepleted { get; private set; }
 
     private void Start()
     {
-        GetComponent<MeshRenderer>().material = defaultMaterial;
+        meshRenderer.material = defaultMaterial;
     }
 
     public Resource GatherResource(int amountRequested)

@@ -40,6 +40,12 @@ public class Building : Entity
         }
     }
 
+    public void SetGridCellSize(float cellSize)
+    {
+        gridMaterial.SetVector("_Size", new Vector4(1.0f / cellSize, 1.0f / cellSize, 0, 0));
+        gridInvalidMaterial.SetVector("_Size", new Vector4(1.0f / cellSize, 1.0f / cellSize, 0, 0));
+    }
+
 
     internal void PreviewValid()
     {
@@ -72,5 +78,9 @@ public class Building : Entity
         objectRenderer.materials = new[] { buildingMaterial };
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
+    }
+
+    protected override void Initialize()
+    {
     }
 }

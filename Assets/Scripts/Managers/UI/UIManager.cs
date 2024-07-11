@@ -89,10 +89,7 @@ public class UIManager : MonoBehaviour
 
     private Texture2D GetProfileImage(BaseObject profile)
     {
-        if (profile is BaseObject objectProfile)
-        {
-            return objectProfile.image;
-        }
+        if (profile is BaseObject objectProfile) return objectProfile.Data.image;
         return null;
     }
 
@@ -146,19 +143,20 @@ public class UIManager : MonoBehaviour
         statisticsScrollView.Clear();
         if (profile == null) return;
 
-        var nameLabel = new Label { text = profile.objectName };
-        var descriptionLabel = new Label { text = profile.description };
+        var nameLabel = new Label { text = profile.Data.objectName };
+        var descriptionLabel = new Label { text = profile.Data.description };
 
         statisticsScrollView.Add(nameLabel);
         statisticsScrollView.Add(descriptionLabel);
 
-        if (profile is Entity entityProfile)
+        if (profile is Unit unit)
         {
-            var hpLabel = new Label { text = "HP : " + entityProfile.currentHealth };
-            var manaLabel = new Label { text = "Mana : " + entityProfile.currentMana };
-            var attackSpeedLabel = new Label { text = "Attack Speed : " + entityProfile.attackSpeed };
-            var movementSpeedLabel = new Label { text = "Movement Speed : " + entityProfile.movementSpeed };
-            var raceLabel = new Label { text = "Race : " + entityProfile.race };
+            UnitData unitData = (UnitData) unit.Data;
+            var hpLabel = new Label { text = "HP : " + unit.currentHealth };
+            var manaLabel = new Label { text = "Mana : " + unit.currentMana };
+            var attackSpeedLabel = new Label { text = "Attack Speed : " + unit.attackSpeed };
+            var movementSpeedLabel = new Label { text = "Movement Speed : " + unit.movementSpeed };
+            var raceLabel = new Label { text = "Race : " + unitData.faction };
 
             statisticsScrollView.Add(hpLabel);
             statisticsScrollView.Add(manaLabel);

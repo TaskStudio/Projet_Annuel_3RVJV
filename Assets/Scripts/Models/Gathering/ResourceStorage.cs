@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class ResourceStorage : MonoBehaviour
+﻿public class ResourceStorage : Building
 {
     private ResourceManager resourceManager;
 

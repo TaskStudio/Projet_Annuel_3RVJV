@@ -4,11 +4,10 @@ using UnityEngine;
 public class EntitiesManager : MonoBehaviour
 {
     public static EntitiesManager Instance { get; private set; }
-    private static List<Unit> movableEntities = new List<Unit>();
 
-    public static List<Unit> MovableEntities => movableEntities;
+    public static List<Unit> MovableEntities { get; } = new();
 
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -21,7 +20,7 @@ public class EntitiesManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
@@ -29,38 +28,24 @@ public class EntitiesManager : MonoBehaviour
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-            {
-                foreach (var entity in movableEntities)
-                {
+                foreach (var entity in MovableEntities)
                     if (entity is BaseObject selectable && selectable.IsSelected)
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                        {
                             entity.MoveInFormation(hit.point);
-                        }
                         else
-                        {
                             entity.Move(hit.point);
-                        }
                     }
-                }
-            }
         }
     }
 
     public void RegisterMovableEntity(Unit entity)
     {
-        if (entity != null && !movableEntities.Contains(entity))
-        {
-            movableEntities.Add(entity);
-        }
+        if (entity != null && !MovableEntities.Contains(entity)) MovableEntities.Add(entity);
     }
 
     public void UnregisterMovableEntity(Unit entity)
     {
-        if (entity != null)
-        {
-            movableEntities.Remove(entity);
-        }
+        if (entity != null) MovableEntities.Remove(entity);
     }
 }

@@ -113,15 +113,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6961670147184191123}
+  data: {fileID: 11400000, guid: d1b13cb28910e8040ac170a3a50c0df5, type: 2}
   actionList: []
-  hp: 100
-  avoidanceStrength: 5
-  Entity:
+  entityLayer:
     serializedVersion: 2
-    m_Bits: 256
-  moveSpeed: 5
-  profile: {fileID: 0}
-  stoppingDistance: 2
+    m_Bits: 0
+  collisionRadius: 0
+  avoidanceStrength: 5
   resourceNode: {fileID: 0}
   resourceStorage: {fileID: 0}
   maxResourceAmount: 10
