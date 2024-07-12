@@ -66,8 +66,7 @@ public class Unit : Entity<UnitData>
             targetPosition = transform.position;
             needsCollisionAvoidance = true;
         }
-
-        // Ensure entity returns to the original target position if displaced
+        
         if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
             Move(originalTargetPosition);
@@ -76,6 +75,7 @@ public class Unit : Entity<UnitData>
 
         avoidanceVector = Vector3.zero;
     }
+
 
     protected override void Initialize()
     {
@@ -131,7 +131,6 @@ public class Unit : Entity<UnitData>
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
-
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
@@ -162,6 +161,7 @@ public class Unit : Entity<UnitData>
 
         return targetPosition + avoidance;
     }
+
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {

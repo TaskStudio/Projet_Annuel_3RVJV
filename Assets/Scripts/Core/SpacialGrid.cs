@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 public class SpatialGrid
@@ -36,7 +38,14 @@ public class SpatialGrid
         Vector2Int newCell = GetCell(unit.transform.position);
         if (oldCell != newCell)
         {
-            grid[oldCell].Remove(unit);
+            if (grid.ContainsKey(oldCell))
+            {
+                grid[oldCell].Remove(unit);
+                if (grid[oldCell].Count == 0)
+                {
+                    grid.Remove(oldCell);
+                }
+            }
             Add(unit);
         }
     }
