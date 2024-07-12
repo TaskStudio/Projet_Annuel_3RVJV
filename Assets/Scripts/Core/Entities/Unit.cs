@@ -15,8 +15,8 @@ public class Unit : Entity<UnitData>
     private bool needsCollisionAvoidance = false;
     protected float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
-    private Vector3 originalTargetPosition; 
-    private Vector3 avoidanceVector; 
+    private Vector3 originalTargetPosition;
+    private Vector3 avoidanceVector;
 
     public int currentMana { get; private set; }
     public float movementSpeed { get; protected set; } = 0.5f;
@@ -29,7 +29,7 @@ public class Unit : Entity<UnitData>
     {
         if (spatialGrid == null)
         {
-            spatialGrid = new SpatialGrid(5f); 
+            spatialGrid = new SpatialGrid(5f);
         }
 
         spatialGrid.Add(this);
@@ -37,7 +37,7 @@ public class Unit : Entity<UnitData>
 
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
-        originalTargetPosition = transform.position; 
+        originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
     }
 
@@ -74,7 +74,7 @@ public class Unit : Entity<UnitData>
             needsCollisionAvoidance = false;
         }
 
-        avoidanceVector = Vector3.zero; 
+        avoidanceVector = Vector3.zero;
     }
 
     protected override void Initialize()
@@ -93,7 +93,7 @@ public class Unit : Entity<UnitData>
                 transform.position.y,
                 newPosition.z
             );
-            originalTargetPosition = targetPosition; 
+            originalTargetPosition = targetPosition;
             isMoving = true;
             needsCollisionAvoidance = false;
         }
