@@ -1,15 +1,35 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    public string nextScene;
-    public UIDocument winUIDocument;
-    public UIDocument loseUIDocument;
-    private VisualElement loseRoot;
+    [SerializeField] private string nextScene;
+    [SerializeField] private UIDocument winUIDocument;
+    [SerializeField] private UIDocument loseUIDocument;
 
+    [FormerlySerializedAs("playerEntityDatabase")]
+    public UnitDatabaseSO playerUnitDatabase;
+    public BuildingDatabaseSO playerBuildingDatabase;
+
+    private VisualElement loseRoot;
     private VisualElement winRoot;
+
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     private void Start()
     {
