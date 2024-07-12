@@ -8,8 +8,14 @@ public abstract class Entity : Entity<EntityData>
 
 public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType : EntityData
 {
+    [Space(10)] [Header("ID")]
+    [ShowOnly] [SerializeField] private string id;
+
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
+
+    public string ID { get; private set; }
+
 
     public int currentHealth { get; protected set; }
 
@@ -21,6 +27,15 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
     public int GetHealthPoints()
     {
         return currentHealth;
+    }
+
+    public void SetID(string unitId)
+    {
+        if (string.IsNullOrEmpty(ID))
+        {
+            ID = unitId;
+            id = unitId;
+        }
     }
 
     public void SetHealthPoints(int currentHealthPoints)
@@ -45,8 +60,5 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
         if (currentHealth <= 0) Die();
     }
 
-    private void Die()
-    {
-        gameObject.SetActive(false);
-    }
+    protected abstract void Die();
 }

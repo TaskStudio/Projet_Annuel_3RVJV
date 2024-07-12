@@ -12,10 +12,10 @@ public class Unit : Entity<UnitData>
 
     private Collider entityCollider;
     private bool isMoving;
-    private bool needsCollisionAvoidance = false;
+    private bool needsCollisionAvoidance;
+    private Vector3 originalTargetPosition; // Store the original target position
     protected float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
-    private Vector3 originalTargetPosition; // Store the original target position
 
     public int currentMana { get; private set; }
     public float movementSpeed { get; protected set; } = 0.5f;
@@ -38,10 +38,7 @@ public class Unit : Entity<UnitData>
 
         if (distanceToTarget > stoppingDistance || !isMoving)
         {
-            if (!isMoving)
-            {
-                isMoving = true;
-            }
+            if (!isMoving) isMoving = true;
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
@@ -126,7 +123,6 @@ public class Unit : Entity<UnitData>
         Vector3 avoidanceVector = Vector3.zero;
 
         foreach (var hitCollider in hitColliders)
-        {
             if (hitCollider != entityCollider)
             {
                 Vector3 collisionDirection = transform.position - hitCollider.transform.position;
@@ -139,12 +135,8 @@ public class Unit : Entity<UnitData>
                     avoidanceVector += collisionDirection.normalized * strength;
                 }
             }
-        }
 
-        if (avoidanceVector != Vector3.zero)
-        {
-            avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
-        }
+        if (avoidanceVector != Vector3.zero) avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
 
         return targetPosition + avoidanceVector;
     }
@@ -176,5 +168,10 @@ public class Unit : Entity<UnitData>
         newPositionArray.Dispose();
 
         transform.position = newPosition;
+    }
+
+    protected override void Die()
+    {
+        UnitFactory.ReturnEntity(this);
     }
 }
