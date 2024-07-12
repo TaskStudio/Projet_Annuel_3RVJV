@@ -15,8 +15,8 @@ public class Unit : Entity<UnitData>
     private bool needsCollisionAvoidance = false;
     protected float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
-    private Vector3 originalTargetPosition; 
-    private Vector3 avoidanceVector; 
+    private Vector3 originalTargetPosition;
+    private Vector3 avoidanceVector;
 
     public int currentMana { get; private set; }
     public float movementSpeed { get; protected set; } = 0.5f;
@@ -29,7 +29,7 @@ public class Unit : Entity<UnitData>
     {
         if (spatialGrid == null)
         {
-            spatialGrid = new SpatialGrid(5f); 
+            spatialGrid = new SpatialGrid(5f);
         }
 
         spatialGrid.Add(this);
@@ -37,7 +37,7 @@ public class Unit : Entity<UnitData>
 
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
-        originalTargetPosition = transform.position; 
+        originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
     }
 
@@ -66,16 +66,16 @@ public class Unit : Entity<UnitData>
             targetPosition = transform.position;
             needsCollisionAvoidance = true;
         }
-
-        // Ensure entity returns to the original target position if displaced
+        
         if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
             Move(originalTargetPosition);
             needsCollisionAvoidance = false;
         }
 
-        avoidanceVector = Vector3.zero; 
+        avoidanceVector = Vector3.zero;
     }
+
 
     protected override void Initialize()
     {
@@ -93,7 +93,7 @@ public class Unit : Entity<UnitData>
                 transform.position.y,
                 newPosition.z
             );
-            originalTargetPosition = targetPosition; 
+            originalTargetPosition = targetPosition;
             isMoving = true;
             needsCollisionAvoidance = false;
         }
@@ -131,35 +131,37 @@ public class Unit : Entity<UnitData>
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
-
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        avoidanceVector = Vector3.zero;
-
-        foreach (var neighbor in neighbors)
+        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
+        for (int i = 0; i < neighbors.Count; i++)
         {
-            if (neighbor != this)
-            {
-                Vector3 collisionDirection = transform.position - neighbor.transform.position;
-                float distance = collisionDirection.magnitude;
-
-                if (distance < collisionRadius)
-                {
-                    // Increase avoidance strength dynamically based on distance
-                    float strength = avoidanceStrength * (1 / distance);
-                    avoidanceVector += collisionDirection.normalized * strength;
-                }
-            }
+            unitPositions[i] = neighbors[i].transform.position;
         }
 
-        if (avoidanceVector != Vector3.zero)
-        {
-            avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
-        }
+        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
 
-        return targetPosition + avoidanceVector;
+        var job = new AvoidCollisionsJob
+        {
+            unitPositions = unitPositions,
+            currentPosition = transform.position,
+            collisionRadius = collisionRadius,
+            avoidanceStrength = avoidanceStrength,
+            avoidanceVector = avoidanceVectorArray
+        };
+
+        JobHandle handle = job.Schedule();
+        handle.Complete();
+
+        Vector3 avoidance = avoidanceVectorArray[0];
+
+        unitPositions.Dispose();
+        avoidanceVectorArray.Dispose();
+
+        return targetPosition + avoidance;
     }
+
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
