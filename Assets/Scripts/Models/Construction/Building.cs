@@ -5,7 +5,6 @@ using UnityEngine.Rendering;
 [Serializable]
 public class Building : Entity
 {
-    private BuildingManager buildingManager;
     public enum BuildingStates
     {
         Preview,
@@ -28,6 +27,7 @@ public class Building : Entity
     [Space(5)]
     [SerializeField] private MeshRenderer gridRenderer;
 
+    private BuildingManager buildingManager;
     private float constructionTime;
     public BuildingStates state { get; internal set; }
 
@@ -89,7 +89,7 @@ public class Building : Entity
     protected override void Initialize()
     {
     }
-    
+
     public void AddToBuildingManager()
     {
         BuildingManager.Instance.AddBuilding(this);
