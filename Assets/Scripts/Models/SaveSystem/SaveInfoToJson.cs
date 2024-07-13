@@ -30,7 +30,6 @@ public class SaveInfoToJson : MonoBehaviour
         var objectList = new ObjectList();
         foreach (var building in buildings)
         {
-            Debug.Log(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(building));
             if (building == null) continue;
 
             var buildingData = new PrefabObjectData
@@ -46,7 +45,6 @@ public class SaveInfoToJson : MonoBehaviour
 
         foreach (var entity in movableEntities)
         {
-            Debug.Log(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(entity.gameObject));
             if (entity == null) continue;
 
             // Update entity data with current position and rotation
