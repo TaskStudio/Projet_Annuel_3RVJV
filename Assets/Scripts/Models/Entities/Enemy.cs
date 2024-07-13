@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy : Unit
 {
@@ -7,11 +8,113 @@ public class Enemy : Unit
     private bool isTaunted;
     private Vector3 tauntTarget;
 
+    private enum State
+    {
+        Idle,
+        MovingToTarget,
+        Attacking
+    }
+
+    private State currentState = State.Idle;
+    private Transform target;
+
+    private void Start()
+    {
+        StartCoroutine(BehaviorTree());
+    }
+
     private new void Update()
     {
         if (isTaunted) Move(tauntTarget);
         Vector3 moveTarget = isTaunted ? tauntTarget : FindNearestTarget();
         Move(moveTarget);
+    }
+
+    private IEnumerator BehaviorTree()
+    {
+        while (true)
+        {
+            switch (currentState)
+            {
+                case State.Idle:
+                    FindTarget();
+                    break;
+                case State.MovingToTarget:
+                    MoveToTarget();
+                    break;
+                case State.Attacking:
+                    AttackTarget();
+                    break;
+            }
+            yield return null;
+        }
+    }
+
+    private void FindTarget()
+    {
+        GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
+        GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        GameObject closestTarget = null;
+
+        foreach (GameObject entity in entities)
+        {
+            float dSqrToTarget = (entity.transform.position - currentPosition).sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                closestTarget = entity;
+            }
+        }
+
+        if (closestTarget == null)
+        {
+            foreach (GameObject entityBase in entityBases)
+            {
+                float dSqrToTarget = (entityBase.transform.position - currentPosition).sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    closestTarget = entityBase;
+                }
+            }
+        }
+
+        if (closestTarget != null)
+        {
+            target = closestTarget.transform;
+            currentState = State.MovingToTarget;
+        }
+    }
+
+    private void MoveToTarget()
+    {
+        if (target != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, movementSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, target.position) < 0.5f)
+            {
+                currentState = State.Attacking;
+            }
+        }
+        else
+        {
+            currentState = State.Idle;
+        }
+    }
+
+    private void AttackTarget()
+    {
+        if (target != null)
+        {
+            Unit entity = target.GetComponent<Unit>();
+            if (entity != null)
+            {
+                entity.TakeDamage(20); // Adjust damage as needed
+            }
+            currentState = State.Idle;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
