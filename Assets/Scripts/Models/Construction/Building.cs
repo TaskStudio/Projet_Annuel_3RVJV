@@ -31,6 +31,11 @@ public class Building : Entity
     private float constructionTime;
     public BuildingStates state { get; internal set; }
 
+    private void Awake()
+    {
+        AddToBuildingManager();
+    }
+
     public void Update()
     {
         if (state == BuildingStates.Constructing)
@@ -80,7 +85,7 @@ public class Building : Entity
         objectRenderer.materials = new[] { buildingMaterial };
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
-        AddToBuildingManager();
+
     }
 
     protected override void Initialize()
