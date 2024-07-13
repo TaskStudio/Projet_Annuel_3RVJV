@@ -73,13 +73,11 @@ public class UIManager : MonoBehaviour
     private void OnPointerEnter(PointerEnterEvent evt)
     {
         isMouseOverUI = true;
-        Debug.Log("Pointer entered: " + evt.target);
     }
 
     private void OnPointerLeave(PointerLeaveEvent evt)
     {
         isMouseOverUI = false;
-        Debug.Log("Pointer left: " + evt.target);
     }
 
     public bool IsMouseOverUI()
