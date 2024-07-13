@@ -11,11 +11,12 @@
             </ui:VisualElement>
             <ui:VisualElement name="ContentContainer" style="flex-grow: 1; visibility: visible; display: flex; -unity-background-image-tint-color: rgb(215, 215, 215); background-color: rgb(210, 210, 210);">
                 <ui:VisualElement name="GeneralPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
-                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
+                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
                     <ui:ScrollView class="scrollPanel">
-                        <ui:DropdownField label="Resolution                               " name="DropdownField" choices="1920x1080" index="0" class="panelRow" />
-                        <ui:DropdownField label="Graphics Quality                         " name="DropdownField" choices="Low, Medium, High" index="1" class="panelRow" />
-                        <ui:DropdownField label="shadow Quality                           " name="DropdownField" choices="None,Low,Medium,High" index="2" class="panelRow" />
+                        <ui:DropdownField label="Windowed or screened                 " name="WindowOrScreened" choices="Full screen, Windowed," index="0" class="panelRow" />
+                        <ui:DropdownField label="Resolution                             " name="Resolution" choices="1920x1080" index="0" class="panelRow" />
+                        <ui:DropdownField label="Graphics Quality                       " name="GraphicsQuality" choices="Low, Medium, High" index="1" class="panelRow" />
+                        <ui:DropdownField label="Shadow Quality                         " name="ShadowQuality" choices="None, Normal" index="0" class="panelRow" />
                     </ui:ScrollView>
                 </ui:VisualElement>
                 <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
