@@ -7,10 +7,10 @@ public class ResourceManager : MonoBehaviour
     public static ResourceManager Instance;
     private static ResourceManager instance;
 
+    private static readonly Dictionary<Resource.Type, int> totalResources = new();
+
     [SerializeField] private TextMeshProUGUI woodText;
     public int startingWood;
-
-    private readonly Dictionary<Resource.Type, int> totalResources = new();
 
     private void Awake()
     {
@@ -37,12 +37,12 @@ public class ResourceManager : MonoBehaviour
         woodText.text = totalResources[Resource.Type.Wood].ToString();
     }
 
-    public void RegisterResource(Resource resource)
+    public static void RegisterResource(Resource resource)
     {
         totalResources[resource.type] += resource.amount;
     }
 
-    public bool RequestResource(Resource requestedResource)
+    public static bool RequestResource(Resource requestedResource)
     {
         if (totalResources[requestedResource.type] < requestedResource.amount) return false;
 

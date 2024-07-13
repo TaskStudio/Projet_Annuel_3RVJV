@@ -12,7 +12,7 @@ public class Unit : Entity<UnitData>
 
     private Collider entityCollider;
     private bool isMoving;
-    private bool needsCollisionAvoidance = false;
+    private bool needsCollisionAvoidance;
     protected float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
     private Vector3 originalTargetPosition;
@@ -53,10 +53,7 @@ public class Unit : Entity<UnitData>
 
         if (distanceToTarget > stoppingDistance || !isMoving)
         {
-            if (!isMoving)
-            {
-                isMoving = true;
-            }
+            if (!isMoving) isMoving = true;
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
@@ -189,5 +186,10 @@ public class Unit : Entity<UnitData>
         newPositionArray.Dispose();
 
         transform.position = newPosition;
+    }
+
+    protected override void Die()
+    {
+        UnitFactory.ReturnEntity(this);
     }
 }

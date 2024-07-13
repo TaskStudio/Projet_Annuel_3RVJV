@@ -41,6 +41,11 @@ public abstract class BaseObject : MonoBehaviour
             throw new Exception($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path);
         }
     }
+    
+    private void OnEnable()
+    {
+        Initialize();
+    }
 
     protected abstract void Initialize();
 
