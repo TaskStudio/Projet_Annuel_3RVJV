@@ -1,0 +1,55 @@
+{
+    "objects": [
+        {
+            "role": "building",
+            "type": "AttackerFactory",
+            "name": "AttackerFactory(Clone)",
+            "position": {
+                "x": -15.0,
+                "y": 0.0,
+                "z": 9.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "path": ""
+        },
+        {
+            "role": "unit",
+            "type": "Gatherer",
+            "name": "Gatherer(Clone)",
+            "position": {
+                "x": -6.787696838378906,
+                "y": 0.10000000149011612,
+                "z": -4.11178731918335
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "path": ""
+        },
+        {
+            "role": "unit",
+            "type": "RangedAttacker",
+            "name": "RangedAttacker(Clone)",
+            "position": {
+                "x": -11.166339874267579,
+                "y": 0.10000000149011612,
+                "z": -2.7377688884735109
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "path": ""
+        }
+    ]
+}

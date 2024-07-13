@@ -42,10 +42,12 @@ public class EntitiesManager : MonoBehaviour
     public void RegisterMovableEntity(Unit entity)
     {
         if (entity != null && !MovableEntities.Contains(entity)) MovableEntities.Add(entity);
+        MovableEntityManager.Instance.AddMovableEntity(entity);
     }
 
     public void UnregisterMovableEntity(Unit entity)
     {
         if (entity != null) MovableEntities.Remove(entity);
+        MovableEntityManager.Instance.RemoveMovableEntity(entity);
     }
 }
