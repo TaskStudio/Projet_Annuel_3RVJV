@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class SaveBuildingsToJson : MonoBehaviour
+public class SaveInfoToJson : MonoBehaviour
 {
     public string filePath = "Assets/Resources/buildings.json";
     private BuildingManager buildingManager;
