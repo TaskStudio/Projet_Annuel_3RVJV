@@ -20,6 +20,11 @@ public abstract class BaseObject : MonoBehaviour
 
     public bool isSelected { get; private set; }
 
+    private void OnEnable()
+    {
+        Initialize();
+    }
+
     protected virtual void OnValidate()
     {
         try
@@ -35,11 +40,13 @@ public abstract class BaseObject : MonoBehaviour
 
     private void ValidateData()
     {
+#if UNITY_EDITOR
         if (Data == null)
         {
             string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gameObject);
             throw new Exception($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path);
         }
+#endif
     }
 
     protected abstract void Initialize();

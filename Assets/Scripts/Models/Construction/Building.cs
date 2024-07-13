@@ -80,19 +80,23 @@ public class Building : Entity
 
     internal void FinishConstruction()
     {
-
         state = BuildingStates.Constructed;
         objectRenderer.materials = new[] { buildingMaterial };
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
-
     }
 
     protected override void Initialize()
     {
     }
+    
     public void AddToBuildingManager()
     {
         BuildingManager.Instance.AddBuilding(this);
+    }
+
+    protected override void Die()
+    {
+        gameObject.SetActive(false);
     }
 }

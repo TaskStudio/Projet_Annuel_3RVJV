@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 272863d1d18b44619386bbf3deeb91c9, type: 3}
-  m_Name: SupportEntitiesDatabase
+  m_Name: AttackerUnitDatabase
   m_EditorClassIdentifier: 
-  entitiesData:
-  - <ID>k__BackingField: ENT-0
+  units:
+  - <ID>k__BackingField: UNIT-0
     <DisplayName>k__BackingField: Gatherer
     <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: 534d0210f53e8294f86b66c79a87c0e7, type: 3}
-    <ProductionTime>k__BackingField: 0.5
+    <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0
-  - <ID>k__BackingField: ENT-1
-    <DisplayName>k__BackingField: Support
-    <Prefab>k__BackingField: {fileID: -3996997979273391450, guid: 3da30fbce40d4654fbc0401185fc7e14, type: 3}
-    <ProductionTime>k__BackingField: 0.5
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-1
+    <DisplayName>k__BackingField: Ranged Attacker
+    <Prefab>k__BackingField: {fileID: 8655188874191478200, guid: 5d002feae54ec944cb353f706d3fdb53, type: 3}
+    <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20

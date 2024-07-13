@@ -1,22 +1,17 @@
 using System.Collections.Generic;
-using Entities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EntityProducer : Building
 {
+    [FormerlySerializedAs("entityDatabase")]
     [Space(10)] [Header("Production")]
-    [SerializeField] private EntityDatabaseSO entityDatabase;
+    [SerializeField] private UnitDatabaseSO unitDatabase;
     [SerializeField] private Transform productionPoint;
-    private readonly EntityFactory entityFactory = EntityFactory.Instance;
+    private readonly UnitFactory entityFactory;
 
     private readonly Queue<string> productionQueue = new();
-    private ResourceManager resourceManager;
     private float currentProductionTime { get; set; }
-
-    private void Start()
-    {
-        resourceManager = ResourceManager.Instance;
-    }
 
     private new void Update()
     {
@@ -34,8 +29,8 @@ public class EntityProducer : Building
 
     public void RequestProduction(string entityID)
     {
-        EntityGathererData entityData = entityDatabase.GetEntityData(entityID);
-        if (resourceManager.RequestResource(new Resource(entityData.ResourceType, entityData.Cost)))
+        UnitDatabaseData entityData = unitDatabase.GetEntityData(entityID);
+        if (ResourceManager.RequestResource(new Resource(entityData.ResourceType, entityData.Cost)))
             AddToProductionQueue(entityID);
     }
 
@@ -43,13 +38,13 @@ public class EntityProducer : Building
     {
         productionQueue.Enqueue(entityID);
         if (productionQueue.Count == 1)
-            currentProductionTime = entityDatabase.GetEntityData(entityID).ProductionTime;
+            currentProductionTime = unitDatabase.GetEntityData(entityID).ProductionTime;
     }
 
     private void ProduceEntity(string entityID)
     {
-        entityFactory.SpawnEntity(entityID, productionPoint.position, entityDatabase);
+        UnitFactory.SpawnEntity(entityID, productionPoint.position, unitDatabase);
         if (productionQueue.Count > 0)
-            currentProductionTime = entityDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
+            currentProductionTime = unitDatabase.GetEntityData(productionQueue.Peek()).ProductionTime;
     }
 }
