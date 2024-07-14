@@ -99,7 +99,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8837272981364661539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +114,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 6961670147184191123}
   data: {fileID: 11400000, guid: d1b13cb28910e8040ac170a3a50c0df5, type: 2}
+  id: 
   actionList: []
+  healthBar: {fileID: 0}
   entityLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -123,6 +125,7 @@ MonoBehaviour:
   resourceNode: {fileID: 0}
   resourceStorage: {fileID: 0}
   maxResourceAmount: 10
+  gatheringDistance: 1.5
 --- !u!1 &6961670147184191123 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8381772203177393102, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}

@@ -5,25 +5,24 @@ using UnityEngine;
 
 public class Unit : Entity<UnitData>
 {
+    private static SpatialGrid spatialGrid;
     [Space(10)] [Header("Movement")]
     [SerializeField] protected LayerMask entityLayer;
     [SerializeField] protected float collisionRadius = 1f;
     [SerializeField] protected float avoidanceStrength = 5f;
+    private Vector3 avoidanceVector;
 
     private Collider entityCollider;
     private bool isMoving;
+    private Vector3 lastPosition;
     private bool needsCollisionAvoidance;
+    private Vector3 originalTargetPosition;
     protected float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
-    private Vector3 originalTargetPosition;
-    private Vector3 avoidanceVector;
 
     public int currentMana { get; private set; }
     public float movementSpeed { get; protected set; } = 0.5f;
     public float attackSpeed { get; private set; } = 1.0f;
-
-    private static SpatialGrid spatialGrid;
-    private Vector3 lastPosition;
 
     protected void Start()
     {
@@ -40,7 +39,8 @@ public class Unit : Entity<UnitData>
 
     protected virtual void Update()
     {
-        if (this == null || gameObject == null || !gameObject.activeInHierarchy) return; // Early exit if the unit is destroyed or inactive
+        if (this == null || gameObject == null || !gameObject.activeInHierarchy)
+            return; // Early exit if the unit is destroyed or inactive
 
         spatialGrid.Update(this, lastPosition);
         lastPosition = transform.position;
