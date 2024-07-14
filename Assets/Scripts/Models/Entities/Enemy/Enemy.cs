@@ -3,34 +3,37 @@ using System.Collections;
 
 public class Enemy : Unit
 {
-    protected float bumpDistance = 1f; // Distance to bump back after taking damage
-    protected int collisionDamage = 20; // Damage dealt to other objects on collision
-    private bool isTaunted;
-    private Vector3 tauntTarget;
+    protected float bumpDistance = 1f; 
+    protected int collisionDamage = 20; 
+    protected bool isTaunted;
+    protected Vector3 tauntTarget;
 
-    private enum State
+    protected enum State
     {
         Idle,
         MovingToTarget,
-        Attacking
+        Attacking,
+        BackingUp,
+        Defending,
+        SeekingBackup
     }
 
-    private State currentState = State.Idle;
-    private Transform target;
+    protected State currentState = State.Idle;
+    protected Transform target;
 
-    private void Start()
+    protected virtual void Start()
     {
         StartCoroutine(BehaviorTree());
     }
 
-    private new void Update()
+    protected virtual void Update()
     {
         if (isTaunted) Move(tauntTarget);
         Vector3 moveTarget = isTaunted ? tauntTarget : FindNearestTarget();
         Move(moveTarget);
     }
 
-    private IEnumerator BehaviorTree()
+    protected IEnumerator BehaviorTree()
     {
         while (true)
         {
@@ -45,12 +48,21 @@ public class Enemy : Unit
                 case State.Attacking:
                     AttackTarget();
                     break;
+                case State.BackingUp:
+                    Backup();
+                    break;
+                case State.Defending:
+                    Defend();
+                    break;
+                case State.SeekingBackup:
+                    SeekBackup();
+                    break;
             }
             yield return null;
         }
     }
 
-    private void FindTarget()
+    protected virtual void FindTarget()
     {
         GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
         GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
@@ -88,7 +100,7 @@ public class Enemy : Unit
         }
     }
 
-    private void MoveToTarget()
+    protected virtual void MoveToTarget()
     {
         if (target != null)
         {
@@ -104,30 +116,85 @@ public class Enemy : Unit
         }
     }
 
-    private void AttackTarget()
+    protected virtual void AttackTarget()
     {
         if (target != null)
         {
             Unit entity = target.GetComponent<Unit>();
             if (entity != null)
             {
-                entity.TakeDamage(20); // Adjust damage as needed
+                entity.TakeDamage(20); 
             }
             currentState = State.Idle;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void Backup()
+    {
+        Vector3 directionAwayFromTarget = (transform.position - target.position).normalized;
+        Vector3 backupPosition = transform.position + directionAwayFromTarget * bumpDistance;
+
+        transform.position = Vector3.MoveTowards(transform.position, backupPosition, movementSpeed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, backupPosition) < 0.1f)
+        {
+            currentState = State.SeekingBackup;
+        }
+    }
+
+    protected virtual void Defend()
+    {
+        StartCoroutine(DefenseCoroutine());
+    }
+
+    protected IEnumerator DefenseCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        currentState = State.Idle;
+    }
+
+    protected virtual void SeekBackup()
+    {
+        GameObject[] allies = GameObject.FindGameObjectsWithTag("Enemy");
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        GameObject closestAlly = null;
+
+        foreach (GameObject ally in allies)
+        {
+            if (ally != gameObject)
+            {
+                float dSqrToTarget = (ally.transform.position - currentPosition).sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    closestAlly = ally;
+                }
+            }
+        }
+
+        if (closestAlly != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, closestAlly.transform.position, movementSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, closestAlly.transform.position) < 0.5f)
+            {
+                currentState = State.Defending;
+            }
+        }
+        else
+        {
+            currentState = State.Idle;
+        }
+    }
+
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Entity"))
         {
             Unit entity = collision.gameObject.GetComponent<Unit>();
             if (entity != null)
             {
-                // Apply damage to the entity
                 entity.TakeDamage(collisionDamage);
 
-                // Apply bump back effect
                 Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
                 transform.position += bumpDirection * bumpDistance;
             }
@@ -141,11 +208,11 @@ public class Enemy : Unit
         }
     }
 
-    public new void Move(Vector3 targetPosition)
+    public virtual void Move(Vector3 targetPosition)
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
-        if (targetPosition != transform.position) // Ensure there is a movement towards a target
+        if (targetPosition != transform.position)
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
@@ -153,7 +220,7 @@ public class Enemy : Unit
         }
     }
 
-    private Vector3 FindNearestTarget()
+    protected Vector3 FindNearestTarget()
     {
         GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
         GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
@@ -188,7 +255,7 @@ public class Enemy : Unit
         return closestTarget != null ? closestTarget.transform.position : Vector3.positiveInfinity;
     }
 
-    public void Taunt(Tank taunter)
+    public virtual void Taunt(Tank taunter)
     {
         tauntTarget = taunter.transform.position;
         isTaunted = true;

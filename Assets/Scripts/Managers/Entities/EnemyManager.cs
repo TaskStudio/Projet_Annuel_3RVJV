@@ -3,7 +3,9 @@ using System.Collections;
 
 public class EnemyManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject suicideEnemyPrefab;
+    public GameObject attackingEnemyPrefab;
+    public GameObject defenderEnemyPrefab;
     public float spawnDelay = 2f;
 
     private void Start()
@@ -33,7 +35,19 @@ public class EnemyManager : MonoBehaviour
 
             if (!Physics.CheckSphere(spawnPosition, 0.5f))
             {
-                Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                int enemyType = Random.Range(0, 3); // Randomly choose enemy type
+                switch (enemyType)
+                {
+                    case 0:
+                        Instantiate(suicideEnemyPrefab, spawnPosition, Quaternion.identity);
+                        break;
+                    case 1:
+                        Instantiate(attackingEnemyPrefab, spawnPosition, Quaternion.identity);
+                        break;
+                    case 2:
+                        Instantiate(defenderEnemyPrefab, spawnPosition, Quaternion.identity);
+                        break;
+                }
                 break;
             }
         }

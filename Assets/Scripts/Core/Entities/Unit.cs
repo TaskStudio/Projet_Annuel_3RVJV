@@ -43,6 +43,8 @@ public class Unit : Entity<UnitData>
 
     protected virtual void Update()
     {
+        if (this == null || gameObject == null || !gameObject.activeInHierarchy) return; // Early exit if the unit is destroyed or inactive
+
         spatialGrid.Update(this, lastPosition);
         lastPosition = transform.position;
 
@@ -128,13 +130,16 @@ public class Unit : Entity<UnitData>
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
+
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
         NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
         for (int i = 0; i < neighbors.Count; i++)
         {
-            unitPositions[i] = neighbors[i].transform.position;
+            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
+                unitPositions[i] = neighbors[i].transform.position;
+            }
         }
 
         NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
