@@ -80,10 +80,6 @@ public class Building : Entity
         objectRenderer.receiveShadows = true;
     }
 
-    protected override void Initialize()
-    {
-    }
-
     protected override void Die()
     {
         gameObject.SetActive(false);

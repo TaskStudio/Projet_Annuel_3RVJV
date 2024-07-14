@@ -27,10 +27,7 @@ public class Unit : Entity<UnitData>
 
     protected void Start()
     {
-        if (spatialGrid == null)
-        {
-            spatialGrid = new SpatialGrid(5f);
-        }
+        if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
 
         spatialGrid.Add(this);
         lastPosition = transform.position;
@@ -65,7 +62,7 @@ public class Unit : Entity<UnitData>
             targetPosition = transform.position;
             needsCollisionAvoidance = true;
         }
-        
+
         if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
             Move(originalTargetPosition);
@@ -78,6 +75,7 @@ public class Unit : Entity<UnitData>
 
     protected override void Initialize()
     {
+        base.Initialize();
         currentMana = data.maxManaPoints;
         attackSpeed = data.attackSpeed;
         movementSpeed = data.movementSpeed;
@@ -134,15 +132,10 @@ public class Unit : Entity<UnitData>
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++)
-        {
-            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
-                unitPositions[i] = neighbors[i].transform.position;
-            }
-        }
+        NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
+        for (int i = 0; i < neighbors.Count; i++) unitPositions[i] = neighbors[i].transform.position;
 
-        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+        NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
 
         var job = new AvoidCollisionsJob
         {
