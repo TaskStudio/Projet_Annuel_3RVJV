@@ -72,7 +72,6 @@ public class Unit : Entity<UnitData>
         avoidanceVector = Vector3.zero;
     }
 
-
     protected override void Initialize()
     {
         base.Initialize();
@@ -132,10 +131,15 @@ public class Unit : Entity<UnitData>
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++) unitPositions[i] = neighbors[i].transform.position;
+        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
+                unitPositions[i] = neighbors[i].transform.position;
+            }
+        }
 
-        NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
+        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
 
         var job = new AvoidCollisionsJob
         {
@@ -156,7 +160,6 @@ public class Unit : Entity<UnitData>
 
         return targetPosition + avoidance;
     }
-
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
