@@ -8,19 +8,38 @@ public abstract class Entity : Entity<EntityData>
 
 public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType : EntityData
 {
+    [Space(10)] [Header("ID")]
+    [ShowOnly] [SerializeField] private string id;
+
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
+
+    [Space(10)] [Header("Display")]
+    [SerializeField] private HealthBar healthBar;
+
+    public string ID { get; private set; }
+
 
     public int currentHealth { get; protected set; }
 
     protected override void Initialize()
     {
         currentHealth = data.maxHealthPoints;
+        healthBar.Initialize(data.maxHealthPoints);
     }
 
     public int GetHealthPoints()
     {
         return currentHealth;
+    }
+
+    public void SetID(string unitId)
+    {
+        if (string.IsNullOrEmpty(ID))
+        {
+            ID = unitId;
+            id = unitId;
+        }
     }
 
     public void SetHealthPoints(int currentHealthPoints)
@@ -42,11 +61,14 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
     {
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
-        if (currentHealth <= 0) Die();
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
+        healthBar.SetValue(currentHealth);
     }
 
-    private void Die()
-    {
-        gameObject.SetActive(false);
-    }
+    protected abstract void Die();
 }

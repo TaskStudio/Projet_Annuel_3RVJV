@@ -15,8 +15,8 @@ MonoBehaviour:
   objectName: Tank
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 60
-  faction: 0
+  maxHealthPoints: 200
+  faction: 1
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 7

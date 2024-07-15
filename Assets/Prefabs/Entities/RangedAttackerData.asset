@@ -15,7 +15,7 @@ MonoBehaviour:
   objectName: Ranged Attacker
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 30
+  maxHealthPoints: 40
   faction: 0
   maxManaPoints: 0
   attackSpeed: 1
