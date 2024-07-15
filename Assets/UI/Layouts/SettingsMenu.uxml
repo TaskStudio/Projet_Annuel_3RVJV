@@ -14,7 +14,7 @@
                 <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
                     <ui:ScrollView class="scrollPanel">
                         <ui:DropdownField label="Windowed or screened                 " name="WindowOrScreened" choices="Full screen, Windowed," index="0" class="panelRow" />
-                        <ui:DropdownField label="Resolution                             " name="Resolution" choices="1920x1080" index="0" class="panelRow" />
+                        <ui:DropdownField label="Resolution                             " name="Resolution" choices="1280×1024, 1920x1080" index="1" class="panelRow" />
                         <ui:DropdownField label="Graphics Quality                       " name="GraphicsQuality" choices="Low, Medium, High" index="1" class="panelRow" />
                         <ui:DropdownField label="Shadow Quality                         " name="ShadowQuality" choices="None, Normal" index="0" class="panelRow" />
                     </ui:ScrollView>
