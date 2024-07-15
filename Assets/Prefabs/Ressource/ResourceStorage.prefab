@@ -93,7 +93,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7974219844798317165}
   - component: {fileID: 3839866909170121505}
-  m_Layer: 0
+  - component: {fileID: 4740450633149729343}
+  m_Layer: 8
   m_Name: ResourceStorage
   m_TagString: RessourceStorage
   m_Icon: {fileID: 0}
@@ -142,6 +143,27 @@ MonoBehaviour:
   gridMaterial: {fileID: 2100000, guid: d103cd69a05372a4b941a461d8b39d14, type: 2}
   gridInvalidMaterial: {fileID: 2100000, guid: a90942068c797c647b8f9ad3389e033e, type: 2}
   gridRenderer: {fileID: 3647263439748048454}
+--- !u!65 &4740450633149729343
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4393059881588511033}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 1.5, y: 1, z: 1.5}
 --- !u!1 &5188801423096406016
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +173,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7848537004013400753}
-  - component: {fileID: 4069509045956155397}
   - component: {fileID: 3961407437812346055}
   - component: {fileID: 8326520319202014425}
   m_Layer: 0
@@ -176,28 +197,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7974219844798317165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &4069509045956155397
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5188801423096406016}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!23 &3961407437812346055
 MeshRenderer:
   m_ObjectHideFlags: 0
