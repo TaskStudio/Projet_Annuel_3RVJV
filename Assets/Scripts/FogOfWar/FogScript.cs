@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace FogOfWar // Corrected namespace
 {
@@ -96,13 +97,25 @@ namespace FogOfWar // Corrected namespace
             // Release the compute buffer
             _unitPositionBuffer.Release();
 
-            // Copy RenderTexture to lowResTexture
-            RenderTexture.active = _renderTexture;
-            _lowResTexture.ReadPixels(new Rect(0, 0, _renderTexture.width, _renderTexture.height), 0, 0);
+            // Asynchronously read back the texture if needed
+            AsyncGPUReadback.Request(_renderTexture, 0, TextureFormat.RGBA32, OnCompleteReadback);
+        }
+
+        private void OnCompleteReadback(AsyncGPUReadbackRequest request)
+        {
+            if (request.hasError)
+            {
+                Debug.LogError("Error reading back texture from GPU");
+                return;
+            }
+
+            NativeArray<Color32> data = request.GetData<Color32>();
+            _lowResTexture.SetPixels32(data.ToArray());
             _lowResTexture.Apply();
 
             mr.material.mainTexture = _lowResTexture;
         }
+
 
         private void OnDestroy()
         {
