@@ -19,11 +19,11 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Outlined
+  - Selected
   - groundLayer
   - Entity
   - Enemy
-  - 
+  - Hovered
   - 
   - 
   - 

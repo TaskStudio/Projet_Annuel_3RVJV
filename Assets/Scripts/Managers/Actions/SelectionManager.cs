@@ -8,6 +8,8 @@ public class SelectionManager : MonoBehaviour
     public LayerMask clickableLayer;
 
     private readonly List<BaseObject> selectedEntities = new();
+
+    private BaseObject hoveredEntity;
     private bool isDragging;
 
     private Vector3 mouseDragStart;
@@ -30,7 +32,31 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
+        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5)
+        {
+            isDragging = true;
+        }
+        else
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+            {
+                var selectable = hit.collider.GetComponent<BaseObject>();
+                if (selectable != null)
+                    if (hoveredEntity != selectable)
+                    {
+                        hoveredEntity?.OnHoverExit();
+                        hoveredEntity = selectable;
+                        hoveredEntity.OnHoverEnter();
+                    }
+            }
+            else if (!selectedEntities.Contains(hoveredEntity))
+            {
+                hoveredEntity?.OnHoverExit();
+                hoveredEntity = null;
+            }
+        }
     }
 
 
