@@ -15,7 +15,7 @@ MonoBehaviour:
   buildingsData:
   - <IdNumber>k__BackingField: 0
     <DisplayName>k__BackingField: Factory
-    <Size>k__BackingField: {x: 11, y: 11}
+    <Size>k__BackingField: {x: 12, y: 12}
     <Prefab>k__BackingField: {fileID: 2563002099852903821, guid: 0369693cd82a317469307315d3d4b0af, type: 3}
     <ConstructionTime>k__BackingField: 2
   - <IdNumber>k__BackingField: 1
