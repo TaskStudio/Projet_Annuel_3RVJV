@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Collections;
 
 public class FogOfWarManager : MonoBehaviour
 {
@@ -7,10 +8,12 @@ public class FogOfWarManager : MonoBehaviour
     public float worldSize = 80.0f;
     public LayerMask fogLayer;
     public float visibilityRadius = 5.0f;
+    public MeshRenderer meshRenderer;
+    public bool keepPrevious; // Add this variable
 
     private Texture2D fogTexture;
-    private Color[] fogColors;
-    private MeshRenderer meshRenderer;
+    private NativeArray<Color> fogColors;
+    private NativeArray<Color> fullBlack;
     private float fogUpdateRate = 0.1f;
     private float fogUpdateTimer;
 
@@ -33,14 +36,17 @@ public class FogOfWarManager : MonoBehaviour
     void Start()
     {
         fogTexture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
-        fogColors = new Color[textureSize * textureSize];
-        for (int i = 0; i < fogColors.Length; i++)
-        {
-            fogColors[i] = Color.black;
-        }
-        fogTexture.SetPixels(fogColors);
-        fogTexture.Apply();
+        fogColors = new NativeArray<Color>(textureSize * textureSize, Allocator.Persistent);
+        fullBlack = new NativeArray<Color>(textureSize * textureSize, Allocator.Persistent);
 
+        for (int i = 0; i < fullBlack.Length; i++)
+        {
+            fullBlack[i] = new Color(0, 0, 0, 1); // Fully opaque black
+        }
+
+        fogColors.CopyFrom(fullBlack);
+        fogTexture.SetPixels(fogColors.ToArray());
+        fogTexture.Apply();
         
         meshRenderer.material.SetTexture("_MainTex", fogTexture);
 
@@ -64,15 +70,10 @@ public class FogOfWarManager : MonoBehaviour
     void UpdateFogOfWar()
     {
         Debug.Log("Updating Fog of War");
-        if (fogTexture == null || fogColors == null)
-        {
-            Debug.LogError("Fog texture or colors are not initialized.");
-            return;
-        }
 
-        for (int i = 0; i < fogColors.Length; i++)
+        if (!keepPrevious)
         {
-            fogColors[i] = new Color(0, 0, 0, 1); // Reset fog to black with full alpha
+            fogColors.CopyFrom(fullBlack);
         }
 
         foreach (Unit unit in units)
@@ -84,7 +85,6 @@ public class FogOfWarManager : MonoBehaviour
                 Debug.Log($"Unit Position: {unitPosition}, Texture Coords: {unitPosInTexture}");
 
                 int radius = Mathf.CeilToInt(visibilityRadius * textureSize / worldSize);
-
                 for (int x = -radius; x <= radius; x++)
                 {
                     for (int y = -radius; y <= radius; y++)
@@ -101,20 +101,10 @@ public class FogOfWarManager : MonoBehaviour
             }
         }
 
-        fogTexture.SetPixels(fogColors);
+        fogTexture.SetPixels(fogColors.ToArray());
         fogTexture.Apply();
         meshRenderer.material.SetTexture("_MainTex", fogTexture); // Ensure texture is applied
     }
-
-
-Vector3 TextureToWorldCoords(int texX, int texY)
-{
-    float worldX = ((float)texX / textureSize) * worldSize - (worldSize * 0.5f);
-    float worldZ = ((float)texY / textureSize) * worldSize - (worldSize * 0.5f);
-    return new Vector3(worldX, 0, worldZ);
-}
-
-
 
     Vector2Int WorldToTextureCoords(Vector3 worldPos)
     {
@@ -135,6 +125,18 @@ Vector3 TextureToWorldCoords(int texX, int texY)
         if (!units.Contains(unit))
         {
             units.Add(unit);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (fogColors.IsCreated)
+        {
+            fogColors.Dispose();
+        }
+        if (fullBlack.IsCreated)
+        {
+            fullBlack.Dispose();
         }
     }
 }
