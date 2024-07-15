@@ -1,0 +1,35 @@
+#pragma kernel CSMain
+
+RWTexture2D<float4> Result;
+StructuredBuffer<float3> UnitPositions;
+float cellSize;
+float revealRadius;
+int gridSize;
+
+[numthreads(8, 8, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    int2 pixelCoord = int2(id.xy);
+
+    // Initialize every pixel to black
+    Result[pixelCoord] = float4(0, 0, 0, 1); // Black
+
+    // Check unit positions and clear the fog where appropriate
+    for (uint i = 0; i < UnitPositions.Length; i++)
+    {
+        float3 unitPos = UnitPositions[i];
+        int centerX = int((unitPos.x + 40.0) / cellSize);
+        int centerY = int((unitPos.z + 40.0) / cellSize);
+
+        int2 unitCoord = int2(centerX, centerY);
+
+        int revealRadiusInCells = int(ceil(revealRadius / cellSize));
+        int2 offset = pixelCoord - unitCoord;
+        float distance = length(float2(offset) * cellSize);
+
+        if (distance <= revealRadius)
+        {
+            Result[pixelCoord] = float4(0, 0, 0, 0); // Clear (transparent)
+        }
+    }
+}
