@@ -11,15 +11,15 @@
             </ui:VisualElement>
             <ui:VisualElement name="ContentContainer" style="flex-grow: 1; visibility: visible; display: flex; -unity-background-image-tint-color: rgb(215, 215, 215); background-color: rgb(210, 210, 210);">
                 <ui:VisualElement name="GeneralPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;" />
-                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
+                <ui:VisualElement name="GraphicsPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible; padding-right: 40px; padding-left: 40px; align-self: center; width: 60%;">
                     <ui:ScrollView class="scrollPanel">
                         <ui:DropdownField label="Windowed or screened                 " name="WindowOrScreened" choices="Full screen, Windowed," index="0" class="panelRow" />
-                        <ui:DropdownField label="Resolution                             " name="Resolution" choices="1280×1024, 1920x1080" index="1" class="panelRow" />
+                        <ui:DropdownField label="Resolution                             " name="Resolution" choices="1280x1024,1920x1080" index="1" class="panelRow" />
                         <ui:DropdownField label="Graphics Quality                       " name="GraphicsQuality" choices="Low, Medium, High" index="1" class="panelRow" />
                         <ui:DropdownField label="Shadow Quality                         " name="ShadowQuality" choices="None, Normal" index="0" class="panelRow" />
                     </ui:ScrollView>
                 </ui:VisualElement>
-                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: flex; visibility: visible;">
+                <ui:VisualElement name="AudioPanel" class="panel" style="flex-grow: 1; display: none; visibility: visible;">
                     <ui:ScrollView style="display: flex;">
                         <ui:SliderInt label="General Volume                   " high-value="100" low-value="0" direction="Horizontal" inverted="false" name="GeneralVolume" style="align-items: stretch; justify-content: flex-start; align-self: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
                         <ui:SliderInt label="Music                              " high-value="100" name="MusicVolume" />

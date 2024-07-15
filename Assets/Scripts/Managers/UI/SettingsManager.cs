@@ -11,8 +11,11 @@ public class SettingsManager : MonoBehaviour
     private Button currentButton;
     private DropdownField fullscreenDropdown;
     private DropdownField resolutionDropdown;
+    private SliderInt generalVolumeSlider;
+    private SliderInt musicVolumeSlider;
 
     public UIDocument mainUIDocument;
+    public AudioSource backgroundMusic;
 
     private void OnEnable()
     {
@@ -53,6 +56,21 @@ public class SettingsManager : MonoBehaviour
         if (resolutionDropdown != null)
         {
             resolutionDropdown.RegisterValueChangedCallback(evt => SetResolution(evt.newValue));
+        }
+
+        // Initialize and register callback for the volume sliders
+        generalVolumeSlider = root.Q<SliderInt>("GeneralVolume");
+        if (generalVolumeSlider != null)
+        {
+            generalVolumeSlider.RegisterValueChangedCallback(evt => SetGeneralVolume(evt.newValue));
+            InitializeVolumeSliders();
+        }
+
+        musicVolumeSlider = root.Q<SliderInt>("MusicVolume");
+        if (musicVolumeSlider != null)
+        {
+            musicVolumeSlider.RegisterValueChangedCallback(evt => SetMusicVolume(evt.newValue));
+            InitializeVolumeSliders();
         }
     }
 
@@ -125,6 +143,36 @@ public class SettingsManager : MonoBehaviour
         else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen || Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
         {
             fullscreenDropdown.SetValueWithoutNotify("Full Screen");
+        }
+    }
+
+    private void InitializeVolumeSliders()
+    {
+        // Set the sliders to the current volume levels
+        if (generalVolumeSlider != null)
+        {
+            generalVolumeSlider.SetValueWithoutNotify((int)(AudioListener.volume * 100));
+        }
+
+        if (musicVolumeSlider != null && backgroundMusic != null)
+        {
+            musicVolumeSlider.SetValueWithoutNotify((int)(backgroundMusic.volume * 100));
+        }
+    }
+
+    private void SetGeneralVolume(int volume)
+    {
+        // Here you can set the volume for all audio sources
+        AudioListener.volume = volume / 100f;
+        Debug.Log($"General volume set to: {volume}");
+    }
+
+    private void SetMusicVolume(int volume)
+    {
+        if (backgroundMusic != null)
+        {
+            backgroundMusic.volume = volume / 100f;
+            Debug.Log($"Music volume set to: {volume}");
         }
     }
 }
