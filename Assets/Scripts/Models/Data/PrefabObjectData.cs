@@ -9,5 +9,5 @@ public class PrefabObjectData
     public string name;
     public Vector3 position;
     public Quaternion rotation;
-    public string path;
+    public string addressableKey;
 }

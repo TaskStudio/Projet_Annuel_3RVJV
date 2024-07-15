@@ -10,6 +10,7 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
 {
     [Space(10)] [Header("ID")]
     [ShowOnly] [SerializeField] private string id;
+    [SerializeField] private string addressableKey;
 
     [Space(10)] [Header("Actions")]
     public List<UnityEvent> actionList;
@@ -18,6 +19,7 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
     [SerializeField] private HealthBar healthBar;
 
     public string ID { get; private set; }
+    public string AddressableKey => addressableKey;
 
 
     public int currentHealth { get; protected set; }

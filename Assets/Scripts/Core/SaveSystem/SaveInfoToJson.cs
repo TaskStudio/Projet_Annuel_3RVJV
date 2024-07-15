@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 public class SaveInfoToJson : MonoBehaviour
@@ -39,6 +38,7 @@ public class SaveInfoToJson : MonoBehaviour
                 name = building.name,
                 position = building.transform.position,
                 rotation = building.transform.rotation,
+                addressableKey = building.AddressableKey
             };
             objectList.objects.Add(buildingData);
         }
@@ -55,6 +55,7 @@ public class SaveInfoToJson : MonoBehaviour
                 name = entity.name,
                 position = entity.transform.position,
                 rotation = entity.transform.rotation,
+                addressableKey = entity.AddressableKey
             };
             objectList.objects.Add(entityData);
         }
