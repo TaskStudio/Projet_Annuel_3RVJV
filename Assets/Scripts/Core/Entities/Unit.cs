@@ -35,6 +35,16 @@ public class Unit : Entity<UnitData>
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
+        
+      
+        
+            
+        if (FogOfWarManager.Instance != null)
+        {
+            FogOfWarManager.Instance.RegisterUnit(this);
+        }
+        
+
     }
 
     protected virtual void Update()
@@ -70,6 +80,9 @@ public class Unit : Entity<UnitData>
         }
 
         avoidanceVector = Vector3.zero;
+        
+        
+        
     }
 
     protected override void Initialize()
