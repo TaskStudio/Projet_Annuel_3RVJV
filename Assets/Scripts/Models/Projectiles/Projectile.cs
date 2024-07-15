@@ -3,7 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float speed = 10f;
-    public int damage = 100;
+    public int damage = 10;
     private float maxRange; // the maximum range the projectile can travel
     private Vector3 startPosition; // to store the starting position
     private Vector3 velocity; // to store the direction and speed
