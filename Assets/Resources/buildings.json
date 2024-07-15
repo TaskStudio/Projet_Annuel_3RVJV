@@ -5,9 +5,9 @@
             "type": "AttackerFactory",
             "name": "AttackerFactory(Clone)",
             "position": {
-                "x": -15.0,
+                "x": -6.0,
                 "y": 0.0,
-                "z": 9.0
+                "z": 19.0
             },
             "rotation": {
                 "x": 0.0,
@@ -15,16 +15,16 @@
                 "z": 0.0,
                 "w": 1.0
             },
-            "path": ""
+            "addressableKey": "FAC-1"
         },
         {
-            "role": "unit",
-            "type": "Gatherer",
-            "name": "Gatherer(Clone)",
+            "role": "building",
+            "type": "AttackerFactory",
+            "name": "AttackerFactory(Clone)",
             "position": {
-                "x": -6.787696838378906,
-                "y": 0.10000000149011612,
-                "z": -4.11178731918335
+                "x": 20.0,
+                "y": 0.0,
+                "z": 31.0
             },
             "rotation": {
                 "x": 0.0,
@@ -32,16 +32,16 @@
                 "z": 0.0,
                 "w": 1.0
             },
-            "path": ""
+            "addressableKey": "FAC-1"
         },
         {
-            "role": "unit",
-            "type": "RangedAttacker",
-            "name": "RangedAttacker(Clone)",
+            "role": "building",
+            "type": "ResourceStorage",
+            "name": "ResourceStorage(Clone)",
             "position": {
-                "x": -11.166339874267579,
-                "y": 0.10000000149011612,
-                "z": -2.7377688884735109
+                "x": 21.0,
+                "y": 0.0,
+                "z": -8.0
             },
             "rotation": {
                 "x": 0.0,
@@ -49,7 +49,41 @@
                 "z": 0.0,
                 "w": 1.0
             },
-            "path": ""
+            "addressableKey": "RES-1"
+        },
+        {
+            "role": "building",
+            "type": "ResourceStorage",
+            "name": "ResourceStorage(Clone)",
+            "position": {
+                "x": -10.0,
+                "y": 0.0,
+                "z": -3.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "addressableKey": "RES-1"
+        },
+        {
+            "role": "building",
+            "type": "ResourceStorage",
+            "name": "ResourceStorage(Clone)",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -13.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "addressableKey": "RES-1"
         }
     ]
 }

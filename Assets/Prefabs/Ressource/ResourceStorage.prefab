@@ -131,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 5188801423096406016}
   data: {fileID: 11400000, guid: e18b69ace3794154bb082854133170ca, type: 2}
+  id: 
+  addressableKey: RES-1
   actionList: []
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
