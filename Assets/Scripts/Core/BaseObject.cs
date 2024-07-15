@@ -63,18 +63,21 @@ public abstract class BaseObject : MonoBehaviour
 
     public void OnHoverEnter()
     {
-        model.layer = LayerMask.NameToLayer("Outlined");
+        model.layer = LayerMask.NameToLayer("Hovered");
     }
 
     public void OnHoverExit()
     {
-        model.layer = LayerMask.NameToLayer("Default");
+        if (!isSelected)
+            model.layer = LayerMask.NameToLayer("Default");
+        else
+            model.layer = LayerMask.NameToLayer("Selected");
     }
 
 
     private void UpdateVisuals()
     {
-        model.layer = LayerMask.NameToLayer(isSelected ? "Outlined" : "Default");
+        model.layer = LayerMask.NameToLayer(isSelected ? "Selected" : "Default");
     }
 }
 
