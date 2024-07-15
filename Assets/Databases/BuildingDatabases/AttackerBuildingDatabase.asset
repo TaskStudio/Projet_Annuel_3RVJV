@@ -23,3 +23,8 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 3, y: 3}
     <Prefab>k__BackingField: {fileID: 3839866909170121505, guid: 520b403228ff2144cadd2c87bc189a96, type: 3}
     <ConstructionTime>k__BackingField: 1
+  - <IdNumber>k__BackingField: 2
+    <DisplayName>k__BackingField: Vision Tower
+    <Size>k__BackingField: {x: 3, y: 3}
+    <Prefab>k__BackingField: {fileID: 3875415296128224541, guid: 1ee1a9fe58a62f64292bc124d186d725, type: 3}
+    <ConstructionTime>k__BackingField: 1
