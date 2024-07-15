@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class SaveInfoToJson : MonoBehaviour
@@ -15,7 +13,7 @@ public class SaveInfoToJson : MonoBehaviour
     }
 
     public void SaveToJson()
-    { 
+    {
         int saveNumber = 1;
         buildingManager = BuildingManager.Instance;
         movableEntityManager = MovableEntityManager.Instance;
@@ -68,10 +66,7 @@ public class SaveInfoToJson : MonoBehaviour
         var directoryPath = Path.GetDirectoryName(filePath);
         if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
-        while(File.Exists(filePath + "Save" + saveNumber + ".json"))
-        {
-            saveNumber++;
-        }
+        while (File.Exists(filePath + "Save" + saveNumber + ".json")) saveNumber++;
         File.WriteAllText(filePath + "Save" + saveNumber + ".json", json);
     }
 }
