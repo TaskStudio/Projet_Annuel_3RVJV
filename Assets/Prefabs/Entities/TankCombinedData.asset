@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2c39989e0a445f7ba58c76e3c220aa6, type: 3}
-  m_Name: TankData
+  m_Name: TankCombinedData
   m_EditorClassIdentifier: 
-  objectName: Tank
+  objectName: Tank combined
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 200
+  maxHealthPoints: 1000
   faction: 1
   maxManaPoints: 0
   attackSpeed: 1
-  movementSpeed: 7
+  movementSpeed: 5

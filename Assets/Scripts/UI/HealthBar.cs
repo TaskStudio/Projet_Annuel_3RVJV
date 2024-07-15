@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Entities;
 
 public class HealthBar : MonoBehaviour
 {
@@ -8,38 +7,29 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public Image fill;
     private Camera mainCamera;
-    public Entity damageableEntity;
 
     private void Start()
     {
         mainCamera = Camera.main;
-        Initialize(damageableEntity);
     }
 
     private void Update()
     {
         // Face the camera
         if (mainCamera)
-        {
-            transform.LookAt(transform.position + mainCamera.transform.rotation * Vector3.forward,
-                mainCamera.transform.rotation * Vector3.up);
-        }
-        
-        if (damageableEntity != null)
-        {
-            // Assuming GetHealthPoints() is an extension method or part of some system
-            SetValue(damageableEntity.GetHealthPoints());
-        }
+            transform.LookAt(
+                transform.position + mainCamera.transform.rotation * Vector3.forward,
+                mainCamera.transform.rotation * Vector3.up
+            );
     }
 
-    public void Initialize(Entity myEntity)
+    public void Initialize(int hp)
     {
-        damageableEntity = myEntity;
-        SetMaxValue(damageableEntity.GetMaxHealthPoints());
-        SetValue(damageableEntity.GetHealthPoints()); 
+        SetMaxValue(hp);
+        SetValue(hp);
     }
 
-    public void SetMaxValue(int maxValue)
+    private void SetMaxValue(int maxValue)
     {
         slider.maxValue = maxValue;
         slider.value = maxValue;
