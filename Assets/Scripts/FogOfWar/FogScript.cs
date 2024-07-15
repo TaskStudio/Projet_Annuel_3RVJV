@@ -2,141 +2,116 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 
-public class FogScript : MonoBehaviour
+namespace FogOfWar // Corrected namespace
 {
-    public bool keepPrevious;
-    public MeshRenderer mr;
-    public ComputeShader fogComputeShader;
-    public float minMoveDistance = 0.3f; // Minimum distance to move before updating the fog
-
-    private List<Unit> units;
-    private Dictionary<Unit, Vector3> lastUnitPositions;
-
-    private NativeArray<Color> fullBlack;
-    private Texture2D lowResTexture;
-    private ComputeBuffer unitsBuffer;
-    private RenderTexture resultTexture;
-    private NativeArray<Vector3> unitPositions;
-    private const int gridSize = 512;
-    private const float cellSize = 80.0f / gridSize;
-    private const float revealRadius = 2.5f;
-
-    private void Awake()
+    public class FogScript : MonoBehaviour
     {
-        units = new List<Unit>(FindObjectsOfType<Unit>());
-        lastUnitPositions = new Dictionary<Unit, Vector3>();
-    }
+        public bool keepPrevious;
+        public MeshRenderer mr;
+        public ComputeShader computeShader;
 
-    private void Start()
-    {
-        InitializeFullBlackArray();
-        InitializeTexturesAndBuffers();
-        InitializeLastUnitPositions();
-    }
+        private List<Unit> _units;
 
-    private void Update()
-    {
-        if (UnitsHaveMoved())
+        private NativeArray<Color> _fullBlack;
+        private Texture2D _lowResTexture;
+        private RenderTexture _renderTexture;
+        private ComputeBuffer _unitPositionBuffer;
+
+        private static readonly int GridSize = 512;
+        private static readonly float CellSize = 80.0f / GridSize;
+        private static readonly float RevealRadius = 2.5f;
+
+        private int _kernelHandle;
+        private int _resultID;
+        private int _unitPositionsID;
+        private int _gridSizeID;
+        private int _cellSizeID;
+        private int _revealRadiusID;
+        private int _clearColorID;
+        private int _fullBlackColorID;
+
+        private void Start()
         {
-            UpdateUnitsBuffer();
-            DispatchComputeShader();
-            UpdateTexture();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        CleanupResources();
-    }
-
-    private void InitializeFullBlackArray()
-    {
-        fullBlack = new NativeArray<Color>(gridSize * gridSize, Allocator.Persistent);
-        for (var i = 0; i < gridSize * gridSize; i++)
-        {
-            fullBlack[i] = Color.black;
-        }
-    }
-
-    private void InitializeTexturesAndBuffers()
-    {
-        lowResTexture = new Texture2D(gridSize, gridSize, TextureFormat.RGBA32, false);
-        resultTexture = new RenderTexture(gridSize, gridSize, 0, RenderTextureFormat.ARGB32)
-        {
-            enableRandomWrite = true,
-            useMipMap = false,
-            filterMode = FilterMode.Point
-        };
-        resultTexture.Create();
-
-        unitsBuffer = new ComputeBuffer(1000, sizeof(float) * 3); // Adjust the size based on expected number of units
-        unitPositions = new NativeArray<Vector3>(unitsBuffer.count, Allocator.Persistent);
-    }
-
-    private void InitializeLastUnitPositions()
-    {
-        foreach (var unit in units)
-        {
-            lastUnitPositions[unit] = unit.transform.position;
-        }
-    }
-
-    private void UpdateUnitsBuffer()
-    {
-        if (units.Count > unitsBuffer.count)
-        {
-            unitsBuffer.Dispose();
-            unitPositions.Dispose();
-            unitsBuffer = new ComputeBuffer(units.Count, sizeof(float) * 3);
-            unitPositions = new NativeArray<Vector3>(unitsBuffer.count, Allocator.Persistent);
-        }
-
-        for (int i = 0; i < units.Count; i++)
-        {
-            unitPositions[i] = units[i].transform.position;
-        }
-        unitsBuffer.SetData(unitPositions);
-    }
-
-    private void DispatchComputeShader()
-    {
-        fogComputeShader.SetTexture(0, "Result", resultTexture);
-        fogComputeShader.SetBuffer(0, "UnitPositions", unitsBuffer);
-        fogComputeShader.SetFloat("cellSize", cellSize);
-        fogComputeShader.SetFloat("revealRadius", revealRadius);
-        fogComputeShader.SetInt("gridSize", gridSize);
-        fogComputeShader.SetBool("keepPrevious", keepPrevious);
-
-        fogComputeShader.Dispatch(0, gridSize / 8, gridSize / 8, 1);
-    }
-
-    private void UpdateTexture()
-    {
-        RenderTexture.active = resultTexture;
-        lowResTexture.ReadPixels(new Rect(0, 0, gridSize, gridSize), 0, 0);
-        lowResTexture.Apply();
-        mr.material.mainTexture = lowResTexture;
-    }
-
-    private void CleanupResources()
-    {
-        fullBlack.Dispose();
-        unitsBuffer.Dispose();
-        unitPositions.Dispose();
-        resultTexture.Release();
-    }
-
-    private bool UnitsHaveMoved()
-    {
-        foreach (var unit in units)
-        {
-            var currentPosition = unit.transform.position;
-            if (Vector3.Distance(currentPosition, lastUnitPositions[unit]) > minMoveDistance)
+            _fullBlack = new NativeArray<Color>(GridSize * GridSize, Allocator.Persistent);
+            for (var i = 0; i < GridSize; i++)
             {
-                lastUnitPositions[unit] = currentPosition;
-                return true;
+                for (var j = 0; j < GridSize; j++)
+                {
+                    _fullBlack[GridSize * i + j] = Color.black;
+                }
             }
+
+            _lowResTexture = new Texture2D(GridSize, GridSize);
+            _renderTexture = new RenderTexture(GridSize, GridSize, 0)
+            {
+                enableRandomWrite = true
+            };
+            _renderTexture.Create();
+
+            _kernelHandle = computeShader.FindKernel("CSMain");
+
+            // Cache property IDs
+            _resultID = Shader.PropertyToID("Result");
+            _unitPositionsID = Shader.PropertyToID("unitPositions");
+            _gridSizeID = Shader.PropertyToID("gridSize");
+            _cellSizeID = Shader.PropertyToID("cellSize");
+            _revealRadiusID = Shader.PropertyToID("revealRadius");
+            _clearColorID = Shader.PropertyToID("clearColor");
+            _fullBlackColorID = Shader.PropertyToID("fullBlackColor");
+
+            // Find all units in the scene
+            FindAllUnits();
         }
-        return false;
+
+        private void Update()
+        {
+            if (!keepPrevious)
+            {
+                Graphics.Blit(Texture2D.blackTexture, _renderTexture);
+            }
+
+            // Update the list of units every frame
+            FindAllUnits();
+
+            // Create and fill the compute buffer with unit positions
+            Vector4[] unitPositions = new Vector4[_units.Count];
+            for (int i = 0; i < _units.Count; i++)
+            {
+                Vector3 pos = _units[i].transform.position;
+                unitPositions[i] = new Vector4(pos.x, pos.z, 0.0f, 0.0f); // x and z coordinates, y is set to 0
+            }
+            _unitPositionBuffer = new ComputeBuffer(_units.Count, 16);
+            _unitPositionBuffer.SetData(unitPositions);
+
+            computeShader.SetInt(_gridSizeID, GridSize);
+            computeShader.SetFloat(_cellSizeID, CellSize);
+            computeShader.SetFloat(_revealRadiusID, RevealRadius);
+            computeShader.SetBuffer(_kernelHandle, _unitPositionsID, _unitPositionBuffer);
+            computeShader.SetVector(_clearColorID, Color.clear);
+            computeShader.SetVector(_fullBlackColorID, Color.black);
+
+            computeShader.SetTexture(_kernelHandle, _resultID, _renderTexture);
+            computeShader.Dispatch(_kernelHandle, GridSize / 8, GridSize / 8, 1);
+
+            // Release the compute buffer
+            _unitPositionBuffer.Release();
+
+            // Copy RenderTexture to lowResTexture
+            RenderTexture.active = _renderTexture;
+            _lowResTexture.ReadPixels(new Rect(0, 0, _renderTexture.width, _renderTexture.height), 0, 0);
+            _lowResTexture.Apply();
+
+            mr.material.mainTexture = _lowResTexture;
+        }
+
+        private void OnDestroy()
+        {
+            _fullBlack.Dispose();
+        }
+
+        private void FindAllUnits()
+        {
+            _units = new List<Unit>(FindObjectsOfType<Unit>());
+        }
     }
 }
