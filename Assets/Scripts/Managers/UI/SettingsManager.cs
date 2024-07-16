@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class SettingsManager : MonoBehaviour
 {
+    public static SettingsManager Instance { get; private set; }
+
     private VisualElement generalPanel;
     private VisualElement graphicsPanel;
     private VisualElement audioPanel;
@@ -13,9 +15,23 @@ public class SettingsManager : MonoBehaviour
     private DropdownField resolutionDropdown;
     private SliderInt generalVolumeSlider;
     private SliderInt musicVolumeSlider;
+    private DropdownField languageDropdown;
 
     public UIDocument mainUIDocument;
     public AudioSource backgroundMusic;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void OnEnable()
     {
@@ -25,7 +41,6 @@ public class SettingsManager : MonoBehaviour
         var graphicsButton = root.Q<Button>("GraphicsButton");
         var audioButton = root.Q<Button>("AudioButton");
         var languageButton = root.Q<Button>("LanguageButton");
-        var aboutButton = root.Q<Button>("AboutButton");
         var goBackButton = root.Q<Button>("GoBackButton");
 
         generalPanel = root.Q<VisualElement>("GeneralPanel");
@@ -117,8 +132,7 @@ public class SettingsManager : MonoBehaviour
         {
             Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, FullScreenMode.ExclusiveFullScreen);
         }
-
-        Debug.Log("Screen mode set to: " + mode);
+        //Debug.Log("Screen mode set to: " + mode);
     }
 
     private void SetResolution(string resolution)
@@ -129,7 +143,7 @@ public class SettingsManager : MonoBehaviour
             int width = int.Parse(resolutionParts[0]);
             int height = int.Parse(resolutionParts[1]);
             Screen.SetResolution(width, height, Screen.fullScreenMode);
-            Debug.Log($"Resolution set to: {width}x{height}");
+            //Debug.Log($"Resolution set to: {width}x{height}");
         }
     }
 
@@ -164,7 +178,7 @@ public class SettingsManager : MonoBehaviour
     {
         // Here you can set the volume for all audio sources
         AudioListener.volume = volume / 100f;
-        Debug.Log($"General volume set to: {volume}");
+        //Debug.Log($"General volume set to: {volume}");
     }
 
     private void SetMusicVolume(int volume)
@@ -172,7 +186,7 @@ public class SettingsManager : MonoBehaviour
         if (backgroundMusic != null)
         {
             backgroundMusic.volume = volume / 100f;
-            Debug.Log($"Music volume set to: {volume}");
+            //Debug.Log($"Music volume set to: {volume}");
         }
     }
 }
