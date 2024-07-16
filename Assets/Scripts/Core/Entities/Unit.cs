@@ -3,26 +3,37 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public class Unit : Entity<UnitData>
+public abstract class GenericUnit<TDataType> : Entity<TDataType> where TDataType : UnitData
+{
+    public int currentMana { get; protected set; }
+    public float movementSpeed { get; protected set; } = 0.5f;
+    public float attackSpeed { get; protected set; } = 1.0f;
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        currentMana = data.maxManaPoints;
+        attackSpeed = data.attackSpeed;
+        movementSpeed = data.movementSpeed;
+    }
+}
+
+public class Unit : GenericUnit<UnitData>
 {
     private static SpatialGrid spatialGrid;
     [Space(10)] [Header("Movement")]
     [SerializeField] protected LayerMask entityLayer;
     [SerializeField] protected float collisionRadius = 1f;
     [SerializeField] protected float avoidanceStrength = 5f;
-    private Vector3 avoidanceVector;
 
+    private Vector3 avoidanceVector;
     private Collider entityCollider;
     private bool isMoving;
     private Vector3 lastPosition;
     private bool needsCollisionAvoidance;
     private Vector3 originalTargetPosition;
     protected float stoppingDistance = 0.01f;
-    private Vector3 targetPosition;
-
-    public int currentMana { get; private set; }
-    public float movementSpeed { get; protected set; } = 0.5f;
-    public float attackSpeed { get; private set; } = 1.0f;
+    protected Vector3 targetPosition;
 
     protected void Start()
     {
@@ -70,14 +81,6 @@ public class Unit : Entity<UnitData>
         }
 
         avoidanceVector = Vector3.zero;
-    }
-
-    protected override void Initialize()
-    {
-        base.Initialize();
-        currentMana = data.maxManaPoints;
-        attackSpeed = data.attackSpeed;
-        movementSpeed = data.movementSpeed;
     }
 
     public void Move(Vector3 newPosition)
@@ -128,18 +131,16 @@ public class Unit : Entity<UnitData>
         }
     }
 
+
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
+        NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
         for (int i = 0; i < neighbors.Count; i++)
-        {
-            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
+            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy)
                 unitPositions[i] = neighbors[i].transform.position;
-            }
-        }
 
-        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+        NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
 
         var job = new AvoidCollisionsJob
         {
@@ -189,8 +190,15 @@ public class Unit : Entity<UnitData>
         transform.position = newPosition;
     }
 
+
     protected override void Die()
     {
         UnitFactory.ReturnEntity(this);
     }
+}
+
+public class Unit<TDataType> : Unit where TDataType : UnitData
+{
+    protected TDataType data;
+    public TDataType Data => data;
 }

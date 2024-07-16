@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 
 public class SpatialGrid
 {
-    private Dictionary<Vector2Int, List<Unit>> grid;
-    private float cellSize;
+    private readonly float cellSize;
+    private readonly Dictionary<Vector2Int, List<Unit>> grid;
 
     public SpatialGrid(float cellSize)
     {
@@ -25,10 +23,7 @@ public class SpatialGrid
     public void Add(Unit unit)
     {
         Vector2Int cell = GetCell(unit.transform.position);
-        if (!grid.ContainsKey(cell))
-        {
-            grid[cell] = new List<Unit>();
-        }
+        if (!grid.ContainsKey(cell)) grid[cell] = new List<Unit>();
         grid[cell].Add(unit);
     }
 
@@ -41,11 +36,9 @@ public class SpatialGrid
             if (grid.ContainsKey(oldCell))
             {
                 grid[oldCell].Remove(unit);
-                if (grid[oldCell].Count == 0)
-                {
-                    grid.Remove(oldCell);
-                }
+                if (grid[oldCell].Count == 0) grid.Remove(oldCell);
             }
+
             Add(unit);
         }
     }
@@ -53,19 +46,15 @@ public class SpatialGrid
     public List<Unit> GetNeighbors(Vector3 position)
     {
         Vector2Int cell = GetCell(position);
-        List<Unit> neighbors = new List<Unit>();
+        List<Unit> neighbors = new();
 
         for (int x = -1; x <= 1; x++)
+        for (int z = -1; z <= 1; z++)
         {
-            for (int z = -1; z <= 1; z++)
-            {
-                Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-                if (grid.ContainsKey(neighborCell))
-                {
-                    neighbors.AddRange(grid[neighborCell]);
-                }
-            }
+            Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
+            if (grid.ContainsKey(neighborCell)) neighbors.AddRange(grid[neighborCell]);
         }
+
         return neighbors;
     }
 }
