@@ -13,13 +13,12 @@ public class Fighter : Unit<FighterData>
     [SerializeField] private DistanceType distanceType;
     [SerializeField] private SphereCollider detectionSphere;
     [SerializeField] private float detectionRange = 15f;
-    [SerializeField] private float chaseDistance = 15f;
     [SerializeField] private float attackRange = 5f;
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private LayerMask enemyLayer;
     private readonly List<IEntity> targetsInRange = new();
 
-    private IEntity currentTarget;
+    protected IEntity currentTarget;
     private Vector3 heldPosition;
     private float lastAttackTime;
 

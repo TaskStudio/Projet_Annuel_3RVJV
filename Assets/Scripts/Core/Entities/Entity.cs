@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public interface IEntity : IBaseObject
 {
+    string ID { get; }
+
     void TakeDamage(int damage);
     void SetHealthPoints(int currentHealthPoints);
     int GetHealthPoints();
@@ -35,10 +37,10 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
     [Space(10)] [Header("Actions")]
     public List<EntityAction> actionList;
 
-    public string ID { get; private set; }
-
 
     public int currentHealth { get; protected set; }
+
+    public string ID { get; private set; }
 
     public int GetHealthPoints()
     {

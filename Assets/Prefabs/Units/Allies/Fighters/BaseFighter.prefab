@@ -189,8 +189,7 @@ MonoBehaviour:
   distanceType: 0
   detectionSphere: {fileID: 2200894075124304051}
   detectionRange: 20
-  chaseDistance: 15
-  attackRange: 15
+  attackRange: 2
   attackCooldown: 0.5
   enemyLayer:
     serializedVersion: 2
@@ -280,11 +279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x

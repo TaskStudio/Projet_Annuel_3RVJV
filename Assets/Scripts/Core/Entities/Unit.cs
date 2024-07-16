@@ -211,6 +211,6 @@ public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitDa
 
     protected override void Die()
     {
-        UnitFactory.ReturnEntity(this as Unit);
+        UnitFactory.ReturnEntity(this);
     }
 }

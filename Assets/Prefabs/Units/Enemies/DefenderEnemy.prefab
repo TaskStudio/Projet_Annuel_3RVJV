@@ -184,13 +184,21 @@ MonoBehaviour:
   model: {fileID: 3993162152066650152}
   data: {fileID: 11400000, guid: 547ff2ff6936605408d47fb4cafce16c, type: 2}
   id: 
-  actionList: []
   healthBar: {fileID: 3207035664839748911}
+  actionList: []
+  avoidanceStrength: 5
+  collisionRadius: 1
   entityLayer:
     serializedVersion: 2
     m_Bits: 512
-  collisionRadius: 1
-  avoidanceStrength: 5
+  distanceType: 0
+  detectionSphere: {fileID: 0}
+  detectionRange: 15
+  attackRange: 5
+  attackCooldown: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   extraHealth: 100
 --- !u!1001 &2490775962361101197
 PrefabInstance:
@@ -210,11 +218,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
@@ -306,11 +314,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.r
-      value: 0.12822974
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchorMax.x

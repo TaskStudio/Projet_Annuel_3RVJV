@@ -30,10 +30,13 @@ public class UnitFactory : MonoBehaviour
             unitPools.Add(unit.ID, new Queue<IUnit>());
             for (int i = 0; i < unit.PoolingAmount; i++)
             {
-                IUnit unitInstance = Instantiate(unit.Prefab as Unit, Vector3.zero, Quaternion.identity);
-                unitInstance.SetID(unit.ID);
-                unitInstance.gameObject.SetActive(false);
-                unitPools[unit.ID].Enqueue(unitInstance);
+                BaseObject unitInstance = Instantiate(unit.Prefab, Vector3.zero, Quaternion.identity);
+                if (unitInstance is IUnit iunit)
+                {
+                    iunit.SetID(unit.ID);
+                    unitInstance.gameObject.SetActive(false);
+                    unitPools[unit.ID].Enqueue(iunit);
+                }
             }
         }
     }
@@ -58,7 +61,7 @@ public class UnitFactory : MonoBehaviour
         return unit;
     }
 
-    public static void ReturnEntity(Unit unit)
+    public static void ReturnEntity(IUnit unit)
     {
         if (unit.ID == null)
         {

@@ -15,8 +15,8 @@ MonoBehaviour:
   objectName: Base fighter
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 20
   faction: 0
+  maxHealthPoints: 50
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5

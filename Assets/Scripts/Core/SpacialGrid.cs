@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpatialGrid
@@ -52,7 +53,11 @@ public class SpatialGrid
         for (int z = -1; z <= 1; z++)
         {
             Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-            if (grid.ContainsKey(neighborCell)) neighbors.AddRange(grid[neighborCell]);
+            if (grid.ContainsKey(neighborCell))
+            {
+                var neighborsToAdd = grid[neighborCell].Where(unit => !unit.IsDead());
+                neighbors.AddRange(neighborsToAdd);
+            }
         }
 
         return neighbors;
