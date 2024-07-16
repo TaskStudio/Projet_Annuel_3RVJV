@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0148b145517fcc04ea69c2170545c5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: Main Scene
+  nextScene: MainScene
   mainUIDocument: {fileID: 1309807368}
   settingsDocument: {fileID: 1310673112}
   creditsDocument: {fileID: 819201643}

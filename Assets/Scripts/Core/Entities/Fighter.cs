@@ -2,9 +2,6 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
-/// <summary>
-///     Class <c>Fighter</c> represents a Unit that can attack other Entities
-/// </summary>
 public class Fighter : Unit
 {
     public enum Distance
@@ -25,9 +22,8 @@ public class Fighter : Unit
     private float lastAttackTime;
     private Entity target;
 
-    protected new void Start()
+    protected void Start()
     {
-        base.Start();
         lastAttackTime = -attackCooldown; // Ensure the attacker can shoot immediately at start
     }
 

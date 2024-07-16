@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
 {
-    [SerializeField] private Grid grid;
+    [SerializeField] private MapGrid mapGrid;
     [SerializeField] private MouseControl mouseControl;
     [SerializeField] private BuildingDatabaseSO buildingDatabase;
+    [SerializeField] private float cellSize = 1.0f;
+
     public bool isBuildingSelected;
 
-    public readonly BuildingGridData BuildingGrid = new();
+    private readonly BuildingGridData BuildingGrid = new();
+    private Grid grid;
 
     private Building selectedBuilding;
     private BuildingData selectedBuildingData;
@@ -17,6 +20,9 @@ public class PlacementSystem : MonoBehaviour
 
     private void Start()
     {
+        grid = mapGrid.Grid;
+        mapGrid.SetGridCellSize(cellSize);
+
         isBuildingSelected = false;
 
         selectedBuilding = null;
@@ -49,11 +55,13 @@ public class PlacementSystem : MonoBehaviour
 
         selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.IdNumber == ID);
         selectedBuilding = Instantiate(selectedBuildingData.Prefab);
+        selectedBuilding.SetGridCellSize(cellSize);
         selectedBuilding.PreviewValid();
         selectedBuildingID = ID;
 
         isBuildingSelected = selectedBuilding != null;
         StartCoroutine(DelayedAddMouseEvents());
+        Cursor.visible = false;
     }
 
     private void PlaceBuilding()
@@ -75,6 +83,8 @@ public class PlacementSystem : MonoBehaviour
 
         mouseControl.OnClicked -= PlaceBuilding;
         mouseControl.OnExit -= CancelPlacement;
+
+        Cursor.visible = true;
     }
 
 

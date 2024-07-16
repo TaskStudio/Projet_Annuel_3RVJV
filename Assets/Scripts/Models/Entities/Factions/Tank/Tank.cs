@@ -7,6 +7,7 @@ public class Tank : Fighter
     public GameObject combinedTankPrefab;
     public float tauntRadius = 10f;
     private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
+    private bool isBeingDestroyed; // Flag to indicate if the tank is being destroyed
 
     protected new void Start()
     {
@@ -15,6 +16,8 @@ public class Tank : Fighter
 
     protected new void Update()
     {
+        if (isBeingDestroyed) return; // Skip update if the tank is being destroyed
+
         base.Update();
 
         if (Input.GetKeyDown(KeyCode.P)) CombineSelectedTanks();
@@ -35,7 +38,7 @@ public class Tank : Fighter
 
             foreach (var tank in _selectedTanks)
             {
-                combinedHp += tank.hp;
+                combinedHp += tank.GetMaxHealthPoints();
                 combinedPosition += tank.transform.position;
             }
 
@@ -45,7 +48,7 @@ public class Tank : Fighter
             foreach (var tank in _selectedTanks)
             {
                 if (EntitiesManager.Instance) EntitiesManager.Instance.UnregisterMovableEntity(tank);
-                Destroy(tank.gameObject);
+                tank.MarkForDestruction(); // Mark the tank for destruction
             }
 
             GameObject newTankObject = Instantiate(combinedTankPrefab, combinedPosition, Quaternion.identity);
@@ -54,13 +57,15 @@ public class Tank : Fighter
             Tank newTank = newTankObject.GetComponent<Tank>();
             if (newTank)
             {
-                newTank.hp = combinedHp;
-                newTank.moveSpeed = moveSpeed;
+                newTank.currentHealth = combinedHp;
+                newTank.SetMaxHealthPoints(combinedHp);
+
+                newTank.movementSpeed = movementSpeed;
                 newTank.stoppingDistance = stoppingDistance;
-                newTank.Entity = Entity;
+                newTank.entityLayer = entityLayer;
                 newTank.collisionRadius = 2f;
                 newTank.avoidanceStrength = avoidanceStrength;
-                newTank.isCombinedTank = true; // Mark the new tank as a combined tank
+                newTank.isCombinedTank = true;
 
                 newTank.Start();
             }
@@ -80,5 +85,12 @@ public class Tank : Fighter
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null) enemy.Taunt(this);
         }
+    }
+
+    public void MarkForDestruction()
+    {
+        isBeingDestroyed = true;
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

@@ -3,28 +3,48 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-/// <summary>
-///     Class <c>Unit</c> represents an Entity that can move
-/// </summary>
-public class Unit : Entity
+public class Unit : Entity<UnitData>
 {
-    public float moveSpeed = 5f;
-    public float stoppingDistance = 0.5f;
-    public LayerMask Entity;
-    public float collisionRadius = 1f;
-    public float avoidanceStrength = 5f;
+    private static SpatialGrid spatialGrid;
+    [Space(10)] [Header("Movement")]
+    [SerializeField] protected LayerMask entityLayer;
+    [SerializeField] protected float collisionRadius = 1f;
+    [SerializeField] protected float avoidanceStrength = 5f;
+    private Vector3 avoidanceVector;
+
     private Collider entityCollider;
     private bool isMoving;
-    protected Vector3 targetPosition;
+    private Vector3 lastPosition;
+    private bool needsCollisionAvoidance;
+    private Vector3 originalTargetPosition;
+    protected float stoppingDistance = 0.01f;
+    private Vector3 targetPosition;
+
+    public int currentMana { get; private set; }
+    public float movementSpeed { get; protected set; } = 0.5f;
+    public float attackSpeed { get; private set; } = 1.0f;
 
     protected void Start()
     {
+        if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
+
+        spatialGrid.Add(this);
+        lastPosition = transform.position;
+
         EntitiesManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
+        originalTargetPosition = transform.position;
+        entityCollider = GetComponent<Collider>();
     }
 
     protected virtual void Update()
     {
+        if (this == null || gameObject == null || !gameObject.activeInHierarchy)
+            return; // Early exit if the unit is destroyed or inactive
+
+        spatialGrid.Update(this, lastPosition);
+        lastPosition = transform.position;
+
         float distanceToTarget = Vector2.Distance(
             new Vector2(transform.position.x, transform.position.z),
             new Vector2(targetPosition.x, targetPosition.z)
@@ -39,11 +59,25 @@ public class Unit : Entity
         else if (distanceToTarget <= stoppingDistance && isMoving)
         {
             isMoving = false;
-            targetPosition = transform.position; // Ensure the entity stops moving
+            targetPosition = transform.position;
+            needsCollisionAvoidance = true;
         }
 
-        // Check if entity is pushed away from the target position and move it back
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance) Move(targetPosition);
+        if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
+        {
+            Move(originalTargetPosition);
+            needsCollisionAvoidance = false;
+        }
+
+        avoidanceVector = Vector3.zero;
+    }
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        currentMana = data.maxManaPoints;
+        attackSpeed = data.attackSpeed;
+        movementSpeed = data.movementSpeed;
     }
 
     public void Move(Vector3 newPosition)
@@ -54,8 +88,10 @@ public class Unit : Entity
                 newPosition.x,
                 transform.position.y,
                 newPosition.z
-            ); // Keep y position the same
+            );
+            originalTargetPosition = targetPosition;
             isMoving = true;
+            needsCollisionAvoidance = false;
         }
     }
 
@@ -64,18 +100,13 @@ public class Unit : Entity
         List<Unit> selectedEntities = new();
 
         foreach (var Unit in EntitiesManager.MovableEntities)
-            if (Unit is BaseObject selectable && selectable.IsSelected)
+            if (Unit is Unit selectable && selectable.IsSelected)
                 selectedEntities.Add(Unit);
 
         int numSelected = selectedEntities.Count;
         if (numSelected == 0) return;
 
         Unit firstEntity = selectedEntities[0];
-        if (firstEntity == null)
-        {
-            Debug.LogError("Entities must be of type NonEnemy to calculate their collision radius.");
-            return;
-        }
 
         float collisionRadius = firstEntity.collisionRadius;
         float offset = 0.1f;
@@ -97,30 +128,40 @@ public class Unit : Entity
         }
     }
 
-    protected Vector3 AvoidCollisions()
+    private Vector3 AvoidCollisions()
     {
-        if (Vector2.Distance(
-                new Vector2(transform.position.x, transform.position.z),
-                new Vector2(targetPosition.x, targetPosition.z)
-            )
-            <= stoppingDistance) return targetPosition;
-
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, collisionRadius, Entity);
-        Vector3 avoidanceVector = Vector3.zero;
-
-        foreach (var hitCollider in hitColliders)
-            if (hitCollider != entityCollider)
-            {
-                Vector3 collisionDirection = transform.position - hitCollider.transform.position;
-                avoidanceVector += collisionDirection.normalized;
+        List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
+        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
+                unitPositions[i] = neighbors[i].transform.position;
             }
+        }
 
-        if (avoidanceVector != Vector3.zero) avoidanceVector = avoidanceVector.normalized * avoidanceStrength;
+        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
 
-        return targetPosition + avoidanceVector;
+        var job = new AvoidCollisionsJob
+        {
+            unitPositions = unitPositions,
+            currentPosition = transform.position,
+            collisionRadius = collisionRadius,
+            avoidanceStrength = avoidanceStrength,
+            avoidanceVector = avoidanceVectorArray
+        };
+
+        JobHandle handle = job.Schedule();
+        handle.Complete();
+
+        Vector3 avoidance = avoidanceVectorArray[0];
+
+        unitPositions.Dispose();
+        avoidanceVectorArray.Dispose();
+
+        return targetPosition + avoidance;
     }
 
-    protected void MoveTowardsTarget(Vector3 adjustedPosition)
+    private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
         float distanceToTarget = Vector2.Distance(
             new Vector2(transform.position.x, transform.position.z),
@@ -134,7 +175,7 @@ public class Unit : Entity
         {
             currentPosition = transform.position,
             targetPosition = adjustedPosition,
-            moveSpeed = moveSpeed,
+            moveSpeed = movementSpeed,
             deltaTime = Time.deltaTime,
             newPosition = newPositionArray
         };
@@ -146,5 +187,10 @@ public class Unit : Entity
         newPositionArray.Dispose();
 
         transform.position = newPosition;
+    }
+
+    protected override void Die()
+    {
+        UnitFactory.ReturnEntity(this);
     }
 }

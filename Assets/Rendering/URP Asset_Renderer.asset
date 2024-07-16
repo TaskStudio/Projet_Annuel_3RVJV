@@ -17,7 +17,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: 2082326872216598053}
-  m_RendererFeatureMap: 2576b8f441e9e51c
+  - {fileID: 3566027567664564679}
+  m_RendererFeatureMap: 2576b8f441e9e51cc789e5dd2d137d31
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -74,13 +75,45 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   outlineSettings:
-    outlineColor: {r: 1, g: 1, b: 1, a: 1}
-    outlineScale: 2.4
+    outlineColor: {r: 0.3537736, g: 1, b: 0.47590616, a: 1}
+    outlineScale: 1.2
     depthThreshold: 1
     robertsCrossMultiplier: 0
     normalThreshold: 0.5
     steepAngleThreshold: 0.62
     steepAngleMultiplier: 147
+    colorFormat: 0
+    depthBufferBits: 0
+    filterMode: 0
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    perObjectData: 0
+    enableDynamicBatching: 0
+    enableInstancing: 0
+--- !u!114 &3566027567664564679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cb2aecf3212474490aa66594efe10c, type: 3}
+  m_Name: ScreenSpaceOutlines
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  renderPassEvent: 350
+  outlinesLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  outlineSettings:
+    outlineColor: {r: 1, g: 1, b: 1, a: 1}
+    outlineScale: 1.6
+    depthThreshold: 1.5
+    robertsCrossMultiplier: 100
+    normalThreshold: 0.4
+    steepAngleThreshold: 0.2
+    steepAngleMultiplier: 25
     colorFormat: 0
     depthBufferBits: 0
     filterMode: 0
