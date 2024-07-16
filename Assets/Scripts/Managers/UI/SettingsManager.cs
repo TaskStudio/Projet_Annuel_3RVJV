@@ -1,24 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
 
 public class SettingsManager : MonoBehaviour
 {
-    public static SettingsManager Instance { get; private set; }
-
-    private VisualElement generalPanel;
-    private VisualElement graphicsPanel;
-    private VisualElement audioPanel;
-    private VisualElement languagePanel;
-    private Button currentButton;
-    private DropdownField fullscreenDropdown;
-    private DropdownField resolutionDropdown;
-    private SliderInt generalVolumeSlider;
-    private SliderInt musicVolumeSlider;
-    private DropdownField languageDropdown;
+    private const string GeneralVolumeKey = "GeneralVolume";
+    private const string MusicVolumeKey = "MusicVolume";
 
     public UIDocument mainUIDocument;
     public AudioSource backgroundMusic;
+    private VisualElement audioPanel;
+    private Button currentButton;
+    private DropdownField fullscreenDropdown;
+
+    private VisualElement generalPanel;
+    private SliderInt generalVolumeSlider;
+    private VisualElement graphicsPanel;
+    private VisualElement languagePanel;
+    private SliderInt musicVolumeSlider;
+    private DropdownField resolutionDropdown;
+    public static SettingsManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -69,24 +70,19 @@ public class SettingsManager : MonoBehaviour
         // Initialize and register callback for the resolution dropdown
         resolutionDropdown = root.Q<DropdownField>("Resolution");
         if (resolutionDropdown != null)
-        {
             resolutionDropdown.RegisterValueChangedCallback(evt => SetResolution(evt.newValue));
-        }
 
         // Initialize and register callback for the volume sliders
         generalVolumeSlider = root.Q<SliderInt>("GeneralVolume");
         if (generalVolumeSlider != null)
-        {
             generalVolumeSlider.RegisterValueChangedCallback(evt => SetGeneralVolume(evt.newValue));
-            InitializeVolumeSliders();
-        }
 
         musicVolumeSlider = root.Q<SliderInt>("MusicVolume");
         if (musicVolumeSlider != null)
-        {
             musicVolumeSlider.RegisterValueChangedCallback(evt => SetMusicVolume(evt.newValue));
-            InitializeVolumeSliders();
-        }
+
+        // Load saved volume settings
+        LoadVolumeSettings();
     }
 
     private void ShowPanel(VisualElement panelToShow, Button button)
@@ -101,10 +97,7 @@ public class SettingsManager : MonoBehaviour
         panelToShow.style.display = DisplayStyle.Flex;
 
         // Update button classes
-        if (currentButton != null)
-        {
-            currentButton.RemoveFromClassList("currentPanel");
-        }
+        if (currentButton != null) currentButton.RemoveFromClassList("currentPanel");
 
         currentButton = button;
         currentButton.AddToClassList("currentPanel");
@@ -124,13 +117,14 @@ public class SettingsManager : MonoBehaviour
     {
         if (mode == "Windowed")
         {
-            int newWidth = (int)(Screen.currentResolution.width * 0.7f);
-            int newHeight = (int)(Screen.currentResolution.height * 0.7f);
+            var newWidth = (int)(Screen.currentResolution.width * 0.7f);
+            var newHeight = (int)(Screen.currentResolution.height * 0.7f);
             Screen.SetResolution(newWidth, newHeight, FullScreenMode.Windowed);
         }
         else if (mode == "Full Screen")
         {
-            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, FullScreenMode.ExclusiveFullScreen);
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height,
+                FullScreenMode.ExclusiveFullScreen);
         }
         //Debug.Log("Screen mode set to: " + mode);
     }
@@ -140,8 +134,8 @@ public class SettingsManager : MonoBehaviour
         var resolutionParts = resolution.Split('x');
         if (resolutionParts.Length == 2)
         {
-            int width = int.Parse(resolutionParts[0]);
-            int height = int.Parse(resolutionParts[1]);
+            var width = int.Parse(resolutionParts[0]);
+            var height = int.Parse(resolutionParts[1]);
             Screen.SetResolution(width, height, Screen.fullScreenMode);
             //Debug.Log($"Resolution set to: {width}x{height}");
         }
@@ -151,33 +145,27 @@ public class SettingsManager : MonoBehaviour
     {
         // Set the dropdown to the current screen mode
         if (Screen.fullScreenMode == FullScreenMode.Windowed)
-        {
             fullscreenDropdown.SetValueWithoutNotify("Windowed");
-        }
-        else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen || Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
-        {
+        else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen ||
+                 Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
             fullscreenDropdown.SetValueWithoutNotify("Full Screen");
-        }
     }
 
     private void InitializeVolumeSliders()
     {
-        // Set the sliders to the current volume levels
+        // Set the sliders to the saved volume levels
         if (generalVolumeSlider != null)
-        {
-            generalVolumeSlider.SetValueWithoutNotify((int)(AudioListener.volume * 100));
-        }
+            generalVolumeSlider.SetValueWithoutNotify(PlayerPrefs.GetInt(GeneralVolumeKey, 50));
 
         if (musicVolumeSlider != null && backgroundMusic != null)
-        {
-            musicVolumeSlider.SetValueWithoutNotify((int)(backgroundMusic.volume * 100));
-        }
+            musicVolumeSlider.SetValueWithoutNotify(PlayerPrefs.GetInt(MusicVolumeKey, 50));
     }
 
     private void SetGeneralVolume(int volume)
     {
-        // Here you can set the volume for all audio sources
         AudioListener.volume = volume / 100f;
+        PlayerPrefs.SetInt(GeneralVolumeKey, volume);
+        PlayerPrefs.Save();
         //Debug.Log($"General volume set to: {volume}");
     }
 
@@ -186,7 +174,29 @@ public class SettingsManager : MonoBehaviour
         if (backgroundMusic != null)
         {
             backgroundMusic.volume = volume / 100f;
+            PlayerPrefs.SetInt(MusicVolumeKey, volume);
+            PlayerPrefs.Save();
             //Debug.Log($"Music volume set to: {volume}");
+        }
+    }
+
+    private void LoadVolumeSettings()
+    {
+        if (PlayerPrefs.HasKey(GeneralVolumeKey))
+        {
+            var generalVolume = PlayerPrefs.GetInt(GeneralVolumeKey);
+            AudioListener.volume = generalVolume / 100f;
+            if (generalVolumeSlider != null) generalVolumeSlider.SetValueWithoutNotify(generalVolume);
+        }
+
+        if (PlayerPrefs.HasKey(MusicVolumeKey))
+        {
+            var musicVolume = PlayerPrefs.GetInt(MusicVolumeKey);
+            if (backgroundMusic != null)
+            {
+                backgroundMusic.volume = musicVolume / 100f;
+                if (musicVolumeSlider != null) musicVolumeSlider.SetValueWithoutNotify(musicVolume);
+            }
         }
     }
 }
