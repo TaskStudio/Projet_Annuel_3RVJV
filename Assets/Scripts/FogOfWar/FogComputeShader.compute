@@ -6,8 +6,10 @@ float4 fullBlackColor;
 int gridSize;
 float cellSize;
 float revealRadius;
+float revealRadiusBuildings;
 
 StructuredBuffer<float4> unitPositions;
+StructuredBuffer<float4> buildingPositions;
 
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
@@ -16,10 +18,12 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     if (coord.x >= 0 && coord.x < gridSize && coord.y >= 0 && coord.y < gridSize)
     {
         float4 color = fullBlackColor;
+
+        // Check unit positions
         for (int i = 0; i < unitPositions.Length; i++)
         {
             int2 center = int2((unitPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
-            float2 pos = (coord - center) * cellSize;
+            float2 pos = (float2(coord) - center) * cellSize;
             float distance = length(pos);
             if (distance <= revealRadius)
             {
@@ -27,6 +31,23 @@ void CSMain(uint3 id : SV_DispatchThreadID)
                 break;
             }
         }
+
+        // Check building positions if not cleared by units
+        if (all(color == fullBlackColor))
+        {
+            for (int i = 0; i < buildingPositions.Length; i++)
+            {
+                int2 center = int2((buildingPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                float2 pos = (float2(coord) - center) * cellSize;
+                float distance = length(pos);
+                if (distance <= revealRadiusBuildings)
+                {
+                    color = clearColor;
+                    break;
+                }
+            }
+        }
+
         Result[coord] = color;
     }
 }
