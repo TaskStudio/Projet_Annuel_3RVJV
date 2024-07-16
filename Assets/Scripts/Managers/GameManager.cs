@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     public UnitDatabaseSO playerUnitDatabase;
     public BuildingDatabaseSO playerBuildingDatabase;
 
-    private VisualElement loseRoot;
     private VisualElement winRoot;
+    private VisualElement loseRoot;
 
     public static GameManager Instance { get; private set; }
 
@@ -61,13 +61,11 @@ public class GameManager : MonoBehaviour
 
     private bool CheckWinCondition()
     {
-        // Sebi met la condition win ici stp
         return false;
     }
 
     private bool CheckLoseCondition()
     {
-        // Sebi met la condition de lose ici stp
         return false;
     }
 

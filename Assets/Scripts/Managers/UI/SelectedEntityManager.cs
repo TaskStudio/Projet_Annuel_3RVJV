@@ -39,13 +39,22 @@ public class SelectedEntityManager : MonoBehaviour
 
     private void UpdateFirstSelectedEntity(BaseObject profile)
     {
-        UIManager.Instance.faceContainer.Clear();
-        if (profile == null) return;
+        if (profile == null || GetProfileImage(profile) == null)
+        {
+            return;
+        }
 
         if (profile is BaseObject entityProfile)
         {
-            var image = new Image { image = GetProfileImage(profile) };
-            UIManager.Instance.faceContainer.Add(image);
+            var backgroundImage = GetProfileImage(profile);
+            if (backgroundImage != null)
+            {
+                UIManager.Instance.faceContainer.style.backgroundImage = new StyleBackground(backgroundImage);
+            }
+            else
+            {
+                UIManager.Instance.faceContainer.style.backgroundImage = null;
+            }
         }
     }
 
