@@ -1,54 +1,36 @@
-.Side {
-    font-size: 49px;
-    margin-top: 148px;
-    margin-right: 148px;
-    margin-bottom: 148px;
-    margin-left: 148px;
+.Mode {
+    background-color: rgba(0, 0, 0, 0.24);
+    padding-top: 60px;
+    padding-right: 60px;
+    padding-bottom: 60px;
+    padding-left: 60px;
+    font-size: 134px;
+    margin-top: 34px;
+    margin-right: 34px;
+    margin-bottom: 34px;
+    margin-left: 34px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    align-items: center;
 }
 
-.SideImage {
-    height: 400px;
-    width: 365px;
-    margin-bottom: 70px;
-    flex-grow: 1;
-}
-
-.SelectedSideButton {
-    height: 21%;
-    width: auto;
-    background-color: rgb(223, 138, 138);
-    text-shadow: 2px 1.4px 2.9px rgba(0, 0, 0, 0.3);
-    border-bottom-width: 4px;
-    border-left-color: rgba(0, 0, 0, 0.35);
-    border-right-color: rgba(0, 0, 0, 0.35);
-    border-top-color: rgba(0, 0, 0, 0.35);
-    border-bottom-color: rgba(0, 0, 0, 0.35);
-    border-top-width: 0;
-    border-right-width: 3px;
-    border-left-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    color: rgb(255, 255, 255);
-}
-
-.SelectedSideButton:hover {
-    height: 21%;
-    width: auto;
-    background-color: rgb(223, 138, 138);
-    text-shadow: 2px 1.4px 2.9px rgba(0, 0, 0, 0.3);
-    border-bottom-width: 4px;
-    border-left-color: rgba(0, 0, 0, 0.35);
-    border-right-color: rgba(0, 0, 0, 0.35);
-    border-top-color: rgba(0, 0, 0, 0.35);
-    border-bottom-color: rgba(0, 0, 0, 0.35);
-    border-top-width: 0;
-    border-right-width: 3px;
-    border-left-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+.Mode:hover {
+    background-color: rgba(0, 0, 0, 0.24);
+    padding-top: 60px;
+    padding-right: 60px;
+    padding-bottom: 60px;
+    padding-left: 60px;
+    font-size: 134px;
+    margin-top: 34px;
+    margin-right: 34px;
+    margin-bottom: 34px;
+    margin-left: 34px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    align-items: center;
     color: rgb(255, 255, 255);
 }

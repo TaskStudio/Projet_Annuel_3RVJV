@@ -6,11 +6,10 @@ public class ButtonActionManager : MonoBehaviour
 {
     public string nextScene;
     public UIDocument mainUIDocument;
+    public UIDocument selectionMenuDocument;
     public UIDocument settingsDocument;
     public UIDocument creditsDocument;
-
-    private VisualElement settingsContainer;
-
+    
     private void OnEnable()
     {
         var root = mainUIDocument.rootVisualElement;
@@ -24,16 +23,16 @@ public class ButtonActionManager : MonoBehaviour
         settingsButton?.RegisterCallback<ClickEvent>(ev => OnSettingsButtonClick());
         creditButton?.RegisterCallback<ClickEvent>(ev => OnCreditButtonClick());
         exitButton?.RegisterCallback<ClickEvent>(ev => OnExitButtonClick());
-
-        settingsContainer = settingsDocument.rootVisualElement.Q<VisualElement>("Background");
-
+        
+        selectionMenuDocument.rootVisualElement.style.display = DisplayStyle.None;
         settingsDocument.rootVisualElement.style.display = DisplayStyle.None;
         creditsDocument.rootVisualElement.style.display = DisplayStyle.None;
     }
 
     private void OnStartButtonClick()
     {
-        SceneManager.LoadScene(nextScene);
+        selectionMenuDocument.rootVisualElement.style.display = DisplayStyle.Flex;
+        mainUIDocument.rootVisualElement.style.display = DisplayStyle.None; 
     }
 
     private void OnSettingsButtonClick()
