@@ -3,28 +3,17 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public abstract class GenericUnit<TDataType> : Entity<TDataType> where TDataType : UnitData
+public abstract class Unit : Unit<UnitData>
 {
-    public int currentMana { get; protected set; }
-    public float movementSpeed { get; protected set; } = 0.5f;
-    public float attackSpeed { get; protected set; } = 1.0f;
-
-    protected override void Initialize()
-    {
-        base.Initialize();
-        currentMana = data.maxManaPoints;
-        attackSpeed = data.attackSpeed;
-        movementSpeed = data.movementSpeed;
-    }
 }
 
-public class Unit : GenericUnit<UnitData>
+public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
 {
     private static SpatialGrid spatialGrid;
+    [SerializeField] protected float avoidanceStrength = 5f;
+    [SerializeField] protected float collisionRadius = 1f;
     [Space(10)] [Header("Movement")]
     [SerializeField] protected LayerMask entityLayer;
-    [SerializeField] protected float collisionRadius = 1f;
-    [SerializeField] protected float avoidanceStrength = 5f;
 
     private Vector3 avoidanceVector;
     private Collider entityCollider;
@@ -34,15 +23,18 @@ public class Unit : GenericUnit<UnitData>
     private Vector3 originalTargetPosition;
     protected float stoppingDistance = 0.01f;
     protected Vector3 targetPosition;
+    public int currentMana { get; protected set; }
+    public float movementSpeed { get; protected set; } = 0.5f;
+    public float attackSpeed { get; protected set; } = 1.0f;
 
     protected void Start()
     {
         if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
 
-        spatialGrid.Add(this);
+        spatialGrid.Add(this as Unit);
         lastPosition = transform.position;
 
-        EntitiesManager.Instance.RegisterMovableEntity(this);
+        UnitsManager.Instance.RegisterMovableEntity(this as Unit);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
@@ -53,7 +45,7 @@ public class Unit : GenericUnit<UnitData>
         if (this == null || gameObject == null || !gameObject.activeInHierarchy)
             return; // Early exit if the unit is destroyed or inactive
 
-        spatialGrid.Update(this, lastPosition);
+        spatialGrid.Update(this as Unit, lastPosition);
         lastPosition = transform.position;
 
         float distanceToTarget = Vector2.Distance(
@@ -83,6 +75,14 @@ public class Unit : GenericUnit<UnitData>
         avoidanceVector = Vector3.zero;
     }
 
+    protected override void Initialize()
+    {
+        base.Initialize();
+        currentMana = data.maxManaPoints;
+        attackSpeed = data.attackSpeed;
+        movementSpeed = data.movementSpeed;
+    }
+
     public void Move(Vector3 newPosition)
     {
         if (this != null)
@@ -102,7 +102,7 @@ public class Unit : GenericUnit<UnitData>
     {
         List<Unit> selectedEntities = new();
 
-        foreach (var Unit in EntitiesManager.MovableEntities)
+        foreach (var Unit in UnitsManager.MovableUnits)
             if (Unit is Unit selectable && selectable.IsSelected)
                 selectedEntities.Add(Unit);
 
@@ -193,12 +193,6 @@ public class Unit : GenericUnit<UnitData>
 
     protected override void Die()
     {
-        UnitFactory.ReturnEntity(this);
+        UnitFactory.ReturnEntity(this as Unit);
     }
-}
-
-public class Unit<TDataType> : Unit where TDataType : UnitData
-{
-    protected TDataType data;
-    public TDataType Data => data;
 }

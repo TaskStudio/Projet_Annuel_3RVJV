@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntitiesManager : MonoBehaviour
+public class UnitsManager : MonoBehaviour
 {
-    public static EntitiesManager Instance { get; private set; }
+    public static UnitsManager Instance { get; private set; }
 
-    public static List<Unit> MovableEntities { get; } = new();
+    public static List<Unit> MovableUnits { get; } = new();
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class EntitiesManager : MonoBehaviour
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-                foreach (var entity in MovableEntities)
+                foreach (var entity in MovableUnits)
                     if (entity is BaseObject selectable && selectable.IsSelected)
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -39,13 +39,18 @@ public class EntitiesManager : MonoBehaviour
         }
     }
 
-    public void RegisterMovableEntity(Unit entity)
+    public void RegisterMovableEntity(Unit unit)
     {
-        if (entity != null && !MovableEntities.Contains(entity)) MovableEntities.Add(entity);
+        if (unit != null && !MovableUnits.Contains(unit)) MovableUnits.Add(unit);
     }
 
-    public void UnregisterMovableEntity(Unit entity)
+    public void UnregisterMovableEntity(Unit unit)
     {
-        if (entity != null) MovableEntities.Remove(entity);
+        if (unit != null) MovableUnits.Remove(unit);
+    }
+
+    public void UnregisterMovableEntity<T>(Unit<T> unit) where T : UnitData
+    {
+        UnregisterMovableEntity(unit as Unit);
     }
 }

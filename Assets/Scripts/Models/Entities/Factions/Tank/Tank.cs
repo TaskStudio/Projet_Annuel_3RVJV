@@ -6,8 +6,8 @@ public class Tank : Fighter
     private static readonly List<Tank> _selectedTanks = new();
     public GameObject combinedTankPrefab;
     public float tauntRadius = 10f;
-    private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
     private bool isBeingDestroyed; // Flag to indicate if the tank is being destroyed
+    private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
 
     protected new void Start()
     {
@@ -47,7 +47,7 @@ public class Tank : Fighter
 
             foreach (var tank in _selectedTanks)
             {
-                if (EntitiesManager.Instance) EntitiesManager.Instance.UnregisterMovableEntity(tank);
+                if (UnitsManager.Instance) UnitsManager.Instance.UnregisterMovableEntity(tank);
                 tank.MarkForDestruction(); // Mark the tank for destruction
             }
 
