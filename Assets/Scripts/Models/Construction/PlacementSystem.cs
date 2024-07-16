@@ -61,6 +61,7 @@ public class PlacementSystem : MonoBehaviour
 
         isBuildingSelected = selectedBuilding != null;
         StartCoroutine(DelayedAddMouseEvents());
+        Cursor.visible = false;
     }
 
     private void PlaceBuilding()
@@ -82,6 +83,8 @@ public class PlacementSystem : MonoBehaviour
 
         mouseControl.OnClicked -= PlaceBuilding;
         mouseControl.OnExit -= CancelPlacement;
+
+        Cursor.visible = true;
     }
 
 
