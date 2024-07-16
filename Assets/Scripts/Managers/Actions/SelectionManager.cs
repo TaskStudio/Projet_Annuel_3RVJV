@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-    public LayerMask groundLayer;
     public LayerMask clickableLayer;
 
     private readonly List<BaseObject> selectedEntities = new();
@@ -32,6 +31,8 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5)
         {
             isDragging = true;
@@ -72,6 +73,8 @@ public class SelectionManager : MonoBehaviour
 
     public void OnSelectStart()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         selectionStarted = true;
         mouseDragStart = Input.mousePosition;
         isDragging = false;
@@ -79,6 +82,8 @@ public class SelectionManager : MonoBehaviour
 
     public void OnSelectEnd()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         if (isDragging)
         {
             SelectEntitiesInDrag();
@@ -96,6 +101,8 @@ public class SelectionManager : MonoBehaviour
 
     private void HandleSingleClick()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
@@ -114,6 +121,8 @@ public class SelectionManager : MonoBehaviour
 
     private void SelectEntitiesInDrag()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
         foreach (BaseObject selectable in FindObjectsOfType<BaseObject>())
