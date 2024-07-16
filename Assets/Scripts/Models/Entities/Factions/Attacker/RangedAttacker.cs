@@ -1,55 +1,89 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RangedAttacker : Attacker
 {
-    public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
-    public float shootRange = 20f;
-    public LayerMask enemyLayer;
-    public float shootCooldown = 0.5f; // Cooldown time in seconds
-
+    public ParticleSystem attackParticles; // Assigned via the Unity Editor
+    public List<ParticleCollisionEvent> collisionEvents;
+    public float shootCooldown = 3f; // Cooldown time in seconds
+    public int damageAmount = 100; // Set this to your desired damage value
+    private bool canShoot = true;
     private float lastShootTime; // Time when the last shot was fired
 
     protected new void Start()
     {
         base.Start();
-        lastShootTime = -shootCooldown; // Ensure the attacker can shoot immediately at start
+        lastShootTime = -shootCooldown;
+        collisionEvents = new List<ParticleCollisionEvent>();
     }
 
-    protected new void Update()
+    void Update()
     {
         base.Update();
-        if (Time.time >= lastShootTime + attackSpeed)
+        if (canShoot && attackParticles)
         {
-            Attack();
-            lastShootTime = Time.time; // Update the last shoot time
+            GameObject target = FindNearestEnemy(); // Find the nearest enemy
+            if (target != null)
+            {
+                Vector3 targetDirection = (target.transform.position - transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(targetDirection);
+                attackParticles.transform.rotation = lookRotation; // Aim the particle system at the target
+
+                attackParticles.Play();
+                StartCoroutine(ShootCooldown());
+            }
         }
+    }
+    IEnumerator ShootCooldown()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(shootCooldown);
+        canShoot = true;
     }
 
     public override void Attack()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootRange);
-        if (hitColliders.Length > 0)
-        {
-            Vector3? enemyPosition = Array.Find(hitColliders, c => c.CompareTag("Enemy") || c.CompareTag("EnemyBase"))
-                ?.transform.position;
-            if (enemyPosition != null) Shoot(enemyPosition ?? Vector3.zero); // Do not delete because Unity cries :(
-        }
+       //no attack logic here
     }
 
-    private void Shoot(Vector3 target)
+    GameObject FindNearestEnemy()
     {
-        if (projectilePrefab && projectileSpawnPoint)
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject nearestEnemy = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (GameObject enemy in enemies)
         {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+            Vector3 directionToTarget = enemy.transform.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                nearestEnemy = enemy;
+            }
+        }
+        return nearestEnemy;
+    }
+    void OnParticleCollision(GameObject other)
+    {
 
-            Vector3 shootDirection = (target - projectileSpawnPoint.position).normalized;
+        
+        int numCollisionEvents = attackParticles.GetCollisionEvents(other, collisionEvents);
 
-            // Initialize the projectile with direction, speed, and range
-            Projectile projectileScript = projectile.GetComponent<Projectile>();
-            if (projectileScript != null)
-                projectileScript.Initialize(shootDirection, 20f, shootRange); // Set speed and range as necessary
+        // Debugging: Check for Enemy component before entering if statement
+        bool hasEnemyComponent = other.TryGetComponent<AttackingEnemy>(out AttackingEnemy enemy);
+        Debug.Log($"Has Enemy Component: {hasEnemyComponent}");
+
+        if (hasEnemyComponent)
+        {
+            Debug.Log($"Applying damage to: {enemy.name}, Damage: {damageAmount}"); // Confirm damage application
+            enemy.TakeDamage(damageAmount); // Apply damage
+            lastShootTime = Time.time; // Update last shoot time
+        }
+        else
+        {
+            Debug.LogError("Enemy component not found on collided object.");
         }
     }
 }
