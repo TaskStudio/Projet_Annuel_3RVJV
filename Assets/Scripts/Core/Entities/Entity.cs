@@ -1,6 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+
+[Serializable]
+public struct EntityAction
+{
+    public string actionName;
+    public UnityEvent action;
+}
 
 public abstract class Entity : Entity<EntityData>
 {
@@ -11,11 +19,11 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
     [Space(10)] [Header("ID")]
     [ShowOnly] [SerializeField] private string id;
 
-    [Space(10)] [Header("Actions")]
-    public List<UnityEvent> actionList;
-
     [Space(10)] [Header("Display")]
     [SerializeField] private HealthBar healthBar;
+
+    [Space(10)] [Header("Actions")]
+    public List<EntityAction> actionList;
 
     public string ID { get; private set; }
 

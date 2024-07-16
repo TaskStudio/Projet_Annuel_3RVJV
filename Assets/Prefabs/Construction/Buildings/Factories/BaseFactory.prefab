@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3356437002993323852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: -6.18}
+  m_LocalPosition: {x: 6, y: 0.1, z: -0.1800003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40,7 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 999670199878094893}
-  - component: {fileID: 6319396449868699516}
   - component: {fileID: 1000424888568330163}
   - component: {fileID: 7402716584684596990}
   m_Layer: 0
@@ -59,34 +58,12 @@ Transform:
   m_GameObject: {fileID: 5871294927889100874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6360531313985046582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &6319396449868699516
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5871294927889100874}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!23 &1000424888568330163
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -164,7 +141,7 @@ Transform:
   m_GameObject: {fileID: 6971385127166227041}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 6, y: 0.01, z: 6}
   m_LocalScale: {x: 1.2, y: 1, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -230,7 +207,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6360531313985046582}
   - component: {fileID: 8649255448723787327}
-  m_Layer: 0
+  - component: {fileID: 540410048715941565}
+  m_Layer: 8
   m_Name: BaseFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,36 +249,40 @@ MonoBehaviour:
   model: {fileID: 5871294927889100874}
   data: {fileID: 11400000, guid: 8b3e9ac46adcb344782d5f3b9fd3c1d0, type: 2}
   id: 
-  actionList:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8649255448723787327}
-        m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
-        m_MethodName: RequestProduction
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: UNIT-0
-          m_BoolArgument: 0
-        m_CallState: 2
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8649255448723787327}
-        m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
-        m_MethodName: RequestProduction
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: UNIT-1
-          m_BoolArgument: 0
-        m_CallState: 2
   healthBar: {fileID: 8256754079479746190}
+  actionList:
+  - actionName: Spawn Gatherer
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8649255448723787327}
+          m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
+          m_MethodName: RequestProduction
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: UNIT-0
+            m_BoolArgument: 0
+          m_CallState: 2
+  - actionName: Spawn Attacker
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8649255448723787327}
+          m_TargetAssemblyTypeName: EntityProducer, Assembly-CSharp
+          m_MethodName: RequestProduction
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: UNIT-1
+            m_BoolArgument: 0
+          m_CallState: 2
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
@@ -310,6 +292,27 @@ MonoBehaviour:
   gridRenderer: {fileID: 5856405910373631916}
   unitDatabase: {fileID: 0}
   productionPoint: {fileID: 5231250223401546731}
+--- !u!65 &540410048715941565
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287725217286078115}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 12, y: 6, z: 12}
+  m_Center: {x: 6, y: 3, z: 6}
 --- !u!1001 &8972661869050370092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -325,6 +328,14 @@ PrefabInstance:
     - target: {fileID: 1013501749049513634, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: damageableEntity
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_MaxValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
@@ -372,7 +383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -392,7 +403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -413,6 +424,18 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchorMax.x
