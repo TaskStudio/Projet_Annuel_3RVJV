@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8287725217286078115, guid: 1efebc276c5a79b48b1296ec6ad90d92, type: 3}
       propertyPath: m_TagString
-      value: Building
+      value: VisionTower
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
