@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public interface IEntity : IBaseObject
+{
+    void TakeDamage(int damage);
+    void SetHealthPoints(int currentHealthPoints);
+    int GetHealthPoints();
+    int GetMaxHealthPoints();
+    bool IsDead();
+    void SetID(string unitId);
+}
+
 [Serializable]
 public struct EntityAction
 {
@@ -14,7 +24,7 @@ public abstract class Entity : Entity<EntityData>
 {
 }
 
-public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType : EntityData
+public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where TDataType : EntityData
 {
     [Space(10)] [Header("ID")]
     [ShowOnly] [SerializeField] private string id;
@@ -30,24 +40,9 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
 
     public int currentHealth { get; protected set; }
 
-    protected override void Initialize()
-    {
-        currentHealth = data.maxHealthPoints;
-        healthBar.Initialize(data.maxHealthPoints);
-    }
-
     public int GetHealthPoints()
     {
         return currentHealth;
-    }
-
-    public void SetID(string unitId)
-    {
-        if (string.IsNullOrEmpty(ID))
-        {
-            ID = unitId;
-            id = unitId;
-        }
     }
 
     public void SetHealthPoints(int currentHealthPoints)
@@ -58,11 +53,6 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
     public int GetMaxHealthPoints()
     {
         return data.maxHealthPoints;
-    }
-
-    protected void SetMaxHealthPoints(int maxHealthPoints)
-    {
-        data.maxHealthPoints = maxHealthPoints;
     }
 
     public void TakeDamage(int damage)
@@ -76,6 +66,31 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
         }
 
         healthBar.SetValue(currentHealth);
+    }
+
+    public void SetID(string unitId)
+    {
+        if (string.IsNullOrEmpty(ID))
+        {
+            ID = unitId;
+            id = unitId;
+        }
+    }
+
+    public bool IsDead()
+    {
+        return currentHealth <= 0;
+    }
+
+    protected override void Initialize()
+    {
+        currentHealth = data.MaxHealthPoints;
+        healthBar.Initialize(data.MaxHealthPoints);
+    }
+
+    protected void SetMaxHealthPoints(int maxHealthPoints)
+    {
+        data.maxHealthPoints = maxHealthPoints;
     }
 
     protected abstract void Die();

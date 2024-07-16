@@ -4,12 +4,12 @@ using UnityEngine;
 public class SpatialGrid
 {
     private readonly float cellSize;
-    private readonly Dictionary<Vector2Int, List<Unit>> grid;
+    private readonly Dictionary<Vector2Int, List<IUnit>> grid;
 
     public SpatialGrid(float cellSize)
     {
         this.cellSize = cellSize;
-        grid = new Dictionary<Vector2Int, List<Unit>>();
+        grid = new Dictionary<Vector2Int, List<IUnit>>();
     }
 
     public Vector2Int GetCell(Vector3 position)
@@ -20,14 +20,14 @@ public class SpatialGrid
         );
     }
 
-    public void Add(Unit unit)
+    public void Add(IUnit unit)
     {
         Vector2Int cell = GetCell(unit.transform.position);
-        if (!grid.ContainsKey(cell)) grid[cell] = new List<Unit>();
+        if (!grid.ContainsKey(cell)) grid[cell] = new List<IUnit>();
         grid[cell].Add(unit);
     }
 
-    public void Update(Unit unit, Vector3 oldPosition)
+    public void Update(IUnit unit, Vector3 oldPosition)
     {
         Vector2Int oldCell = GetCell(oldPosition);
         Vector2Int newCell = GetCell(unit.transform.position);
@@ -43,10 +43,10 @@ public class SpatialGrid
         }
     }
 
-    public List<Unit> GetNeighbors(Vector3 position)
+    public List<IUnit> GetNeighbors(Vector3 position)
     {
         Vector2Int cell = GetCell(position);
-        List<Unit> neighbors = new();
+        List<IUnit> neighbors = new();
 
         for (int x = -1; x <= 1; x++)
         for (int z = -1; z <= 1; z++)

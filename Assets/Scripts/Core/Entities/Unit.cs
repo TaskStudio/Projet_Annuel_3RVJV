@@ -1,13 +1,22 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
+public interface IUnit : IEntity
+{
+    void Move(Vector3 newPosition);
+    void MoveInFormation(Vector3 targetPosition);
+}
+
+
 public abstract class Unit : Unit<UnitData>
 {
 }
 
-public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
+[Serializable]
+public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitData
 {
     private static SpatialGrid spatialGrid;
     [SerializeField] protected float avoidanceStrength = 5f;
@@ -31,10 +40,10 @@ public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
     {
         if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
 
-        spatialGrid.Add(this as Unit);
+        spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        UnitsManager.Instance.RegisterMovableEntity(this as Unit);
+        UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
@@ -45,7 +54,7 @@ public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
         if (this == null || gameObject == null || !gameObject.activeInHierarchy)
             return; // Early exit if the unit is destroyed or inactive
 
-        spatialGrid.Update(this as Unit, lastPosition);
+        spatialGrid.Update(this, lastPosition);
         lastPosition = transform.position;
 
         float distanceToTarget = Vector2.Distance(
@@ -75,15 +84,7 @@ public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
         avoidanceVector = Vector3.zero;
     }
 
-    protected override void Initialize()
-    {
-        base.Initialize();
-        currentMana = data.maxManaPoints;
-        attackSpeed = data.attackSpeed;
-        movementSpeed = data.movementSpeed;
-    }
-
-    public void Move(Vector3 newPosition)
+    public virtual void Move(Vector3 newPosition)
     {
         if (this != null)
         {
@@ -100,16 +101,16 @@ public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
 
     public void MoveInFormation(Vector3 targetPosition)
     {
-        List<Unit> selectedEntities = new();
+        List<IUnit> selectedEntities = new();
 
-        foreach (var Unit in UnitsManager.MovableUnits)
-            if (Unit is Unit selectable && selectable.IsSelected)
-                selectedEntities.Add(Unit);
+        foreach (var unit in UnitsManager.MovableUnits)
+            if (unit is Unit selectable && selectable.IsSelected)
+                selectedEntities.Add(unit);
 
         int numSelected = selectedEntities.Count;
         if (numSelected == 0) return;
 
-        Unit firstEntity = selectedEntities[0];
+        Unit firstEntity = selectedEntities[0] as Unit;
 
         float collisionRadius = firstEntity.collisionRadius;
         float offset = 0.1f;
@@ -131,14 +132,31 @@ public class Unit<TDataType> : Entity<TDataType> where TDataType : UnitData
         }
     }
 
+    public void Stop()
+    {
+        targetPosition = transform.position;
+        isMoving = false;
+    }
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        currentMana = data.maxManaPoints;
+        attackSpeed = data.attackSpeed;
+        movementSpeed = data.movementSpeed;
+    }
+
 
     private Vector3 AvoidCollisions()
     {
-        List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
+        List<IUnit> neighbors = spatialGrid.GetNeighbors(transform.position);
         NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++)
-            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy)
-                unitPositions[i] = neighbors[i].transform.position;
+        // for (int i = 0; i < neighbors.Count; i++)
+        //     if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy)
+        //         unitPositions[i] = neighbors[i].transform.position;
+        foreach (var neighbor in neighbors)
+            if (neighbor != null && neighbor.gameObject.activeInHierarchy)
+                unitPositions[neighbors.IndexOf(neighbor)] = neighbor.transform.position;
 
         NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
 

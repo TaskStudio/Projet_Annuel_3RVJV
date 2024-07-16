@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
 
     private Texture2D GetProfileImage(BaseObject profile)
     {
-        if (profile is BaseObject objectProfile) return objectProfile.Data.image;
+        if (profile is BaseObject objectProfile) return objectProfile.Data.Image;
         return null;
     }
 
@@ -92,8 +92,8 @@ public class UIManager : MonoBehaviour
         statisticsScrollView.Clear();
         if (profile == null) return;
 
-        var nameLabel = new Label { text = profile.Data.objectName };
-        var descriptionLabel = new Label { text = profile.Data.description };
+        var nameLabel = new Label { text = profile.Data.ObjectName };
+        var descriptionLabel = new Label { text = profile.Data.Description };
 
         statisticsScrollView.Add(nameLabel);
         statisticsScrollView.Add(descriptionLabel);

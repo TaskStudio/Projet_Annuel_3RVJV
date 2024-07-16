@@ -5,7 +5,7 @@ public class UnitsManager : MonoBehaviour
 {
     public static UnitsManager Instance { get; private set; }
 
-    public static List<Unit> MovableUnits { get; } = new();
+    public static List<IUnit> MovableUnits { get; } = new();
 
     private void Awake()
     {
@@ -39,12 +39,12 @@ public class UnitsManager : MonoBehaviour
         }
     }
 
-    public void RegisterMovableEntity(Unit unit)
+    public void RegisterMovableEntity(IUnit unit)
     {
         if (unit != null && !MovableUnits.Contains(unit)) MovableUnits.Add(unit);
     }
 
-    public void UnregisterMovableEntity(Unit unit)
+    public void UnregisterMovableEntity(IUnit unit)
     {
         if (unit != null) MovableUnits.Remove(unit);
     }
