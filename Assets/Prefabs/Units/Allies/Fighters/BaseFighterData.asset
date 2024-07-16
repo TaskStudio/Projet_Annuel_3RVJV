@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2c39989e0a445f7ba58c76e3c220aa6, type: 3}
-  m_Name: BaseUnitData
+  m_Script: {fileID: 11500000, guid: c08cb2cecbf14da999ee7ac01e5c34cc, type: 3}
+  m_Name: BaseFighterData
   m_EditorClassIdentifier: 
-  objectName: Base unit
+  objectName: Base fighter
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 20
+  maxHealthPoints: 0
   faction: 0
   maxManaPoints: 0
   attackSpeed: 1

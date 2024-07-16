@@ -93,9 +93,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7841337114972773263}
   - component: {fileID: 1341541774439676802}
+  - component: {fileID: 7317227862433456866}
   - component: {fileID: 4463462429181288268}
   m_Layer: 8
-  m_Name: BaseUnit
+  m_Name: BaseFighter
   m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,6 +142,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!135 &7317227862433456866
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8909585187944019347}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4463462429181288268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,16 +176,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 5243948296936631734}
-  data: {fileID: 11400000, guid: 5d96cec8249e1df458870a493e3bbe37, type: 2}
+  data: {fileID: 11400000, guid: 9ec6e5bcdf1e088459bdb4462a6a0dc6, type: 2}
   id: 
   healthBar: {fileID: 1828465403883388758}
   actionList: []
+  avoidanceStrength: 5
+  collisionRadius: 1
   entityLayer:
     serializedVersion: 2
     m_Bits: 256
-  collisionRadius: 1
-  avoidanceStrength: 5
   distanceType: 0
+  detectionSphere: {fileID: 7317227862433456866}
   detectionRange: 20
   attackRange: 15
   attackCooldown: 0.5
@@ -188,11 +211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
@@ -284,11 +307,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.r
-      value: 0.12822974
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchorMax.x
