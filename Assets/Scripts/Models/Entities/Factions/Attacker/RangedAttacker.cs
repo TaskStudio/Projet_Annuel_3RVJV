@@ -44,7 +44,7 @@ public class RangedAttacker : Attacker
 
     public override void Attack()
     {
-        throw new System.NotImplementedException();
+       //no attack logic here
     }
 
     GameObject FindNearestEnemy()
