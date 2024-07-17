@@ -21,3 +21,10 @@ MonoBehaviour:
   attackSpeed: 1
   movementSpeed: 5
   attackDamage: 10
+  distanceType: 0
+  detectionRange: 10
+  attackRange: 3
+  attackCooldown: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0

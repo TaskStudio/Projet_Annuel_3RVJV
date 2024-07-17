@@ -6,8 +6,11 @@ using UnityEngine;
 
 public interface IUnit : IEntity
 {
+    float CollisionRadius { get; }
+
     void Move(Vector3 newPosition);
     void MoveInFormation(Vector3 targetPosition);
+    void SetTarget(IEntity target);
 }
 
 
@@ -16,9 +19,10 @@ public abstract class Unit : Unit<UnitData>
 }
 
 [Serializable]
-public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitData
+public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitData
 {
     private static SpatialGrid spatialGrid;
+
     [SerializeField] protected float avoidanceStrength = 5f;
     [SerializeField] protected float collisionRadius = 1f;
     [Space(10)] [Header("Movement")]
@@ -30,8 +34,10 @@ public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitDa
     private Vector3 lastPosition;
     private bool needsCollisionAvoidance;
     private Vector3 originalTargetPosition;
+    protected bool reachedDestination;
     protected float stoppingDistance = 0.01f;
     protected Vector3 targetPosition;
+    private IUnit unitImplementation;
     public int currentMana { get; protected set; }
     public float movementSpeed { get; protected set; } = 0.5f;
     public float attackSpeed { get; protected set; } = 1.0f;
@@ -70,12 +76,13 @@ public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitDa
         }
         else if (distanceToTarget <= stoppingDistance && isMoving)
         {
-            isMoving = false;
-            targetPosition = transform.position;
+            Stop();
             needsCollisionAvoidance = true;
         }
 
-        if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
+        if (needsCollisionAvoidance
+            && !reachedDestination
+            && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
             Move(originalTargetPosition);
             needsCollisionAvoidance = false;
@@ -84,43 +91,43 @@ public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitDa
         avoidanceVector = Vector3.zero;
     }
 
+    public float CollisionRadius => collisionRadius;
+
     public virtual void Move(Vector3 newPosition)
     {
-        if (this != null)
-        {
-            targetPosition = new Vector3(
-                newPosition.x,
-                transform.position.y,
-                newPosition.z
-            );
-            originalTargetPosition = targetPosition;
-            isMoving = true;
-            needsCollisionAvoidance = false;
-        }
+        targetPosition = new Vector3(
+            newPosition.x,
+            transform.position.y,
+            newPosition.z
+        );
+        originalTargetPosition = targetPosition;
+        isMoving = true;
+        needsCollisionAvoidance = false;
+        reachedDestination = false;
     }
 
-    public void MoveInFormation(Vector3 targetPosition)
+    public void MoveInFormation(Vector3 targetFormationPosition)
     {
         List<IUnit> selectedEntities = new();
 
         foreach (var unit in UnitsManager.MovableUnits)
-            if (unit is Unit selectable && selectable.IsSelected)
+            if (unit.IsSelected)
                 selectedEntities.Add(unit);
 
         int numSelected = selectedEntities.Count;
         if (numSelected == 0) return;
 
-        Unit firstEntity = selectedEntities[0] as Unit;
+        IUnit firstEntity = selectedEntities[0];
 
-        float collisionRadius = firstEntity.collisionRadius;
+        float firstEntityCollisionRadius = firstEntity.CollisionRadius;
         float offset = 0.1f;
-        float spacing = collisionRadius * 1.8f + offset;
+        float spacing = firstEntityCollisionRadius * 1.8f + offset;
 
         int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
         float totalWidth = entitiesPerRow * spacing;
         float totalHeight = Mathf.CeilToInt((float) numSelected / entitiesPerRow) * spacing;
 
-        Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
+        Vector3 topLeftPosition = targetFormationPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
 
         for (int i = 0; i < selectedEntities.Count; i++)
         {
@@ -132,8 +139,11 @@ public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitDa
         }
     }
 
+    public abstract void SetTarget(IEntity target);
+
     public void Stop()
     {
+        reachedDestination = true;
         targetPosition = transform.position;
         isMoving = false;
     }
@@ -151,9 +161,6 @@ public class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitDa
     {
         List<IUnit> neighbors = spatialGrid.GetNeighbors(transform.position);
         NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
-        // for (int i = 0; i < neighbors.Count; i++)
-        //     if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy)
-        //         unitPositions[i] = neighbors[i].transform.position;
         foreach (var neighbor in neighbors)
             if (neighbor != null && neighbor.gameObject.activeInHierarchy)
                 unitPositions[neighbors.IndexOf(neighbor)] = neighbor.transform.position;

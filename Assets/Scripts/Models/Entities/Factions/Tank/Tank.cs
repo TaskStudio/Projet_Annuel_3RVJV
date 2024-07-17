@@ -83,7 +83,7 @@ public class Tank : Fighter
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
-            if (enemy != null) enemy.Taunt(this);
+            // if (enemy != null) enemy.Taunt(this);
         }
     }
 

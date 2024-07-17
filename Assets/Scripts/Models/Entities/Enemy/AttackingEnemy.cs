@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class AttackingEnemy : Enemy
 {
     protected override void AttackTarget()
@@ -7,10 +5,7 @@ public class AttackingEnemy : Enemy
         if (target != null)
         {
             Unit entity = target.GetComponent<Unit>();
-            if (entity != null)
-            {
-                entity.TakeDamage(20); 
-            }
+            if (entity != null) entity.TakeDamage(20);
             currentState = State.Idle;
         }
     }

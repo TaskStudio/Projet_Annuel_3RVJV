@@ -10,36 +10,38 @@ public class Fighter : Unit<FighterData>
     }
 
     [Space(10)] [Header("Combat")]
-    [SerializeField] private DistanceType distanceType;
     [SerializeField] private SphereCollider detectionSphere;
-    [SerializeField] private float detectionRange = 15f;
-    [SerializeField] private float attackRange = 5f;
-    [SerializeField] private float attackCooldown = 0.5f;
-    [SerializeField] private LayerMask enemyLayer;
     private readonly List<IEntity> targetsInRange = new();
 
     protected IEntity currentTarget;
     private Vector3 heldPosition;
     private float lastAttackTime;
 
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
-        lastAttackTime = -attackCooldown;
-        detectionSphere.radius = detectionRange;
+        lastAttackTime = -data.attackCooldown;
+        detectionSphere.radius = data.detectionRange;
         heldPosition = transform.position;
     }
 
     protected new void Update()
     {
         base.Update();
-        if (targetsInRange.Count > 0) Attack();
+        if (reachedDestination && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
     }
 
     public override void Move(Vector3 newPosition)
     {
         base.Move(newPosition);
         heldPosition = newPosition;
+        currentTarget = null;
+    }
+
+    public override void SetTarget(IEntity target)
+    {
+        if (target == null) return;
+        if (target is Enemy) currentTarget = target;
     }
 
     private void Attack()
@@ -47,7 +49,7 @@ public class Fighter : Unit<FighterData>
         if (currentTarget == null) currentTarget = GetNearestTarget();
 
         var targetDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
-        if (targetDistance > attackRange)
+        if (targetDistance > data.attackRange)
         {
             targetPosition = currentTarget.transform.position;
             return;
@@ -56,7 +58,7 @@ public class Fighter : Unit<FighterData>
         Stop();
         gameObject.transform.LookAt(currentTarget.transform.position);
 
-        if (Time.time <= lastAttackTime + attackCooldown) return;
+        if (Time.time <= lastAttackTime + data.attackCooldown) return;
         currentTarget.TakeDamage(data.attackDamage);
         lastAttackTime = Time.time;
         if (currentTarget.IsDead())

@@ -27,15 +27,23 @@ public class UnitsManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Enemy")))
+            {
                 foreach (var entity in MovableUnits)
-                    if (entity is BaseObject selectable && selectable.IsSelected)
+                    if (entity.IsSelected)
+                        entity.SetTarget(hit.collider.GetComponent<IEntity>());
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                foreach (var entity in MovableUnits)
+                    if (entity.IsSelected)
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                             entity.MoveInFormation(hit.point);
                         else
                             entity.Move(hit.point);
                     }
+            }
         }
     }
 

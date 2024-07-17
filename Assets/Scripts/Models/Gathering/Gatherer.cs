@@ -11,35 +11,51 @@ public class Gatherer : Unit
 
     protected override void Update()
     {
-        HandleInput();
+        // HandleInput();
         base.Update();
 
         if (gatheringResources) HandleGatheringBehavior();
     }
 
-    protected void HandleInput()
+    public override void SetTarget(IEntity target)
     {
-        if (Input.GetMouseButtonDown(1) && IsSelected)
+        if (target is ResourceNode)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.CompareTag("ResourceNode"))
-                {
-                    gatheringResources = true;
-                    resourceNode = hit.collider.GetComponent<ResourceNode>();
-                    resourceStorage = FindNearestResourceStorage();
-                }
-                else
-                {
-                    gatheringResources = false;
-                    Move(hit.point);
-                }
-            }
+            resourceNode = target as ResourceNode;
+            resourceStorage = FindNearestResourceStorage();
+            gatheringResources = true;
+        }
+        else
+        {
+            resourceNode = null;
+            resourceStorage = null;
+            gatheringResources = false;
         }
     }
+
+    // protected void HandleInput()
+    // {
+    //     if (Input.GetMouseButtonDown(1) && IsSelected)
+    //     {
+    //         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //         RaycastHit hit;
+    //
+    //         if (Physics.Raycast(ray, out hit))
+    //         {
+    //             if (hit.collider.CompareTag("ResourceNode"))
+    //             {
+    //                 gatheringResources = true;
+    //                 resourceNode = hit.collider.GetComponent<ResourceNode>();
+    //                 resourceStorage = FindNearestResourceStorage();
+    //             }
+    //             else
+    //             {
+    //                 gatheringResources = false;
+    //                 Move(hit.point);
+    //             }
+    //         }
+    //     }
+    // }
 
     private void HandleGatheringBehavior()
     {

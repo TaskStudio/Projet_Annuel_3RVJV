@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class DefenderEnemy : Enemy
 {
     public int extraHealth = 100;
@@ -7,7 +5,7 @@ public class DefenderEnemy : Enemy
     protected override void Start()
     {
         base.Start();
-        currentHealth += extraHealth; 
+        currentHealth += extraHealth;
     }
 
     protected override void AttackTarget()
@@ -15,10 +13,7 @@ public class DefenderEnemy : Enemy
         if (target != null)
         {
             Unit entity = target.GetComponent<Unit>();
-            if (entity != null)
-            {
-                entity.TakeDamage(10); 
-            }
+            if (entity != null) entity.TakeDamage(10);
             currentState = State.Idle;
         }
     }
