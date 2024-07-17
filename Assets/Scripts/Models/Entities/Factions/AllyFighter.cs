@@ -5,7 +5,9 @@ public class AllyFighter : Fighter, IAlly
     protected new void Update()
     {
         base.Update();
-        if ((moveAttack || reachedDestination) && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
+        if (data.attackDamage != 0
+            && (moveAttack || reachedDestination)
+            && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
     }
 
     public override void SetTarget(IBaseObject target)

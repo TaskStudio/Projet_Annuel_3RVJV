@@ -20,11 +20,8 @@ MonoBehaviour:
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
-  attackDamage: 10
+  attackDamage: 8
   distanceType: 0
   detectionRange: 15
-  attackRange: 5
+  attackRange: 3
   attackCooldown: 0.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256

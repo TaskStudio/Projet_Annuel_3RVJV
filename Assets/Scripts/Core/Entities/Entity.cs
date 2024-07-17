@@ -12,6 +12,7 @@ public interface IEntity : IBaseObject
     void SetHealthPoints(int currentHealthPoints);
     int GetHealthPoints();
     int GetMaxHealthPoints();
+    float GetMissingHealthPercentage();
     bool IsDead();
     void SetID(string unitId);
     void AddTargetedBy(IEntity entity);
@@ -60,12 +61,20 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
 
     public void SetHealthPoints(int currentHealthPoints)
     {
-        currentHealth = currentHealthPoints;
+        if (currentHealthPoints > data.maxHealthPoints) currentHealth = data.maxHealthPoints;
+        else currentHealth = currentHealthPoints;
+
+        healthBar.SetValue(currentHealth);
     }
 
     public int GetMaxHealthPoints()
     {
         return data.maxHealthPoints;
+    }
+
+    public float GetMissingHealthPercentage()
+    {
+        return (float) currentHealth / data.maxHealthPoints;
     }
 
     public void TakeDamage(int damage)
