@@ -1,3 +1,3 @@
-public interface IEnemy
+public interface IEnemy : IFaction
 {
 }

@@ -21,7 +21,7 @@ public abstract class Unit : Unit<UnitData>
 [Serializable]
 public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitData
 {
-    private static SpatialGrid spatialGrid;
+    protected static SpatialGrid spatialGrid;
 
     [SerializeField] protected float avoidanceStrength = 5f;
     [SerializeField] protected float collisionRadius = 1f;
@@ -35,7 +35,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     private bool needsCollisionAvoidance;
     private Vector3 originalTargetPosition;
     protected bool reachedDestination;
-    protected float stoppingDistance = 0.01f;
+    protected float stoppingDistance = 0.1f;
     protected Vector3 targetPosition;
     private IUnit unitImplementation;
     public int currentMana { get; protected set; }
@@ -166,7 +166,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
 
     private Vector3 AvoidCollisions()
     {
-        List<IUnit> neighbors = spatialGrid.GetNeighbors(transform.position);
+        List<IEntity> neighbors = spatialGrid.GetNeighbors(transform.position);
         NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
         foreach (var neighbor in neighbors)
             if (neighbor != null && neighbor.gameObject.activeInHierarchy)

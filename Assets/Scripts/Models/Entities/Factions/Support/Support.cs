@@ -19,6 +19,11 @@ public class Support : Fighter, IAlly
     {
         base.Update();
 
+        targetsInRange = Physics.OverlapSphere(transform.position, data.detectionRange)
+            .Select(c => c.GetComponent<IEntity>())
+            .Where(e => e is IAlly)
+            .ToList();
+
         if (currentTarget != null)
             if (Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
             {
@@ -54,24 +59,6 @@ public class Support : Fighter, IAlly
     {
         if (target == null) return;
         if (target is IAlly) currentTarget = target as IEntity;
-    }
-
-    public override void AddTargetInRange(IEntity target)
-    {
-        if (target is IAlly)
-        {
-            targetsInRange.Add(target);
-            target.AddTargetedBy(this);
-        }
-    }
-
-    public override void RemoveTargetInRange(IEntity target)
-    {
-        if (target is IAlly)
-        {
-            targetsInRange.Remove(target);
-            target.RemoveTargetedBy(this);
-        }
     }
 
     private void HealNearbyEntities()

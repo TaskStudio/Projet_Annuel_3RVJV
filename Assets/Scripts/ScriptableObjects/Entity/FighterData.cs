@@ -7,7 +7,7 @@ public class FighterData : UnitData
     [Header("Fighter Data")]
     public int attackDamage = 10;
     public Fighter.DistanceType distanceType;
-    public float detectionRange = 15f;
-    public float attackRange = 5f;
+    public int detectionRange = 15;
+    public int attackRange = 5;
     public float attackCooldown = 0.5f;
 }

@@ -1,3 +1,3 @@
-public interface IAlly
+public interface IAlly : IFaction
 {
 }

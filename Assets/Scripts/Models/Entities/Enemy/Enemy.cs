@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy : Fighter, IEnemy
@@ -20,6 +21,10 @@ public class Enemy : Fighter, IEnemy
     protected new void Update()
     {
         base.Update();
+        targetsInRange = Physics.OverlapSphere(transform.position, data.detectionRange)
+            .Select(c => c.GetComponent<IEntity>())
+            .Where(e => e is IAlly)
+            .ToList();
         if (targetsInRange.Count > 0 || currentTarget != null) Attack();
     }
 
@@ -209,24 +214,6 @@ public class Enemy : Fighter, IEnemy
     {
         if (target == null) return;
         if (target is IEnemy) currentTarget = target as IEntity;
-    }
-
-    public override void AddTargetInRange(IEntity target)
-    {
-        if (target is IAlly)
-        {
-            targetsInRange.Add(target);
-            target.AddTargetedBy(this);
-        }
-    }
-
-    public override void RemoveTargetInRange(IEntity target)
-    {
-        if (target is IAlly)
-        {
-            targetsInRange.Remove(target);
-            target.RemoveTargetedBy(this);
-        }
     }
 
     protected Vector3 FindNearestTarget()

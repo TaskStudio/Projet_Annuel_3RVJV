@@ -9,24 +9,18 @@ public abstract class Fighter : Unit<FighterData>
         Ranged
     }
 
-    [Space(10)] [Header("Combat")]
-    [SerializeField] private SphereCollider detectionSphere;
-    protected readonly List<IEntity> targetsInRange = new();
-
     protected IEntity currentTarget;
     protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
-
+    protected List<IEntity> targetsInRange = new();
 
     protected new void Start()
     {
         base.Start();
         lastAttackTime = -data.attackCooldown;
-        detectionSphere.radius = data.detectionRange;
         heldPosition = transform.position;
     }
-
 
     public override void Move(Vector3 newPosition)
     {
@@ -74,10 +68,6 @@ public abstract class Fighter : Unit<FighterData>
         currentTarget.TakeDamage(data.attackDamage);
         lastAttackTime = Time.time;
     }
-
-    public abstract void AddTargetInRange(IEntity target);
-
-    public abstract void RemoveTargetInRange(IEntity target);
 
     private IEntity GetNearestTarget()
     {
