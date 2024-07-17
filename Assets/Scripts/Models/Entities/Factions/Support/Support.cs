@@ -4,6 +4,7 @@ using UnityEngine;
 public class Support : Fighter, IAlly
 {
     public int healAmount = 10;
+    private bool currentTargetIsInRange;
 
     private float healTimer;
     private float manaRegenTimer;
@@ -17,6 +18,18 @@ public class Support : Fighter, IAlly
     protected new void Update()
     {
         base.Update();
+
+        if (currentTarget != null
+            && Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
+        {
+            currentTargetIsInRange = false;
+            targetPosition = currentTarget.transform.position;
+        }
+        else
+        {
+            currentTargetIsInRange = true;
+            Stop();
+        }
 
         healTimer -= Time.deltaTime;
         if (targetsInRange.Count > 0 && healTimer <= 0f)
@@ -72,15 +85,8 @@ public class Support : Fighter, IAlly
             currentTarget = sortedAlliesPerMissingHealth.FirstOrDefault();
         }
 
-        if (currentTarget != null)
+        if (currentTarget != null && currentTargetIsInRange)
         {
-            if (Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
-            {
-                targetPosition = currentTarget.transform.position;
-                return;
-            }
-
-            Stop();
             currentTarget.SetHealthPoints(currentTarget.GetHealthPoints() + healAmount);
             currentMana -= healAmount;
         }

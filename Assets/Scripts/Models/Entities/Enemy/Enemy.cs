@@ -13,6 +13,7 @@ public class Enemy : Fighter, IEnemy
 
     protected virtual void Start()
     {
+        base.Start();
         StartCoroutine(BehaviorTree());
     }
 
@@ -74,7 +75,7 @@ public class Enemy : Fighter, IEnemy
         }
     }
 
-    protected virtual void FindTarget()
+    protected void FindTarget()
     {
         GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
         GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
@@ -110,15 +111,16 @@ public class Enemy : Fighter, IEnemy
         }
     }
 
-    protected virtual void MoveToTarget()
+    protected void MoveToTarget()
     {
         if (target != null)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                target.position,
-                movementSpeed * Time.deltaTime
-            );
+            // transform.position = Vector3.MoveTowards(
+            //     transform.position,
+            //     target.position,
+            //     movementSpeed * Time.deltaTime
+            // );
+            targetPosition = target.position;
             if (Vector3.Distance(transform.position, target.position) < 0.5f) currentState = State.Attacking;
         }
         else
