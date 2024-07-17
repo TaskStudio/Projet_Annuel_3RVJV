@@ -33,6 +33,7 @@ public abstract class BaseObject : MonoBehaviour, IBaseObject
         catch (Exception e)
         {
             Debug.LogError(e.Message);
+            
         }
     }
 

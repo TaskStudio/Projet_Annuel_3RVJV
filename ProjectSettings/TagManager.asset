@@ -12,6 +12,7 @@ TagManager:
   - EntityBase
   - RessourceStorage
   - ResourceNode
+  - Building
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Entity
   - Enemy
   - Hovered
-  - 
+  - FogLayer
   - 
   - 
   - 

@@ -5,7 +5,8 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private string nextScene;
+    [SerializeField] private string replayScene;
+    [SerializeField] private string menuScene;
     [SerializeField] private UIDocument winUIDocument;
     [SerializeField] private UIDocument loseUIDocument;
 
@@ -13,8 +14,8 @@ public class GameManager : MonoBehaviour
     public UnitDatabaseSO playerUnitDatabase;
     public BuildingDatabaseSO playerBuildingDatabase;
 
-    private VisualElement loseRoot;
     private VisualElement winRoot;
+    private VisualElement loseRoot;
 
     public static GameManager Instance { get; private set; }
 
@@ -61,13 +62,11 @@ public class GameManager : MonoBehaviour
 
     private bool CheckWinCondition()
     {
-        // Sebi met la condition win ici stp
         return false;
     }
 
     private bool CheckLoseCondition()
     {
-        // Sebi met la condition de lose ici stp
         return false;
     }
 
@@ -83,11 +82,16 @@ public class GameManager : MonoBehaviour
 
     private void RestartGame()
     {
-        SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene(replayScene);
     }
 
     private void ExitGame()
     {
-        Application.Quit();
+        SceneManager.LoadScene(menuScene);
+    }
+
+    public void HandleNexusDeath()
+    {
+        ShowLoseScreen();
     }
 }
