@@ -10,5 +10,4 @@ public class FighterData : UnitData
     public float detectionRange = 15f;
     public float attackRange = 5f;
     public float attackCooldown = 0.5f;
-    public LayerMask enemyLayer;
 }

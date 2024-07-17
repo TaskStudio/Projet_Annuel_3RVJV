@@ -16,14 +16,14 @@ MonoBehaviour:
   description: 
   image: {fileID: 0}
   faction: 0
-  maxHealthPoints: 30
+  maxHealthPoints: 60
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
-  attackDamage: 5
+  attackDamage: 7
   distanceType: 1
-  detectionRange: 15
-  attackRange: 6
+  detectionRange: 18
+  attackRange: 12
   attackCooldown: 0.5
   enemyLayer:
     serializedVersion: 2

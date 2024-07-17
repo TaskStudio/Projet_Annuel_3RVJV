@@ -8,25 +8,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3c4134c419bc1488f2dadb67a8ae6f, type: 2}
     - target: {fileID: 2731607107575345659, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2731607107575345659, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_MaxValue
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 3585130057845835458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 39175b6647cc27c469a2a09ae36c9cea, type: 2}
     - target: {fileID: 4463462429181288268, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: data
       value: 
       objectReference: {fileID: 11400000, guid: fe3c4134c419bc1488f2dadb67a8ae6f, type: 2}
     - target: {fileID: 4971599313644711663, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4971599313644711663, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.12822974
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422363159148803342, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422363159148803342, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7841337114972773263, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_LocalPosition.x
