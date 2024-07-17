@@ -107,7 +107,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         reachedDestination = false;
     }
 
-    public void MoveInFormation(Vector3 targetFormationPosition)
+    public virtual void MoveInFormation(Vector3 targetFormationPosition)
     {
         List<IUnit> selectedEntities = new();
 

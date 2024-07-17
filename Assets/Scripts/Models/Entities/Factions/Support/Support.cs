@@ -19,17 +19,18 @@ public class Support : Fighter, IAlly
     {
         base.Update();
 
-        if (currentTarget != null
-            && Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
-        {
-            currentTargetIsInRange = false;
-            targetPosition = currentTarget.transform.position;
-        }
-        else
-        {
-            currentTargetIsInRange = true;
-            Stop();
-        }
+        if (currentTarget != null)
+            if (Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
+            {
+                currentTargetIsInRange = false;
+                targetPosition = currentTarget.transform.position;
+            }
+            else
+            {
+                currentTargetIsInRange = true;
+                Stop();
+            }
+        else targetPosition = heldPosition;
 
         healTimer -= Time.deltaTime;
         if (targetsInRange.Count > 0 && healTimer <= 0f)

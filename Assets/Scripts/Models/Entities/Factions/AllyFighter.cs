@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class AllyFighter : Fighter, IAlly
 {
     protected new void Update()
@@ -32,11 +30,5 @@ public class AllyFighter : Fighter, IAlly
             targetsInRange.Remove(target);
             target.RemoveTargetedBy(this);
         }
-    }
-
-    public void MoveAndAttack(Vector3 targetFormationPosition)
-    {
-        MoveInFormation(targetFormationPosition);
-        moveAttack = true;
     }
 }

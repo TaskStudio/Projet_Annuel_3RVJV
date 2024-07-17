@@ -14,7 +14,7 @@ public abstract class Fighter : Unit<FighterData>
     protected readonly List<IEntity> targetsInRange = new();
 
     protected IEntity currentTarget;
-    private Vector3 heldPosition;
+    protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
 
@@ -32,6 +32,13 @@ public abstract class Fighter : Unit<FighterData>
     {
         base.Move(newPosition);
         heldPosition = newPosition;
+        currentTarget = null;
+    }
+
+    public override void MoveInFormation(Vector3 targetPosition)
+    {
+        base.MoveInFormation(targetPosition);
+        heldPosition = targetPosition;
         currentTarget = null;
     }
 
@@ -94,5 +101,11 @@ public abstract class Fighter : Unit<FighterData>
         if (currentTarget == entity) currentTarget = null;
         if (targetsInRange.Contains(entity)) targetsInRange.Remove(entity);
         targetPosition = heldPosition;
+    }
+
+    public void MoveAndAttack(Vector3 targetFormationPosition)
+    {
+        MoveInFormation(targetFormationPosition);
+        moveAttack = true;
     }
 }
