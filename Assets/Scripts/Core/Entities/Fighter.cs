@@ -48,6 +48,13 @@ public class Fighter : Unit<FighterData>
     {
         if (currentTarget == null) currentTarget = GetNearestTarget();
 
+        if (currentTarget == null)
+        {
+            targetPosition = heldPosition;
+            return;
+        }
+
+
         var targetDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
         if (targetDistance > data.attackRange)
         {
@@ -61,22 +68,18 @@ public class Fighter : Unit<FighterData>
         if (Time.time <= lastAttackTime + data.attackCooldown) return;
         currentTarget.TakeDamage(data.attackDamage);
         lastAttackTime = Time.time;
-        if (currentTarget.IsDead())
-        {
-            targetsInRange.Remove(currentTarget);
-            currentTarget = null;
-            targetPosition = heldPosition;
-        }
     }
 
     public void AddTargetInRange(IEntity target)
     {
         targetsInRange.Add(target);
+        target.AddTargetedBy(this);
     }
 
     public void RemoveTargetInRange(IEntity target)
     {
         targetsInRange.Remove(target);
+        target.RemoveTargetedBy(this);
     }
 
     private IEntity GetNearestTarget()
@@ -94,5 +97,12 @@ public class Fighter : Unit<FighterData>
         }
 
         return nearestTarget;
+    }
+
+    public override void TargetIsDead(IEntity entity)
+    {
+        if (currentTarget == entity) currentTarget = null;
+        if (targetsInRange.Contains(entity)) targetsInRange.Remove(entity);
+        targetPosition = heldPosition;
     }
 }

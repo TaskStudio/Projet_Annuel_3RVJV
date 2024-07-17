@@ -103,4 +103,11 @@ public class Gatherer : Unit
             carriedResource = null;
         }
     }
+
+    public override void TargetIsDead(IEntity entity)
+    {
+        if (resourceNode == entity) resourceNode = null;
+        if (resourceStorage == entity) resourceStorage = null;
+        gatheringResources = false;
+    }
 }

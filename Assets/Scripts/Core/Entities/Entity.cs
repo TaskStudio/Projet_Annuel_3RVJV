@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public interface IEntity : IBaseObject
 {
     string ID { get; }
+    List<IEntity> targetedBy { get; }
 
     void TakeDamage(int damage);
     void SetHealthPoints(int currentHealthPoints);
@@ -13,6 +14,10 @@ public interface IEntity : IBaseObject
     int GetMaxHealthPoints();
     bool IsDead();
     void SetID(string unitId);
+    void AddTargetedBy(IEntity entity);
+    void RemoveTargetedBy(IEntity entity);
+    void TargetIsDead(IEntity entity);
+    void SignalDeath();
 }
 
 [Serializable]
@@ -40,7 +45,13 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
 
     public int currentHealth { get; protected set; }
 
+    private void OnDisable()
+    {
+        SignalDeath();
+    }
+
     public string ID { get; private set; }
+    public List<IEntity> targetedBy { get; } = new();
 
     public int GetHealthPoints()
     {
@@ -83,6 +94,27 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
     {
         return currentHealth <= 0;
     }
+
+    public void AddTargetedBy(IEntity entity)
+    {
+        if (!targetedBy.Contains(entity)) targetedBy.Add(entity);
+    }
+
+    public void RemoveTargetedBy(IEntity entity)
+    {
+        if (targetedBy.Contains(entity)) targetedBy.Remove(entity);
+    }
+
+    public void SignalDeath()
+    {
+        foreach (var entity in targetedBy)
+        {
+            entity.RemoveTargetedBy(this);
+            entity.TargetIsDead(this);
+        }
+    }
+
+    public abstract void TargetIsDead(IEntity entity);
 
     protected override void Initialize()
     {

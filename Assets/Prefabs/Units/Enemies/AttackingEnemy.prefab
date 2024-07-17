@@ -108,14 +108,7 @@ MonoBehaviour:
   entityLayer:
     serializedVersion: 2
     m_Bits: 512
-  distanceType: 0
   detectionSphere: {fileID: 0}
-  detectionRange: 15
-  attackRange: 2
-  attackCooldown: 0.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &5926901959206290625
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,11 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
