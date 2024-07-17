@@ -6,10 +6,16 @@ using UnityEngine;
 public class Unit : Entity<UnitData>
 {
     private static SpatialGrid spatialGrid;
-    [Space(10)] [Header("Movement")]
-    [SerializeField] protected LayerMask entityLayer;
+
+    [Space(10)] [Header("Movement")] [SerializeField]
+    protected LayerMask entityLayer;
+
     [SerializeField] protected float collisionRadius = 1f;
     [SerializeField] protected float avoidanceStrength = 5f;
+
+    [Space(10)] [Header("Mana")] [SerializeField]
+    private ManaBar manaBar;
+
     private Vector3 avoidanceVector;
 
     private Collider entityCollider;
@@ -21,8 +27,8 @@ public class Unit : Entity<UnitData>
     private Vector3 targetPosition;
 
     public int currentMana { get; private set; }
-    public float movementSpeed { get; protected set; } = 0.5f;
-    public float attackSpeed { get; private set; } = 1.0f;
+    public float movementSpeed { get; protected set; }
+    public float attackSpeed { get; private set; }
 
     protected void Start()
     {
@@ -35,6 +41,8 @@ public class Unit : Entity<UnitData>
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
+
+        InitializeMana();
     }
 
     protected virtual void Update()
@@ -45,7 +53,7 @@ public class Unit : Entity<UnitData>
         spatialGrid.Update(this, lastPosition);
         lastPosition = transform.position;
 
-        float distanceToTarget = Vector2.Distance(
+        var distanceToTarget = Vector2.Distance(
             new Vector2(transform.position.x, transform.position.z),
             new Vector2(targetPosition.x, targetPosition.z)
         );
@@ -53,7 +61,7 @@ public class Unit : Entity<UnitData>
         if (distanceToTarget > stoppingDistance || !isMoving)
         {
             if (!isMoving) isMoving = true;
-            Vector3 adjustedPosition = AvoidCollisions();
+            var adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
         else if (distanceToTarget <= stoppingDistance && isMoving)
@@ -70,14 +78,48 @@ public class Unit : Entity<UnitData>
         }
 
         avoidanceVector = Vector3.zero;
+
+        /*
+         
+        // C'est pour le test 
+        
+        RegenerateMana();
+
+        // Check for space bar press
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UseMana(4);
+        }
+        */
     }
 
     protected override void Initialize()
     {
         base.Initialize();
-        currentMana = data.maxManaPoints;
+        SetManaPoints(data.maxManaPoints);
         attackSpeed = data.attackSpeed;
         movementSpeed = data.movementSpeed;
+    }
+
+    private void InitializeMana()
+    {
+        if (data.maxManaPoints > 0)
+        {
+            currentMana = data.maxManaPoints;
+            manaBar.Initialize(data.maxManaPoints);
+        }
+        else
+        {
+            if (manaBar != null) Destroy(manaBar.gameObject);
+        }
+    }
+
+    private void RegenerateMana()
+    {
+        if (currentMana < data.maxManaPoints)
+        {
+            // Sebi j'te laisse la main bg
+        }
     }
 
     public void Move(Vector3 newPosition)
@@ -103,43 +145,40 @@ public class Unit : Entity<UnitData>
             if (Unit is Unit selectable && selectable.IsSelected)
                 selectedEntities.Add(Unit);
 
-        int numSelected = selectedEntities.Count;
+        var numSelected = selectedEntities.Count;
         if (numSelected == 0) return;
 
-        Unit firstEntity = selectedEntities[0];
+        var firstEntity = selectedEntities[0];
 
-        float collisionRadius = firstEntity.collisionRadius;
-        float offset = 0.1f;
-        float spacing = collisionRadius * 1.8f + offset;
+        var collisionRadius = firstEntity.collisionRadius;
+        var offset = 0.1f;
+        var spacing = collisionRadius * 1.8f + offset;
 
-        int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
-        float totalWidth = entitiesPerRow * spacing;
-        float totalHeight = Mathf.CeilToInt((float) numSelected / entitiesPerRow) * spacing;
+        var entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
+        var totalWidth = entitiesPerRow * spacing;
+        var totalHeight = Mathf.CeilToInt((float)numSelected / entitiesPerRow) * spacing;
 
-        Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
+        var topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
 
-        for (int i = 0; i < selectedEntities.Count; i++)
+        for (var i = 0; i < selectedEntities.Count; i++)
         {
-            int row = i / entitiesPerRow;
-            int column = i % entitiesPerRow;
+            var row = i / entitiesPerRow;
+            var column = i % entitiesPerRow;
 
-            Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
+            var offsetPosition = new Vector3(column * spacing, 0, row * spacing);
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
     }
 
     private Vector3 AvoidCollisions()
     {
-        List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++)
-        {
-            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
+        var neighbors = spatialGrid.GetNeighbors(transform.position);
+        var unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
+        for (var i = 0; i < neighbors.Count; i++)
+            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy)
                 unitPositions[i] = neighbors[i].transform.position;
-            }
-        }
 
-        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+        var avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
 
         var job = new AvoidCollisionsJob
         {
@@ -150,10 +189,10 @@ public class Unit : Entity<UnitData>
             avoidanceVector = avoidanceVectorArray
         };
 
-        JobHandle handle = job.Schedule();
+        var handle = job.Schedule();
         handle.Complete();
 
-        Vector3 avoidance = avoidanceVectorArray[0];
+        var avoidance = avoidanceVectorArray[0];
 
         unitPositions.Dispose();
         avoidanceVectorArray.Dispose();
@@ -163,7 +202,7 @@ public class Unit : Entity<UnitData>
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
-        float distanceToTarget = Vector2.Distance(
+        var distanceToTarget = Vector2.Distance(
             new Vector2(transform.position.x, transform.position.z),
             new Vector2(adjustedPosition.x, adjustedPosition.z)
         );
@@ -180,10 +219,10 @@ public class Unit : Entity<UnitData>
             newPosition = newPositionArray
         };
 
-        JobHandle moveJobHandle = moveJob.Schedule();
+        var moveJobHandle = moveJob.Schedule();
         moveJobHandle.Complete();
 
-        Vector3 newPosition = newPositionArray[0];
+        var newPosition = newPositionArray[0];
         newPositionArray.Dispose();
 
         transform.position = newPosition;
@@ -193,4 +232,39 @@ public class Unit : Entity<UnitData>
     {
         UnitFactory.ReturnEntity(this);
     }
+
+    public int GetManaPoints()
+    {
+        return currentMana;
+    }
+
+    public void SetManaPoints(int currentManaPoints)
+    {
+        currentMana = currentManaPoints;
+        if (currentMana > data.maxManaPoints)
+            currentMana = data.maxManaPoints;
+        else if (currentMana < 0) currentMana = 0;
+        manaBar.SetValue(currentMana);
+    }
+
+    public int GetMaxManaPoints()
+    {
+        return data.maxManaPoints;
+    }
+    
+    /*
+    public void UseMana(int amount)
+    {
+        if (currentMana >= amount)
+        {
+            currentMana -= amount;
+            manaBar.SetValue(currentMana);
+            Debug.Log("Current Mana: " + currentMana);
+        }
+        else
+        {
+            Debug.Log("Not enough mana.");
+        }
+    }
+    */
 }
