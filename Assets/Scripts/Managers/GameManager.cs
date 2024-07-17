@@ -5,7 +5,8 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private string nextScene;
+    [SerializeField] private string replayScene;
+    [SerializeField] private string menuScene;
     [SerializeField] private UIDocument winUIDocument;
     [SerializeField] private UIDocument loseUIDocument;
 
@@ -81,11 +82,16 @@ public class GameManager : MonoBehaviour
 
     private void RestartGame()
     {
-        SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene(replayScene);
     }
 
     private void ExitGame()
     {
-        Application.Quit();
+        SceneManager.LoadScene(menuScene);
+    }
+
+    public void HandleNexusDeath()
+    {
+        ShowLoseScreen();
     }
 }
