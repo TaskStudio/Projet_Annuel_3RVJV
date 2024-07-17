@@ -28,6 +28,16 @@ public class SpatialGrid
         grid[cell].Add(unit);
     }
 
+    public void Remove(IEntity unit)
+    {
+        Vector2Int cell = GetCell(unit.transform.position);
+        if (grid.ContainsKey(cell))
+        {
+            grid[cell].Remove(unit);
+            if (grid[cell].Count == 0) grid.Remove(cell);
+        }
+    }
+
     public void Update(IEntity entity, Vector3 oldPosition)
     {
         Vector2Int oldCell = GetCell(oldPosition);

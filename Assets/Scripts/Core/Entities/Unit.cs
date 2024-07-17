@@ -140,13 +140,13 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         }
     }
 
+    public abstract void SetTarget(IBaseObject target);
+
     public override void SignalDeath()
     {
         base.SignalDeath();
         UnitsManager.Instance.UnregisterMovableEntity(this);
     }
-
-    public abstract void SetTarget(IBaseObject target);
 
     public void Stop()
     {
@@ -225,6 +225,8 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
 
     protected override void Die()
     {
+        SignalDeath();
+        spatialGrid.Remove(this);
         UnitFactory.ReturnEntity(this);
     }
 }

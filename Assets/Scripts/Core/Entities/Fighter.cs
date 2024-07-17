@@ -22,6 +22,13 @@ public abstract class Fighter : Unit<FighterData>
         heldPosition = transform.position;
     }
 
+    protected new void Update()
+    {
+        base.Update();
+
+        targetsInRange.ForEach(t => t.AddTargetedBy(this));
+    }
+
     public override void Move(Vector3 newPosition)
     {
         base.Move(newPosition);
@@ -39,7 +46,7 @@ public abstract class Fighter : Unit<FighterData>
 
     protected void Attack()
     {
-        if (currentTarget == null) currentTarget = GetNearestTarget();
+        currentTarget ??= GetNearestTarget();
 
         if (currentTarget == null)
         {

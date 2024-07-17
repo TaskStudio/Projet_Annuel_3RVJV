@@ -18,7 +18,6 @@ public interface IEntity : IBaseObject
     void AddTargetedBy(IEntity entity);
     void RemoveTargetedBy(IEntity entity);
     void TargetIsDead(IEntity entity);
-    void SignalDeath();
 }
 
 [Serializable]
@@ -114,18 +113,19 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
         if (targetedBy.Contains(entity)) targetedBy.Remove(entity);
     }
 
+    public abstract void TargetIsDead(IEntity entity);
+
     public virtual void SignalDeath()
     {
-        foreach (var entity in targetedBy)
-        {
-            entity.RemoveTargetedBy(this);
-            entity.TargetIsDead(this);
-        }
+        foreach (IEntity entity in targetedBy)
+            if (entity != null)
+            {
+                entity.RemoveTargetedBy(this);
+                entity.TargetIsDead(this);
+            }
 
         SelectionManager.Instance.DeselectEntity(this);
     }
-
-    public abstract void TargetIsDead(IEntity entity);
 
     protected override void Initialize()
     {
