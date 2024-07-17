@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Resource node
   description: 
-  image: {fileID: 0}
-  maxHealthPoints: 0
+  image: {fileID: 2800000, guid: f69a9a0ed4b199d43bd5d5daa8616137, type: 3}
   faction: 0
+  maxHealthPoints: 30

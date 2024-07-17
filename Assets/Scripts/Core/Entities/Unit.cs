@@ -1,28 +1,46 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public class Unit : Entity<UnitData>
+public interface IUnit : IEntity
 {
-    private static SpatialGrid spatialGrid;
+    float CollisionRadius { get; }
+
+    void Move(Vector3 newPosition);
+    void MoveInFormation(Vector3 targetPosition);
+    void SetTarget(IBaseObject target);
+}
+
+
+public abstract class Unit : Unit<UnitData>
+{
+}
+
+[Serializable]
+public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitData
+{
+    protected static SpatialGrid spatialGrid;
+
+    [SerializeField] protected float avoidanceStrength = 5f;
+    [SerializeField] protected float collisionRadius = 1f;
     [Space(10)] [Header("Movement")]
     [SerializeField] protected LayerMask entityLayer;
-    [SerializeField] protected float collisionRadius = 1f;
-    [SerializeField] protected float avoidanceStrength = 5f;
-    private Vector3 avoidanceVector;
 
+    private Vector3 avoidanceVector;
     private Collider entityCollider;
     private bool isMoving;
     private Vector3 lastPosition;
     private bool needsCollisionAvoidance;
     private Vector3 originalTargetPosition;
-    protected float stoppingDistance = 0.01f;
-    private Vector3 targetPosition;
-
-    public int currentMana { get; private set; }
+    protected bool reachedDestination;
+    protected float stoppingDistance = 0.1f;
+    protected Vector3 targetPosition;
+    private IUnit unitImplementation;
+    public int currentMana { get; protected set; }
     public float movementSpeed { get; protected set; } = 0.5f;
-    public float attackSpeed { get; private set; } = 1.0f;
+    public float attackSpeed { get; protected set; } = 1.0f;
 
     protected void Start()
     {
@@ -31,7 +49,8 @@ public class Unit : Entity<UnitData>
         spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        EntitiesManager.Instance.RegisterMovableEntity(this);
+        if (this is IAlly)
+            UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
@@ -58,12 +77,13 @@ public class Unit : Entity<UnitData>
         }
         else if (distanceToTarget <= stoppingDistance && isMoving)
         {
-            isMoving = false;
-            targetPosition = transform.position;
+            Stop();
             needsCollisionAvoidance = true;
         }
 
-        if (needsCollisionAvoidance && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
+        if (needsCollisionAvoidance
+            && !reachedDestination
+            && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
             Move(originalTargetPosition);
             needsCollisionAvoidance = false;
@@ -72,51 +92,43 @@ public class Unit : Entity<UnitData>
         avoidanceVector = Vector3.zero;
     }
 
-    protected override void Initialize()
+    public float CollisionRadius => collisionRadius;
+
+    public virtual void Move(Vector3 newPosition)
     {
-        base.Initialize();
-        currentMana = data.maxManaPoints;
-        attackSpeed = data.attackSpeed;
-        movementSpeed = data.movementSpeed;
+        targetPosition = new Vector3(
+            newPosition.x,
+            transform.position.y,
+            newPosition.z
+        );
+        originalTargetPosition = targetPosition;
+        isMoving = true;
+        needsCollisionAvoidance = false;
+        reachedDestination = false;
     }
 
-    public void Move(Vector3 newPosition)
+    public virtual void MoveInFormation(Vector3 targetFormationPosition)
     {
-        if (this != null)
-        {
-            targetPosition = new Vector3(
-                newPosition.x,
-                transform.position.y,
-                newPosition.z
-            );
-            originalTargetPosition = targetPosition;
-            isMoving = true;
-            needsCollisionAvoidance = false;
-        }
-    }
+        List<IUnit> selectedEntities = new();
 
-    public void MoveInFormation(Vector3 targetPosition)
-    {
-        List<Unit> selectedEntities = new();
-
-        foreach (var Unit in EntitiesManager.MovableEntities)
-            if (Unit is Unit selectable && selectable.IsSelected)
-                selectedEntities.Add(Unit);
+        foreach (var unit in UnitsManager.MovableUnits)
+            if (unit.IsSelected)
+                selectedEntities.Add(unit);
 
         int numSelected = selectedEntities.Count;
         if (numSelected == 0) return;
 
-        Unit firstEntity = selectedEntities[0];
+        IUnit firstEntity = selectedEntities[0];
 
-        float collisionRadius = firstEntity.collisionRadius;
+        float firstEntityCollisionRadius = firstEntity.CollisionRadius;
         float offset = 0.1f;
-        float spacing = collisionRadius * 1.8f + offset;
+        float spacing = firstEntityCollisionRadius * 1.8f + offset;
 
         int entitiesPerRow = Mathf.CeilToInt(Mathf.Sqrt(numSelected));
         float totalWidth = entitiesPerRow * spacing;
         float totalHeight = Mathf.CeilToInt((float) numSelected / entitiesPerRow) * spacing;
 
-        Vector3 topLeftPosition = targetPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
+        Vector3 topLeftPosition = targetFormationPosition - new Vector3(totalWidth / 2, 0, totalHeight / 2);
 
         for (int i = 0; i < selectedEntities.Count; i++)
         {
@@ -128,18 +140,39 @@ public class Unit : Entity<UnitData>
         }
     }
 
+    public abstract void SetTarget(IBaseObject target);
+
+    public override void SignalDeath()
+    {
+        base.SignalDeath();
+        UnitsManager.Instance.UnregisterMovableEntity(this);
+    }
+
+    public void Stop()
+    {
+        reachedDestination = true;
+        targetPosition = transform.position;
+        isMoving = false;
+    }
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        currentMana = data.maxManaPoints;
+        attackSpeed = data.attackSpeed;
+        movementSpeed = data.movementSpeed;
+    }
+
+
     private Vector3 AvoidCollisions()
     {
-        List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++)
-        {
-            if (neighbors[i] != null && neighbors[i].gameObject.activeInHierarchy) {
-                unitPositions[i] = neighbors[i].transform.position;
-            }
-        }
+        List<IEntity> neighbors = spatialGrid.GetNeighbors(transform.position);
+        NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
+        foreach (var neighbor in neighbors)
+            if (neighbor != null && neighbor.gameObject.activeInHierarchy)
+                unitPositions[neighbors.IndexOf(neighbor)] = neighbor.transform.position;
 
-        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+        NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
 
         var job = new AvoidCollisionsJob
         {
@@ -189,8 +222,11 @@ public class Unit : Entity<UnitData>
         transform.position = newPosition;
     }
 
+
     protected override void Die()
     {
+        SignalDeath();
+        spatialGrid.Remove(this);
         UnitFactory.ReturnEntity(this);
     }
 }
