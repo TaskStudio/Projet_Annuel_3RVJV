@@ -93,9 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7841337114972773263}
   - component: {fileID: 1341541774439676802}
-  - component: {fileID: 4463462429181288268}
+  - component: {fileID: 2707510548946209458}
   m_Layer: 8
-  m_Name: BaseFighter
+  m_Name: BaseAllyFighter
   m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &4463462429181288268
+--- !u!114 &2707510548946209458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,11 +151,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8909585187944019347}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d31f9f70c61b4ba8804748cadcb8f92e, type: 3}
+  m_Script: {fileID: 11500000, guid: bb3956eb8abc498a9d05b275cd9a3dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 5243948296936631734}
-  data: {fileID: 11400000, guid: 9ec6e5bcdf1e088459bdb4462a6a0dc6, type: 2}
+  data: {fileID: 11400000, guid: c9dc8e922e5e78643a838a27d244d6c3, type: 2}
   id: 
   healthBar: {fileID: 1828465403883388758}
   actionList: []
@@ -164,14 +164,7 @@ MonoBehaviour:
   entityLayer:
     serializedVersion: 2
     m_Bits: 256
-  distanceType: 0
   detectionSphere: {fileID: 2200894075124304051}
-  detectionRange: 20
-  attackRange: 2
-  attackCooldown: 0.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!1 &9152002179208107816
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4acfa61b3e16c4798ad66630518258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fighter: {fileID: 4463462429181288268}
+  fighter: {fileID: 2707510548946209458}
 --- !u!1001 &1689041039758338548
 PrefabInstance:
   m_ObjectHideFlags: 0

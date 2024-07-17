@@ -6,19 +6,11 @@ public class DetectionTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") || other.CompareTag("EnemyBase"))
-        {
-            IEntity entity = other.GetComponent<IEntity>();
-            if (entity != null) fighter.AddTargetInRange(entity);
-        }
+        if (other.GetComponent<IEntity>() is { } entity) fighter.AddTargetInRange(entity);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy") || other.CompareTag("EnemyBase"))
-        {
-            IEntity entity = other.GetComponent<IEntity>();
-            if (entity != null) fighter.RemoveTargetInRange(entity);
-        }
+        if (other.GetComponent<IEntity>() is { } entity) fighter.RemoveTargetInRange(entity);
     }
 }

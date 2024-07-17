@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fighter : Unit<FighterData>
+public abstract class Fighter : Unit<FighterData>
 {
     public enum DistanceType
     {
@@ -11,7 +11,7 @@ public class Fighter : Unit<FighterData>
 
     [Space(10)] [Header("Combat")]
     [SerializeField] private SphereCollider detectionSphere;
-    private readonly List<IEntity> targetsInRange = new();
+    protected readonly List<IEntity> targetsInRange = new();
 
     protected IEntity currentTarget;
     private Vector3 heldPosition;
@@ -38,11 +38,6 @@ public class Fighter : Unit<FighterData>
         currentTarget = null;
     }
 
-    public override void SetTarget(IBaseObject target)
-    {
-        if (target == null) return;
-        if (target is Enemy) currentTarget = target as IEntity;
-    }
 
     private void Attack()
     {
@@ -70,17 +65,9 @@ public class Fighter : Unit<FighterData>
         lastAttackTime = Time.time;
     }
 
-    public void AddTargetInRange(IEntity target)
-    {
-        targetsInRange.Add(target);
-        target.AddTargetedBy(this);
-    }
+    public abstract void AddTargetInRange(IEntity target);
 
-    public void RemoveTargetInRange(IEntity target)
-    {
-        targetsInRange.Remove(target);
-        target.RemoveTargetedBy(this);
-    }
+    public abstract void RemoveTargetInRange(IEntity target);
 
     private IEntity GetNearestTarget()
     {

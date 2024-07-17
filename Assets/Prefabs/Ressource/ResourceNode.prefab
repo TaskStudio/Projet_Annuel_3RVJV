@@ -72,7 +72,7 @@ MonoBehaviour:
   resourceType: 0
   defaultMaterial: {fileID: 2100000, guid: d151bbda7b1cf4341a8f5e12a9b884a8, type: 2}
   depletedMaterial: {fileID: 2100000, guid: aa5ec6c1d7f23dc469acfd0ded9f72e2, type: 2}
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 5335304272348105739}
   resourceAmount: 100
 --- !u!1 &4449655301828636297
 GameObject:

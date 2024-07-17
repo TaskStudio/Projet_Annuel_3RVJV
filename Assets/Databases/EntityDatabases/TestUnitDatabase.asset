@@ -21,8 +21,8 @@ MonoBehaviour:
     <ResourceType>k__BackingField: 0
     <PoolingAmount>k__BackingField: 20
   - <ID>k__BackingField: UNIT-1
-    <DisplayName>k__BackingField: Base Unit
-    <Prefab>k__BackingField: {fileID: 4463462429181288268, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+    <DisplayName>k__BackingField: Base Ally Fighter
+    <Prefab>k__BackingField: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0

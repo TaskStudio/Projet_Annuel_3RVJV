@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tank : Fighter
+public class Tank : AllyFighter
 {
     private static readonly List<Tank> _selectedTanks = new();
     public GameObject combinedTankPrefab;

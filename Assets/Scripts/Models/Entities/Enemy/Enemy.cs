@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : Fighter
+public class Enemy : Fighter, IEnemy
 {
     protected float bumpDistance = 1f;
     protected int collisionDamage = 20;
@@ -194,6 +194,30 @@ public class Enemy : Fighter
             Vector3 direction = (targetPosition - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * movementSpeed);
+        }
+    }
+
+    public override void SetTarget(IBaseObject target)
+    {
+        if (target == null) return;
+        if (target is IEnemy) currentTarget = target as IEntity;
+    }
+
+    public override void AddTargetInRange(IEntity target)
+    {
+        if (target is IAlly)
+        {
+            targetsInRange.Add(target);
+            target.AddTargetedBy(this);
+        }
+    }
+
+    public override void RemoveTargetInRange(IEntity target)
+    {
+        if (target is IAlly)
+        {
+            targetsInRange.Remove(target);
+            target.RemoveTargetedBy(this);
         }
     }
 

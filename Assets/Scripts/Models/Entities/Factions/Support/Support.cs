@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Support : Fighter
+public class Support : AllyFighter
 {
     public float healRadius = 10f;
     public int healAmount = 10;

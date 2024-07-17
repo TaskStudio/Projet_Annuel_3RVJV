@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c08cb2cecbf14da999ee7ac01e5c34cc, type: 3}
-  m_Name: BaseFighterData
+  m_Name: BaseAllyFighterData
   m_EditorClassIdentifier: 
-  objectName: Base fighter
+  objectName: Base ally fighter
   description: 
   image: {fileID: 0}
   faction: 0
@@ -27,4 +27,4 @@ MonoBehaviour:
   attackCooldown: 0.5
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
