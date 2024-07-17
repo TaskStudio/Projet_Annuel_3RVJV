@@ -10,7 +10,7 @@ public interface IUnit : IEntity
 
     void Move(Vector3 newPosition);
     void MoveInFormation(Vector3 targetPosition);
-    void SetTarget(IEntity target);
+    void SetTarget(IBaseObject target);
 }
 
 
@@ -139,7 +139,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         }
     }
 
-    public abstract void SetTarget(IEntity target);
+    public abstract void SetTarget(IBaseObject target);
 
     public void Stop()
     {

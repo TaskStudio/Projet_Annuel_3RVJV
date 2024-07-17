@@ -38,10 +38,10 @@ public class Fighter : Unit<FighterData>
         currentTarget = null;
     }
 
-    public override void SetTarget(IEntity target)
+    public override void SetTarget(IBaseObject target)
     {
         if (target == null) return;
-        if (target is Enemy) currentTarget = target;
+        if (target is Enemy) currentTarget = target as IEntity;
     }
 
     private void Attack()

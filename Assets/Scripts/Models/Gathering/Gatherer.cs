@@ -17,7 +17,7 @@ public class Gatherer : Unit
         if (gatheringResources) HandleGatheringBehavior();
     }
 
-    public override void SetTarget(IEntity target)
+    public override void SetTarget(IBaseObject target)
     {
         if (target is ResourceNode)
         {
@@ -33,30 +33,6 @@ public class Gatherer : Unit
         }
     }
 
-    // protected void HandleInput()
-    // {
-    //     if (Input.GetMouseButtonDown(1) && IsSelected)
-    //     {
-    //         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //         RaycastHit hit;
-    //
-    //         if (Physics.Raycast(ray, out hit))
-    //         {
-    //             if (hit.collider.CompareTag("ResourceNode"))
-    //             {
-    //                 gatheringResources = true;
-    //                 resourceNode = hit.collider.GetComponent<ResourceNode>();
-    //                 resourceStorage = FindNearestResourceStorage();
-    //             }
-    //             else
-    //             {
-    //                 gatheringResources = false;
-    //                 Move(hit.point);
-    //             }
-    //         }
-    //     }
-    // }
-
     private void HandleGatheringBehavior()
     {
         if (carriedResource == null || carriedResource?.amount < maxResourceAmount)
@@ -65,13 +41,19 @@ public class Gatherer : Unit
             {
                 Move(resourceNode.transform.position);
                 if (Vector3.Distance(transform.position, resourceNode.transform.position) <= gatheringDistance)
+                {
+                    Stop();
                     GatherResource();
+                }
             }
             else
             {
                 Move(resourceStorage.transform.position);
                 if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= gatheringDistance)
+                {
+                    Stop();
                     DepositResource();
+                }
             }
         }
         else
@@ -79,7 +61,10 @@ public class Gatherer : Unit
             if (resourceStorage == null) return;
             Move(resourceStorage.transform.position);
             if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= gatheringDistance)
+            {
+                Stop();
                 DepositResource();
+            }
         }
     }
 
