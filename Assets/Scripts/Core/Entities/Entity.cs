@@ -105,13 +105,15 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
         if (targetedBy.Contains(entity)) targetedBy.Remove(entity);
     }
 
-    public void SignalDeath()
+    public virtual void SignalDeath()
     {
         foreach (var entity in targetedBy)
         {
             entity.RemoveTargetedBy(this);
             entity.TargetIsDead(this);
         }
+
+        SelectionManager.Instance.DeselectEntity(this);
     }
 
     public abstract void TargetIsDead(IEntity entity);

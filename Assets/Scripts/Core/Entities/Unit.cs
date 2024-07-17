@@ -49,7 +49,8 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        UnitsManager.Instance.RegisterMovableEntity(this);
+        if (this is IAlly)
+            UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
         entityCollider = GetComponent<Collider>();
@@ -137,6 +138,12 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
             Vector3 offsetPosition = new Vector3(column * spacing, 0, row * spacing);
             selectedEntities[i].Move(topLeftPosition + offsetPosition);
         }
+    }
+
+    public override void SignalDeath()
+    {
+        base.SignalDeath();
+        UnitsManager.Instance.UnregisterMovableEntity(this);
     }
 
     public abstract void SetTarget(IBaseObject target);

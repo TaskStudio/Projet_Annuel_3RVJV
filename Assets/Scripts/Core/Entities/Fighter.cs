@@ -16,6 +16,8 @@ public abstract class Fighter : Unit<FighterData>
     protected IEntity currentTarget;
     private Vector3 heldPosition;
     private float lastAttackTime;
+    protected bool moveAttack;
+
 
     protected new void Start()
     {
@@ -25,11 +27,6 @@ public abstract class Fighter : Unit<FighterData>
         heldPosition = transform.position;
     }
 
-    protected new void Update()
-    {
-        base.Update();
-        if (reachedDestination && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
-    }
 
     public override void Move(Vector3 newPosition)
     {
@@ -39,7 +36,7 @@ public abstract class Fighter : Unit<FighterData>
     }
 
 
-    private void Attack()
+    protected void Attack()
     {
         if (currentTarget == null) currentTarget = GetNearestTarget();
 
@@ -58,6 +55,12 @@ public abstract class Fighter : Unit<FighterData>
         }
 
         Stop();
+        if (moveAttack)
+        {
+            moveAttack = false;
+            heldPosition = transform.position;
+        }
+
         gameObject.transform.LookAt(currentTarget.transform.position);
 
         if (Time.time <= lastAttackTime + data.attackCooldown) return;

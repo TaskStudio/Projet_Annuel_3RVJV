@@ -44,10 +44,12 @@ public class UnitsManager : MonoBehaviour
                 foreach (var entity in MovableUnits)
                     if (entity.IsSelected)
                     {
-                        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                            entity.MoveInFormation(hit.point);
+                        if (entity is AllyFighter allyFighter
+                            && (Input.GetKey(KeyCode.LeftShift)
+                                || Input.GetKey(KeyCode.RightShift)))
+                            allyFighter.MoveAndAttack(hit.point);
                         else
-                            entity.Move(hit.point);
+                            entity.MoveInFormation(hit.point);
                     }
             }
         }
@@ -61,10 +63,5 @@ public class UnitsManager : MonoBehaviour
     public void UnregisterMovableEntity(IUnit unit)
     {
         if (unit != null) MovableUnits.Remove(unit);
-    }
-
-    public void UnregisterMovableEntity<T>(Unit<T> unit) where T : UnitData
-    {
-        UnregisterMovableEntity(unit as Unit);
     }
 }

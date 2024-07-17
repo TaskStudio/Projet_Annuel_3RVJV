@@ -16,6 +16,12 @@ public class Enemy : Fighter, IEnemy
         StartCoroutine(BehaviorTree());
     }
 
+    protected new void Update()
+    {
+        base.Update();
+        if (targetsInRange.Count > 0 || currentTarget != null) Attack();
+    }
+
     protected virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Entity"))
