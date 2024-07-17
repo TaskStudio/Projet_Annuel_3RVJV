@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 4774574471331897862}
   m_Layer: 8
   m_Name: BaseBuilding
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -270,8 +270,8 @@ MonoBehaviour:
   model: {fileID: 5871294927889100874}
   data: {fileID: 11400000, guid: 78524ddba2a23124fb829459b1e4b1d3, type: 2}
   id: 
-  actionList: []
   healthBar: {fileID: 8256754079479746190}
+  actionList: []
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}

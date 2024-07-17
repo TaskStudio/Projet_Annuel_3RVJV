@@ -6,6 +6,7 @@
                 <ui:Label tabindex="-1" text="Steam Of War" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MenuTitle" class="title" style="-unity-font-definition: initial; font-size: 208px;" />
                 <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; align-items: flex-start; align-self: flex-start; justify-content: center; text-shadow: 12px 12px 30px rgb(0, 0, 0); opacity: 1;">
                     <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="button" />
+                    <ui:Button text="Edit map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EditMapButton" class="button" />
                     <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SettingsButton" class="button" />
                     <ui:Button text="Credit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreditButton" class="button" />
                     <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitButton" class="button" />

@@ -60,6 +60,12 @@ public class UnitFactory : MonoBehaviour
 
     public static void ReturnEntity(Unit unit)
     {
+        if (unit.ID == null)
+        {
+            Destroy(unit.gameObject);
+            return;
+        }
+
         unit.gameObject.SetActive(false);
         if (!unitPools.ContainsKey(unit.ID)) unitPools.Add(unit.ID, new Queue<Unit>());
         unitPools[unit.ID].Enqueue(unit);

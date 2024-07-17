@@ -1,0 +1,89 @@
+#pragma kernel CSMain
+
+RWTexture2D<float4> Result;
+float4 clearColor;
+float4 fullBlackColor;
+int gridSize;
+float cellSize;
+float revealRadius;
+float revealRadiusBuildings;
+float revealRadiusVisionTowers;
+float revealRadiusFactories;
+
+StructuredBuffer<float4> unitPositions;
+StructuredBuffer<float4> buildingPositions;
+StructuredBuffer<float4> visionTowerPositions;
+StructuredBuffer<float4> factoryPositions;
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    int2 coord = int2(id.xy);
+    if (coord.x >= 0 && coord.x < gridSize && coord.y >= 0 && coord.y < gridSize)
+    {
+        float4 color = fullBlackColor;
+
+        // Check unit positions
+        for (int i = 0; i < unitPositions.Length; i++)
+        {
+            int2 center = int2((unitPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+            float2 pos = (float2(coord) - center) * cellSize;
+            float distance = length(pos);
+            if (distance <= revealRadius)
+            {
+                color = clearColor;
+                break;
+            }
+        }
+
+        // Check building positions if not cleared by units
+        if (all(color == fullBlackColor))
+        {
+            for (int i = 0; i < buildingPositions.Length; i++)
+            {
+                int2 center = int2((buildingPositions[i].xy + float2(45.0f, 37.0f)) / cellSize);
+                float2 pos = (float2(coord) - center) * cellSize;
+                float distance = length(pos);
+                if (distance <= revealRadiusBuildings)
+                {
+                    color = clearColor;
+                    break;
+                }
+            }
+        }
+
+        // Check VisionTower positions if not cleared by units or buildings
+        if (all(color == fullBlackColor))
+        {
+            for (int i = 0; i < visionTowerPositions.Length; i++)
+            {
+                int2 center = int2((visionTowerPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                float2 pos = (float2(coord) - center) * cellSize;
+                float distance = length(pos);
+                if (distance <= revealRadiusVisionTowers)
+                {
+                    color = clearColor;
+                    break;
+                }
+            }
+        }
+
+        // Check Factory positions if not cleared by units, buildings, or VisionTowers
+        if (all(color == fullBlackColor))
+        {
+            for (int i = 0; i < factoryPositions.Length; i++)
+            {
+                int2 center = int2((factoryPositions[i].xy + float2(45.0f, 42.0f)) / cellSize);
+                float2 pos = (float2(coord) - center) * cellSize;
+                float distance = length(pos);
+                if (distance <= revealRadiusFactories)
+                {
+                    color = clearColor;
+                    break;
+                }
+            }
+        }
+
+        Result[coord] = color;
+    }
+}

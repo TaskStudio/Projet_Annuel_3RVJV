@@ -1,0 +1,36 @@
+.Mode {
+    background-color: rgba(0, 0, 0, 0.24);
+    padding-top: 60px;
+    padding-right: 60px;
+    padding-bottom: 60px;
+    padding-left: 60px;
+    font-size: 134px;
+    margin-top: 34px;
+    margin-right: 34px;
+    margin-bottom: 34px;
+    margin-left: 34px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    align-items: center;
+}
+
+.Mode:hover {
+    background-color: rgba(0, 0, 0, 0.24);
+    padding-top: 60px;
+    padding-right: 60px;
+    padding-bottom: 60px;
+    padding-left: 60px;
+    font-size: 134px;
+    margin-top: 34px;
+    margin-right: 34px;
+    margin-bottom: 34px;
+    margin-left: 34px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    align-items: center;
+    color: rgb(255, 255, 255);
+}

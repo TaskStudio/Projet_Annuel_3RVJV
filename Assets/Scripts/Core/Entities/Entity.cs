@@ -1,6 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+
+[Serializable]
+public struct EntityAction
+{
+    public string actionName;
+    public UnityEvent action;
+}
 
 public abstract class Entity : Entity<EntityData>
 {
@@ -8,18 +16,31 @@ public abstract class Entity : Entity<EntityData>
 
 public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType : EntityData
 {
-    [Space(10)] [Header("ID")] [ShowOnly] [SerializeField]
-    private string id;
+    [Space(10)] [Header("ID")]
+    [ShowOnly] [SerializeField] private string id;
 
-    [Space(10)] [Header("Actions")] public List<UnityEvent> actionList;
+    [Space(10)] [Header("Actions")]
+    public List<UnityEvent> actionList;
 
-    [Space(10)] [Header("Display")] [SerializeField]
-    private HealthBar healthBar;
+    [Space(10)] [Header("Display")]
+    [SerializeField] private HealthBar healthBar;
+
 
     public string ID { get; private set; }
 
 
     public int currentHealth { get; protected set; }
+
+    protected override void Initialize()
+    {
+        currentHealth = data.maxHealthPoints;
+        healthBar.Initialize(data.maxHealthPoints);
+    }
+
+    public int GetHealthPoints()
+    {
+        return currentHealth;
+    }
 
     public void SetID(string unitId)
     {
@@ -28,17 +49,6 @@ public abstract class Entity<TDataType> : BaseObject<TDataType> where TDataType 
             ID = unitId;
             id = unitId;
         }
-    }
-
-    protected override void Initialize()
-    {
-        SetHealthPoints(data.maxHealthPoints);
-        healthBar.Initialize(data.maxHealthPoints);
-    }
-
-    public int GetHealthPoints()
-    {
-        return currentHealth;
     }
 
     public void SetHealthPoints(int currentHealthPoints)
