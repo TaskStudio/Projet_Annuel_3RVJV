@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Gatherer : Unit
+public class Gatherer : Unit, IAlly
 {
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
@@ -11,7 +11,6 @@ public class Gatherer : Unit
 
     protected override void Update()
     {
-        // HandleInput();
         base.Update();
 
         if (gatheringResources) HandleGatheringBehavior();

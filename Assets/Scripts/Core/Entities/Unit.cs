@@ -164,7 +164,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         currentMana = data.maxManaPoints;
         attackSpeed = data.attackSpeed;
         movementSpeed = data.movementSpeed;
-        manaBar.Initialize(data.maxManaPoints);
+        manaBar?.Initialize(data.maxManaPoints);
     }
 
 
