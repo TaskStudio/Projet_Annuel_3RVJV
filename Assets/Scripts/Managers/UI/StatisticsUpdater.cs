@@ -35,9 +35,9 @@ public class StatisticsUpdater : MonoBehaviour
             UIManager.Instance.statisticsScrollView.Add(descriptionLabel);
         }
 
-        if (profile is Unit unit)
+        if (profile is IUnit unit)
         {
-            UnitData unitData = (UnitData)unit.Data;
+            UnitData unitData = (UnitData) unit.Data;
 
             if (unit.currentHealth != 0)
             {

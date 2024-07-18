@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public interface IEntity : IBaseObject
 {
     string ID { get; }
+    int currentHealth { get; }
     List<IEntity> targetedBy { get; }
 
     void TakeDamage(int damage);
@@ -42,13 +43,13 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
     [Space(10)] [Header("Actions")]
     public List<EntityAction> actionList;
 
-
-    public int currentHealth { get; protected set; }
-
     private void OnDisable()
     {
         SignalDeath();
     }
+
+
+    public int currentHealth { get; protected set; }
 
     public string ID { get; private set; }
     public List<IEntity> targetedBy { get; } = new();

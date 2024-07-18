@@ -7,6 +7,9 @@ using UnityEngine;
 public interface IUnit : IEntity
 {
     float CollisionRadius { get; }
+    int currentMana { get; }
+    float movementSpeed { get; }
+    float attackSpeed { get; }
 
     void Move(Vector3 newPosition);
     void MoveInFormation(Vector3 targetPosition);
@@ -41,9 +44,6 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     protected float stoppingDistance = 0.1f;
     protected Vector3 targetPosition;
     private IUnit unitImplementation;
-    public int currentMana { get; protected set; }
-    public float movementSpeed { get; protected set; } = 0.5f;
-    public float attackSpeed { get; protected set; } = 1.0f;
 
     protected void Start()
     {
@@ -94,6 +94,10 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
 
         avoidanceVector = Vector3.zero;
     }
+
+    public int currentMana { get; protected set; }
+    public float movementSpeed { get; protected set; } = 0.5f;
+    public float attackSpeed { get; protected set; } = 1.0f;
 
     public float CollisionRadius => collisionRadius;
 

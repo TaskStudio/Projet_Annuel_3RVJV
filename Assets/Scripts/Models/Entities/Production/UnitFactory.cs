@@ -54,7 +54,7 @@ public class UnitFactory : MonoBehaviour
         }
         else
         {
-            unit = Instantiate(unitDatabase.GetUnitPrefab(unitID), position, Quaternion.identity);
+            unit = Instantiate(unitDatabase.GetUnitPrefab(unitID), position, Quaternion.identity) as IUnit;
             unit.SetID(unitID);
         }
 

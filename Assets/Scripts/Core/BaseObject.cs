@@ -7,6 +7,7 @@ public interface IBaseObject
     Transform transform { get; }
     GameObject gameObject { get; }
 
+    ObjectData Data { get; }
     bool IsSelected { get; }
 }
 
@@ -14,7 +15,6 @@ public abstract class BaseObject : MonoBehaviour, IBaseObject
 {
     [Space(5)] [Header("Visuals")]
     [SerializeField] private GameObject model;
-    public abstract ObjectData Data { get; }
 
     public bool isSelected { get; private set; }
 
@@ -33,9 +33,10 @@ public abstract class BaseObject : MonoBehaviour, IBaseObject
         catch (Exception e)
         {
             Debug.LogError(e.Message);
-            
         }
     }
+
+    public abstract ObjectData Data { get; }
 
     public bool IsSelected
     {
