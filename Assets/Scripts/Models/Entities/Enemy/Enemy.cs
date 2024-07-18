@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public class Enemy : Fighter
@@ -21,10 +20,12 @@ public class Enemy : Fighter
     protected new void Update()
     {
         base.Update();
-        targetsInRange = Physics.OverlapSphere(transform.position, Data.detectionRange)
-            .Select(c => c.GetComponent<Entity>())
-            .Where(e => e is IAlly)
-            .ToList();
+        // targetsInRange = new HashSet<Entity>(
+        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
+        //         .Select(c => c.GetComponent<Entity>())
+        //         .Where(e => e is IAlly)
+        // );
+
         if (targetsInRange.Count > 0 || currentTarget != null) Attack();
     }
 

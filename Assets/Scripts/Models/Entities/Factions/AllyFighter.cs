@@ -1,18 +1,14 @@
-using System.Linq;
-using UnityEngine;
-
 public class AllyFighter : Fighter, IAlly
 {
     protected new void Update()
     {
         base.Update();
 
-        var enemiesInRange = Physics.OverlapSphere(transform.position, Data.detectionRange)
-            .Select(c => c.GetComponent<Entity>())
-            .Where(e => e is Enemy)
-            .ToList();
-
-        targetsInRange = enemiesInRange.ToList();
+        // targetsInRange = new HashSet<Entity>(
+        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
+        //         .Select(c => c.GetComponent<Entity>())
+        //         .Where(e => e is Enemy)
+        // );
 
         if (Data.attackDamage != 0
             && (moveAttack || reachedDestination)

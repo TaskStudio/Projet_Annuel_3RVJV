@@ -20,10 +20,11 @@ public class Support : Fighter, IAlly
     {
         base.Update();
 
-        targetsInRange = Physics.OverlapSphere(transform.position, Data.detectionRange)
-            .Select(c => c.GetComponent<Entity>())
-            .Where(e => e is IAlly)
-            .ToList();
+        // targetsInRange = new HashSet<Entity>(
+        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
+        //         .Select(c => c.GetComponent<Entity>())
+        //         .Where(e => e is IAlly)
+        // );
 
         if (currentTarget != null)
             if (Vector3.Distance(transform.position, currentTarget.transform.position) > Data.attackRange)
@@ -66,9 +67,12 @@ public class Support : Fighter, IAlly
     {
         if (currentTarget == null || currentTarget.GetHealthPoints() == currentTarget.GetMaxHealthPoints())
         {
-            var sortedAlliesPerMissingHealth = targetsInRange.FindAll(
-                    ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints()
-                )
+            // var sortedAlliesPerMissingHealth = targetsInRange.FindAll(
+            //         ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints()
+            //     )
+            //     .OrderBy(ally => ally.GetMissingHealthPercentage());
+            var sortedAlliesPerMissingHealth = targetsInRange
+                .Where(ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints())
                 .OrderBy(ally => ally.GetMissingHealthPercentage());
 
             currentTarget = sortedAlliesPerMissingHealth.FirstOrDefault();

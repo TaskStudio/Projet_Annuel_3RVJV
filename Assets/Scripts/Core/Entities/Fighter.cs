@@ -13,7 +13,7 @@ public abstract class Fighter : Unit
     protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
-    protected List<Entity> targetsInRange = new();
+    protected HashSet<Entity> targetsInRange = new();
 
     protected new void Start()
     {
@@ -26,7 +26,11 @@ public abstract class Fighter : Unit
     {
         base.Update();
 
-        targetsInRange.ForEach(t => t.AddTargetedBy(this));
+        // targetsInRange.ForEach(t => t.AddTargetedBy(this));
+        // foreach (var target in targetsInRange)
+        // {
+        //     target.AddTargetedBy(this);
+        // }
     }
 
     public override void Move(Vector3 newPosition)
