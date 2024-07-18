@@ -28,6 +28,9 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     [Space(10)] [Header("Movement")]
     [SerializeField] protected LayerMask entityLayer;
 
+    [Space(10)] [Header("Mana")] [SerializeField]
+    private ManaBar manaBar;
+
     private Vector3 avoidanceVector;
     private Collider entityCollider;
     private bool isMoving;
@@ -161,6 +164,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         currentMana = data.maxManaPoints;
         attackSpeed = data.attackSpeed;
         movementSpeed = data.movementSpeed;
+        manaBar.Initialize(data.maxManaPoints);
     }
 
 
@@ -228,5 +232,24 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         SignalDeath();
         spatialGrid.Remove(this);
         UnitFactory.ReturnEntity(this);
+    }
+
+    public int GetManaPoints()
+    {
+        return currentMana;
+    }
+
+    public void SetManaPoints(int currentManaPoints)
+    {
+        currentMana = currentManaPoints;
+        if (currentMana > data.maxManaPoints)
+            currentMana = data.maxManaPoints;
+        else if (currentMana < 0) currentMana = 0;
+        manaBar.SetValue(currentMana);
+    }
+
+    public int GetMaxManaPoints()
+    {
+        return data.maxManaPoints;
     }
 }
