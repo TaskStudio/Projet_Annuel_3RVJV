@@ -172,11 +172,16 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     {
         List<IEntity> neighbors = spatialGrid.GetNeighbors(transform.position);
         NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
-        foreach (var neighbor in neighbors)
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            var neighbor = neighbors[i];
             if (neighbor != null && neighbor.gameObject.activeInHierarchy)
-                unitPositions[neighbors.IndexOf(neighbor)] = neighbor.transform.position;
-
+            {
+                unitPositions[i] = neighbor.transform.position;
+            }
+        }
         NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
+
 
         var job = new AvoidCollisionsJob
         {
