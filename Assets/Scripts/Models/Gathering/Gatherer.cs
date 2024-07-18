@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Gatherer : Unit, IAlly
+public class Gatherer : Unit
 {
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
@@ -16,7 +16,7 @@ public class Gatherer : Unit, IAlly
         if (gatheringResources) HandleGatheringBehavior();
     }
 
-    public override void SetTarget(IBaseObject target)
+    public override void SetTarget(Entity target)
     {
         if (target is ResourceNode)
         {
@@ -103,7 +103,7 @@ public class Gatherer : Unit, IAlly
         }
     }
 
-    public override void TargetIsDead(IEntity entity)
+    public override void TargetIsDead(Entity entity)
     {
         if (resourceNode == entity) resourceNode = null;
         if (resourceStorage == entity) resourceStorage = null;

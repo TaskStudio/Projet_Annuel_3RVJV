@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Fighter : Unit<FighterData>
+public abstract class Fighter : Unit
 {
     public enum DistanceType
     {
@@ -9,16 +9,16 @@ public abstract class Fighter : Unit<FighterData>
         Ranged
     }
 
-    protected IEntity currentTarget;
+    protected Entity currentTarget;
     protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
-    protected List<IEntity> targetsInRange = new();
+    protected List<Entity> targetsInRange = new();
 
     protected new void Start()
     {
         base.Start();
-        lastAttackTime = -data.attackCooldown;
+        lastAttackTime = -Data.attackCooldown;
         heldPosition = transform.position;
     }
 
@@ -56,7 +56,7 @@ public abstract class Fighter : Unit<FighterData>
 
 
         var targetDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
-        if (targetDistance > data.attackRange)
+        if (targetDistance > Data.attackRange)
         {
             targetPosition = currentTarget.transform.position;
             return;
@@ -71,16 +71,16 @@ public abstract class Fighter : Unit<FighterData>
 
         gameObject.transform.LookAt(currentTarget.transform.position);
 
-        if (Time.time <= lastAttackTime + data.attackCooldown) return;
-        currentTarget.TakeDamage(data.attackDamage);
+        if (Time.time <= lastAttackTime + Data.attackCooldown) return;
+        currentTarget.TakeDamage(Data.attackDamage);
         lastAttackTime = Time.time;
     }
 
-    private IEntity GetNearestTarget()
+    private Entity GetNearestTarget()
     {
-        IEntity nearestTarget = null;
+        Entity nearestTarget = null;
         float nearestDistance = float.MaxValue;
-        foreach (IEntity target in targetsInRange)
+        foreach (Entity target in targetsInRange)
         {
             float distance = Vector3.Distance(transform.position, target.transform.position);
             if (distance < nearestDistance)
@@ -93,7 +93,7 @@ public abstract class Fighter : Unit<FighterData>
         return nearestTarget;
     }
 
-    public override void TargetIsDead(IEntity entity)
+    public override void TargetIsDead(Entity entity)
     {
         if (currentTarget == entity) currentTarget = null;
         if (targetsInRange.Contains(entity)) targetsInRange.Remove(entity);

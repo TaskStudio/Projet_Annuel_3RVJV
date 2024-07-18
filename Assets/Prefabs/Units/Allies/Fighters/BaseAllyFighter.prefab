@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3956eb8abc498a9d05b275cd9a3dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 5243948296936631734}
   data: {fileID: 11400000, guid: c9dc8e922e5e78643a838a27d244d6c3, type: 2}
+  model: {fileID: 5243948296936631734}
   id: 
   healthBar: {fileID: 1828465403883388758}
   actionList: []
@@ -163,7 +163,7 @@ MonoBehaviour:
   entityLayer:
     serializedVersion: 2
     m_Bits: 256
-  detectionSphere: {fileID: 0}
+  manaBar: {fileID: 0}
 --- !u!1001 &1689041039758338548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,11 +182,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x

@@ -5,12 +5,12 @@ using UnityEngine;
 public class SpatialGrid
 {
     private readonly float cellSize;
-    private readonly Dictionary<Vector2Int, List<IEntity>> grid;
+    private readonly Dictionary<Vector2Int, List<Unit>> grid;
 
     public SpatialGrid(float cellSize)
     {
         this.cellSize = cellSize;
-        grid = new Dictionary<Vector2Int, List<IEntity>>();
+        grid = new Dictionary<Vector2Int, List<Unit>>();
     }
 
     public Vector2Int GetCell(Vector3 position)
@@ -21,14 +21,14 @@ public class SpatialGrid
         );
     }
 
-    public void Add(IEntity unit)
+    public void Add(Unit unit)
     {
         Vector2Int cell = GetCell(unit.transform.position);
-        if (!grid.ContainsKey(cell)) grid[cell] = new List<IEntity>();
+        if (!grid.ContainsKey(cell)) grid[cell] = new List<Unit>();
         grid[cell].Add(unit);
     }
 
-    public void Remove(IEntity unit)
+    public void Remove(Unit unit)
     {
         Vector2Int cell = GetCell(unit.transform.position);
         if (grid.ContainsKey(cell))
@@ -38,7 +38,7 @@ public class SpatialGrid
         }
     }
 
-    public void Update(IEntity entity, Vector3 oldPosition)
+    public void Update(Unit entity, Vector3 oldPosition)
     {
         Vector2Int oldCell = GetCell(oldPosition);
         Vector2Int newCell = GetCell(entity.transform.position);
@@ -54,10 +54,10 @@ public class SpatialGrid
         }
     }
 
-    public List<IEntity> GetNeighbors(Vector3 position, int range = 1)
+    public List<Unit> GetNeighbors(Vector3 position, int range = 1)
     {
         Vector2Int cell = GetCell(position);
-        List<IEntity> neighbors = new();
+        List<Unit> neighbors = new();
 
         for (int x = -range; x <= range; x++)
         for (int z = -range; z <= range; z++)
@@ -73,16 +73,16 @@ public class SpatialGrid
         return neighbors;
     }
 
-    public List<IEntity> GetNeighborsByFaction<T>(Vector3 position, int range = 1) where T : IFaction
+    public List<Unit> GetNeighborsByFaction<T>(Vector3 position, int range = 1) where T : IFaction
     {
         Vector2Int cell = GetCell(position);
-        List<IEntity> neighbors = new();
+        List<Unit> neighbors = new();
 
         for (int x = -range; x <= range; x++)
         for (int z = -range; z <= range; z++)
         {
             Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-            if (!grid.TryGetValue(neighborCell, out List<IEntity> entities)) continue;
+            if (!grid.TryGetValue(neighborCell, out List<Unit> entities)) continue;
 
             foreach (var entity in entities)
                 if (!entity.IsDead() && entity is T)

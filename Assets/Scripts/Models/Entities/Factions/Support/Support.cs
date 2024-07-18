@@ -13,20 +13,20 @@ public class Support : Fighter, IAlly
     protected new void Start()
     {
         base.Start();
-        healTimer = data.attackCooldown;
+        healTimer = Data.attackCooldown;
     }
 
     protected new void Update()
     {
         base.Update();
 
-        targetsInRange = Physics.OverlapSphere(transform.position, data.detectionRange)
-            .Select(c => c.GetComponent<IEntity>())
+        targetsInRange = Physics.OverlapSphere(transform.position, Data.detectionRange)
+            .Select(c => c.GetComponent<Entity>())
             .Where(e => e is IAlly)
             .ToList();
 
         if (currentTarget != null)
-            if (Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
+            if (Vector3.Distance(transform.position, currentTarget.transform.position) > Data.attackRange)
             {
                 currentTargetIsInRange = false;
                 targetPosition = currentTarget.transform.position;
@@ -42,10 +42,10 @@ public class Support : Fighter, IAlly
         if (targetsInRange.Count > 0 && healTimer <= 0f)
         {
             HealNearbyEntities();
-            healTimer = data.attackCooldown;
+            healTimer = Data.attackCooldown;
         }
 
-        if (currentMana < data.maxManaPoints)
+        if (currentMana < Data.maxManaPoints)
         {
             manaRegenTimer -= Time.deltaTime;
             if (manaRegenTimer <= 0f)
@@ -56,10 +56,10 @@ public class Support : Fighter, IAlly
         }
     }
 
-    public override void SetTarget(IBaseObject target)
+    public override void SetTarget(Entity target)
     {
         if (target == null) return;
-        if (target is IAlly) currentTarget = target as IEntity;
+        if (target is IAlly) currentTarget = target;
     }
 
     private void HealNearbyEntities()

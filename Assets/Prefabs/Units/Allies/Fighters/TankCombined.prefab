@@ -154,18 +154,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83b9706a7b4efb9b37ad1cc9af9adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 2884455645672525367}
   data: {fileID: 11400000, guid: f7a3e702761e2bb47835bf1e09fe8100, type: 2}
+  model: {fileID: 2884455645672525367}
   id: 
   healthBar: {fileID: 3444475401460012640}
   actionList: []
+  avoidanceStrength: 5
+  collisionRadius: 2
   entityLayer:
     serializedVersion: 2
     m_Bits: 256
-  collisionRadius: 2
-  avoidanceStrength: 5
   manaBar: {fileID: 7181683832276868236}
-  target: {fileID: 0}
   combinedTankPrefab: {fileID: 0}
   tauntRadius: 10
 --- !u!1001 &2440267481215729858

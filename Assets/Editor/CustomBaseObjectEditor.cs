@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
@@ -52,7 +51,7 @@ public class CustomBaseObjectEditor : Editor
 
     private void CreateData()
     {
-        ObjectData dataTypeInstance = GetDataTypeInstanceFromTarget();
+        ObjectData dataTypeInstance = CreateInstance<ObjectData>();
         if (dataTypeInstance == null)
         {
             Debug.LogError("The 'data' type could not be determined.");
@@ -93,22 +92,22 @@ public class CustomBaseObjectEditor : Editor
     }
 
 
-    private ObjectData GetDataTypeInstanceFromTarget()
-    {
-        Type targetType = target.GetType();
-        while (targetType != null && targetType != typeof(BaseObject))
-        {
-            if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(BaseObject<>))
-            {
-                Type dataType = targetType.GetGenericArguments()[0];
-                if (typeof(ObjectData).IsAssignableFrom(dataType))
-                    return (ObjectData) CreateInstance(dataType);
-                return null;
-            }
-
-            targetType = targetType.BaseType;
-        }
-
-        return null;
-    }
+    // private ObjectData GetDataTypeInstanceFromTarget()
+    // {
+    //     Type targetType = target.GetType();
+    //     while (targetType != null && targetType != typeof(BaseObject))
+    //     {
+    //         if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(BaseObject))
+    //         {
+    //             Type dataType = targetType.GetGenericArguments()[0];
+    //             if (typeof(ObjectData).IsAssignableFrom(dataType))
+    //                 return (ObjectData) CreateInstance(dataType);
+    //             return null;
+    //         }
+    //
+    //         targetType = targetType.BaseType;
+    //     }
+    //
+    //     return null;
+    // }
 }

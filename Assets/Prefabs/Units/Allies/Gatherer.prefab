@@ -18,11 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d151bbda7b1cf4341a8f5e12a9b884a8, type: 2}
     - target: {fileID: 234687598268085462, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_Value
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 234687598268085462, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_MaxValue
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 478117095316257027, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_Enabled
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1898e4d99284c9ba2e8e36a7d36fb0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: fae3b5beb97055e49bee5ec387842fbd, type: 2}
   model: {fileID: 6961670147184191123}
-  data: {fileID: 11400000, guid: d1b13cb28910e8040ac170a3a50c0df5, type: 2}
   id: 
   healthBar: {fileID: 3100589793125639974}
   actionList: []
