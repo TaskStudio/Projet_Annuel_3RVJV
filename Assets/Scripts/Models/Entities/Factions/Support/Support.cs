@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Support : Fighter, IAlly
 {
+    [Space(10)] [Header("Heal")] [SerializeField]
     public int healAmount = 10;
     private bool currentTargetIsInRange;
 
@@ -49,7 +50,7 @@ public class Support : Fighter, IAlly
             manaRegenTimer -= Time.deltaTime;
             if (manaRegenTimer <= 0f)
             {
-                currentMana++;
+                SetManaPoints(currentMana + 1);
                 manaRegenTimer = 1f;
             }
         }
@@ -73,10 +74,10 @@ public class Support : Fighter, IAlly
             currentTarget = sortedAlliesPerMissingHealth.FirstOrDefault();
         }
 
-        if (currentTarget != null && currentTargetIsInRange)
+        if (currentMana >= healAmount && currentTarget != null && currentTargetIsInRange)
         {
             currentTarget.SetHealthPoints(currentTarget.GetHealthPoints() + healAmount);
-            currentMana -= healAmount;
+            SetManaPoints(currentMana - healAmount);
         }
     }
 }

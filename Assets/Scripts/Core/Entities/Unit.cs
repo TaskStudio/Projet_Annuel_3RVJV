@@ -27,7 +27,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     [SerializeField] protected float collisionRadius = 1f;
     [Space(10)] [Header("Movement")]
     [SerializeField] protected LayerMask entityLayer;
-    
+
     [Space(10)] [Header("Mana")] [SerializeField]
     private ManaBar manaBar;
 
@@ -164,6 +164,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         currentMana = data.maxManaPoints;
         attackSpeed = data.attackSpeed;
         movementSpeed = data.movementSpeed;
+        manaBar.Initialize(data.maxManaPoints);
     }
 
 
