@@ -5,7 +5,7 @@ public class UnitsManager : MonoBehaviour
 {
     public static UnitsManager Instance { get; private set; }
 
-    public static List<IUnit> MovableUnits { get; } = new();
+    public static List<Unit> MovableUnits { get; } = new();
 
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class UnitsManager : MonoBehaviour
             {
                 foreach (var entity in MovableUnits)
                     if (entity.IsSelected)
-                        entity.SetTarget(hit.collider.GetComponent<IBaseObject>());
+                        entity.SetTarget(hit.collider.GetComponent<Entity>());
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
@@ -55,12 +55,12 @@ public class UnitsManager : MonoBehaviour
         }
     }
 
-    public void RegisterMovableEntity(IUnit unit)
+    public void RegisterMovableEntity(Unit unit)
     {
         if (unit != null && !MovableUnits.Contains(unit)) MovableUnits.Add(unit);
     }
 
-    public void UnregisterMovableEntity(IUnit unit)
+    public void UnregisterMovableEntity(Unit unit)
     {
         if (unit != null) MovableUnits.Remove(unit);
     }

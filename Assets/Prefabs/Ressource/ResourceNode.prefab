@@ -67,8 +67,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f5c05158ac42509cbbe0864fe2ab1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 4449655301828636297}
   data: {fileID: 11400000, guid: faccfee65492b9848aaa6a1c3d622790, type: 2}
+  model: {fileID: 4449655301828636297}
+  id: 
+  healthBar: {fileID: 0}
+  actionList: []
   resourceType: 0
   defaultMaterial: {fileID: 2100000, guid: d151bbda7b1cf4341a8f5e12a9b884a8, type: 2}
   depletedMaterial: {fileID: 2100000, guid: aa5ec6c1d7f23dc469acfd0ded9f72e2, type: 2}

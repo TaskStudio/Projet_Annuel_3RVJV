@@ -15,14 +15,14 @@ MonoBehaviour:
   units:
   - <ID>k__BackingField: UNIT-0
     <DisplayName>k__BackingField: Gatherer
-    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: 534d0210f53e8294f86b66c79a87c0e7, type: 3}
+    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: c80ed14e0291b394ab5aad6666c1adea, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0
     <PoolingAmount>k__BackingField: 20
   - <ID>k__BackingField: UNIT-1
-    <DisplayName>k__BackingField: Base Ally Fighter
-    <Prefab>k__BackingField: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+    <DisplayName>k__BackingField: Melee Fighter
+    <Prefab>k__BackingField: {fileID: 5958782774982900186, guid: 1d61e372c2d3e4a4faa963abd69a52bf, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0

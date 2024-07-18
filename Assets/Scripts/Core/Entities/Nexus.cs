@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Nexus : Entity<EntityData>
+public class Nexus : Entity
 {
-    public override void TargetIsDead(IEntity entity)
+    public override void TargetIsDead(Entity entity)
     {
     }
 

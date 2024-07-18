@@ -9,11 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76eeac99ef5862742b40306569993982, type: 3}
+  m_Script: {fileID: 11500000, guid: b974727e7924d504388c3da961f02098, type: 3}
   m_Name: BaseBuildingData
   m_EditorClassIdentifier: 
   objectName: Base building
   description: 
   image: {fileID: 0}
-  maxHealthPoints: 0
   faction: 0
+  maxHealthPoints: 0
+  maxManaPoints: 0
+  attackSpeed: 1
+  movementSpeed: 5
+  attackDamage: 10
+  distanceType: 0
+  detectionRange: 15
+  attackRange: 5
+  attackCooldown: 0.5

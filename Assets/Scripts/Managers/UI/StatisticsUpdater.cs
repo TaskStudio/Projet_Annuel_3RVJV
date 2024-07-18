@@ -37,7 +37,7 @@ public class StatisticsUpdater : MonoBehaviour
 
         if (profile is Unit unit)
         {
-            UnitData unitData = (UnitData)unit.Data;
+            ObjectData unitData = unit.Data;
 
             if (unit.currentHealth != 0)
             {

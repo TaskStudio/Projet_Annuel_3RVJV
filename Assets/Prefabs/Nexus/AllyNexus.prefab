@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3939c2ac9a0bdf47808de0965d82006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 102139487979630628}
   data: {fileID: 11400000, guid: ed8568beebc765042aeea643246f0ea4, type: 2}
+  model: {fileID: 102139487979630628}
   id: 
   healthBar: {fileID: 7650460376143459252}
   actionList: []

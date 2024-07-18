@@ -2,21 +2,26 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-public interface IBaseObject
+public abstract class BaseObject : MonoBehaviour
 {
-    Transform transform { get; }
-    GameObject gameObject { get; }
+    [SerializeField] private ObjectData data;
 
-    bool IsSelected { get; }
-}
-
-public abstract class BaseObject : MonoBehaviour, IBaseObject
-{
     [Space(5)] [Header("Visuals")]
     [SerializeField] private GameObject model;
-    public abstract ObjectData Data { get; }
+
+    public ObjectData Data => data;
 
     public bool isSelected { get; private set; }
+
+    public bool IsSelected
+    {
+        get => isSelected;
+        private set
+        {
+            isSelected = value;
+            UpdateVisuals();
+        }
+    }
 
     private void OnEnable()
     {
@@ -33,17 +38,6 @@ public abstract class BaseObject : MonoBehaviour, IBaseObject
         catch (Exception e)
         {
             Debug.LogError(e.Message);
-            
-        }
-    }
-
-    public bool IsSelected
-    {
-        get => isSelected;
-        private set
-        {
-            isSelected = value;
-            UpdateVisuals();
         }
     }
 
@@ -88,11 +82,4 @@ public abstract class BaseObject : MonoBehaviour, IBaseObject
     {
         model.layer = LayerMask.NameToLayer(isSelected ? "Selected" : "Default");
     }
-}
-
-public abstract class BaseObject<TDataType> : BaseObject where TDataType : ObjectData
-{
-    [SerializeField] protected TDataType data;
-
-    public override ObjectData Data => data;
 }

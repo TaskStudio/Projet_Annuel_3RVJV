@@ -153,17 +153,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83b9706a7b4efb9b37ad1cc9af9adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 0}
   data: {fileID: 11400000, guid: a02a6cb2b3ca43949b3d7b2b2aa0ccc0, type: 2}
+  model: {fileID: 0}
   id: 
-  actionList: []
   healthBar: {fileID: 5774660064939519059}
+  actionList: []
+  avoidanceStrength: 5
+  collisionRadius: 1
   entityLayer:
     serializedVersion: 2
     m_Bits: 0
-  collisionRadius: 1
-  avoidanceStrength: 5
-  target: {fileID: 0}
+  manaBar: {fileID: 0}
   combinedTankPrefab: {fileID: 2884455645672525367, guid: 4f0eaa09c3abf0b4786105182bad5b7b, type: 3}
   tauntRadius: 10
 --- !u!1001 &6787796290753264369
@@ -181,6 +181,14 @@ PrefabInstance:
     - target: {fileID: 1013501749049513634, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: damageableEntity
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_MaxValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
@@ -265,6 +273,18 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchorMax.x
