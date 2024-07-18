@@ -16,7 +16,7 @@ public class UnitDatabaseSO : ScriptableObject
             return null;
         }
 
-        return unitDatabaseData.Prefab;
+        return unitDatabaseData.Prefab as Unit;
     }
 
     public UnitDatabaseData GetEntityData(string entityID)
@@ -30,7 +30,7 @@ public class UnitDatabaseData
 {
     [field: SerializeField] public string ID { get; private set; }
     [field: SerializeField] public string DisplayName { get; private set; }
-    [field: SerializeField] public Unit Prefab { get; private set; }
+    [field: SerializeField] public BaseObject Prefab { get; private set; }
     [field: SerializeField] public float ProductionTime { get; private set; }
     [field: SerializeField] public int Cost { get; private set; }
     [field: SerializeField] public Resource.Type ResourceType { get; private set; }

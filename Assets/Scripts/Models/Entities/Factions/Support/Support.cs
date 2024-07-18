@@ -1,45 +1,82 @@
+using System.Linq;
 using UnityEngine;
 
-public class Support : Fighter
+public class Support : Fighter, IAlly
 {
-    public float healRadius = 10f;
     public int healAmount = 10;
-    public float healCooldown = 5f;
+    private bool currentTargetIsInRange;
+
     private float healTimer;
+    private float manaRegenTimer;
 
     protected new void Start()
     {
         base.Start();
-        healTimer = healCooldown;
+        healTimer = data.attackCooldown;
     }
 
     protected new void Update()
     {
         base.Update();
 
+        targetsInRange = Physics.OverlapSphere(transform.position, data.detectionRange)
+            .Select(c => c.GetComponent<IEntity>())
+            .Where(e => e is IAlly)
+            .ToList();
+
+        if (currentTarget != null)
+            if (Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
+            {
+                currentTargetIsInRange = false;
+                targetPosition = currentTarget.transform.position;
+            }
+            else
+            {
+                currentTargetIsInRange = true;
+                Stop();
+            }
+        else targetPosition = heldPosition;
+
         healTimer -= Time.deltaTime;
-        if (healTimer <= 0f)
+        if (targetsInRange.Count > 0 && healTimer <= 0f)
         {
             HealNearbyEntities();
-            healTimer = healCooldown;
+            healTimer = data.attackCooldown;
         }
+
+        if (currentMana < data.maxManaPoints)
+        {
+            manaRegenTimer -= Time.deltaTime;
+            if (manaRegenTimer <= 0f)
+            {
+                currentMana++;
+                manaRegenTimer = 1f;
+            }
+        }
+    }
+
+    public override void SetTarget(IBaseObject target)
+    {
+        if (target == null) return;
+        if (target is IAlly) currentTarget = target as IEntity;
     }
 
     private void HealNearbyEntities()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, healRadius);
-        foreach (var hitCollider in hitColliders)
+        if (currentTarget == null || currentTarget.GetHealthPoints() == currentTarget.GetMaxHealthPoints())
         {
-            Unit entity = hitCollider.GetComponent<Unit>();
-            if (entity != null && !(entity is Enemy)) // Heal only non-enemy entities
-            {
-                int healableAmount = Mathf.Min(
-                    healAmount,
-                    entity.GetMaxHealthPoints() - entity.GetHealthPoints()
-                ); // Ensure we don't exceed max HP
-                // entity.Heal(healableAmount); // Use the Heal method to increase currentHp
-                //Debug.Log($"Healed {entity.gameObject.name} by {healableAmount} HP");
-            }
+            var sortedAlliesPerMissingHealth = targetsInRange.FindAll(
+                    ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints()
+                )
+                .OrderBy(ally => ally.GetMissingHealthPercentage());
+
+            currentTarget = sortedAlliesPerMissingHealth.FirstOrDefault();
+        }
+
+        if (currentTarget != null && currentTargetIsInRange)
+        {
+            currentTarget.SetHealthPoints(currentTarget.GetHealthPoints() + healAmount);
+            currentMana -= healAmount;
         }
     }
 }

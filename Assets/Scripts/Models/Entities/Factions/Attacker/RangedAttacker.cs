@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedAttacker : Attacker
+public abstract class RangedAttacker : Attacker
 {
     public ParticleSystem attackParticles; // Assigned via the Unity Editor
-    public List<ParticleCollisionEvent> collisionEvents;
     public float shootCooldown = 3f; // Cooldown time in seconds
     public int damageAmount = 100; // Set this to your desired damage value
     private bool canShoot = true;
+    public List<ParticleCollisionEvent> collisionEvents;
     private float lastShootTime; // Time when the last shot was fired
 
     protected new void Start()
@@ -18,7 +18,7 @@ public class RangedAttacker : Attacker
         collisionEvents = new List<ParticleCollisionEvent>();
     }
 
-    void Update()
+    private void Update()
     {
         base.Update();
         if (canShoot && attackParticles)
@@ -35,7 +35,28 @@ public class RangedAttacker : Attacker
             }
         }
     }
-    IEnumerator ShootCooldown()
+
+    private void OnParticleCollision(GameObject other)
+    {
+        int numCollisionEvents = attackParticles.GetCollisionEvents(other, collisionEvents);
+
+        // Debugging: Check for Enemy component before entering if statement
+        bool hasEnemyComponent = other.TryGetComponent(out AttackingEnemy enemy);
+        Debug.Log($"Has Enemy Component: {hasEnemyComponent}");
+
+        if (hasEnemyComponent)
+        {
+            Debug.Log($"Applying damage to: {enemy.name}, Damage: {damageAmount}"); // Confirm damage application
+            enemy.TakeDamage(damageAmount); // Apply damage
+            lastShootTime = Time.time; // Update last shoot time
+        }
+        else
+        {
+            Debug.LogError("Enemy component not found on collided object.");
+        }
+    }
+
+    private IEnumerator ShootCooldown()
     {
         canShoot = false;
         yield return new WaitForSeconds(shootCooldown);
@@ -44,10 +65,10 @@ public class RangedAttacker : Attacker
 
     public override void Attack()
     {
-       //no attack logic here
+        //no attack logic here
     }
 
-    GameObject FindNearestEnemy()
+    private GameObject FindNearestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         GameObject nearestEnemy = null;
@@ -63,27 +84,7 @@ public class RangedAttacker : Attacker
                 nearestEnemy = enemy;
             }
         }
+
         return nearestEnemy;
-    }
-    void OnParticleCollision(GameObject other)
-    {
-
-        
-        int numCollisionEvents = attackParticles.GetCollisionEvents(other, collisionEvents);
-
-        // Debugging: Check for Enemy component before entering if statement
-        bool hasEnemyComponent = other.TryGetComponent<AttackingEnemy>(out AttackingEnemy enemy);
-        Debug.Log($"Has Enemy Component: {hasEnemyComponent}");
-
-        if (hasEnemyComponent)
-        {
-            Debug.Log($"Applying damage to: {enemy.name}, Damage: {damageAmount}"); // Confirm damage application
-            enemy.TakeDamage(damageAmount); // Apply damage
-            lastShootTime = Time.time; // Update last shoot time
-        }
-        else
-        {
-            Debug.LogError("Enemy component not found on collided object.");
-        }
     }
 }

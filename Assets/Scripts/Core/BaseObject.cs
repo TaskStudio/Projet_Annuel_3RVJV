@@ -2,21 +2,19 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseObject : MonoBehaviour
+public interface IBaseObject
+{
+    Transform transform { get; }
+    GameObject gameObject { get; }
+
+    bool IsSelected { get; }
+}
+
+public abstract class BaseObject : MonoBehaviour, IBaseObject
 {
     [Space(5)] [Header("Visuals")]
     [SerializeField] private GameObject model;
     public abstract ObjectData Data { get; }
-
-    public bool IsSelected
-    {
-        get => isSelected;
-        private set
-        {
-            isSelected = value;
-            UpdateVisuals();
-        }
-    }
 
     public bool isSelected { get; private set; }
 
@@ -39,18 +37,15 @@ public abstract class BaseObject : MonoBehaviour
         }
     }
 
-    private void ValidateData()
+    public bool IsSelected
     {
-#if UNITY_EDITOR
-        if (Data == null)
+        get => isSelected;
+        private set
         {
-            string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gameObject);
-            throw new Exception($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path);
+            isSelected = value;
+            UpdateVisuals();
         }
-#endif
     }
-
-    protected abstract void Initialize();
 
     public void Select()
     {
@@ -74,6 +69,19 @@ public abstract class BaseObject : MonoBehaviour
         else
             model.layer = LayerMask.NameToLayer("Selected");
     }
+
+    private void ValidateData()
+    {
+#if UNITY_EDITOR
+        if (Data == null)
+        {
+            string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gameObject);
+            throw new Exception($"The data property of {gameObject.name} ({GetType().Name}) is null. Path: " + path);
+        }
+#endif
+    }
+
+    protected abstract void Initialize();
 
 
     private void UpdateVisuals()
