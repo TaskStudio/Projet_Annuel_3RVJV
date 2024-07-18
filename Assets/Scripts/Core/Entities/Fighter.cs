@@ -13,7 +13,7 @@ public abstract class Fighter : Unit
     protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
-    protected HashSet<Entity> targetsInRange = new();
+    protected List<Unit> targetsInRange = new();
 
     protected new void Start()
     {
@@ -100,7 +100,7 @@ public abstract class Fighter : Unit
     public override void TargetIsDead(Entity entity)
     {
         if (currentTarget == entity) currentTarget = null;
-        if (targetsInRange.Contains(entity)) targetsInRange.Remove(entity);
+        if (entity is Unit unit && targetsInRange.Contains(unit)) targetsInRange.Remove(unit);
         targetPosition = heldPosition;
     }
 

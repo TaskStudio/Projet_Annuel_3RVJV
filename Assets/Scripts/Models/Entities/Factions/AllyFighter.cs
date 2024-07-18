@@ -10,6 +10,8 @@ public class AllyFighter : Fighter, IAlly
         //         .Where(e => e is Enemy)
         // );
 
+        // targetsInRange = spatialGrid.GetNeighbors(transform.position, Data.detectionRange);
+
         if (Data.attackDamage != 0
             && (moveAttack || reachedDestination)
             && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
@@ -18,6 +20,6 @@ public class AllyFighter : Fighter, IAlly
     public override void SetTarget(Entity target)
     {
         if (target == null) return;
-        if (target is IEnemy) currentTarget = target;
+        if (target is Enemy) currentTarget = target;
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SpatialGrid
@@ -64,29 +63,7 @@ public class SpatialGrid
         {
             Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
             if (grid.ContainsKey(neighborCell))
-            {
-                var neighborsToAdd = grid[neighborCell].Where(unit => !unit.IsDead());
-                neighbors.AddRange(neighborsToAdd);
-            }
-        }
-
-        return neighbors;
-    }
-
-    public List<Unit> GetNeighborsByFaction<T>(Vector3 position, int range = 1) where T : IFaction
-    {
-        Vector2Int cell = GetCell(position);
-        List<Unit> neighbors = new();
-
-        for (int x = -range; x <= range; x++)
-        for (int z = -range; z <= range; z++)
-        {
-            Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-            if (!grid.TryGetValue(neighborCell, out List<Unit> entities)) continue;
-
-            foreach (var entity in entities)
-                if (!entity.IsDead() && entity is T)
-                    neighbors.Add(entity);
+                neighbors.AddRange(grid[neighborCell]);
         }
 
         return neighbors;
