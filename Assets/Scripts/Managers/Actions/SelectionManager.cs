@@ -151,7 +151,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private void DeselectEntity(BaseObject entity)
+    public void DeselectEntity(BaseObject entity)
     {
         if (entity != null && entity.isSelected)
         {

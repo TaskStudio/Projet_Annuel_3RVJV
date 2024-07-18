@@ -6,4 +6,8 @@ public abstract class ObjectData : ScriptableObject
     public string objectName;
     public string description;
     public Texture2D image;
+
+    public string ObjectName => objectName;
+    public string Description => description;
+    public Texture2D Image => image;
 }

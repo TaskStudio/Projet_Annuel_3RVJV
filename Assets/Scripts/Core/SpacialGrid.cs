@@ -1,17 +1,16 @@
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Jobs;
+using System.Linq;
 using UnityEngine;
 
 public class SpatialGrid
 {
-    private Dictionary<Vector2Int, List<Unit>> grid;
-    private float cellSize;
+    private readonly float cellSize;
+    private readonly Dictionary<Vector2Int, List<IEntity>> grid;
 
     public SpatialGrid(float cellSize)
     {
         this.cellSize = cellSize;
-        grid = new Dictionary<Vector2Int, List<Unit>>();
+        grid = new Dictionary<Vector2Int, List<IEntity>>();
     }
 
     public Vector2Int GetCell(Vector3 position)
@@ -22,50 +21,74 @@ public class SpatialGrid
         );
     }
 
-    public void Add(Unit unit)
+    public void Add(IEntity unit)
     {
         Vector2Int cell = GetCell(unit.transform.position);
-        if (!grid.ContainsKey(cell))
-        {
-            grid[cell] = new List<Unit>();
-        }
+        if (!grid.ContainsKey(cell)) grid[cell] = new List<IEntity>();
         grid[cell].Add(unit);
     }
 
-    public void Update(Unit unit, Vector3 oldPosition)
+    public void Remove(IEntity unit)
+    {
+        Vector2Int cell = GetCell(unit.transform.position);
+        if (grid.ContainsKey(cell))
+        {
+            grid[cell].Remove(unit);
+            if (grid[cell].Count == 0) grid.Remove(cell);
+        }
+    }
+
+    public void Update(IEntity entity, Vector3 oldPosition)
     {
         Vector2Int oldCell = GetCell(oldPosition);
-        Vector2Int newCell = GetCell(unit.transform.position);
+        Vector2Int newCell = GetCell(entity.transform.position);
         if (oldCell != newCell)
         {
             if (grid.ContainsKey(oldCell))
             {
-                grid[oldCell].Remove(unit);
-                if (grid[oldCell].Count == 0)
-                {
-                    grid.Remove(oldCell);
-                }
+                grid[oldCell].Remove(entity);
+                if (grid[oldCell].Count == 0) grid.Remove(oldCell);
             }
-            Add(unit);
+
+            Add(entity);
         }
     }
 
-    public List<Unit> GetNeighbors(Vector3 position)
+    public List<IEntity> GetNeighbors(Vector3 position, int range = 1)
     {
         Vector2Int cell = GetCell(position);
-        List<Unit> neighbors = new List<Unit>();
+        List<IEntity> neighbors = new();
 
-        for (int x = -1; x <= 1; x++)
+        for (int x = -range; x <= range; x++)
+        for (int z = -range; z <= range; z++)
         {
-            for (int z = -1; z <= 1; z++)
+            Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
+            if (grid.ContainsKey(neighborCell))
             {
-                Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-                if (grid.ContainsKey(neighborCell))
-                {
-                    neighbors.AddRange(grid[neighborCell]);
-                }
+                var neighborsToAdd = grid[neighborCell].Where(unit => !unit.IsDead());
+                neighbors.AddRange(neighborsToAdd);
             }
         }
+
+        return neighbors;
+    }
+
+    public List<IEntity> GetNeighborsByFaction<T>(Vector3 position, int range = 1) where T : IFaction
+    {
+        Vector2Int cell = GetCell(position);
+        List<IEntity> neighbors = new();
+
+        for (int x = -range; x <= range; x++)
+        for (int z = -range; z <= range; z++)
+        {
+            Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
+            if (!grid.TryGetValue(neighborCell, out List<IEntity> entities)) continue;
+
+            foreach (var entity in entities)
+                if (!entity.IsDead() && entity is T)
+                    neighbors.Add(entity);
+        }
+
         return neighbors;
     }
 }

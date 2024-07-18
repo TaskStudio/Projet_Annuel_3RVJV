@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ResourceNode : MonoBehaviour
+public class ResourceNode : BaseObject<ObjectData>
 {
     public Resource.Type resourceType;
 
@@ -26,5 +26,9 @@ public class ResourceNode : MonoBehaviour
         }
 
         return new Resource(resourceType, amountGathered);
+    }
+
+    protected override void Initialize()
+    {
     }
 }
