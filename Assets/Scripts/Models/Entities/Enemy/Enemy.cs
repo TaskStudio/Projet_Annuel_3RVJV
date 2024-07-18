@@ -214,7 +214,7 @@ public class Enemy : Fighter
     public override void SetTarget(Entity target)
     {
         if (target == null) return;
-        if (target is IAlly) currentTarget = target;
+        if (target is Ally) currentTarget = target;
     }
 
     protected Vector3 FindNearestTarget()

@@ -40,7 +40,7 @@ public abstract class Unit : Entity
         spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        if (this is IAlly)
+        if (this is Ally)
             UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
@@ -157,13 +157,10 @@ public abstract class Unit : Entity
     private Vector3 AvoidCollisions()
     {
         List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new NativeArray<Vector3>(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++)
-        {
-            unitPositions[i] = neighbors[i].transform.position;
-        }
+        NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
+        for (int i = 0; i < neighbors.Count; i++) unitPositions[i] = neighbors[i].transform.position;
 
-        NativeArray<Vector3> avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.TempJob);
+        NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
 
         var job = new AvoidCollisionsJob
         {

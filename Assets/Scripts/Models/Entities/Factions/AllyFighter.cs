@@ -1,4 +1,4 @@
-public class AllyFighter : Fighter, IAlly
+public class AllyFighter : Ally
 {
     protected new void Update()
     {

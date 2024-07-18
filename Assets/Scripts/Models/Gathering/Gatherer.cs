@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Gatherer : Unit
+public class Gatherer : Ally
 {
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
@@ -9,7 +9,7 @@ public class Gatherer : Unit
     private Resource carriedResource;
     private bool gatheringResources;
 
-    protected override void Update()
+    protected new void Update()
     {
         base.Update();
 

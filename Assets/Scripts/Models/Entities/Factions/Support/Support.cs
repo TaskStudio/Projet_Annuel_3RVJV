@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class Support : Fighter, IAlly
+public class Support : Ally
 {
     [Space(10)] [Header("Heal")] [SerializeField]
     public int healAmount = 10;
@@ -60,7 +60,7 @@ public class Support : Fighter, IAlly
     public override void SetTarget(Entity target)
     {
         if (target == null) return;
-        if (target is IAlly) currentTarget = target;
+        if (target is Ally) currentTarget = target;
     }
 
     private void HealNearbyEntities()
