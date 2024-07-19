@@ -32,6 +32,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gatherer
       objectReference: {fileID: 0}
+    - target: {fileID: 4489774148682684672, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6215106706279321810, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -145,12 +149,13 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 3100589793125639974}
   actionList: []
+  unitCollider: {fileID: 0}
   avoidanceStrength: 5
   collisionRadius: 0
-  entityLayer:
+  manaBar: {fileID: 0}
+  targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  manaBar: {fileID: 0}
   resourceNode: {fileID: 0}
   resourceStorage: {fileID: 0}
   maxResourceAmount: 10

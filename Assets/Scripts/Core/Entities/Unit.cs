@@ -11,9 +11,6 @@ public abstract class Unit : Entity
     protected static SpatialGrid spatialGrid;
     protected static Dictionary<Collider, Unit> colliderToUnitMap = new();
 
-    [Space(10)] [Header("Targeting")]
-    [SerializeField] private Collider unitCollider;
-
     [Space(10)] [Header("Movement")]
     [SerializeField] protected float avoidanceStrength = 5f;
     [SerializeField] protected float collisionRadius = 1f;
@@ -29,6 +26,8 @@ public abstract class Unit : Entity
     protected bool reachedDestination;
     protected float stoppingDistance = 0.1f;
     protected Vector3 targetPosition;
+
+    private Collider unitCollider;
     private Unit unitImplementation;
 
     public List<Unit> targetedBy { get; } = new();
@@ -51,6 +50,7 @@ public abstract class Unit : Entity
             UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
+        unitCollider = GetComponent<Collider>();
     }
 
     protected virtual void Update()

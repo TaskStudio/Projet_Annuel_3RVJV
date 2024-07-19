@@ -104,12 +104,13 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 8539265156326309494}
   actionList: []
+  unitCollider: {fileID: 1471721828386528145}
   avoidanceStrength: 5
   collisionRadius: 1
-  entityLayer:
-    serializedVersion: 2
-    m_Bits: 512
   manaBar: {fileID: 5807772416284552855}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!1 &5926901959206290625
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +208,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_MaxValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
@@ -352,11 +357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 100
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 100
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
