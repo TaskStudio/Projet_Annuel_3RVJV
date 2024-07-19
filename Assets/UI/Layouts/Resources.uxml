@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/Resources.uss?fileID=7433441132597879392&amp;guid=c8b5212c8122c3f4992b29482ea528bf&amp;type=3#Resources" />
-    <ui:VisualElement name="ResourcesContainer" style="flex-grow: 1; flex-direction: row; margin-top: 11px; margin-right: 26px; margin-bottom: 26px; margin-left: 26px;">
+    <ui:VisualElement name="ResourcesContainer" style="flex-grow: 0; flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-items: auto; align-self: flex-start; padding-bottom: 10px; padding-left: 25px; padding-right: 25px; padding-top: 10px;">
         <ui:VisualElement name="Wood" class="ResourceContainer">
             <ui:VisualElement name="WoodImage" class="ResourceImage" style="background-image: resource(&apos;wood&apos;); flex-grow: 0;" />
             <ui:Label tabindex="-1" text="400" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WoodQuantity" style="color: rgb(154, 74, 28);" />

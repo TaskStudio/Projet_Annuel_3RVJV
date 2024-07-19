@@ -14,7 +14,9 @@ public class UIManager : MonoBehaviour
     public VisualElement statisticsScrollView;
     public VisualElement characterPanel;
     public VisualElement selectedPanel;
-    public VisualElement resoursesPanel;
+    
+    public UIDocument resourcesDocument;
+    public VisualElement resourcesPanel;
 
     public static UIManager Instance { get; private set; }
 
@@ -41,6 +43,12 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Root Visual Element is null. Ensure UIDocument component is set up correctly.");
             return;
         }
+        
+        if (resourcesDocument == null)
+        {
+            Debug.LogError("Resources Visual Element is null. Ensure UIDocument component is set up correctly.");
+            return;
+        }
 
         minimapContainer = rootVisualElement.Q<VisualElement>("MiniMap");
         selectedEntitiesList = rootVisualElement.Q<VisualElement>("SelectedEntitiesList");
@@ -48,10 +56,11 @@ public class UIManager : MonoBehaviour
         faceContainer = rootVisualElement.Q<VisualElement>("FaceContainer");
         characterPanel = rootVisualElement.Q<VisualElement>("Character");
         selectedPanel = rootVisualElement.Q<VisualElement>("Selected");
-        resoursesPanel = rootVisualElement.Q<VisualElement>("Resources");
+
+        resourcesPanel = resourcesDocument.rootVisualElement.Q<VisualElement>("ResourcesContainer");
 
         if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
-            characterPanel == null || selectedPanel == null || resoursesPanel == null)
+            characterPanel == null || selectedPanel == null || resourcesPanel == null)
         {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
@@ -60,7 +69,7 @@ public class UIManager : MonoBehaviour
         RegisterHoverEvents(minimapContainer);
         RegisterHoverEvents(characterPanel);
         RegisterHoverEvents(selectedPanel);
-        RegisterHoverEvents(resoursesPanel);
+        RegisterHoverEvents(resourcesPanel);
 
         // Initialize empty panels at start
         characterPanel.style.display = DisplayStyle.None;
