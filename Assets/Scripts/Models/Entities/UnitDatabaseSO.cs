@@ -7,7 +7,7 @@ public class UnitDatabaseSO : ScriptableObject
 {
     public List<UnitDatabaseData> units;
 
-    public Unit GetUnitPrefab(string unitID)
+    public BaseObject GetUnitPrefab(string unitID)
     {
         UnitDatabaseData unitDatabaseData = units.Find(data => data.ID == unitID);
         if (unitDatabaseData == null)
@@ -16,7 +16,7 @@ public class UnitDatabaseSO : ScriptableObject
             return null;
         }
 
-        return unitDatabaseData.Prefab as Unit;
+        return unitDatabaseData.Prefab;
     }
 
     public UnitDatabaseData GetEntityData(string entityID)
