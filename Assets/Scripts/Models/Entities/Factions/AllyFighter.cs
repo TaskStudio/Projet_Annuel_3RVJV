@@ -4,14 +4,6 @@ public class AllyFighter : Ally
     {
         base.Update();
 
-        // targetsInRange = new HashSet<Entity>(
-        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
-        //         .Select(c => c.GetComponent<Entity>())
-        //         .Where(e => e is Enemy)
-        // );
-
-        // targetsInRange = spatialGrid.GetNeighbors(transform.position, Data.detectionRange);
-
         if (Data.attackDamage != 0
             && (moveAttack || reachedDestination)
             && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
