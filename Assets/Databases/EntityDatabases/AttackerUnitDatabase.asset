@@ -15,7 +15,7 @@ MonoBehaviour:
   units:
   - <ID>k__BackingField: UNIT-0
     <DisplayName>k__BackingField: Gatherer
-    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: 534d0210f53e8294f86b66c79a87c0e7, type: 3}
+    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: c80ed14e0291b394ab5aad6666c1adea, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0

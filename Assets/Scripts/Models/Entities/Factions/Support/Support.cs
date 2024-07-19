@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class Support : Fighter, IAlly
+public class Support : Ally
 {
     [Space(10)] [Header("Heal")] [SerializeField]
     public int healAmount = 10;
@@ -13,20 +13,21 @@ public class Support : Fighter, IAlly
     protected new void Start()
     {
         base.Start();
-        healTimer = data.attackCooldown;
+        healTimer = Data.attackCooldown;
     }
 
     protected new void Update()
     {
         base.Update();
 
-        targetsInRange = Physics.OverlapSphere(transform.position, data.detectionRange)
-            .Select(c => c.GetComponent<IEntity>())
-            .Where(e => e is IAlly)
-            .ToList();
+        // targetsInRange = new HashSet<Entity>(
+        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
+        //         .Select(c => c.GetComponent<Entity>())
+        //         .Where(e => e is IAlly)
+        // );
 
         if (currentTarget != null)
-            if (Vector3.Distance(transform.position, currentTarget.transform.position) > data.attackRange)
+            if (Vector3.Distance(transform.position, currentTarget.transform.position) > Data.attackRange)
             {
                 currentTargetIsInRange = false;
                 targetPosition = currentTarget.transform.position;
@@ -42,10 +43,10 @@ public class Support : Fighter, IAlly
         if (targetsInRange.Count > 0 && healTimer <= 0f)
         {
             HealNearbyEntities();
-            healTimer = data.attackCooldown;
+            healTimer = Data.attackCooldown;
         }
 
-        if (currentMana < data.maxManaPoints)
+        if (currentMana < Data.maxManaPoints)
         {
             manaRegenTimer -= Time.deltaTime;
             if (manaRegenTimer <= 0f)
@@ -56,19 +57,22 @@ public class Support : Fighter, IAlly
         }
     }
 
-    public override void SetTarget(IBaseObject target)
+    public override void SetTarget(Entity target)
     {
         if (target == null) return;
-        if (target is IAlly) currentTarget = target as IEntity;
+        if (target is Ally) currentTarget = target;
     }
 
     private void HealNearbyEntities()
     {
         if (currentTarget == null || currentTarget.GetHealthPoints() == currentTarget.GetMaxHealthPoints())
         {
-            var sortedAlliesPerMissingHealth = targetsInRange.FindAll(
-                    ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints()
-                )
+            // var sortedAlliesPerMissingHealth = targetsInRange.FindAll(
+            //         ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints()
+            //     )
+            //     .OrderBy(ally => ally.GetMissingHealthPercentage());
+            var sortedAlliesPerMissingHealth = targetsInRange
+                .Where(ally => ally.GetHealthPoints() < ally.GetMaxHealthPoints())
                 .OrderBy(ally => ally.GetMissingHealthPercentage());
 
             currentTarget = sortedAlliesPerMissingHealth.FirstOrDefault();

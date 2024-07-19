@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
-public class Enemy : Fighter, IEnemy
+public class Enemy : Fighter
 {
     protected float bumpDistance = 1f;
     protected int collisionDamage = 20;
@@ -21,10 +20,12 @@ public class Enemy : Fighter, IEnemy
     protected new void Update()
     {
         base.Update();
-        targetsInRange = Physics.OverlapSphere(transform.position, data.detectionRange)
-            .Select(c => c.GetComponent<IEntity>())
-            .Where(e => e is IAlly)
-            .ToList();
+        // targetsInRange = new HashSet<Entity>(
+        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
+        //         .Select(c => c.GetComponent<Entity>())
+        //         .Where(e => e is IAlly)
+        // );
+
         if (targetsInRange.Count > 0 || currentTarget != null) Attack();
     }
 
@@ -210,10 +211,10 @@ public class Enemy : Fighter, IEnemy
         }
     }
 
-    public override void SetTarget(IBaseObject target)
+    public override void SetTarget(Entity target)
     {
         if (target == null) return;
-        if (target is IEnemy) currentTarget = target as IEntity;
+        if (target is Ally) currentTarget = target;
     }
 
     protected Vector3 FindNearestTarget()

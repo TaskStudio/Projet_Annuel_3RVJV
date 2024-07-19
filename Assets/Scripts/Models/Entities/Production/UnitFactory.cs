@@ -6,7 +6,7 @@ public class UnitFactory : MonoBehaviour
     private static UnitFactory instance;
     public static UnitFactory Instance;
 
-    private static readonly Dictionary<string, Queue<IUnit>> unitPools = new();
+    private static readonly Dictionary<string, Queue<Unit>> unitPools = new();
 
     private void Awake()
     {
@@ -27,11 +27,11 @@ public class UnitFactory : MonoBehaviour
 
         foreach (var unit in GameManager.Instance.playerUnitDatabase.units)
         {
-            unitPools.Add(unit.ID, new Queue<IUnit>());
+            unitPools.Add(unit.ID, new Queue<Unit>());
             for (int i = 0; i < unit.PoolingAmount; i++)
             {
                 BaseObject unitInstance = Instantiate(unit.Prefab, Vector3.zero, Quaternion.identity);
-                if (unitInstance is IUnit iunit)
+                if (unitInstance is Unit iunit)
                 {
                     iunit.SetID(unit.ID);
                     unitInstance.gameObject.SetActive(false);
@@ -41,11 +41,11 @@ public class UnitFactory : MonoBehaviour
         }
     }
 
-    public static IUnit SpawnEntity(string unitID, Vector3 position, UnitDatabaseSO unitDatabase)
+    public static Unit SpawnEntity(string unitID, Vector3 position, UnitDatabaseSO unitDatabase)
     {
-        if (!unitPools.ContainsKey(unitID)) unitPools.Add(unitID, new Queue<IUnit>());
+        if (!unitPools.ContainsKey(unitID)) unitPools.Add(unitID, new Queue<Unit>());
 
-        IUnit unit;
+        Unit unit;
         if (unitPools[unitID].Count > 0)
         {
             unit = unitPools[unitID].Dequeue();
@@ -54,14 +54,14 @@ public class UnitFactory : MonoBehaviour
         }
         else
         {
-            unit = Instantiate(unitDatabase.GetUnitPrefab(unitID), position, Quaternion.identity) as IUnit;
+            unit = Instantiate(unitDatabase.GetUnitPrefab(unitID), position, Quaternion.identity) as Unit;
             unit.SetID(unitID);
         }
 
         return unit;
     }
 
-    public static void ReturnEntity(IUnit unit)
+    public static void ReturnEntity(Unit unit)
     {
         if (unit.ID == null)
         {
@@ -70,7 +70,7 @@ public class UnitFactory : MonoBehaviour
         }
 
         unit.gameObject.SetActive(false);
-        if (!unitPools.ContainsKey(unit.ID)) unitPools.Add(unit.ID, new Queue<IUnit>());
+        if (!unitPools.ContainsKey(unit.ID)) unitPools.Add(unit.ID, new Queue<Unit>());
         unitPools[unit.ID].Enqueue(unit);
     }
 }

@@ -4,25 +4,8 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-public interface IUnit : IEntity
-{
-    float CollisionRadius { get; }
-    int currentMana { get; }
-    float movementSpeed { get; }
-    float attackSpeed { get; }
-
-    void Move(Vector3 newPosition);
-    void MoveInFormation(Vector3 targetPosition);
-    void SetTarget(IBaseObject target);
-}
-
-
-public abstract class Unit : Unit<UnitData>
-{
-}
-
 [Serializable]
-public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType : UnitData
+public abstract class Unit : Entity
 {
     protected static SpatialGrid spatialGrid;
 
@@ -43,7 +26,12 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     protected bool reachedDestination;
     protected float stoppingDistance = 0.1f;
     protected Vector3 targetPosition;
-    private IUnit unitImplementation;
+    private Unit unitImplementation;
+    public int currentMana { get; protected set; }
+    public float movementSpeed { get; protected set; } = 0.5f;
+    public float attackSpeed { get; protected set; } = 1.0f;
+
+    public float CollisionRadius => collisionRadius;
 
     protected void Start()
     {
@@ -52,7 +40,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        if (this is IAlly)
+        if (this is Ally)
             UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
@@ -95,12 +83,6 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         avoidanceVector = Vector3.zero;
     }
 
-    public int currentMana { get; protected set; }
-    public float movementSpeed { get; protected set; } = 0.5f;
-    public float attackSpeed { get; protected set; } = 1.0f;
-
-    public float CollisionRadius => collisionRadius;
-
     public virtual void Move(Vector3 newPosition)
     {
         targetPosition = new Vector3(
@@ -116,7 +98,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
 
     public virtual void MoveInFormation(Vector3 targetFormationPosition)
     {
-        List<IUnit> selectedEntities = new();
+        List<Unit> selectedEntities = new();
 
         foreach (var unit in UnitsManager.MovableUnits)
             if (unit.IsSelected)
@@ -125,7 +107,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         int numSelected = selectedEntities.Count;
         if (numSelected == 0) return;
 
-        IUnit firstEntity = selectedEntities[0];
+        Unit firstEntity = selectedEntities[0];
 
         float firstEntityCollisionRadius = firstEntity.CollisionRadius;
         float offset = 0.1f;
@@ -147,7 +129,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
         }
     }
 
-    public abstract void SetTarget(IBaseObject target);
+    public abstract void SetTarget(Entity target);
 
     public override void SignalDeath()
     {
@@ -165,20 +147,18 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     protected override void Initialize()
     {
         base.Initialize();
-        currentMana = data.maxManaPoints;
-        attackSpeed = data.attackSpeed;
-        movementSpeed = data.movementSpeed;
-        manaBar.Initialize(data.maxManaPoints);
+        currentMana = Data.maxManaPoints;
+        attackSpeed = Data.attackSpeed;
+        movementSpeed = Data.movementSpeed;
+        manaBar?.Initialize(Data.maxManaPoints);
     }
 
 
     private Vector3 AvoidCollisions()
     {
-        List<IEntity> neighbors = spatialGrid.GetNeighbors(transform.position);
+        List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
         NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
-        foreach (var neighbor in neighbors)
-            if (neighbor != null && neighbor.gameObject.activeInHierarchy)
-                unitPositions[neighbors.IndexOf(neighbor)] = neighbor.transform.position;
+        for (int i = 0; i < neighbors.Count; i++) unitPositions[i] = neighbors[i].transform.position;
 
         NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
 
@@ -201,6 +181,7 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
 
         return targetPosition + avoidance;
     }
+
 
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
@@ -246,14 +227,14 @@ public abstract class Unit<TDataType> : Entity<TDataType>, IUnit where TDataType
     public void SetManaPoints(int currentManaPoints)
     {
         currentMana = currentManaPoints;
-        if (currentMana > data.maxManaPoints)
-            currentMana = data.maxManaPoints;
+        if (currentMana > Data.maxManaPoints)
+            currentMana = Data.maxManaPoints;
         else if (currentMana < 0) currentMana = 0;
         manaBar.SetValue(currentMana);
     }
 
     public int GetMaxManaPoints()
     {
-        return data.maxManaPoints;
+        return Data.maxManaPoints;
     }
 }

@@ -80,7 +80,7 @@ public class Building : Entity
         objectRenderer.receiveShadows = true;
     }
 
-    public override void TargetIsDead(IEntity entity)
+    public override void TargetIsDead(Entity entity)
     {
     }
 

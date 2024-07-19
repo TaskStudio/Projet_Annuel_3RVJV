@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ResourceNode : BaseObject<ObjectData>
+public class ResourceNode : Entity
 {
     public Resource.Type resourceType;
 
@@ -28,7 +28,15 @@ public class ResourceNode : BaseObject<ObjectData>
         return new Resource(resourceType, amountGathered);
     }
 
+    public override void TargetIsDead(Entity entity)
+    {
+    }
+
     protected override void Initialize()
+    {
+    }
+
+    protected override void Die()
     {
     }
 }

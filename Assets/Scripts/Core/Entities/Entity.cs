@@ -3,24 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IEntity : IBaseObject
-{
-    string ID { get; }
-    int currentHealth { get; }
-    List<IEntity> targetedBy { get; }
-
-    void TakeDamage(int damage);
-    void SetHealthPoints(int currentHealthPoints);
-    int GetHealthPoints();
-    int GetMaxHealthPoints();
-    float GetMissingHealthPercentage();
-    bool IsDead();
-    void SetID(string unitId);
-    void AddTargetedBy(IEntity entity);
-    void RemoveTargetedBy(IEntity entity);
-    void TargetIsDead(IEntity entity);
-}
-
 [Serializable]
 public struct EntityAction
 {
@@ -28,11 +10,7 @@ public struct EntityAction
     public UnityEvent action;
 }
 
-public abstract class Entity : Entity<EntityData>
-{
-}
-
-public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where TDataType : EntityData
+public abstract class Entity : BaseObject
 {
     [Space(10)] [Header("ID")]
     [ShowOnly] [SerializeField] private string id;
@@ -43,16 +21,16 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
     [Space(10)] [Header("Actions")]
     public List<EntityAction> actionList;
 
-    private void OnDisable()
-    {
-        SignalDeath();
-    }
-
 
     public int currentHealth { get; protected set; }
 
     public string ID { get; private set; }
-    public List<IEntity> targetedBy { get; } = new();
+    public List<Entity> targetedBy { get; } = new();
+
+    private void OnDisable()
+    {
+        SignalDeath();
+    }
 
     public int GetHealthPoints()
     {
@@ -61,7 +39,7 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
 
     public void SetHealthPoints(int currentHealthPoints)
     {
-        if (currentHealthPoints > data.maxHealthPoints) currentHealth = data.maxHealthPoints;
+        if (currentHealthPoints > Data.maxHealthPoints) currentHealth = Data.maxHealthPoints;
         else currentHealth = currentHealthPoints;
 
         healthBar.SetValue(currentHealth);
@@ -69,12 +47,12 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
 
     public int GetMaxHealthPoints()
     {
-        return data.maxHealthPoints;
+        return Data.maxHealthPoints;
     }
 
     public float GetMissingHealthPercentage()
     {
-        return (float) currentHealth / data.maxHealthPoints;
+        return (float) currentHealth / Data.maxHealthPoints;
     }
 
     public void TakeDamage(int damage)
@@ -104,21 +82,21 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
         return currentHealth <= 0;
     }
 
-    public void AddTargetedBy(IEntity entity)
+    public void AddTargetedBy(Entity entity)
     {
         if (!targetedBy.Contains(entity)) targetedBy.Add(entity);
     }
 
-    public void RemoveTargetedBy(IEntity entity)
+    public void RemoveTargetedBy(Entity entity)
     {
         if (targetedBy.Contains(entity)) targetedBy.Remove(entity);
     }
 
-    public abstract void TargetIsDead(IEntity entity);
+    public abstract void TargetIsDead(Entity entity);
 
     public virtual void SignalDeath()
     {
-        foreach (IEntity entity in targetedBy)
+        foreach (Entity entity in targetedBy)
             if (entity != null)
             {
                 entity.RemoveTargetedBy(this);
@@ -130,13 +108,13 @@ public abstract class Entity<TDataType> : BaseObject<TDataType>, IEntity where T
 
     protected override void Initialize()
     {
-        currentHealth = data.MaxHealthPoints;
-        healthBar.Initialize(data.MaxHealthPoints);
+        currentHealth = Data.maxHealthPoints;
+        healthBar.Initialize(Data.maxHealthPoints);
     }
 
     protected void SetMaxHealthPoints(int maxHealthPoints)
     {
-        data.maxHealthPoints = maxHealthPoints;
+        Data.maxHealthPoints = maxHealthPoints;
     }
 
     protected abstract void Die();
