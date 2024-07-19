@@ -37,3 +37,16 @@
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
+
+.labels {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 24px;
+    -unity-text-outline-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.59);
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+}
