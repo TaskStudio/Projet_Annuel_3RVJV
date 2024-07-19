@@ -30,7 +30,7 @@ public class EntityProducer : Building
     public void RequestProduction(string entityID)
     {
         UnitDatabaseData entityData = unitDatabase.GetEntityData(entityID);
-        if (ResourceManager.RequestResource(new Resource(entityData.ResourceType, entityData.Cost)))
+        if (ResourceManager.Instance.RequestResource(new Resource(entityData.ResourceType, entityData.Cost)))
             AddToProductionQueue(entityID);
     }
 
