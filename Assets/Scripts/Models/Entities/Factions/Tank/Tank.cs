@@ -62,7 +62,6 @@ public class Tank : AllyFighter
 
                 newTank.movementSpeed = movementSpeed;
                 newTank.stoppingDistance = stoppingDistance;
-                newTank.entityLayer = entityLayer;
                 newTank.collisionRadius = 2f;
                 newTank.avoidanceStrength = avoidanceStrength;
                 newTank.isCombinedTank = true;
