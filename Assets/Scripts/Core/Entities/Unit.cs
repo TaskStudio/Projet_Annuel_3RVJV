@@ -39,6 +39,11 @@ public abstract class Unit : Entity
 
     public float CollisionRadius => collisionRadius;
 
+    private void Awake()
+    {
+        unitCollider = GetComponent<Collider>();
+    }
+
     protected void Start()
     {
         if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
@@ -50,7 +55,6 @@ public abstract class Unit : Entity
             UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
-        unitCollider = GetComponent<Collider>();
     }
 
     protected virtual void Update()
