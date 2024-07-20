@@ -41,7 +41,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         {
             for (int i = 0; i < resourceStoragePositions.Length; i++)
             {
-                int2 center = int2((resourceStoragePositions[i].xy + float2(45.0f, 37.0f)) / cellSize);
+                int2 center = int2((resourceStoragePositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
                 float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusResourceStorages)
@@ -73,7 +73,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         {
             for (int i = 0; i < factoryPositions.Length; i++)
             {
-                int2 center = int2((factoryPositions[i].xy + float2(45.0f, 42.0f)) / cellSize);
+                int2 center = int2((factoryPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
                 float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusFactories)

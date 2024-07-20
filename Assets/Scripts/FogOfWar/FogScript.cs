@@ -63,11 +63,7 @@ namespace FogOfWar
             _renderTexture.Create();
 
             _kernelHandle = computeShader.FindKernel("CSMain");
-            if (_kernelHandle < 0)
-            {
-                Debug.LogError("Failed to find kernel 'CSMain'");
-                return;
-            }
+            if (_kernelHandle < 0) return;
 
             InitializeShaderProperties();
             FindAllObjects();
@@ -75,11 +71,7 @@ namespace FogOfWar
 
         private void Update()
         {
-            if (_kernelHandle < 0)
-            {
-                Debug.LogError("Invalid kernel handle");
-                return;
-            }
+            if (_kernelHandle < 0) return;
 
             if (!keepPrevious && _renderTexture != null) Graphics.Blit(Texture2D.blackTexture, _renderTexture);
 
@@ -102,16 +94,8 @@ namespace FogOfWar
             var resourceStoragePositions = new Vector4[_resourceStorages.Count > 0 ? _resourceStorages.Count : 1];
             for (var i = 0; i < _resourceStorages.Count; i++)
             {
-                var modelTransform = _resourceStorages[i].transform.Find("Model");
-                if (modelTransform != null)
-                {
-                    var centerPos = modelTransform.position;
-                    resourceStoragePositions[i] = new Vector4(centerPos.x, centerPos.z, 0.0f, 0.0f);
-                }
-                else
-                {
-                    Debug.LogWarning("Model not found for resource storage: " + _resourceStorages[i].name);
-                }
+                var centerPos = _resourceStorages[i].transform.position;
+                resourceStoragePositions[i] = new Vector4(centerPos.x, centerPos.z, 0.0f, 0.0f);
             }
 
             if (_resourceStorages.Count == 0) resourceStoragePositions[0] = new Vector4(-9999, -9999, 0, 0);
@@ -122,16 +106,8 @@ namespace FogOfWar
             var visionTowerPositions = new Vector4[_visionTowers.Count > 0 ? _visionTowers.Count : 1];
             for (var i = 0; i < _visionTowers.Count; i++)
             {
-                var modelTransform = _visionTowers[i].transform.Find("Model");
-                if (modelTransform != null)
-                {
-                    var centerPos = modelTransform.position;
-                    visionTowerPositions[i] = new Vector4(centerPos.x, centerPos.z, 0.0f, 0.0f);
-                }
-                else
-                {
-                    Debug.LogWarning("Model not found for vision tower: " + _visionTowers[i].name);
-                }
+                var centerPos = _visionTowers[i].transform.position;
+                visionTowerPositions[i] = new Vector4(centerPos.x, centerPos.z, 0.0f, 0.0f);
             }
 
             if (_visionTowers.Count == 0) visionTowerPositions[0] = new Vector4(-9999, -9999, 0, 0);
@@ -142,16 +118,8 @@ namespace FogOfWar
             var factoryPositions = new Vector4[_factories.Count > 0 ? _factories.Count : 1];
             for (var i = 0; i < _factories.Count; i++)
             {
-                var modelTransform = _factories[i].transform.Find("Model");
-                if (modelTransform != null)
-                {
-                    var centerPos = modelTransform.position;
-                    factoryPositions[i] = new Vector4(centerPos.x, centerPos.z, 0.0f, 0.0f);
-                }
-                else
-                {
-                    Debug.LogWarning("Model not found for factory: " + _factories[i].name);
-                }
+                var centerPos = _factories[i].transform.position;
+                factoryPositions[i] = new Vector4(centerPos.x, centerPos.z, 0.0f, 0.0f);
             }
 
             if (_factories.Count == 0) factoryPositions[0] = new Vector4(-9999, -9999, 0, 0);
@@ -242,11 +210,7 @@ namespace FogOfWar
 
         private void OnCompleteReadback(AsyncGPUReadbackRequest request)
         {
-            if (request.hasError)
-            {
-                Debug.LogError("Error reading back texture from GPU");
-                return;
-            }
+            if (request.hasError) return;
 
             if (_lowResTexture != null)
             {
@@ -265,7 +229,8 @@ namespace FogOfWar
 
         private void FindAllResourceStorages()
         {
-            _resourceStorages = new List<Building>(FindObjectsOfType<Building>().Where(b => b.CompareTag("RessourceStorage")));
+            _resourceStorages =
+                new List<Building>(FindObjectsOfType<Building>().Where(b => b.CompareTag("RessourceStorage")));
         }
 
         private void FindAllVisionTowers()
