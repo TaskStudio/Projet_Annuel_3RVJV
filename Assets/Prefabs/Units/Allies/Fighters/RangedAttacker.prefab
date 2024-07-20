@@ -12,13 +12,21 @@ PrefabInstance:
       propertyPath: data
       value: 
       objectReference: {fileID: 11400000, guid: fe3c4134c419bc1488f2dadb67a8ae6f, type: 2}
+    - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: unitCollider
+      value: 
+      objectReference: {fileID: 3295319774116102717}
+    - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 2731607107575345659, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Value
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2731607107575345659, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_MaxValue
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3585130057845835458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -89,3 +97,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+--- !u!136 &3295319774116102717 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 1341541774439676802, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+  m_PrefabInstance: {fileID: 4550129597304289727}
+  m_PrefabAsset: {fileID: 0}

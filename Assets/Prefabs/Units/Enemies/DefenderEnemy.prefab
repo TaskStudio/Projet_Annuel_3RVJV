@@ -187,12 +187,13 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 3207035664839748911}
   actionList: []
+  unitCollider: {fileID: 1471721828386528145}
   avoidanceStrength: 5
   collisionRadius: 1
-  entityLayer:
-    serializedVersion: 2
-    m_Bits: 512
   manaBar: {fileID: 8966400834058725249}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
   extraHealth: 100
 --- !u!1001 &2490775962361101197
 PrefabInstance:
@@ -357,6 +358,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_MaxValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}

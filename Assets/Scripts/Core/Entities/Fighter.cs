@@ -9,11 +9,18 @@ public abstract class Fighter : Unit
         Ranged
     }
 
+    [Space(10)] [Header("Fighting")]
+    [SerializeField] protected LayerMask targetLayer;
+
+    protected readonly Collider[] potentialTargetsInRange = new Collider[50];
+    private readonly HashSet<Unit> targetsHashSet = new();
+
     protected Entity currentTarget;
     protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
     protected List<Unit> targetsInRange = new();
+
 
     protected new void Start()
     {
@@ -26,11 +33,20 @@ public abstract class Fighter : Unit
     {
         base.Update();
 
-        // targetsInRange.ForEach(t => t.AddTargetedBy(this));
-        // foreach (var target in targetsInRange)
-        // {
-        //     target.AddTargetedBy(this);
-        // }
+        int numTargets = Physics.OverlapSphereNonAlloc(
+            transform.position,
+            Data.detectionRange,
+            potentialTargetsInRange,
+            targetLayer
+        );
+
+        for (var i = 0; i < numTargets; i++)
+            if (colliderToUnitMap.TryGetValue(potentialTargetsInRange[i], out Unit potentialTarget)
+                && targetsHashSet.Add(potentialTarget))
+            {
+                targetsInRange.Add(potentialTarget);
+                potentialTarget.AddTargetedBy(this);
+            }
     }
 
     public override void Move(Vector3 newPosition)
@@ -80,11 +96,11 @@ public abstract class Fighter : Unit
         lastAttackTime = Time.time;
     }
 
-    private Entity GetNearestTarget()
+    private Unit GetNearestTarget()
     {
-        Entity nearestTarget = null;
+        Unit nearestTarget = null;
         float nearestDistance = float.MaxValue;
-        foreach (Entity target in targetsInRange)
+        foreach (Unit target in targetsInRange)
         {
             float distance = Vector3.Distance(transform.position, target.transform.position);
             if (distance < nearestDistance)
@@ -97,16 +113,17 @@ public abstract class Fighter : Unit
         return nearestTarget;
     }
 
-    public override void TargetIsDead(Entity entity)
-    {
-        if (currentTarget == entity) currentTarget = null;
-        if (entity is Unit unit && targetsInRange.Contains(unit)) targetsInRange.Remove(unit);
-        targetPosition = heldPosition;
-    }
-
     public void MoveAndAttack(Vector3 targetFormationPosition)
     {
         MoveInFormation(targetFormationPosition);
         moveAttack = true;
+    }
+
+    public override void TargetIsDead(Unit unit)
+    {
+        if (currentTarget == unit) currentTarget = null;
+        if (targetsHashSet.Remove(unit)) targetsInRange.Remove(unit);
+
+        targetPosition = heldPosition;
     }
 }

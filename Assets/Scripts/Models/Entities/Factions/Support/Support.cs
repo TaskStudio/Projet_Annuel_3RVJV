@@ -20,12 +20,6 @@ public class Support : Ally
     {
         base.Update();
 
-        // targetsInRange = new HashSet<Entity>(
-        //     Physics.OverlapSphere(transform.position, Data.detectionRange)
-        //         .Select(c => c.GetComponent<Entity>())
-        //         .Where(e => e is IAlly)
-        // );
-
         if (currentTarget != null)
             if (Vector3.Distance(transform.position, currentTarget.transform.position) > Data.attackRange)
             {

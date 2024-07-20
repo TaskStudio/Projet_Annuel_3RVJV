@@ -80,10 +80,6 @@ public class Building : Entity
         objectRenderer.receiveShadows = true;
     }
 
-    public override void TargetIsDead(Entity entity)
-    {
-    }
-
     protected override void Die()
     {
         gameObject.SetActive(false);

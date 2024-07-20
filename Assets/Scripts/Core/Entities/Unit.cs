@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
+using Allocator = Unity.Collections.Allocator;
 
 [Serializable]
 public abstract class Unit : Entity
 {
     protected static SpatialGrid spatialGrid;
+    protected static Dictionary<Collider, Unit> colliderToUnitMap = new();
 
+    [Space(10)] [Header("Movement")]
     [SerializeField] protected float avoidanceStrength = 5f;
     [SerializeField] protected float collisionRadius = 1f;
-    [Space(10)] [Header("Movement")]
-    [SerializeField] protected LayerMask entityLayer;
 
-    [Space(10)] [Header("Mana")] [SerializeField]
-    private ManaBar manaBar;
+    [Space(10)] [Header("Mana")]
+    [SerializeField] private ManaBar manaBar;
 
     private Vector3 avoidanceVector;
-    private Collider entityCollider;
     private bool isMoving;
     private Vector3 lastPosition;
     private bool needsCollisionAvoidance;
@@ -26,12 +26,23 @@ public abstract class Unit : Entity
     protected bool reachedDestination;
     protected float stoppingDistance = 0.1f;
     protected Vector3 targetPosition;
+
+    private Collider unitCollider;
     private Unit unitImplementation;
+
+    public List<Unit> targetedBy { get; } = new();
+
+
     public int currentMana { get; protected set; }
     public float movementSpeed { get; protected set; } = 0.5f;
     public float attackSpeed { get; protected set; } = 1.0f;
 
     public float CollisionRadius => collisionRadius;
+
+    private void Awake()
+    {
+        unitCollider = GetComponent<Collider>();
+    }
 
     protected void Start()
     {
@@ -44,7 +55,6 @@ public abstract class Unit : Entity
             UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
-        entityCollider = GetComponent<Collider>();
     }
 
     protected virtual void Update()
@@ -82,6 +92,42 @@ public abstract class Unit : Entity
 
         avoidanceVector = Vector3.zero;
     }
+
+    private void OnEnable()
+    {
+        colliderToUnitMap[unitCollider] = this;
+    }
+
+    private void OnDisable()
+    {
+        colliderToUnitMap.Remove(unitCollider);
+        SignalDeath();
+    }
+
+    public void AddTargetedBy(Unit unit)
+    {
+        if (!targetedBy.Contains(unit)) targetedBy.Add(unit);
+    }
+
+    public void RemoveTargetedBy(Unit unit)
+    {
+        if (targetedBy.Contains(unit)) targetedBy.Remove(unit);
+    }
+
+    public void SignalDeath()
+    {
+        foreach (Unit unit in targetedBy)
+            if (unit != null)
+            {
+                unit.RemoveTargetedBy(this);
+                unit.TargetIsDead(this);
+            }
+
+        SelectionManager.Instance.DeselectEntity(this);
+        UnitsManager.Instance.UnregisterMovableEntity(this);
+    }
+
+    public abstract void TargetIsDead(Unit unit);
 
     public virtual void Move(Vector3 newPosition)
     {
@@ -130,12 +176,6 @@ public abstract class Unit : Entity
     }
 
     public abstract void SetTarget(Entity target);
-
-    public override void SignalDeath()
-    {
-        base.SignalDeath();
-        UnitsManager.Instance.UnregisterMovableEntity(this);
-    }
 
     public void Stop()
     {

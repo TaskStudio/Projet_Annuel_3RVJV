@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7841337114972773263}
   - component: {fileID: 1341541774439676802}
   - component: {fileID: 2707510548946209458}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: BaseAllyFighter
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -158,12 +158,13 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 1828465403883388758}
   actionList: []
+  unitCollider: {fileID: 0}
   avoidanceStrength: 5
   collisionRadius: 1
-  entityLayer:
-    serializedVersion: 2
-    m_Bits: 256
   manaBar: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1689041039758338548
 PrefabInstance:
   m_ObjectHideFlags: 0

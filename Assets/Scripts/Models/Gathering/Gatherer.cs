@@ -102,11 +102,4 @@ public class Gatherer : Ally
             carriedResource = null;
         }
     }
-
-    public override void TargetIsDead(Entity entity)
-    {
-        if (resourceNode == entity) resourceNode = null;
-        if (resourceStorage == entity) resourceStorage = null;
-        gatheringResources = false;
-    }
 }

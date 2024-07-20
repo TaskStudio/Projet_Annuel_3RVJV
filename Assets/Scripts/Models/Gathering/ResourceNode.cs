@@ -28,10 +28,6 @@ public class ResourceNode : Entity
         return new Resource(resourceType, amountGathered);
     }
 
-    public override void TargetIsDead(Entity entity)
-    {
-    }
-
     protected override void Initialize()
     {
     }

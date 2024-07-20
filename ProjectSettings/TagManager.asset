@@ -13,6 +13,8 @@ TagManager:
   - RessourceStorage
   - ResourceNode
   - Building
+  - Factory
+  - VisionTower
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Enemy
   - Hovered
   - FogLayer
-  - 
+  - Ally
   - 
   - 
   - 

@@ -21,16 +21,10 @@ public abstract class Entity : BaseObject
     [Space(10)] [Header("Actions")]
     public List<EntityAction> actionList;
 
-
     public int currentHealth { get; protected set; }
 
     public string ID { get; private set; }
-    public List<Entity> targetedBy { get; } = new();
 
-    private void OnDisable()
-    {
-        SignalDeath();
-    }
 
     public int GetHealthPoints()
     {
@@ -82,29 +76,6 @@ public abstract class Entity : BaseObject
         return currentHealth <= 0;
     }
 
-    public void AddTargetedBy(Entity entity)
-    {
-        if (!targetedBy.Contains(entity)) targetedBy.Add(entity);
-    }
-
-    public void RemoveTargetedBy(Entity entity)
-    {
-        if (targetedBy.Contains(entity)) targetedBy.Remove(entity);
-    }
-
-    public abstract void TargetIsDead(Entity entity);
-
-    public virtual void SignalDeath()
-    {
-        foreach (Entity entity in targetedBy)
-            if (entity != null)
-            {
-                entity.RemoveTargetedBy(this);
-                entity.TargetIsDead(this);
-            }
-
-        SelectionManager.Instance.DeselectEntity(this);
-    }
 
     protected override void Initialize()
     {
