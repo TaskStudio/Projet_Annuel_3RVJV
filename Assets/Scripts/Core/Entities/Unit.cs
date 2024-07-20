@@ -93,8 +93,9 @@ public abstract class Unit : Entity
         avoidanceVector = Vector3.zero;
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         colliderToUnitMap[unitCollider] = this;
     }
 
