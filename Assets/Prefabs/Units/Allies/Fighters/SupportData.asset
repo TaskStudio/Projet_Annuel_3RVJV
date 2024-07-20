@@ -15,7 +15,7 @@ MonoBehaviour:
   objectName: Support
   description: 
   image: {fileID: 0}
-  faction: 0
+  faction: 2
   maxHealthPoints: 50
   maxManaPoints: 0
   attackSpeed: 1

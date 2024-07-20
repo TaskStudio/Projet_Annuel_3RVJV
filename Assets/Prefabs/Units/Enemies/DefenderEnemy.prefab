@@ -187,13 +187,12 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 3207035664839748911}
   actionList: []
-  unitCollider: {fileID: 1471721828386528145}
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 8966400834058725249}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   extraHealth: 100
 --- !u!1001 &2490775962361101197
 PrefabInstance:
@@ -213,11 +212,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
@@ -309,11 +308,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.12822974
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_AnchorMax.x

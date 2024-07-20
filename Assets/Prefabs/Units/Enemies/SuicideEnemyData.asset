@@ -16,11 +16,11 @@ MonoBehaviour:
   description: 
   image: {fileID: 0}
   faction: 0
-  maxHealthPoints: 0
+  maxHealthPoints: 10
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
-  attackDamage: 10
+  attackDamage: 1000
   distanceType: 0
   detectionRange: 15
   attackRange: 5
