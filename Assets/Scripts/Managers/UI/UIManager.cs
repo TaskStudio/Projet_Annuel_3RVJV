@@ -12,12 +12,13 @@ public class UIManager : MonoBehaviour
     public UIDocument actionsDocument;
 
     private readonly List<BaseObject> selectedProfiles = new();
-    public VisualElement actionsPanel;
-    public VisualElement characterPanel;
-    public VisualElement faceContainer;
 
+    public VisualElement actionsPanel;
+
+    public VisualElement characterPanel;
+
+    public VisualElement faceContainer;
     private bool isMouseOverUI;
-    public VisualElement minimapContainer;
     public VisualElement resourcesPanel;
     public VisualElement selectedEntitiesList;
     public VisualElement selectedPanel;
@@ -53,7 +54,6 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        minimapContainer = rootVisualElement.Q<VisualElement>("MiniMap");
         selectedEntitiesList = rootVisualElement.Q<VisualElement>("SelectedEntitiesList");
         statisticsScrollView = rootVisualElement.Q<VisualElement>("StatisticsScrollView");
         faceContainer = rootVisualElement.Q<VisualElement>("FaceContainer");
@@ -61,7 +61,6 @@ public class UIManager : MonoBehaviour
         selectedPanel = rootVisualElement.Q<VisualElement>("Selected");
 
         resourcesPanel = resourcesDocument.rootVisualElement.Q<VisualElement>("ResourcesContainer");
-
         actionsPanel = actionsDocument.rootVisualElement.Q<VisualElement>("ActionsContainer");
 
         if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
@@ -71,11 +70,11 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        RegisterHoverEvents(minimapContainer);
+        RegisterHoverEvents(actionsPanel);
+        RegisterHoverEvents(resourcesPanel);
         RegisterHoverEvents(characterPanel);
         RegisterHoverEvents(selectedPanel);
-        RegisterHoverEvents(resourcesPanel);
-        RegisterHoverEvents(actionsPanel);
+
 
         // Initialize empty panels at start
         characterPanel.style.display = DisplayStyle.None;

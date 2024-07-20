@@ -39,5 +39,5 @@
     min-width: 5%;
     -unity-background-image-tint-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.6);
-    color: rgb(207, 207, 207);
+    color: rgb(209, 56, 56);
 }

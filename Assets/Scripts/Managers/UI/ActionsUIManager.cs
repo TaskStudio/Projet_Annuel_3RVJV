@@ -29,20 +29,35 @@ public class ActionsUIManager : MonoBehaviour
         if (actionsContainer == null)
         {
             Debug.LogError("ActionsContainer not found in the UXML. Check the UXML and the names.");
+            return;
         }
+
+        // Hide the actions container initially
+        actionsContainer.style.display = DisplayStyle.None;
     }
 
     public void UpdateActionButtons(List<EntityAction> actions)
     {
         actionsContainer.Clear();
 
-        for (var i = 0; i < actions.Count; i++)
+        if (actions.Count > 0)
         {
-            var actionButton = new Button { text = actions[i].actionName };
-            actionButton.AddToClassList("actionButton");
-            var actionIndex = i; // Capture the current index for the callback
-            actionButton.clicked += () => OnActionButtonClicked(actionIndex);
-            actionsContainer.Add(actionButton);
+            // Show the actions container
+            actionsContainer.style.display = DisplayStyle.Flex;
+
+            for (var i = 0; i < actions.Count; i++)
+            {
+                var actionButton = new Button { text = actions[i].actionName };
+                actionButton.AddToClassList("actionButton");
+                var actionIndex = i; // Capture the current index for the callback
+                actionButton.clicked += () => OnActionButtonClicked(actionIndex);
+                actionsContainer.Add(actionButton);
+            }
+        }
+        else
+        {
+            // Hide the actions container if there are no actions
+            actionsContainer.style.display = DisplayStyle.None;
         }
     }
 
