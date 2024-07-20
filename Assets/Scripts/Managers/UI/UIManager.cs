@@ -9,7 +9,6 @@ public class UIManager : MonoBehaviour
     public RawImage minimapRawImage;
 
     public UIDocument resourcesDocument;
-    public UIDocument actionsDocument;
 
     private readonly List<BaseObject> selectedProfiles = new();
 
@@ -61,7 +60,7 @@ public class UIManager : MonoBehaviour
         selectedPanel = rootVisualElement.Q<VisualElement>("Selected");
 
         resourcesPanel = resourcesDocument.rootVisualElement.Q<VisualElement>("ResourcesContainer");
-        actionsPanel = actionsDocument.rootVisualElement.Q<VisualElement>("ActionsContainer");
+        actionsPanel = rootVisualElement.Q<VisualElement>("ActionsContainer");
 
         if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
             characterPanel == null || selectedPanel == null || resourcesPanel == null || actionsPanel == null)
