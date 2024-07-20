@@ -39,7 +39,7 @@ public class SelectionManager : MonoBehaviour
         }
         else
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
             {
@@ -60,12 +60,11 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-
     private void OnGUI()
     {
         if (isDragging)
         {
-            Rect rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
+            var rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
             Utils.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
             Utils.DrawScreenRectBorder(rect, 1, Color.blue);
         }
@@ -98,12 +97,11 @@ public class SelectionManager : MonoBehaviour
         selectionStarted = false;
     }
 
-
     private void HandleSingleClick()
     {
         if (UIManager.Instance.IsMouseOverUI()) return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
         {
@@ -123,11 +121,11 @@ public class SelectionManager : MonoBehaviour
     {
         if (UIManager.Instance.IsMouseOverUI()) return;
 
-        Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
+        var selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
-        foreach (BaseObject selectable in FindObjectsOfType<BaseObject>())
+        foreach (var selectable in FindObjectsOfType<BaseObject>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
+            var screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
@@ -176,6 +174,11 @@ public class SelectionManager : MonoBehaviour
     private void UpdateUI()
     {
         UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
+        var entity = selectedEntities.FirstOrDefault() as Entity;
+        if (entity != null)
+            ActionsUIManager.Instance.UpdateActionButtons(entity.actionList);
+        else
+            ActionsUIManager.Instance.UpdateActionButtons(new List<EntityAction>());
     }
 
     public void OnInvokeActionable(int actionIndex)

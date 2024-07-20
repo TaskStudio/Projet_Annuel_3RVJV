@@ -3,10 +3,10 @@
     height: 49px;
     min-width: auto;
     min-height: auto;
-    border-left-color: rgb(103, 103, 103);
-    border-right-color: rgb(103, 103, 103);
-    border-top-color: rgb(103, 103, 103);
-    border-bottom-color: rgb(103, 103, 103);
+    border-left-color: rgba(0, 0, 0, 0.81);
+    border-right-color: rgba(0, 0, 0, 0.81);
+    border-top-color: rgba(0, 0, 0, 0.81);
+    border-bottom-color: rgba(0, 0, 0, 0.81);
     border-top-width: 2px;
     border-right-width: 2px;
     border-bottom-width: 2px;
@@ -21,6 +21,10 @@
     background-image: url("project://database/Assets/UI/Images/Entities/default.png?fileID=21300000&guid=f69a9a0ed4b199d43bd5d5daa8616137&type=3#default");
     align-self: auto;
     align-items: auto;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 .selectedEntity {
