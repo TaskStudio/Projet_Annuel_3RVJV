@@ -9,11 +9,6 @@ public class Tank : AllyFighter
     private bool isBeingDestroyed; // Flag to indicate if the tank is being destroyed
     private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
 
-    protected new void Start()
-    {
-        base.Start();
-    }
-
     protected new void Update()
     {
         if (isBeingDestroyed) return; // Skip update if the tank is being destroyed

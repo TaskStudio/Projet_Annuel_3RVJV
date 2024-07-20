@@ -23,7 +23,7 @@ public abstract class BaseObject : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         Initialize();
     }
