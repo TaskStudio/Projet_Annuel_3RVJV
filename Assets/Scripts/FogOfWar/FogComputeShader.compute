@@ -6,12 +6,12 @@ float4 fullBlackColor;
 int gridSize;
 float cellSize;
 float revealRadius;
-float revealRadiusBuildings;
+float revealRadiusResourceStorages;
 float revealRadiusVisionTowers;
 float revealRadiusFactories;
 
 StructuredBuffer<float4> unitPositions;
-StructuredBuffer<float4> buildingPositions;
+StructuredBuffer<float4> resourceStoragePositions;
 StructuredBuffer<float4> visionTowerPositions;
 StructuredBuffer<float4> factoryPositions;
 
@@ -27,7 +27,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         for (int i = 0; i < unitPositions.Length; i++)
         {
             int2 center = int2((unitPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
-            float2 pos = (float2(coord) - center) * cellSize;
+            float2 pos = (float2(coord) - float2(center)) * cellSize;
             float distance = length(pos);
             if (distance <= revealRadius)
             {
@@ -36,15 +36,15 @@ void CSMain(uint3 id : SV_DispatchThreadID)
             }
         }
 
-        // Check building positions if not cleared by units
+        // Check resource storage positions if not cleared by units
         if (all(color == fullBlackColor))
         {
-            for (int i = 0; i < buildingPositions.Length; i++)
+            for (int i = 0; i < resourceStoragePositions.Length; i++)
             {
-                int2 center = int2((buildingPositions[i].xy + float2(45.0f, 37.0f)) / cellSize);
-                float2 pos = (float2(coord) - center) * cellSize;
+                int2 center = int2((resourceStoragePositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
-                if (distance <= revealRadiusBuildings)
+                if (distance <= revealRadiusResourceStorages)
                 {
                     color = clearColor;
                     break;
@@ -52,13 +52,13 @@ void CSMain(uint3 id : SV_DispatchThreadID)
             }
         }
 
-        // Check VisionTower positions if not cleared by units or buildings
+        // Check VisionTower positions if not cleared by units or resource storages
         if (all(color == fullBlackColor))
         {
             for (int i = 0; i < visionTowerPositions.Length; i++)
             {
                 int2 center = int2((visionTowerPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
-                float2 pos = (float2(coord) - center) * cellSize;
+                float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusVisionTowers)
                 {
@@ -68,13 +68,13 @@ void CSMain(uint3 id : SV_DispatchThreadID)
             }
         }
 
-        // Check Factory positions if not cleared by units, buildings, or VisionTowers
+        // Check Factory positions if not cleared by units, resource storages, or VisionTowers
         if (all(color == fullBlackColor))
         {
             for (int i = 0; i < factoryPositions.Length; i++)
             {
-                int2 center = int2((factoryPositions[i].xy + float2(45.0f, 42.0f)) / cellSize);
-                float2 pos = (float2(coord) - center) * cellSize;
+                int2 center = int2((factoryPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusFactories)
                 {
