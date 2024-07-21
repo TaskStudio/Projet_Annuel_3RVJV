@@ -3,50 +3,77 @@ using UnityEngine;
 
 public class EnemyBoss : Enemy
 {
+    public GameObject meteorParticlePrefab;
     private float lastMeteorAttackTime;
+    private GameObject meteorParticleInstance;
+    
+    public Vector3 particleOffset = new Vector3(0, 2.35f, 0);
 
     protected override void Start()
     {
         base.Start();
-        lastMeteorAttackTime = -Data.attackCooldown; // Initial cooldown reset
+        lastMeteorAttackTime = -Data.attackCooldown;
+        if (meteorParticlePrefab != null)
+        {
+            meteorParticleInstance = Instantiate(meteorParticlePrefab);
+            meteorParticleInstance.SetActive(false);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (meteorParticleInstance != null && meteorParticleInstance.activeSelf)
+        {
+            // Ensure the particle system follows the boss position with offset
+            meteorParticleInstance.transform.position = transform.position + particleOffset;
+        }
     }
 
     protected override void AttackTarget()
     {
         if (Time.time >= lastMeteorAttackTime + Data.attackCooldown)
         {
-            MeteorRainAttack();
+            StartCoroutine(MeteorRainAttack());
             lastMeteorAttackTime = Time.time;
         }
         else
         {
-            Attack();
             currentState = State.Idle;
         }
     }
 
-    private void MeteorRainAttack()
+    private IEnumerator MeteorRainAttack()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, Data.attackRange, LayerMask.GetMask("Ally"));
-        foreach (Collider hitCollider in hitColliders)
+        if (meteorParticleInstance != null)
         {
-            var entity = hitCollider.GetComponent<Entity>();
-            if (entity != null)
+            // Update and activate the particle system at the boss's position
+            meteorParticleInstance.transform.position = transform.position + particleOffset;
+            meteorParticleInstance.SetActive(true); 
+
+            var particleSystem = meteorParticleInstance.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
             {
-                entity.TakeDamage(Data.attackDamage);
+                particleSystem.Play();
+                // Deactivate it after the duration of the particle effect
+                StartCoroutine(DeactivateParticleSystem(particleSystem, particleSystem.main.duration));
             }
         }
 
-        Debug.Log("Meteor rain attack unleashed!");
+        // Short delay to ensure particles are visible before damage is applied
+        yield return new WaitForSeconds(0.5f);
+
+        var hitColliders = Physics.OverlapSphere(transform.position, Data.attackRange, LayerMask.GetMask("Ally"));
+        foreach (var hitCollider in hitColliders)
+        {
+            var entity = hitCollider.GetComponent<Entity>();
+            if (entity != null) entity.TakeDamage(Data.attackDamage);
+        }
     }
 
-    // Visualize the damage zone
-    private void OnDrawGizmosSelected()
+    private IEnumerator DeactivateParticleSystem(ParticleSystem particleSystem, float delay)
     {
-        if (Data != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, Data.attackRange);
-        }
+        yield return new WaitForSeconds(delay);
+        particleSystem.Stop();
+        meteorParticleInstance.SetActive(false); 
     }
 }
