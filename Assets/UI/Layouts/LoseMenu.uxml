@@ -1,65 +1,89 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/Statistics.uss?fileID=7433441132597879392&amp;guid=5c24c06be59079e4a8bf644bf87c6b36&amp;type=3#Statistics" />
     <ui:VisualElement name="MainContainer" style="flex-grow: 1; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&amp;guid=6019abab86d8e1d41b433e4c94956583&amp;type=3#Steamwreck&quot;); -unity-font-definition: initial;">
-        <ui:VisualElement name="MainWindow" style="flex-grow: 1; margin-top: 150px; margin-right: 150px; margin-bottom: 150px; margin-left: 150px; padding-top: 22px; padding-right: 0; padding-bottom: 22px; padding-left: 0; background-color: rgba(0, 0, 0, 0.35); flex-direction: row; justify-content: space-between;">
-            <ui:VisualElement style="flex-grow: 1; align-items: center; background-color: rgba(0, 0, 0, 0.27); margin-right: 11px; margin-left: 22px; padding-top: 16px; padding-right: 32px; padding-bottom: 16px; padding-left: 32px; width: 5%;">
+        <ui:VisualElement name="MainWindow" style="flex-grow: 1; margin-top: 150px; margin-right: 150px; margin-bottom: 150px; margin-left: 150px; padding-top: 22px; padding-right: 0; padding-bottom: 22px; padding-left: 0; background-color: rgba(0, 0, 0, 0.63); flex-direction: row; justify-content: space-between;">
+            <ui:VisualElement name="StatisticsPanel" style="flex-grow: 1; align-items: center; background-color: rgba(0, 0, 0, 0.27); margin-right: 11px; margin-left: 22px; padding-top: 16px; padding-right: 32px; padding-bottom: 16px; padding-left: 32px; width: 5%;">
                 <ui:Label tabindex="-1" text="Statistics of the game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="margin-top: 0; margin-right: 0; margin-bottom: 30px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 64px; color: rgb(255, 255, 255); text-shadow: 2.3px 2.1px 0 rgba(0, 0, 0, 0.61);" />
-                <ui:VisualElement name="StatisticCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
+                <ui:VisualElement name="TimeCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; color: rgb(147, 130, 248);">
                         <ui:Label tabindex="-1" text="Time elapsed" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="10 minutes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageDealt" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TimeElapsed" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="StatisticCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
-                        <ui:Label tabindex="-1" text="Damage dealt " parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="5 345 345" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageDealt" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
-                        <ui:Label tabindex="-1" text="Damage received " parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="435 345 345" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageReceived" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                    </ui:VisualElement>
+                <ui:VisualElement name="EntitiesCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
                     <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
                         <ui:Label tabindex="-1" text="Entities killed" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 33px;" />
-                        <ui:Label tabindex="-1" text="234 523 452" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EntitiesKilled" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EntitiesKilled" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
                         <ui:Label tabindex="-1" text="Entities lost" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="34535325" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EntitiesLost" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EntitiesLost" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
                         <ui:Label tabindex="-1" text="Entities created" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="234543543253" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EntitiesCreated" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EntitiesCreated" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="StatisticCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
+                <ui:VisualElement name="DamageCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; color: rgb(80, 142, 66);">
+                        <ui:Label tabindex="-1" text="Damage dealt " parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageDealt" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px;">
+                        <ui:Label tabindex="-1" text="Damage from attacker faction" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: flex-end;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageFromAttacker" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px;">
+                        <ui:Label tabindex="-1" text="Damage from tank faction " parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageFromTank" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px; margin-bottom: 8px;">
+                        <ui:Label tabindex="-1" text="Damage from support faction" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageFromSupport" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; color: rgb(197, 94, 94);">
+                        <ui:Label tabindex="-1" text="Damage received " parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageReceived" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ResourcesCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; color: rgb(226, 151, 91);">
                         <ui:Label tabindex="-1" text="Resources collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="34534534" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResourcesColelcted" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResourcesCollected" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px;">
+                        <ui:Label tabindex="-1" text="Wood collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: flex-end;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WoodCollected" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px;">
+                        <ui:Label tabindex="-1" text="Stone collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StoneCollected" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px; margin-bottom: 8px;">
+                        <ui:Label tabindex="-1" text="Gold collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoldCollected" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; color: rgb(197, 90, 34);">
                         <ui:Label tabindex="-1" text="Resources used" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="4252345" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResourcesUsed" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResourcesUsed" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="StatisticCategory" style="flex-grow: 1; align-self: flex-start; width: 100%; justify-content: center;">
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
-                        <ui:Label tabindex="-1" text="Damage from attacker faction" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="348534598340" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageFromAttacker" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 33px;" />
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px; height: 24px;">
+                        <ui:Label tabindex="-1" text="Wood collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: flex-end;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WoodUsed" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
-                        <ui:Label tabindex="-1" text="Damage from tank faction " parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:Label tabindex="-1" text="345345" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageFromTank" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px;">
+                        <ui:Label tabindex="-1" text="Stone collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StoneUsed" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0;">
-                        <ui:Label tabindex="-1" text="Damage from support faction" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 33px;" />
-                        <ui:Label tabindex="-1" text="2267245645262462" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamageFromSupport" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    <ui:VisualElement name="VisualElement" class="statistic" style="flex-grow: 0; font-size: 18px; margin-bottom: 8px;">
+                        <ui:Label tabindex="-1" text="Gold collected" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoldUsed" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="VisualElement" style="flex-grow: 1; align-items: center; background-color: rgba(219, 88, 90, 0.31); margin-right: 22px; margin-left: 11px; padding-top: 16px; padding-right: 32px; padding-bottom: 16px; padding-left: 32px;">
-                <ui:Label tabindex="-1" text="Defeat" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 156px; color: rgb(173, 38, 44); text-shadow: 2.3px 2.1px 0 rgba(0, 0, 0, 0.61);" />
-                <ui:VisualElement name="EndGameImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/Images/Panels/defeat_image.png?fileID=21300000&amp;guid=b2640253bcda82840be270e8ea2f2846&amp;type=3#defeat_image&quot;); height: 354px; width: 388px;" />
+            <ui:VisualElement name="FinalPanel" style="flex-grow: 1; align-items: center; background-color: rgba(219, 88, 98, 0.31); margin-right: 22px; margin-left: 11px; padding-top: 16px; padding-right: 32px; padding-bottom: 16px; padding-left: 32px;">
+                <ui:Label tabindex="-1" text="Defeat" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 156px; color: rgb(156, 42, 59); text-shadow: 2.3px 2.1px 0 rgba(0, 0, 0, 0.61);" />
+                <ui:VisualElement name="EndGameImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/Images/Panels/defeat_image.png?fileID=21300000&amp;guid=b2640253bcda82840be270e8ea2f2846&amp;type=3#defeat_image&quot;); height: 354px; width: 388px; margin-bottom: 19px;" />
                 <ui:VisualElement style="flex-grow: 1; justify-content: space-between; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px;">
                     <ui:Button text="Restart a game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Restart" class="panelButton" />
                     <ui:Button text="Exit the game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Exit" class="panelButton" />

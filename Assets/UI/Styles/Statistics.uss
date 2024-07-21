@@ -14,3 +14,12 @@
     padding-bottom: 3px;
     padding-left: 30px;
 }
+
+.panelButton:hover {
+    font-size: 36px;
+    padding-top: 3px;
+    padding-right: 30px;
+    padding-bottom: 3px;
+    padding-left: 30px;
+    color: rgb(61, 197, 36);
+}
