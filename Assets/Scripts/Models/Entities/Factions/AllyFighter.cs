@@ -1,5 +1,8 @@
+using UnityEngine;
+
 public class AllyFighter : Ally
 {
+    
     protected new void Update()
     {
         base.Update();
@@ -13,5 +16,12 @@ public class AllyFighter : Ally
     {
         if (target == null) return;
         if (target is Enemy) currentTarget = target;
+    }
+
+    protected override void Attack()
+    {
+        base.Attack();
+
+        
     }
 }
