@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/EscapeMenu.uss?fileID=7433441132597879392&amp;guid=54e865770efd4ea4785cebe6ea4499fd&amp;type=3#EscapeMenu" />
+    <ui:VisualElement name="MainContainer" style="flex-grow: 1; align-self: auto; align-items: center; padding-top: 79px; padding-right: 79px; padding-bottom: 79px; padding-left: 79px; justify-content: center;">
+        <ui:VisualElement name="MainWindow" style="flex-grow: 0; font-size: 58px; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&amp;guid=6019abab86d8e1d41b433e4c94956583&amp;type=3#Steamwreck&quot;); -unity-font-definition: initial; width: 40%; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px; background-color: rgba(0, 0, 0, 0.66);">
+            <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Resume" class="buttons" />
+            <ui:Button text="Pause" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Pause" class="buttons" />
+            <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Exit" class="buttons" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
