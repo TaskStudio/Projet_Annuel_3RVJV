@@ -26,7 +26,7 @@ public class Timer : MonoBehaviour
         int minutes = Mathf.FloorToInt(elapsedTime / 60F);
         int seconds = Mathf.FloorToInt(elapsedTime % 60F);
         int milliseconds = Mathf.FloorToInt((elapsedTime * 100F) % 100F);
-        return string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
+        return $"{minutes:00}:{seconds:00}:{milliseconds:00}";
     }
 
     public void StartTimer()
