@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using GameInput;
 using UnityEngine;
 
@@ -6,11 +7,9 @@ public class UnitPlacementSystem : MonoBehaviour
 {
     [SerializeField] private MouseControl mouseControl;
     [SerializeField] private LayerMask forbiddenLayers;
+    [SerializeField] private UnitDatabaseSO unitDatase;
 
-    public bool mapEditionMode;
-
-    private readonly BuildingGridData BuildingGrid = new();
-    private Grid grid;
+    [SerializeField] private List<EntityAction> unitsProductionOrder;
 
     private bool isUnitSelected;
     private Unit selectedUnit;
@@ -34,11 +33,11 @@ public class UnitPlacementSystem : MonoBehaviour
         }
     }
 
-    public void StartPlacement(Unit unit)
+    public void StartPlacement(string unitID)
     {
         CancelPlacement();
 
-        selectedUnit = unit;
+        selectedUnit = UnitFactory.SpawnEntity(unitID, new Vector3(0, 0, 0), unitDatase);
         selectedUnit.PreviewValid();
 
         isUnitSelected = selectedUnit != null;
