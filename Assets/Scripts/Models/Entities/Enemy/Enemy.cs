@@ -17,15 +17,6 @@ public class Enemy : Fighter
         StartCoroutine(BehaviorTree());
     }
 
-    protected new void Update()
-    {
-        base.Update();
-
-        // if (Data.attackDamage != 0
-        //     && (moveAttack || reachedDestination)
-        //     && (targetsInRange.Count > 0 || currentTarget != null)) Attack();
-    }
-
     protected override void Die()
     {
         base.Die();
