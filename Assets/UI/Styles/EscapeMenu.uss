@@ -1,0 +1,47 @@
+.buttons {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 63px;
+    margin-top: 18px;
+    margin-right: 18px;
+    margin-bottom: 18px;
+    margin-left: 18px;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    color: rgb(233, 233, 233);
+}
+
+.buttons:hover {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 63px;
+    margin-top: 18px;
+    margin-right: 18px;
+    margin-bottom: 18px;
+    margin-left: 18px;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    color: rgb(176, 47, 47);
+}
+
+.buttonsClicked {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 63px;
+    margin-top: 18px;
+    margin-right: 18px;
+    margin-bottom: 18px;
+    margin-left: 18px;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    color: rgb(63, 168, 53);
+}
