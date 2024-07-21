@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Fighter : Unit
 {
+    
     public enum DistanceType
     {
         Melee,
@@ -20,6 +21,7 @@ public abstract class Fighter : Unit
     private float lastAttackTime;
     protected bool moveAttack;
     protected List<Entity> targetsInRange = new();
+    [SerializeField] private ParticleSystem attackParticleSystem;
 
 
     protected new void Start()
@@ -93,6 +95,13 @@ public abstract class Fighter : Unit
 
         if (Time.time <= lastAttackTime + Data.attackCooldown) return;
         currentTarget.TakeDamage(Data.attackDamage);
+        if (Data.distanceType == DistanceType.Ranged && attackParticleSystem != null)
+        {
+            // Instantiate the particle system at the current position
+        
+            attackParticleSystem.transform.LookAt(currentTarget.transform); // Ensure the particles are directed towards the target
+            attackParticleSystem.Play();
+        }
         lastAttackTime = Time.time;
     }
 
