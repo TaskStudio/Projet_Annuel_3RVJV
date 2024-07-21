@@ -17,11 +17,6 @@ public class Enemy : Fighter
         StartCoroutine(BehaviorTree());
     }
 
-    protected new void Update()
-    {
-        base.Update();
-    }
-    
     protected override void Die()
     {
         base.Die();
@@ -51,14 +46,14 @@ public class Enemy : Fighter
                     break;
             }
 
-            yield return null; 
+            yield return null;
         }
     }
 
     protected void FindTarget()
     {
-        float detectionRadius = Mathf.Infinity; 
-        LayerMask allyLayer = LayerMask.GetMask("Ally"); 
+        float detectionRadius = Mathf.Infinity;
+        LayerMask allyLayer = LayerMask.GetMask("Ally");
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, allyLayer);
 
@@ -90,25 +85,25 @@ public class Enemy : Fighter
     }
 
 
-
     protected void MoveToTarget()
     {
         if (target != null)
         {
             targetPosition = target.position;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
-        
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                targetPosition,
+                movementSpeed * Time.deltaTime
+            );
+
             // Check if close enough to attack
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-            if (distanceToTarget < Data.attackRange) 
-            {
-                currentState = State.Attacking;
-            }
+            if (distanceToTarget < Data.attackRange) currentState = State.Attacking;
         }
         else
         {
             currentState = State.Idle;
-            FindTarget(); 
+            FindTarget();
         }
     }
 

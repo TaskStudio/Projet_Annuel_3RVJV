@@ -9,7 +9,6 @@ using Allocator = Unity.Collections.Allocator;
 public abstract class Unit : Entity
 {
     protected static SpatialGrid spatialGrid;
-    protected static Dictionary<Collider, Unit> colliderToUnitMap = new();
 
     [Space(10)] [Header("Movement")]
     [SerializeField] protected float avoidanceStrength = 5f;
@@ -27,10 +26,7 @@ public abstract class Unit : Entity
     protected float stoppingDistance = 0.1f;
     protected Vector3 targetPosition;
 
-    private Collider unitCollider;
     private Unit unitImplementation;
-
-    public List<Unit> targetedBy { get; } = new();
 
 
     public int currentMana { get; protected set; }
@@ -39,10 +35,6 @@ public abstract class Unit : Entity
 
     public float CollisionRadius => collisionRadius;
 
-    private void Awake()
-    {
-        unitCollider = GetComponent<Collider>();
-    }
 
     protected void Start()
     {
@@ -93,42 +85,19 @@ public abstract class Unit : Entity
         avoidanceVector = Vector3.zero;
     }
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        colliderToUnitMap[unitCollider] = this;
-    }
 
-    private void OnDisable()
+    public new void SignalDeath()
     {
-        colliderToUnitMap.Remove(unitCollider);
-        SignalDeath();
-    }
+        base.SignalDeath();
 
-    public void AddTargetedBy(Unit unit)
-    {
-        if (!targetedBy.Contains(unit)) targetedBy.Add(unit);
-    }
-
-    public void RemoveTargetedBy(Unit unit)
-    {
-        if (targetedBy.Contains(unit)) targetedBy.Remove(unit);
-    }
-
-    public void SignalDeath()
-    {
         foreach (Unit unit in targetedBy)
             if (unit != null)
-            {
                 unit.RemoveTargetedBy(this);
-                unit.TargetIsDead(this);
-            }
 
-        SelectionManager.Instance.DeselectEntity(this);
         UnitsManager.Instance.UnregisterMovableEntity(this);
     }
 
-    public abstract void TargetIsDead(Unit unit);
+    public abstract void TargetIsDead(Entity target);
 
     public virtual void Move(Vector3 newPosition)
     {
@@ -258,7 +227,6 @@ public abstract class Unit : Entity
         SignalDeath();
         spatialGrid.Remove(this);
         UnitFactory.ReturnEntity(this);
-        
     }
 
     public int GetManaPoints()
