@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 public class UIManager : MonoBehaviour
 {
     public RawImage minimapRawImage;
-
     public UIDocument resourcesDocument;
+    public BuildingsUIManager buildingsUIManager;
 
     private readonly List<BaseObject> selectedProfiles = new();
 
@@ -21,7 +21,6 @@ public class UIManager : MonoBehaviour
     public VisualElement selectedPanel;
     public VisualElement statisticsScrollView;
 
-    // Add the new building list visual element
     public VisualElement buildingList;
     public VisualElement buildingActionsContainer;
 
@@ -64,12 +63,12 @@ public class UIManager : MonoBehaviour
         resourcesPanel = resourcesDocument.rootVisualElement.Q<VisualElement>("ResourcesContainer");
         actionsPanel = rootVisualElement.Q<VisualElement>("ActionsContainer");
 
-        // Get the building list container and building actions container
         buildingList = rootVisualElement.Q<VisualElement>("BuildingList");
         buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
 
         if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
-            characterPanel == null || selectedPanel == null || resourcesPanel == null || actionsPanel == null || buildingList == null || buildingActionsContainer == null)
+            characterPanel == null || selectedPanel == null || resourcesPanel == null || actionsPanel == null ||
+            buildingList == null || buildingActionsContainer == null)
         {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
@@ -82,13 +81,11 @@ public class UIManager : MonoBehaviour
         RegisterHoverEvents(buildingList);
         RegisterHoverEvents(buildingActionsContainer);
 
-        // Initialize empty panels at start
         characterPanel.style.display = DisplayStyle.None;
         selectedPanel.style.display = DisplayStyle.None;
         buildingList.style.display = DisplayStyle.None;
         buildingActionsContainer.style.display = DisplayStyle.None;
 
-        // Register RawImage hover events
         RegisterRawImageHoverEvents();
     }
 
@@ -134,7 +131,7 @@ public class UIManager : MonoBehaviour
     public void UpdateSelectedEntities(List<BaseObject> newSelectedProfiles)
     {
         SelectedEntityManager.Instance.UpdateSelectedEntities(newSelectedProfiles);
-        
+
         bool hasSelectedEntities = newSelectedProfiles.Count > 0;
 
         selectedPanel.style.display = hasSelectedEntities ? DisplayStyle.Flex : DisplayStyle.None;
@@ -142,13 +139,12 @@ public class UIManager : MonoBehaviour
         if (hasSelectedEntities && newSelectedProfiles[0] is Nexus)
         {
             buildingList.style.display = DisplayStyle.Flex;
-            buildingActionsContainer.style.display = DisplayStyle.Flex;
             selectedPanel.style.display = DisplayStyle.None;
         }
         else
         {
             buildingList.style.display = DisplayStyle.None;
-            buildingActionsContainer.style.display = DisplayStyle.None;
+            buildingsUIManager.ClearButtonSelection();
         }
     }
 }
