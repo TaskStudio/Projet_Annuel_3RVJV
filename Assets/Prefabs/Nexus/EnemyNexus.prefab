@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4709291987729321006}
   - component: {fileID: 5889488163854533892}
   - component: {fileID: 7784335968058062723}
+  - component: {fileID: -6922424504565475117}
   m_Layer: 0
   m_Name: EnemyNexus
   m_TagString: EnemyBase
@@ -124,6 +125,22 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 8113232947772210531}
   actionList: []
+--- !u!114 &-6922424504565475117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194938702115751844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d09d3a48c76664c838764084805836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suicideEnemyPrefab: {fileID: 3993162152066650152, guid: e570e383126adb847bfec643b5b80c3e, type: 3}
+  attackingEnemyPrefab: {fileID: 3993162152066650152, guid: 28e12f87b0586384fa4a6faf79e50c93, type: 3}
+  spawnDelay: 2
+  enemyBase: {fileID: 5827434284738582729}
 --- !u!1001 &9117344042238110657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,11 +151,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 3000
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 3000
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x

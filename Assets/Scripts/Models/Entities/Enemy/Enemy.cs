@@ -20,15 +20,13 @@ public class Enemy : Fighter
     protected new void Update()
     {
         base.Update();
-
-        if (targetsInRange.Count > 0 || currentTarget != null) Attack();
     }
-    
 
     protected IEnumerator BehaviorTree()
     {
         while (true)
         {
+            Debug.Log("Current State: " + currentState);
             switch (currentState)
             {
                 case State.Idle:
@@ -38,11 +36,12 @@ public class Enemy : Fighter
                     MoveToTarget();
                     break;
                 case State.Attacking:
+                    Debug.Log("Attacking state triggered");
                     AttackTarget();
                     break;
             }
 
-            yield return null;
+            yield return null; // Wait for the next frame
         }
     }
 
@@ -65,6 +64,7 @@ public class Enemy : Fighter
         }
 
         if (closestTarget == null)
+        {
             foreach (GameObject entityBase in entityBases)
             {
                 float dSqrToTarget = (entityBase.transform.position - currentPosition).sqrMagnitude;
@@ -74,11 +74,18 @@ public class Enemy : Fighter
                     closestTarget = entityBase;
                 }
             }
+        }
 
         if (closestTarget != null)
         {
             target = closestTarget.transform;
             currentState = State.MovingToTarget;
+            Debug.Log("New target acquired: " + target.name);
+        }
+        else
+        {
+            Debug.LogWarning("No target found, remaining in Idle state");
+            currentState = State.Idle;
         }
     }
 
@@ -86,17 +93,27 @@ public class Enemy : Fighter
     {
         if (target != null)
         {
-            // transform.position = Vector3.MoveTowards(
-            //     transform.position,
-            //     target.position,
-            //     movementSpeed * Time.deltaTime
-            // );
             targetPosition = target.position;
-            if (Vector3.Distance(transform.position, target.position) < 0.5f) currentState = State.Attacking;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+        
+            // Check if close enough to attack
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            Debug.Log("Distance to target: " + distanceToTarget);
+            if (distanceToTarget < 1.0f) // Adjust the distance threshold as needed
+            {
+                Debug.Log("Reached target, switching to Attacking state");
+                currentState = State.Attacking;
+            }
+            else
+            {
+                Debug.Log("Current State: MovingToTarget, Distance to Target: " + distanceToTarget);
+            }
         }
         else
         {
+            Debug.LogWarning("Target is null during movement, switching to Idle state");
             currentState = State.Idle;
+            FindTarget(); // Try to find a new target immediately
         }
     }
 
@@ -104,12 +121,16 @@ public class Enemy : Fighter
     {
         if (target != null)
         {
-            Unit entity = target.GetComponent<Unit>();
-            if (entity != null) entity.TakeDamage(20);
+            Debug.Log("Calling Fighter's Attack method");
+            Attack();
+            currentState = State.Idle;
+        }
+        else
+        {
+            Debug.LogWarning("Target is null in AttackTarget, switching to Idle state");
             currentState = State.Idle;
         }
     }
-    
 
     public virtual void Move(Vector3 targetPosition)
     {
