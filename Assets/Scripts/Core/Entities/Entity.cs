@@ -49,7 +49,7 @@ public abstract class Entity : BaseObject
         return (float) currentHealth / Data.maxHealthPoints;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;

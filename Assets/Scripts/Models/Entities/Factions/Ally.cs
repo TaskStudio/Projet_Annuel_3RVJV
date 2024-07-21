@@ -7,4 +7,10 @@ public abstract class Ally : Fighter
         base.Die();
         StatManager.IncrementAllyDeathCount();
     }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        StatManager.IncrementAllyDamageTaken(damage);
+    }
 }

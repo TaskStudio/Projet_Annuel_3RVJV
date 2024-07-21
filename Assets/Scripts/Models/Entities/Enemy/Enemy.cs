@@ -52,6 +52,12 @@ public class Enemy : Fighter
         StatManager.IncrementEnemyDeathCount();
     }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        StatManager.IncrementEnemyDamageTaken(damage);
+    }
+
     protected IEnumerator BehaviorTree()
     {
         while (true)
