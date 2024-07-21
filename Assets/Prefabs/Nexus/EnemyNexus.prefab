@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suicideEnemyPrefab: {fileID: 3993162152066650152, guid: e570e383126adb847bfec643b5b80c3e, type: 3}
   attackingEnemyPrefab: {fileID: 3993162152066650152, guid: 28e12f87b0586384fa4a6faf79e50c93, type: 3}
-  spawnDelay: 2
+  spawnDelay: 40
   enemyBase: {fileID: 5827434284738582729}
 --- !u!1001 &9117344042238110657
 PrefabInstance:

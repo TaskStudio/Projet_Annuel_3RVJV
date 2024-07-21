@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Defend it
   image: {fileID: 2800000, guid: f497130a6227131438183777463a5c95, type: 3}
   faction: 0
-  maxHealthPoints: 1000
+  maxHealthPoints: 200
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
