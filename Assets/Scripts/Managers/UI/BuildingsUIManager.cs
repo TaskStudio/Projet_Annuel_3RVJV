@@ -6,9 +6,10 @@ public class BuildingsUIManager : MonoBehaviour
 {
     public static BuildingsUIManager Instance;
 
-    [SerializeField] private BuildingDatabaseSO buildingDatabase;
+    [SerializeField] private List<BuildingDatabaseSO> buildingDatabases;
     [SerializeField] private PlacementSystem placementSystem;
-    private VisualElement buildingsContainer;
+    private VisualElement buildingsButtonContainer;
+    private VisualElement buildingActionsContainer;
 
     private void Awake()
     {
@@ -26,27 +27,49 @@ public class BuildingsUIManager : MonoBehaviour
     private void Start()
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        buildingsContainer = rootVisualElement.Q<VisualElement>("BuildingContainer");
+        buildingsButtonContainer = rootVisualElement.Q<VisualElement>("BuildingsButtonContainer");
+        buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
 
-        if (buildingsContainer == null)
+        if (buildingsButtonContainer == null || buildingActionsContainer == null)
         {
-            Debug.LogError("BuildingContainer not found in the UXML. Check the UXML and the names.");
+            Debug.LogError("BuildingButtonContainer or BuildingActionsContainer not found in the UXML. Check the UXML and the names.");
             return;
         }
 
-        CreateBuildingButtons();
+        CreateBuildingDatabaseButtons();
     }
 
-    private void CreateBuildingButtons()
+    private void CreateBuildingDatabaseButtons()
     {
-        buildingsContainer.Clear();
+        buildingsButtonContainer.Clear();
+
+        foreach (BuildingDatabaseSO buildingDatabase in buildingDatabases)
+        {
+            var databaseButton = new Button { text = buildingDatabase.databaseName };
+            databaseButton.AddToClassList("buildingButton");
+            databaseButton.clicked += () => OnDatabaseButtonClicked(buildingDatabase);
+            buildingsButtonContainer.Add(databaseButton);
+        }
+    }
+
+    private void OnDatabaseButtonClicked(BuildingDatabaseSO buildingDatabase)
+    {
+        buildingActionsContainer.Clear();
 
         foreach (BuildingData buildingData in buildingDatabase.buildingsData)
         {
             var buildingButton = new Button { text = buildingData.DisplayName };
             buildingButton.AddToClassList("actionButton");
+
+            // Add the building image if available
+            if (buildingData.BuildingImage != null)
+            {
+                var buildingImage = new Image { sprite = buildingData.BuildingImage };
+                buildingButton.Add(buildingImage);
+            }
+
             buildingButton.clicked += () => OnBuildingButtonClicked(buildingData.IdNumber);
-            buildingsContainer.Add(buildingButton);
+            buildingActionsContainer.Add(buildingButton);
         }
     }
 
