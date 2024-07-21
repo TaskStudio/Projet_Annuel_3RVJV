@@ -6,6 +6,7 @@ public class EnemyBoss : Enemy
     public GameObject meteorParticlePrefab;
     private float lastMeteorAttackTime;
     private GameObject meteorParticleInstance;
+    private ParticleSystem meteorParticleSystem;
     
     public Vector3 particleOffset = new Vector3(0, 2.35f, 0);
 
@@ -17,6 +18,7 @@ public class EnemyBoss : Enemy
         {
             meteorParticleInstance = Instantiate(meteorParticlePrefab);
             meteorParticleInstance.SetActive(false);
+            meteorParticleSystem = meteorParticleInstance.GetComponent<ParticleSystem>();
         }
     }
 
@@ -44,19 +46,15 @@ public class EnemyBoss : Enemy
 
     private IEnumerator MeteorRainAttack()
     {
-        if (meteorParticleInstance != null)
+        if (meteorParticleInstance != null && meteorParticleSystem != null)
         {
             // Update and activate the particle system at the boss's position
             meteorParticleInstance.transform.position = transform.position + particleOffset;
             meteorParticleInstance.SetActive(true); 
 
-            var particleSystem = meteorParticleInstance.GetComponent<ParticleSystem>();
-            if (particleSystem != null)
-            {
-                particleSystem.Play();
-                // Deactivate it after the duration of the particle effect
-                StartCoroutine(DeactivateParticleSystem(particleSystem, particleSystem.main.duration));
-            }
+            meteorParticleSystem.Play();
+            // Deactivate it after the duration of the particle effect
+            StartCoroutine(DeactivateParticleSystem(meteorParticleSystem, meteorParticleSystem.main.duration));
         }
 
         // Short delay to ensure particles are visible before damage is applied
