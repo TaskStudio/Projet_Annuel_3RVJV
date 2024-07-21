@@ -8,6 +8,7 @@ namespace GameInput
         [SerializeField] private Camera mainCamera;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private SelectionManager selectionManager;
+        public bool isMapEditing;
 
         private Vector3 lastPosition;
 
@@ -15,6 +16,7 @@ namespace GameInput
         {
             DefaultOnClicked = selectionManager.OnSelectStart;
             DefaultOnReleased = selectionManager.OnSelectEnd;
+            DefaultOnRightClicked = UnitsManager.Instance.SetUnitsOrder;
         }
 
         private void Update()
@@ -35,20 +37,21 @@ namespace GameInput
                     DefaultOnReleased?.Invoke();
             }
 
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (OnRightClicked != null)
+                    OnRightClicked.Invoke();
+                else
+                    DefaultOnRightClicked?.Invoke();
+            }
+
             if (Input.GetKeyDown(KeyCode.Escape))
                 OnExit?.Invoke();
         }
 
-        private event Action DefaultOnClicked, DefaultOnReleased;
+        private event Action DefaultOnClicked, DefaultOnReleased, DefaultOnRightClicked;
 
-        public event Action OnClicked, OnReleased, OnExit;
-
-
-        // public bool IsPointerOverUI()
-        // {
-        //     return EventSystem.current.IsPointerOverGameObject();
-        // }
-
+        public event Action OnClicked, OnReleased, OnRightClicked, OnExit;
 
         public Vector3 GetCursorMapPosition()
         {
