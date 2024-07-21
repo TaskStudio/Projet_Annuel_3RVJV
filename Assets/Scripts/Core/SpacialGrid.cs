@@ -56,19 +56,18 @@ public class SpatialGrid
     public List<Unit> GetNeighbors(Vector3 position)
     {
         Vector2Int cell = GetCell(position);
-        List<Unit> neighbors = new List<Unit>();
+        List<Unit> neighbors = new();
 
         for (int x = -1; x <= 1; x++)
+        for (int z = -1; z <= 1; z++)
         {
-            for (int z = -1; z <= 1; z++)
-            {
-                Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-                if (grid.ContainsKey(neighborCell))
-                {
-                    neighbors.AddRange(grid[neighborCell]);
-                }
-            }
+            var neighborCell = new Vector2Int(cell.x + x, cell.y + z);
+            if (grid.TryGetValue(neighborCell, out List<Unit> units))
+                foreach (Unit unit in units)
+                    if (unit)
+                        neighbors.Add(unit);
         }
+
         return neighbors;
     }
 }
