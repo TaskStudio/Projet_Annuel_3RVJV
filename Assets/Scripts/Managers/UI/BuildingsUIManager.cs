@@ -6,9 +6,12 @@ public class BuildingsUIManager : MonoBehaviour
 {
     public static BuildingsUIManager Instance;
 
-    [SerializeField] private BuildingDatabaseSO buildingDatabase;
+    [SerializeField] private List<BuildingDatabaseSO> buildingDatabases;
     [SerializeField] private PlacementSystem placementSystem;
-    private VisualElement buildingsContainer;
+    private VisualElement buildingActionsContainer;
+    private VisualElement buildingsButtonsContainer;
+
+    private Button lastClickedButton;
 
     private void Awake()
     {
@@ -26,32 +29,78 @@ public class BuildingsUIManager : MonoBehaviour
     private void Start()
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        buildingsContainer = rootVisualElement.Q<VisualElement>("BuildingContainer");
+        buildingsButtonsContainer = rootVisualElement.Q<VisualElement>("BuildingsButtonsContainer");
+        buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
 
-        if (buildingsContainer == null)
+        if (buildingsButtonsContainer == null || buildingActionsContainer == null)
         {
-            Debug.LogError("BuildingContainer not found in the UXML. Check the UXML and the names.");
+            Debug.LogError("BuildingsButtonsContainer or BuildingActionsContainer not found in the UXML. Check the UXML and the names.");
             return;
         }
 
-        CreateBuildingButtons();
+        // Hide the BuildingActionsContainer by default
+        buildingActionsContainer.style.display = DisplayStyle.None;
+
+        CreateBuildingDatabaseButtons();
     }
 
-    private void CreateBuildingButtons()
+    private void CreateBuildingDatabaseButtons()
     {
-        buildingsContainer.Clear();
+        buildingsButtonsContainer.Clear();
 
-        foreach (BuildingData buildingData in buildingDatabase.buildingsData)
+        foreach (var buildingDatabase in buildingDatabases)
         {
-            var buildingButton = new Button { text = buildingData.DisplayName };
-            buildingButton.AddToClassList("actionButton");
-            buildingButton.clicked += () => OnBuildingButtonClicked(buildingData.IdNumber);
-            buildingsContainer.Add(buildingButton);
+            var databaseButton = new Button { text = buildingDatabase.databaseName };
+            databaseButton.AddToClassList("buildingButton");
+            databaseButton.clicked += () => OnDatabaseButtonClicked(buildingDatabase, databaseButton);
+            buildingsButtonsContainer.Add(databaseButton);
         }
     }
 
-    private void OnBuildingButtonClicked(int buildingID)
+    private void OnDatabaseButtonClicked(BuildingDatabaseSO buildingDatabase, Button clickedButton)
     {
-        placementSystem.StartPlacement(buildingID);
+        buildingActionsContainer.Clear();
+
+        // Remove buildingButtonClicked class from the last clicked button
+        if (lastClickedButton != null)
+        {
+            lastClickedButton.RemoveFromClassList("buildingButtonClicked");
+            lastClickedButton.AddToClassList("buildingButton");
+        }
+
+        // Add buildingButtonClicked class to the currently clicked button
+        clickedButton.RemoveFromClassList("buildingButton");
+        clickedButton.AddToClassList("buildingButtonClicked");
+        lastClickedButton = clickedButton;
+
+        // Show the BuildingActionsContainer
+        buildingActionsContainer.style.display = DisplayStyle.Flex;
+
+        foreach (var buildingData in buildingDatabase.buildingsData)
+        {
+            var buildingButton = new Button { text = buildingData.DisplayName };
+            buildingButton.AddToClassList("actionButton");
+
+            buildingButton.clicked += () => OnBuildingButtonClicked(buildingData);
+            buildingActionsContainer.Add(buildingButton);
+        }
+    }
+
+    private void OnBuildingButtonClicked(BuildingData buildingData)
+    {
+        placementSystem.StartPlacement(buildingData);
+    }
+
+    public void ClearButtonSelection()
+    {
+        if (lastClickedButton != null)
+        {
+            lastClickedButton.RemoveFromClassList("buildingButtonClicked");
+            lastClickedButton.AddToClassList("buildingButton");
+            lastClickedButton = null;
+
+            // Hide the BuildingActionsContainer
+            buildingActionsContainer.style.display = DisplayStyle.None;
+        }
     }
 }

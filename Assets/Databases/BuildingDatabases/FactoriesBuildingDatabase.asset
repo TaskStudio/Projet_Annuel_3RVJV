@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c2ebe261a90aa4484e2e5e70e91e4a, type: 3}
+  m_Name: FactoriesBuildingDatabase
+  m_EditorClassIdentifier: 
+  databaseName: Factories
+  image: {fileID: 0}
+  buildingsData:
+  - <IdNumber>k__BackingField: 0
+    <DisplayName>k__BackingField: Attacker Factory
+    <Size>k__BackingField: {x: 12, y: 12}
+    <Prefab>k__BackingField: {fileID: 2563002099852903821, guid: 06e1a04ae2b224047afbcd6fadba2d82, type: 3}
+    <ConstructionTime>k__BackingField: 2
+    <BuildingImage>k__BackingField: {fileID: 0}
+  - <IdNumber>k__BackingField: 1
+    <DisplayName>k__BackingField: Tank Factory
+    <Size>k__BackingField: {x: 12, y: 12}
+    <Prefab>k__BackingField: {fileID: 2563002099852903821, guid: 25f3c0cf59813d8499791a05ed1d3af5, type: 3}
+    <ConstructionTime>k__BackingField: 2
+    <BuildingImage>k__BackingField: {fileID: 0}
+  - <IdNumber>k__BackingField: 2
+    <DisplayName>k__BackingField: Support Factory
+    <Size>k__BackingField: {x: 12, y: 12}
+    <Prefab>k__BackingField: {fileID: 2563002099852903821, guid: a2de3af85943d824c9eae80e03a96123, type: 3}
+    <ConstructionTime>k__BackingField: 2
+    <BuildingImage>k__BackingField: {fileID: 0}

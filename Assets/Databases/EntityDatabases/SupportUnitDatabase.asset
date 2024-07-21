@@ -12,16 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272863d1d18b44619386bbf3deeb91c9, type: 3}
   m_Name: SupportUnitDatabase
   m_EditorClassIdentifier: 
-  entitiesData:
-  - <ID>k__BackingField: ENT-0
-    <DisplayName>k__BackingField: Gatherer
-    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: 534d0210f53e8294f86b66c79a87c0e7, type: 3}
-    <ProductionTime>k__BackingField: 0.5
-    <Cost>k__BackingField: 10
-    <ResourceType>k__BackingField: 0
-  - <ID>k__BackingField: ENT-1
+  units:
+  - <ID>k__BackingField: 0
     <DisplayName>k__BackingField: Support
-    <Prefab>k__BackingField: {fileID: -3996997979273391450, guid: 3da30fbce40d4654fbc0401185fc7e14, type: 3}
-    <ProductionTime>k__BackingField: 0.5
+    <Prefab>k__BackingField: {fileID: 7382277454582641572, guid: b5d3fad4c0e6b2c4caf96826575fa4cf, type: 3}
+    <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20

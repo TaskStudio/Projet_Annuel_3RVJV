@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class BuildingDatabaseSO : ScriptableObject
 {
+    public string databaseName;
+    
+    public Sprite image;
+    
     public List<BuildingData> buildingsData;
 }
 
@@ -16,6 +20,7 @@ public class BuildingData
     [field: SerializeField] public Vector2Int Size { get; private set; } = Vector2Int.one;
     [field: SerializeField] public Building Prefab { get; private set; }
     [field: SerializeField] public float ConstructionTime { get; private set; }
+    [field: SerializeField] public Sprite BuildingImage { get; private set; } 
 
     public BuildingData()
     {
