@@ -46,10 +46,20 @@ public class CameraSystem : MonoBehaviour
         // Movement variables
         var inputDir = new Vector3(0, 0, 0);
 
+        // ZQSD movement
         if (Input.GetKey(KeyCode.Q)) inputDir.x = -1f;
         if (Input.GetKey(KeyCode.D)) inputDir.x = +1f;
         if (Input.GetKey(KeyCode.Z)) inputDir.z = +1f;
         if (Input.GetKey(KeyCode.S)) inputDir.z = -1f;
+
+        // Edge scrolling
+        if (useEdgeScrolling)
+        {
+            if (Input.mousePosition.x < edgeScrollSize) inputDir.x = -1f;
+            if (Input.mousePosition.y < edgeScrollSize) inputDir.z = -1f;
+            if (Input.mousePosition.x > Screen.width - edgeScrollSize) inputDir.x = +1f;
+            if (Input.mousePosition.y > Screen.height - edgeScrollSize) inputDir.z = +1f;
+        }
 
         // Movements mechanisms
         var cameraMoveDir = _cachedTransform.forward * inputDir.z + _cachedTransform.right * inputDir.x;
@@ -61,17 +71,21 @@ public class CameraSystem : MonoBehaviour
 
     private void HandleRotation()
     {
-        // Check if the middle mouse button is held down
+        // Rotations mechanisms with A and E keys
+        var cameraRotateDir = 0f;
+        if (Input.GetKey(KeyCode.A)) cameraRotateDir = +1f;
+        if (Input.GetKey(KeyCode.E)) cameraRotateDir = -1f;
+
+        transform.eulerAngles += new Vector3(0, cameraRotateDir * cameraRotateSpeed * Time.deltaTime, 0);
+
+        // Rotation with middle mouse button
         if (Input.GetMouseButton(2))
         {
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
+            var mouseX = Input.GetAxis("Mouse X");
+            var mouseY = Input.GetAxis("Mouse Y");
 
             // Apply rotation around the Y-axis (horizontal rotation)
             _cachedTransform.eulerAngles += new Vector3(0, mouseX * cameraRotateSpeed * Time.deltaTime, 0);
-
-            // Optionally, you can add vertical rotation by uncommenting the line below
-            // _cachedTransform.eulerAngles += new Vector3(-mouseY * cameraRotateSpeed * Time.deltaTime, 0, 0);
         }
     }
 
