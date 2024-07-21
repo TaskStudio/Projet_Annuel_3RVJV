@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Entities.UniversalDelegates;
 using UnityEngine;
 
 public class StatManager : MonoBehaviour
-{ 
+{
+    public static StatManager Instance { get; private set; }
+
     public float elapsedTime = 0f;
     private bool isRunning = true;
+
     public static int allyDeathCount = 0;
     public static int enemyDeathCount = 0;
     public static int allyDamageTaken = 0;
@@ -19,7 +21,18 @@ public class StatManager : MonoBehaviour
     public static int allyWoodSpent = 0;
     public static int unitProductionCount = 0;
 
-    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     void Update()
     {
@@ -30,22 +43,10 @@ public class StatManager : MonoBehaviour
 
         LogAllStats();
     }
+
     public void LogAllStats()
     {
-        //Debug.Log($"Elapsed Time: {GetFormattedElapsedTime()}");
-        //Debug.Log($"Is Running: {isRunning}");
-        //Debug.Log($"Ally Death Count: {allyDeathCount}");
-        //Debug.Log($"Enemy Death Count: {enemyDeathCount}");
-        //Debug.Log($"Ally Damage Taken: {allyDamageTaken}");
-        //Debug.Log($"Enemy Damage Taken: {enemyDamageTaken}");
-        //Debug.Log($"Ally Wood Collected: {allyWoodCollected}");
-        //Debug.Log($"Ally Stone Collected: {allyStoneCollected}");
-        //Debug.Log($"Ally Gold Collected: {allyGoldCollected}");
-        //Debug.Log($"Ally Stone Spent: {allyStoneSpent}");
-        //Debug.Log($"Ally Gold Spent: {allyGoldSpent}");
-        //Debug.Log($"Ally Wood Spent: {allyWoodSpent}");
-        //Debug.Log($"Unit Production Count: {unitProductionCount}");
-        
+        // Debug logs for stats
     }
 
     public float GetElapsedTime()
@@ -76,7 +77,6 @@ public class StatManager : MonoBehaviour
         elapsedTime = 0f;
     }
 
-
     public static void IncrementAllyDeathCount()
     {
         allyDeathCount++;
@@ -91,10 +91,12 @@ public class StatManager : MonoBehaviour
     {
         allyDamageTaken += damage;
     }
+
     public static void IncrementEnemyDamageTaken(int damage)
     {
-        allyDamageTaken += damage;
+        enemyDamageTaken += damage;
     }
+
     public static void IncrementResources(Resource resource)
     {
         switch (resource.type)
@@ -110,7 +112,8 @@ public class StatManager : MonoBehaviour
                 break;
         }
     }
-    public static void IncrementAllyRessourcesSpent(Resource resource)
+
+    public static void IncrementAllyResourcesSpent(Resource resource)
     {
         switch (resource.type)
         {
@@ -125,31 +128,22 @@ public class StatManager : MonoBehaviour
                 break;
         }
     }
+
     public static void IncrementUnitProductionCount()
     {
         unitProductionCount++;
     }
+
     public static int GetUnitProductionCount()
     {
         return unitProductionCount;
     }
-    public static int AllyDamageTaken
-    {
-        get { return allyDamageTaken; }
-    }
-    public static int  EnemyDamageTaken
-    {
-        get { return enemyDamageTaken; }
-    }
-    public static int AllyDeathCount
-    {
-        get { return allyDeathCount; }
-    }
 
-    public static int EnemyDeathCount
-    {
-        get { return enemyDeathCount; }
-    }
+    public static int AllyDamageTaken => allyDamageTaken;
+    public static int EnemyDamageTaken => enemyDamageTaken;
+    public static int AllyDeathCount => allyDeathCount;
+    public static int EnemyDeathCount => enemyDeathCount;
+
     public static int GetAllyWoodCollected()
     {
         return allyWoodCollected;
@@ -164,6 +158,7 @@ public class StatManager : MonoBehaviour
     {
         return allyGoldCollected;
     }
+
     public static int GetAllyGoldSpent()
     {
         return allyGoldSpent;
@@ -178,6 +173,4 @@ public class StatManager : MonoBehaviour
     {
         return allyWoodSpent;
     }
-
-
 }
