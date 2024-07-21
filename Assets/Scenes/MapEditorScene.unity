@@ -291,7 +291,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1606315220}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4607279639626109636, guid: 118c9ef7c764cb648b0fe35b51f27035, type: 3}
       propertyPath: mapGrid
@@ -362,11 +362,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1490136902}
   m_SourcePrefab: {fileID: 100100000, guid: 118c9ef7c764cb648b0fe35b51f27035, type: 3}
---- !u!4 &1490136900 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4607279639626109643, guid: 118c9ef7c764cb648b0fe35b51f27035, type: 3}
-  m_PrefabInstance: {fileID: 1490136899}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1490136901 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4607279639626109642, guid: 118c9ef7c764cb648b0fe35b51f27035, type: 3}
@@ -389,151 +384,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4864
   unitDatase: {fileID: 11400000, guid: 5cd72124a18fb9348a8e8773c7497402, type: 2}
-  unitsProductionOrder:
-  - actionName: Gatherer
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-0
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Ranged Attacker
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-1
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Melee Attacker
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-2
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Support
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-3
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Tank
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-4
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Tank Combined
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-5
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Attacking Enemy
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-6
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Suicide Enemy
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-7
-            m_BoolArgument: 0
-          m_CallState: 2
-  - actionName: Enemy Boss
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1490136902}
-          m_TargetAssemblyTypeName: UnitPlacementSystem, Assembly-CSharp
-          m_MethodName: StartPlacement
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: UNIT-8
-            m_BoolArgument: 0
-          m_CallState: 2
+  unitsProductionOrders: []
 --- !u!1001 &1606315219
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -619,17 +470,9 @@ PrefabInstance:
     - {fileID: 4726936301280758400, guid: f9807c05f62f63a44b34ebc8fc94c896, type: 3}
     - {fileID: 4068667331323722635, guid: f9807c05f62f63a44b34ebc8fc94c896, type: 3}
     - {fileID: 8444380055271594776, guid: f9807c05f62f63a44b34ebc8fc94c896, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3280350313669805091, guid: f9807c05f62f63a44b34ebc8fc94c896, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1490136900}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9807c05f62f63a44b34ebc8fc94c896, type: 3}
---- !u!4 &1606315220 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3280350313669805091, guid: f9807c05f62f63a44b34ebc8fc94c896, type: 3}
-  m_PrefabInstance: {fileID: 1606315219}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1635789958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -986,3 +829,4 @@ SceneRoots:
   - {fileID: 575494347}
   - {fileID: 1719811663}
   - {fileID: 2006766879}
+  - {fileID: 1490136899}
