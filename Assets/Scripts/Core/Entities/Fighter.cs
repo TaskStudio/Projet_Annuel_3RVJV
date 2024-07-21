@@ -13,13 +13,13 @@ public abstract class Fighter : Unit
     [SerializeField] protected LayerMask targetLayer;
 
     protected readonly Collider[] potentialTargetsInRange = new Collider[50];
-    private readonly HashSet<Unit> targetsHashSet = new();
+    private readonly HashSet<Entity> targetsHashSet = new();
 
     protected Entity currentTarget;
     protected Vector3 heldPosition;
     private float lastAttackTime;
     protected bool moveAttack;
-    protected List<Unit> targetsInRange = new();
+    protected List<Entity> targetsInRange = new();
 
 
     protected new void Start()
@@ -41,7 +41,7 @@ public abstract class Fighter : Unit
         );
 
         for (var i = 0; i < numTargets; i++)
-            if (colliderToUnitMap.TryGetValue(potentialTargetsInRange[i], out Unit potentialTarget)
+            if (colliderToEntityMap.TryGetValue(potentialTargetsInRange[i], out Entity potentialTarget)
                 && targetsHashSet.Add(potentialTarget))
             {
                 targetsInRange.Add(potentialTarget);
@@ -96,11 +96,11 @@ public abstract class Fighter : Unit
         lastAttackTime = Time.time;
     }
 
-    private Unit GetNearestTarget()
+    private Entity GetNearestTarget()
     {
-        Unit nearestTarget = null;
+        Entity nearestTarget = null;
         float nearestDistance = float.MaxValue;
-        foreach (Unit target in targetsInRange)
+        foreach (Entity target in targetsInRange)
         {
             float distance = Vector3.Distance(transform.position, target.transform.position);
             if (distance < nearestDistance)
@@ -119,10 +119,10 @@ public abstract class Fighter : Unit
         moveAttack = true;
     }
 
-    public override void TargetIsDead(Unit unit)
+    public override void TargetIsDead(Entity target)
     {
-        if (currentTarget == unit) currentTarget = null;
-        if (targetsHashSet.Remove(unit)) targetsInRange.Remove(unit);
+        if (currentTarget == target) currentTarget = null;
+        if (targetsHashSet.Remove(target)) targetsInRange.Remove(target);
 
         targetPosition = heldPosition;
     }
