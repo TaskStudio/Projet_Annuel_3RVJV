@@ -13,6 +13,8 @@ public struct EntityAction
 
 public abstract class Entity : BaseObject
 {
+    protected static Dictionary<Collider, Entity> colliderToEntityMap = new();
+
     [Space(10)] [Header("ID")]
     [ShowOnly] [SerializeField] private string id;
 
@@ -28,9 +30,49 @@ public abstract class Entity : BaseObject
     [SerializeField] protected Material placedMaterial;
     [Space(5)]
     [SerializeField] protected MeshRenderer objectRenderer;
+    
+    private Collider entityCollider;
+    public List<Unit> targetedBy { get; } = new();
 
     public int currentHealth { get; protected set; }
     public string ID { get; private set; }
+
+    private void Awake()
+    {
+        entityCollider = GetComponent<Collider>();
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        colliderToEntityMap[entityCollider] = this;
+    }
+
+    private void OnDisable()
+    {
+        colliderToEntityMap.Remove(entityCollider);
+        SignalDeath();
+    }
+
+    public void AddTargetedBy(Unit unit)
+    {
+        if (!targetedBy.Contains(unit)) targetedBy.Add(unit);
+    }
+
+    public void RemoveTargetedBy(Unit unit)
+    {
+        if (targetedBy.Contains(unit)) targetedBy.Remove(unit);
+    }
+
+
+    public void SignalDeath()
+    {
+        foreach (Unit unit in targetedBy)
+            if (unit != null)
+                unit.TargetIsDead(this);
+
+        SelectionManager.Instance.DeselectEntity(this);
+    }
 
     public int GetHealthPoints()
     {
