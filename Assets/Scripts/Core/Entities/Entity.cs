@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 [Serializable]
 public struct EntityAction
@@ -21,10 +22,15 @@ public abstract class Entity : BaseObject
     [Space(10)] [Header("Actions")]
     public List<EntityAction> actionList;
 
+    [Space(10)] [Header("Placement")]
+    [SerializeField] protected Material previewMaterial;
+    [SerializeField] protected Material previewInvalidMaterial;
+    [SerializeField] protected Material placedMaterial;
+    [Space(5)]
+    [SerializeField] protected MeshRenderer objectRenderer;
+
     public int currentHealth { get; protected set; }
-
     public string ID { get; private set; }
-
 
     public int GetHealthPoints()
     {
@@ -89,4 +95,25 @@ public abstract class Entity : BaseObject
     }
 
     protected abstract void Die();
+
+    internal void PreviewValid()
+    {
+        objectRenderer.materials = new[] { previewMaterial };
+        objectRenderer.shadowCastingMode = ShadowCastingMode.Off;
+        objectRenderer.receiveShadows = false;
+    }
+
+    internal void PreviewInvalid()
+    {
+        objectRenderer.materials = new[] { previewInvalidMaterial };
+        objectRenderer.shadowCastingMode = ShadowCastingMode.Off;
+        objectRenderer.receiveShadows = false;
+    }
+
+    internal void Place()
+    {
+        objectRenderer.materials = new[] { placedMaterial };
+        objectRenderer.shadowCastingMode = ShadowCastingMode.On;
+        objectRenderer.receiveShadows = true;
+    }
 }
