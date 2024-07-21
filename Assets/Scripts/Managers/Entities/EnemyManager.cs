@@ -5,8 +5,8 @@ public class EnemyManager : MonoBehaviour
 {
     public GameObject suicideEnemyPrefab;
     public GameObject attackingEnemyPrefab;
-    public GameObject defenderEnemyPrefab;
     public float spawnDelay = 2f;
+    public Transform enemyBase;
 
     private void Start()
     {
@@ -30,12 +30,10 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             float randomX = Random.Range(-spawnWidth / 2, spawnWidth / 2);
-            spawnPosition = transform.position + transform.right * randomX;
-            spawnPosition.y = 1;
-
-            if (!Physics.CheckSphere(spawnPosition, 0.5f))
-            {
-                int enemyType = Random.Range(0, 3); // Randomly choose enemy type
+            spawnPosition = enemyBase.position + enemyBase.right * randomX;
+            spawnPosition.y = 0;
+            
+                int enemyType = Random.Range(0, 3); 
                 switch (enemyType)
                 {
                     case 0:
@@ -44,12 +42,8 @@ public class EnemyManager : MonoBehaviour
                     case 1:
                         Instantiate(attackingEnemyPrefab, spawnPosition, Quaternion.identity);
                         break;
-                    case 2:
-                        Instantiate(defenderEnemyPrefab, spawnPosition, Quaternion.identity);
-                        break;
                 }
                 break;
-            }
         }
     }
 }
