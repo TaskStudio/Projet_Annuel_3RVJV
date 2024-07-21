@@ -5,6 +5,7 @@ public class EnemyManager : MonoBehaviour
 {
     public GameObject suicideEnemyPrefab;
     public GameObject attackingEnemyPrefab;
+    public GameObject enemyBossPrefab;
     public float spawnDelay = 2f;
     public Transform enemyBase;
 
@@ -33,17 +34,22 @@ public class EnemyManager : MonoBehaviour
             spawnPosition = enemyBase.position + enemyBase.right * randomX;
             spawnPosition.y = 0;
             
-                int enemyType = Random.Range(0, 3); 
-                switch (enemyType)
-                {
-                    case 0:
-                        Instantiate(suicideEnemyPrefab, spawnPosition, Quaternion.identity);
-                        break;
-                    case 1:
-                        Instantiate(attackingEnemyPrefab, spawnPosition, Quaternion.identity);
-                        break;
-                }
-                break;
+       
+
+            // int enemyType = Random.Range(0, 3);
+            // switch (enemyType)
+            // {
+            //     // case 0:
+            //     //     Instantiate(suicideEnemyPrefab, spawnPosition, Quaternion.identity);
+            //     //     break;
+            //     // case 1:
+            //     //     Instantiate(attackingEnemyPrefab, spawnPosition, Quaternion.identity);
+            //     //     break;
+            //     case 2:
+            //         Instantiate(enemyBossPrefab, spawnPosition, Quaternion.identity);
+            //         break;
+            // }
         }
+        Instantiate(enemyBossPrefab, spawnPosition, Quaternion.identity);
     }
 }
