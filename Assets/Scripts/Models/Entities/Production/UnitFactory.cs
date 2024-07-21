@@ -57,7 +57,7 @@ public class UnitFactory : MonoBehaviour
             unit = Instantiate(unitDatabase.GetUnitPrefab(unitID), position, Quaternion.identity) as Unit;
             unit.SetID(unitID);
         }
-
+        StatManager.IncrementUnitProductionCount();
         return unit;
     }
 

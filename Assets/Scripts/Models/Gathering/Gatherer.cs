@@ -99,6 +99,8 @@ public class Gatherer : Ally
         if (resourceStorage != null && carriedResource != null)
         {
             resourceStorage.AddResource(carriedResource);
+            StatManager.IncrementResources(carriedResource);
+            
             carriedResource = null;
         }
     }

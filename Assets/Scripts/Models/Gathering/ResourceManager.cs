@@ -52,6 +52,7 @@ public class ResourceManager : MonoBehaviour
         {
             totalResources[requestedResource.type] -= requestedResource.amount;
             ResourceUIManager.Instance.UpdateResourceUI(totalResources);
+            StatManager.IncrementAllyRessourcesSpent(requestedResource);
             return true;
         }
         return false;

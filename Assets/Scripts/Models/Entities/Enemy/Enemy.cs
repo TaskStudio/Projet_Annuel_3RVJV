@@ -21,6 +21,18 @@ public class Enemy : Fighter
     {
         base.Update();
     }
+    
+    protected override void Die()
+    {
+        base.Die();
+        StatManager.IncrementEnemyDeathCount();
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        StatManager.IncrementEnemyDamageTaken(damage);
+    }
 
     protected IEnumerator BehaviorTree()
     {
