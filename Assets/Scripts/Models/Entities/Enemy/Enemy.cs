@@ -49,7 +49,7 @@ public class Enemy : Fighter
     protected override void Die()
     {
         base.Die();
-        KillCounter.IncrementEnemyDeathCount();
+        StatManager.IncrementEnemyDeathCount();
     }
 
     protected IEnumerator BehaviorTree()

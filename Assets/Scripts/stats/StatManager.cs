@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
-{
+public class StatManager : MonoBehaviour
+{ 
     public float elapsedTime = 0f;
     private bool isRunning = true;
+    public static int allyDeathCount = 0;
+    public static int enemyDeathCount = 0;
     
 
     void Update()
@@ -42,5 +44,24 @@ public class Timer : MonoBehaviour
     public void ResetTimer()
     {
         elapsedTime = 0f;
+    }
+    public static int AllyDeathCount
+    {
+        get { return allyDeathCount; }
+    }
+
+    public static int EnemyDeathCount
+    {
+        get { return enemyDeathCount; }
+    }
+
+    public static void IncrementAllyDeathCount()
+    {
+        allyDeathCount++;
+    }
+
+    public static void IncrementEnemyDeathCount()
+    {
+        enemyDeathCount++;
     }
 }
