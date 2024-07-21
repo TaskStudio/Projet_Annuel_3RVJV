@@ -22,6 +22,8 @@ public class PlacementSystem : MonoBehaviour
     {
         grid = mapGrid.Grid;
         mapGrid.SetGridCellSize(cellSize);
+        mapGrid.gameObject.SetActive(false);
+
 
         isBuildingSelected = false;
 
@@ -37,7 +39,10 @@ public class PlacementSystem : MonoBehaviour
             Vector3 worldMousePos = mouseControl.GetCursorMapPosition();
             Vector3Int gridMousePos = grid.WorldToCell(worldMousePos);
             Vector3 gridWorldPos = grid.CellToWorld(gridMousePos);
-            selectedBuilding.transform.position = gridWorldPos;
+
+            selectedBuilding.buildingPivot.position = gridWorldPos;
+            selectedBuilding.transform.position =
+                selectedBuilding.buildingPivot.position - selectedBuilding.pivotOffset;
 
             Vector2Int buildingSize = selectedBuildingData.Size;
 
@@ -52,6 +57,7 @@ public class PlacementSystem : MonoBehaviour
     public void StartPlacement(int ID)
     {
         CancelPlacement();
+        mapGrid.gameObject.SetActive(true);
 
         selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.IdNumber == ID);
         selectedBuilding = Instantiate(selectedBuildingData.Prefab);
@@ -85,6 +91,8 @@ public class PlacementSystem : MonoBehaviour
         mouseControl.OnExit -= CancelPlacement;
 
         Cursor.visible = true;
+
+        mapGrid.gameObject.SetActive(false);
     }
 
 
@@ -96,6 +104,7 @@ public class PlacementSystem : MonoBehaviour
             selectedBuilding = null;
             selectedBuildingData = null;
             isBuildingSelected = false;
+            mapGrid.gameObject.SetActive(false);
         }
     }
 

@@ -21,7 +21,7 @@ MonoBehaviour:
   - <IdNumber>k__BackingField: 1
     <DisplayName>k__BackingField: Resource Storage
     <Size>k__BackingField: {x: 3, y: 3}
-    <Prefab>k__BackingField: {fileID: 3839866909170121505, guid: 520b403228ff2144cadd2c87bc189a96, type: 3}
+    <Prefab>k__BackingField: {fileID: -5317816651124604236, guid: 39357bcf2b2eacb40a8aefb434c321a6, type: 3}
     <ConstructionTime>k__BackingField: 1
   - <IdNumber>k__BackingField: 2
     <DisplayName>k__BackingField: Vision Tower

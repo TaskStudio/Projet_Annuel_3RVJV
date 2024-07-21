@@ -13,6 +13,8 @@ public class Building : Entity
     }
 
     [Header("Building")]
+    public Transform buildingPivot;
+    [Space(5)]
     [SerializeField] private Material previewMaterial;
     [SerializeField] private Material previewInvalidMaterial;
     [SerializeField] private Material buildingMaterial;
@@ -29,6 +31,7 @@ public class Building : Entity
 
     private float constructionTime;
     public BuildingStates state { get; internal set; }
+    public Vector3 pivotOffset { get; private set; }
 
     public void Update()
     {
@@ -38,6 +41,12 @@ public class Building : Entity
             if (constructionTime <= 0)
                 FinishConstruction();
         }
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        pivotOffset = buildingPivot.position - transform.position;
     }
 
     public void SetGridCellSize(float cellSize)
