@@ -17,6 +17,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3295319774116102717}
     - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: placedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 39175b6647cc27c469a2a09ae36c9cea, type: 2}
+    - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: previewMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 39175b6647cc27c469a2a09ae36c9cea, type: 2}
+    - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: targetLayer.m_Bits
       value: 512
       objectReference: {fileID: 0}

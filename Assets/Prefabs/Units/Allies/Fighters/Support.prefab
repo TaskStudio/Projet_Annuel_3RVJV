@@ -99,6 +99,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd59a8886e9ab7458575b29308f404a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &4505041102328065874 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3585130057845835458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+  m_PrefabInstance: {fileID: 1100549332571416976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5153192163199829030 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5243948296936631734, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
@@ -131,6 +136,10 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 1595941478213424838}
   actionList: []
+  previewMaterial: {fileID: 2100000, guid: 357f6867bec2310439376b12cb13fe9d, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 357f6867bec2310439376b12cb13fe9d, type: 2}
+  objectRenderer: {fileID: 4505041102328065874}
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 3831995754191925086}

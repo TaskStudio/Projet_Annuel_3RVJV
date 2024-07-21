@@ -187,6 +187,10 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 8979344478090658989}
   actionList: []
+  previewMaterial: {fileID: 2100000, guid: 38d5530b12d0bdc4e8285d8f2be5ab7b, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 38d5530b12d0bdc4e8285d8f2be5ab7b, type: 2}
+  objectRenderer: {fileID: 5459599967771647884}
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 7427183694568750221}
@@ -211,11 +215,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x

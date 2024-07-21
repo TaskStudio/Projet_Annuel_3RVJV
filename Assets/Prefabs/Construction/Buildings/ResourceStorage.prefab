@@ -138,11 +138,11 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 1504123104671043873}
   actionList: []
-  buildingPivot: {fileID: 2060381988817648680}
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
-  buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
   objectRenderer: {fileID: 7757569977059043356}
+  buildingPivot: {fileID: 2060381988817648680}
   gridMaterial: {fileID: 2100000, guid: d103cd69a05372a4b941a461d8b39d14, type: 2}
   gridInvalidMaterial: {fileID: 2100000, guid: a90942068c797c647b8f9ad3389e033e, type: 2}
   gridRenderer: {fileID: 3966677097733445635}

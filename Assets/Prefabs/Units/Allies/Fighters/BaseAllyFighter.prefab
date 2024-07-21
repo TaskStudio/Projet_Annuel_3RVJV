@@ -158,7 +158,10 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 1828465403883388758}
   actionList: []
-  unitCollider: {fileID: 0}
+  previewMaterial: {fileID: 0}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 0}
+  objectRenderer: {fileID: 3585130057845835458}
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 0}
