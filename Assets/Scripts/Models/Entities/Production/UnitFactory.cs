@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UnitFactory : MonoBehaviour
 {
@@ -7,6 +8,11 @@ public class UnitFactory : MonoBehaviour
     public static UnitFactory Instance;
 
     private static readonly Dictionary<string, Queue<Unit>> unitPools = new();
+
+    [FormerlySerializedAs("playerEntityDatabase")]
+    public UnitDatabaseSO playerUnitDatabase;
+
+    public BuildingDatabaseSO playerBuildingDatabase;
 
     private void Awake()
     {
@@ -25,12 +31,12 @@ public class UnitFactory : MonoBehaviour
     {
         unitPools.Clear();
 
-        foreach (var unit in GameManager.Instance.playerUnitDatabase.units)
+        foreach (var unit in playerUnitDatabase.units)
         {
             unitPools.Add(unit.ID, new Queue<Unit>());
-            for (int i = 0; i < unit.PoolingAmount; i++)
+            for (var i = 0; i < unit.PoolingAmount; i++)
             {
-                BaseObject unitInstance = Instantiate(unit.Prefab, Vector3.zero, Quaternion.identity);
+                var unitInstance = Instantiate(unit.Prefab, Vector3.zero, Quaternion.identity);
                 if (unitInstance is Unit iunit)
                 {
                     iunit.SetID(unit.ID);
@@ -57,6 +63,7 @@ public class UnitFactory : MonoBehaviour
             unit = Instantiate(unitDatabase.GetUnitPrefab(unitID), position, Quaternion.identity) as Unit;
             unit.SetID(unitID);
         }
+
         StatManager.IncrementUnitProductionCount();
         return unit;
     }

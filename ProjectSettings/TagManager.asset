@@ -15,6 +15,7 @@ TagManager:
   - Building
   - Factory
   - VisionTower
+  - AllyBase
   layers:
   - Default
   - TransparentFX
