@@ -6,11 +6,7 @@ public class Timer : MonoBehaviour
 {
     public float elapsedTime = 0f;
     private bool isRunning = true;
-
-    void Start()
-    {
-        // Optionally, initialize any required values here
-    }
+    
 
     void Update()
     {
@@ -23,6 +19,14 @@ public class Timer : MonoBehaviour
     public float GetElapsedTime()
     {
         return elapsedTime;
+    }
+
+    public string GetFormattedElapsedTime()
+    {
+        int minutes = Mathf.FloorToInt(elapsedTime / 60F);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60F);
+        int milliseconds = Mathf.FloorToInt((elapsedTime * 100F) % 100F);
+        return string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
     }
 
     public void StartTimer()
