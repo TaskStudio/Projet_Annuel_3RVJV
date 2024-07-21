@@ -123,6 +123,16 @@ public class Enemy : Fighter
         {
             Debug.Log("Calling Fighter's Attack method");
             Attack();
+
+            // Apply bump effect on the enemy
+            Vector3 bumpDirection = (transform.position - target.position).normalized;
+            Vector3 bumpPosition = transform.position + bumpDirection * bumpDistance;
+
+            // Ensure the enemy stays on the same Y level (ground level)
+            bumpPosition.y = transform.position.y;
+
+            transform.position = bumpPosition;
+
             currentState = State.Idle;
         }
         else
