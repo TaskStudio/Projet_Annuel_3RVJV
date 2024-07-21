@@ -258,6 +258,7 @@ public abstract class Unit : Entity
         SignalDeath();
         spatialGrid.Remove(this);
         UnitFactory.ReturnEntity(this);
+        
     }
 
     public int GetManaPoints()

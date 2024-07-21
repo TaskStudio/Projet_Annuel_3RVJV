@@ -45,6 +45,12 @@ public class Enemy : Fighter
             Destroy(gameObject);
         }
     }
+    
+    protected override void Die()
+    {
+        base.Die();
+        KillCounter.IncrementEnemyDeathCount();
+    }
 
     protected IEnumerator BehaviorTree()
     {
