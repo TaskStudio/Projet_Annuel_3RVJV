@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2731607107575345659, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Value
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2731607107575345659, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_MaxValue
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3585130057845835458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -133,10 +133,10 @@ MonoBehaviour:
   actionList: []
   avoidanceStrength: 5
   collisionRadius: 1
-  entityLayer:
-    serializedVersion: 2
-    m_Bits: 0
   manaBar: {fileID: 3831995754191925086}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   healAmount: 10
 --- !u!1001 &2360623908579705797
 PrefabInstance:
@@ -149,6 +149,14 @@ PrefabInstance:
     - target: {fileID: 290639376675881821, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_MaxValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Pivot.x
@@ -233,6 +241,18 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Name
       value: ManaBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_Color.b
+      value: 0.990566
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5761615
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020757295389230875, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2943663
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_AnchorMax.x

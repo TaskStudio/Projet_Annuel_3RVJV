@@ -2,33 +2,27 @@ using UnityEngine;
 
 public class SuicideEnemy : Enemy
 {
-    protected override void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Entity"))
-        {
-            Unit entity = collision.gameObject.GetComponent<Unit>();
-            if (entity != null)
-            {
-                entity.TakeDamage(1000);
-                Destroy(gameObject);
-            }
-        }
-
-        if (collision.gameObject.CompareTag("EntityBase"))
-        {
-            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
-            if (entityBase != null) entityBase.TakeDamage(1000);
-            Destroy(gameObject);
-        }
-    }
-
     protected override void AttackTarget()
     {
+        Debug.Log("SuicideEnemy AttackTarget called");
         if (target != null)
         {
             Unit entity = target.GetComponent<Unit>();
-            if (entity != null) entity.TakeDamage(1000);
-            Destroy(gameObject);
+            if (entity != null)
+            {
+                entity.TakeDamage(Data.attackDamage);
+                Debug.Log("Damage dealt: " + Data.attackDamage + " to " + target.name);
+                Debug.Log("Destroying SuicideEnemy: " + gameObject.name);
+                Destroy(gameObject); // Ensure this is called
+            }
+            else
+            {
+                Debug.LogWarning("Target doesn't have a Unit component!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No target found for SuicideEnemy!");
         }
     }
 }
