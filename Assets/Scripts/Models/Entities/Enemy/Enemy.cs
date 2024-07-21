@@ -26,7 +26,6 @@ public class Enemy : Fighter
     {
         while (true)
         {
-            Debug.Log("Current State: " + currentState);
             switch (currentState)
             {
                 case State.Idle:
@@ -36,58 +35,49 @@ public class Enemy : Fighter
                     MoveToTarget();
                     break;
                 case State.Attacking:
-                    Debug.Log("Attacking state triggered");
                     AttackTarget();
                     break;
             }
 
-            yield return null; // Wait for the next frame
+            yield return null; 
         }
     }
 
     protected void FindTarget()
     {
-        GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
-        GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
+        float detectionRadius = Mathf.Infinity; 
+        LayerMask allyLayer = LayerMask.GetMask("Ally"); 
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, allyLayer);
+
         float closestDistanceSqr = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
         GameObject closestTarget = null;
 
-        foreach (GameObject entity in entities)
+        // Iterate through the colliders to find the closest ally
+        foreach (Collider hitCollider in hitColliders)
         {
-            float dSqrToTarget = (entity.transform.position - currentPosition).sqrMagnitude;
+            float dSqrToTarget = (hitCollider.transform.position - currentPosition).sqrMagnitude;
             if (dSqrToTarget < closestDistanceSqr)
             {
                 closestDistanceSqr = dSqrToTarget;
-                closestTarget = entity;
+                closestTarget = hitCollider.gameObject;
             }
         }
 
-        if (closestTarget == null)
-        {
-            foreach (GameObject entityBase in entityBases)
-            {
-                float dSqrToTarget = (entityBase.transform.position - currentPosition).sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr)
-                {
-                    closestDistanceSqr = dSqrToTarget;
-                    closestTarget = entityBase;
-                }
-            }
-        }
-
+        // Set the target and update the state accordingly
         if (closestTarget != null)
         {
             target = closestTarget.transform;
             currentState = State.MovingToTarget;
-            Debug.Log("New target acquired: " + target.name);
         }
         else
         {
-            Debug.LogWarning("No target found, remaining in Idle state");
             currentState = State.Idle;
         }
     }
+
+
 
     protected void MoveToTarget()
     {
@@ -98,22 +88,15 @@ public class Enemy : Fighter
         
             // Check if close enough to attack
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-            Debug.Log("Distance to target: " + distanceToTarget);
-            if (distanceToTarget < 1.0f) // Adjust the distance threshold as needed
+            if (distanceToTarget < Data.attackRange) 
             {
-                Debug.Log("Reached target, switching to Attacking state");
                 currentState = State.Attacking;
-            }
-            else
-            {
-                Debug.Log("Current State: MovingToTarget, Distance to Target: " + distanceToTarget);
             }
         }
         else
         {
-            Debug.LogWarning("Target is null during movement, switching to Idle state");
             currentState = State.Idle;
-            FindTarget(); // Try to find a new target immediately
+            FindTarget(); 
         }
     }
 
@@ -121,7 +104,6 @@ public class Enemy : Fighter
     {
         if (target != null)
         {
-            Debug.Log("Calling Fighter's Attack method");
             Attack();
 
             // Apply bump effect on the enemy
@@ -137,7 +119,6 @@ public class Enemy : Fighter
         }
         else
         {
-            Debug.LogWarning("Target is null in AttackTarget, switching to Idle state");
             currentState = State.Idle;
         }
     }
@@ -158,41 +139,6 @@ public class Enemy : Fighter
     {
         if (target == null) return;
         if (target is Ally) currentTarget = target;
-    }
-
-    protected Vector3 FindNearestTarget()
-    {
-        GameObject[] entities = GameObject.FindGameObjectsWithTag("Entity");
-        GameObject[] entityBases = GameObject.FindGameObjectsWithTag("EntityBase");
-        Vector3 currentPosition = transform.position;
-
-        GameObject closestTarget = null;
-        float closestDistanceSqr = Mathf.Infinity;
-
-        foreach (GameObject entity in entities)
-        {
-            Vector3 directionToTarget = entity.transform.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if (dSqrToTarget < closestDistanceSqr)
-            {
-                closestDistanceSqr = dSqrToTarget;
-                closestTarget = entity;
-            }
-        }
-
-        if (closestTarget == null && entityBases.Length > 0)
-            foreach (GameObject entityBase in entityBases)
-            {
-                Vector3 directionToTarget = entityBase.transform.position - currentPosition;
-                float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr)
-                {
-                    closestDistanceSqr = dSqrToTarget;
-                    closestTarget = entityBase;
-                }
-            }
-
-        return closestTarget != null ? closestTarget.transform.position : Vector3.positiveInfinity;
     }
 
     public virtual void Taunt(Tank taunter)
