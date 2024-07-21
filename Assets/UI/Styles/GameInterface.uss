@@ -28,18 +28,18 @@
 }
 
 .selectedEntity {
-    border-left-color: rgb(25, 191, 0);
-    border-right-color: rgb(25, 191, 0);
-    border-top-color: rgb(25, 191, 0);
-    border-bottom-color: rgb(25, 191, 0);
+    border-left-color: rgb(0, 255, 37);
+    border-right-color: rgb(0, 255, 37);
+    border-top-color: rgb(0, 255, 37);
+    border-bottom-color: rgb(0, 255, 37);
     border-top-width: 3px;
     border-right-width: 3px;
     border-bottom-width: 3px;
     border-left-width: 3px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 .labels {
@@ -103,4 +103,42 @@
     flex-grow: 1;
     align-self: center;
     width: 100%;
+}
+
+.buildingButton {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 38px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(231, 231, 231);
+}
+
+.buildingButton:hover {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 38px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(229, 68, 68);
+    color: rgb(231, 231, 231);
+}
+
+.buildingButtonClicked {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 38px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(229, 68, 68);
+    color: rgb(231, 231, 231);
 }

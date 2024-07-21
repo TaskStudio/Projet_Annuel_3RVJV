@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Ranged attacker
   description: 
-  image: {fileID: 0}
+  image: {fileID: 2800000, guid: 714749f678b985c42bffe0d64cc743de, type: 3}
   faction: 0
   maxHealthPoints: 50
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
   attackDamage: 10
-  distanceType: 0
+  distanceType: 1
   detectionRange: 20
-  attackRange: 13
+  attackRange: 10
   attackCooldown: 0.5

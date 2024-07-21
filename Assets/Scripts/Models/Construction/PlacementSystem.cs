@@ -6,7 +6,6 @@ public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] private MapGrid mapGrid;
     [SerializeField] private MouseControl mouseControl;
-    [SerializeField] private BuildingDatabaseSO buildingDatabase;
     [SerializeField] private float cellSize = 1.0f;
 
     public bool isBuildingSelected;
@@ -16,7 +15,6 @@ public class PlacementSystem : MonoBehaviour
 
     private Building selectedBuilding;
     private BuildingData selectedBuildingData;
-    private int selectedBuildingID;
 
     private void Start()
     {
@@ -29,7 +27,6 @@ public class PlacementSystem : MonoBehaviour
 
         selectedBuilding = null;
         selectedBuildingData = null;
-        selectedBuildingID = -1;
     }
 
     private void Update()
@@ -54,16 +51,15 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
-    public void StartPlacement(int ID)
+    public void StartPlacement(BuildingData buildingData)
     {
         CancelPlacement();
         mapGrid.gameObject.SetActive(true);
 
-        selectedBuildingData = buildingDatabase.buildingsData.Find(x => x.IdNumber == ID);
-        selectedBuilding = Instantiate(selectedBuildingData.Prefab);
+        selectedBuildingData = buildingData;
+        selectedBuilding = Instantiate(buildingData.Prefab);
         selectedBuilding.SetGridCellSize(cellSize);
         selectedBuilding.PreviewValid();
-        selectedBuildingID = ID;
 
         isBuildingSelected = selectedBuilding != null;
         StartCoroutine(DelayedAddMouseEvents());
@@ -72,17 +68,14 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceBuilding()
     {
-        // if (mouseControl.IsPointerOverUI())
-        //     return;
+        var worldMousePos = mouseControl.GetCursorMapPosition();
+        var gridMousePos = grid.WorldToCell(worldMousePos);
 
-        Vector3 worldMousePos = mouseControl.GetCursorMapPosition();
-        Vector3Int gridMousePos = grid.WorldToCell(worldMousePos);
-
-        bool canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, selectedBuildingData.Size);
+        var canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, selectedBuildingData.Size);
         if (!canPlace)
             return;
 
-        BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingID, 0);
+        BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingData.IdNumber, 0);
         selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
         selectedBuilding = null;
         isBuildingSelected = false;
@@ -94,7 +87,6 @@ public class PlacementSystem : MonoBehaviour
 
         mapGrid.gameObject.SetActive(false);
     }
-
 
     public void CancelPlacement()
     {
@@ -110,7 +102,6 @@ public class PlacementSystem : MonoBehaviour
 
     private IEnumerator DelayedAddMouseEvents()
     {
-        // Attendre la fin de la frame actuelle
         yield return null;
 
         mouseControl.OnClicked += PlaceBuilding;
