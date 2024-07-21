@@ -23,28 +23,7 @@ public class Enemy : Fighter
 
         if (targetsInRange.Count > 0 || currentTarget != null) Attack();
     }
-
-    protected virtual void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Entity"))
-        {
-            Unit entity = collision.gameObject.GetComponent<Unit>();
-            if (entity != null)
-            {
-                entity.TakeDamage(collisionDamage);
-
-                Vector3 bumpDirection = (transform.position - collision.transform.position).normalized;
-                transform.position += bumpDirection * bumpDistance;
-            }
-        }
-
-        if (collision.gameObject.CompareTag("EntityBase"))
-        {
-            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
-            if (entityBase != null) entityBase.TakeDamage(1000);
-            Destroy(gameObject);
-        }
-    }
+    
 
     protected IEnumerator BehaviorTree()
     {
@@ -60,15 +39,6 @@ public class Enemy : Fighter
                     break;
                 case State.Attacking:
                     AttackTarget();
-                    break;
-                case State.BackingUp:
-                    Backup();
-                    break;
-                case State.Defending:
-                    Defend();
-                    break;
-                case State.SeekingBackup:
-                    SeekBackup();
                     break;
             }
 
@@ -139,60 +109,7 @@ public class Enemy : Fighter
             currentState = State.Idle;
         }
     }
-
-    protected virtual void Backup()
-    {
-        Vector3 directionAwayFromTarget = (transform.position - target.position).normalized;
-        Vector3 backupPosition = transform.position + directionAwayFromTarget * bumpDistance;
-
-        transform.position = Vector3.MoveTowards(transform.position, backupPosition, movementSpeed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, backupPosition) < 0.1f) currentState = State.SeekingBackup;
-    }
-
-    protected virtual void Defend()
-    {
-        StartCoroutine(DefenseCoroutine());
-    }
-
-    protected IEnumerator DefenseCoroutine()
-    {
-        yield return new WaitForSeconds(3f);
-        currentState = State.Idle;
-    }
-
-    protected virtual void SeekBackup()
-    {
-        GameObject[] allies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-        GameObject closestAlly = null;
-
-        foreach (GameObject ally in allies)
-            if (ally != gameObject)
-            {
-                float dSqrToTarget = (ally.transform.position - currentPosition).sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr)
-                {
-                    closestDistanceSqr = dSqrToTarget;
-                    closestAlly = ally;
-                }
-            }
-
-        if (closestAlly != null)
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                closestAlly.transform.position,
-                movementSpeed * Time.deltaTime
-            );
-            if (Vector3.Distance(transform.position, closestAlly.transform.position) < 0.5f)
-                currentState = State.Defending;
-        }
-        else
-        {
-            currentState = State.Idle;
-        }
-    }
+    
 
     public virtual void Move(Vector3 targetPosition)
     {
@@ -257,9 +174,6 @@ public class Enemy : Fighter
     {
         Idle,
         MovingToTarget,
-        Attacking,
-        BackingUp,
-        Defending,
-        SeekingBackup
+        Attacking
     }
 }

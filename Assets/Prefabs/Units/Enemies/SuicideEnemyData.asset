@@ -23,5 +23,5 @@ MonoBehaviour:
   attackDamage: 1000
   distanceType: 0
   detectionRange: 15
-  attackRange: 5
+  attackRange: 1
   attackCooldown: 0.5
