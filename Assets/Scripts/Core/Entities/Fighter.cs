@@ -64,7 +64,7 @@ public abstract class Fighter : Unit
     }
 
 
-    protected void Attack()
+    protected virtual void Attack()
     {
         currentTarget ??= GetNearestTarget();
 
