@@ -27,13 +27,8 @@ public class Nexus : UnitProducerBuilding
 
     private void RegenerateHealth()
     {
-        Debug.Log("healt : " + GetMaxHealthPoints());
-        Debug.Log("regen : " + healthRegenPerSecond);
-
         if (healthRegenPerSecond > 0 && currentHealth < Data.maxHealthPoints)
         {
-            Debug.Log("HELLO");
-
             timeSinceLastRegen += Time.deltaTime;
 
             if (timeSinceLastRegen >= 1f)
