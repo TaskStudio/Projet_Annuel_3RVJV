@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class Nexus : Entity
+public class Nexus : UnitProducerBuilding
 {
-    private void Update()
-    {
-        // Check if the spacebar is pressed
-        if (Input.GetKeyDown(KeyCode.Space)) TakeDamage(100);
-    }
+    // private new void Update()
+    // {
+    //     base.Update();
+    //     // Check if the spacebar is pressed
+    //     if (Input.GetKeyDown(KeyCode.Space)) TakeDamage(100);
+    // }
 
     protected override void Die()
     {

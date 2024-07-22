@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 272863d1d18b44619386bbf3deeb91c9, type: 3}
-  m_Name: SupportUnitDatabase
+  m_Name: AllyUnitDatabase
   m_EditorClassIdentifier: 
   units:
-  - <ID>k__BackingField: SUP-0
-    <DisplayName>k__BackingField: Support
-    <Prefab>k__BackingField: {fileID: 7382277454582641572, guid: b5d3fad4c0e6b2c4caf96826575fa4cf, type: 3}
+  - <ID>k__BackingField: ALLY-0
+    <DisplayName>k__BackingField: Gatherer
+    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: c80ed14e0291b394ab5aad6666c1adea, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
-    <ResourceType>k__BackingField: 2
+    <ResourceType>k__BackingField: 0
     <PoolingAmount>k__BackingField: 20

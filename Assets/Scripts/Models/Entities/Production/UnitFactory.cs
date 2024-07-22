@@ -21,7 +21,6 @@ public class UnitFactory : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
     }
 

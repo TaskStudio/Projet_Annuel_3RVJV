@@ -27,12 +27,14 @@ Transform:
   m_GameObject: {fileID: 102139487979630628}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.85, y: 4.61, z: -32.54}
-  m_LocalScale: {x: 6.34853, y: 12.101316, z: 7.4832134}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5822611862959020359}
   - {fileID: 3271507147426611485}
+  - {fileID: 6229381567119990789}
+  - {fileID: 1116368491524863706}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6015113427849363825
@@ -54,8 +56,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 6.34853, y: 10, z: 7.4832134}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!114 &1652281169797509366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,12 +75,65 @@ MonoBehaviour:
   id: 
   addressableKey: NEX-0
   healthBar: {fileID: 7650460376143459252}
-  actionList: []
+  actionList:
+  - actionName: Spawn Gatherer
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1652281169797509366}
+          m_TargetAssemblyTypeName: UnitProducerBuilding, Assembly-CSharp
+          m_MethodName: RequestProduction
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: ALLY-0
+            m_BoolArgument: 0
+          m_CallState: 2
   previewMaterial: {fileID: 0}
   previewInvalidMaterial: {fileID: 0}
   placedMaterial: {fileID: 0}
   objectRenderer: {fileID: 197205501674924127}
   mapEditContext: 0
+  buildingPivot: {fileID: 1116368491524863706}
+  gridMaterial: {fileID: 0}
+  gridInvalidMaterial: {fileID: 0}
+  gridRenderer: {fileID: 0}
+  unitDatabase: {fileID: 11400000, guid: 7b2d6afe1bcdbe44b896705c8bea3310, type: 2}
+  productionPoint: {fileID: 6229381567119990789}
+--- !u!1 &1069127436129662481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6229381567119990789}
+  m_Layer: 12
+  m_Name: ProductionPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6229381567119990789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069127436129662481}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -5.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2427247744012558070}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7085075449768414073
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,8 +161,8 @@ Transform:
   m_GameObject: {fileID: 7085075449768414073}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 6.34853, y: 10, z: 7.4832134}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2427247744012558070}
@@ -162,6 +217,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &9105619560524749833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1116368491524863706}
+  m_Layer: 12
+  m_Name: BuildingPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1116368491524863706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105619560524749833}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.5, y: 0, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2427247744012558070}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7222449256725882134
 PrefabInstance:
   m_ObjectHideFlags: 0

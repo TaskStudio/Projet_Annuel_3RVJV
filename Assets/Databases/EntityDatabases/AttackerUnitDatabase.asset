@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: AttackerUnitDatabase
   m_EditorClassIdentifier: 
   units:
-  - <ID>k__BackingField: UNIT-0
-    <DisplayName>k__BackingField: Gatherer
-    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: c80ed14e0291b394ab5aad6666c1adea, type: 3}
+  - <ID>k__BackingField: ATT-0
+    <DisplayName>k__BackingField: Melee Attacker
+    <Prefab>k__BackingField: {fileID: 5958782774982900186, guid: 1d61e372c2d3e4a4faa963abd69a52bf, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
     <ResourceType>k__BackingField: 0
     <PoolingAmount>k__BackingField: 20
-  - <ID>k__BackingField: UNIT-1
+  - <ID>k__BackingField: ATT-1
     <DisplayName>k__BackingField: Ranged Attacker
     <Prefab>k__BackingField: {fileID: 1924810265763771149, guid: 5d002feae54ec944cb353f706d3fdb53, type: 3}
     <ProductionTime>k__BackingField: 1

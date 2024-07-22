@@ -11,6 +11,7 @@ public class PrefabInstantiator : MonoBehaviour
 
     private void Start()
     {
+        if (jsonFile == null) return;
         DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
         FileInfo[] files = directoryInfo.GetFiles("*.json");
         FileInfo latestFile = null;
