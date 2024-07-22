@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3356437002993323852
+--- !u!1 &1543887012096316004
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5231250223401546731}
-  m_Layer: 0
-  m_Name: ProductionPoint
+  - component: {fileID: 8853416511496479623}
+  m_Layer: 8
+  m_Name: BuildingPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5231250223401546731
+--- !u!4 &8853416511496479623
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3356437002993323852}
+  m_GameObject: {fileID: 1543887012096316004}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.5, y: 0, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -231,7 +231,7 @@ Transform:
   - {fileID: 5219695713884791933}
   - {fileID: 999670199878094893}
   - {fileID: 6424579902492007237}
-  - {fileID: 5231250223401546731}
+  - {fileID: 8853416511496479623}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &540410048715941565
@@ -272,6 +272,7 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 8256754079479746190}
   actionList: []
+  buildingPivot: {fileID: 8853416511496479623}
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f,
     type: 2}

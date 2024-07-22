@@ -5,7 +5,6 @@ public class SaveInfoToJson : MonoBehaviour
 {
     public string filePath = Application.dataPath + "/Resources/";
     private BuildingManager buildingManager;
-    private MovableEntityManager movableEntityManager;
 
     private void Update()
     {
@@ -16,9 +15,8 @@ public class SaveInfoToJson : MonoBehaviour
     {
         int saveNumber = 1;
         buildingManager = BuildingManager.Instance;
-        movableEntityManager = MovableEntityManager.Instance;
 
-        if (buildingManager == null || movableEntityManager == null)
+        if (buildingManager == null)
         {
             Debug.LogError("One of the managers is null.");
             return;

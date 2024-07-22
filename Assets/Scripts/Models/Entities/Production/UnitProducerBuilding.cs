@@ -11,6 +11,12 @@ public class UnitProducerBuilding : Building
     private readonly Queue<string> productionQueue = new();
     private float currentProductionTime { get; set; }
 
+    private void Start()
+    {
+        if (mapEditContext)
+            actionList.Clear();
+    }
+
     private new void Update()
     {
         base.Update();

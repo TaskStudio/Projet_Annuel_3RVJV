@@ -149,7 +149,10 @@ MonoBehaviour:
   id: 
   healthBar: {fileID: 3100589793125639974}
   actionList: []
-  unitCollider: {fileID: 0}
+  previewMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
+  objectRenderer: {fileID: 7972011472119891752}
   avoidanceStrength: 5
   collisionRadius: 0
   manaBar: {fileID: 0}
@@ -174,5 +177,10 @@ MonoBehaviour:
 --- !u!1 &6961670147184191123 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8381772203177393102, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
+  m_PrefabInstance: {fileID: 1499377018313858397}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7972011472119891752 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8821598694184901237, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
   m_PrefabInstance: {fileID: 1499377018313858397}
   m_PrefabAsset: {fileID: 0}

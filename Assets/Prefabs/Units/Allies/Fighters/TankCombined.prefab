@@ -160,6 +160,10 @@ MonoBehaviour:
   addressableKey: UNIT-4
   healthBar: {fileID: 3444475401460012640}
   actionList: []
+  previewMaterial: {fileID: 2100000, guid: 055699148a2fa4d4c82fe6b7ad19faa7, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 055699148a2fa4d4c82fe6b7ad19faa7, type: 2}
+  objectRenderer: {fileID: 8448419933089615376}
   avoidanceStrength: 5
   collisionRadius: 2
   manaBar: {fileID: 7181683832276868236}

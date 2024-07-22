@@ -15,8 +15,8 @@ MonoBehaviour:
   objectName: Tank factory
   description: 
   image: {fileID: 0}
-  faction: 0
-  maxHealthPoints: 0
+  faction: 1
+  maxHealthPoints: 100
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5

@@ -44,6 +44,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae2afa8940b85b48b79ad4963e5eb7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4628948745296652729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6954553964423282392}
+  - component: {fileID: 8507007879201759617}
+  - component: {fileID: 7635218214917226587}
+  m_Layer: 0
+  m_Name: EscapeMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6954553964423282392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628948745296652729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1716470959781778099}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8507007879201759617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628948745296652729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 74a7e615d6b18ea41a5a45f3756ecbf7, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: cb24f4bfe3e80bc4d8fe977808215bb8, type: 3}
+  m_SortingOrder: 9999
+--- !u!114 &7635218214917226587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628948745296652729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38aaf83db43e4bf44ab978ffcaade081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escapeMenuDocument: {fileID: 8507007879201759617}
+  mainMenuScene: MainMenuScene
 --- !u!1 &6178091944627248252
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,8 +118,8 @@ GameObject:
   - component: {fileID: 245611335847872609}
   - component: {fileID: 6369227974760966676}
   - component: {fileID: 3892608971974218525}
-  - component: {fileID: 231734974414606919}
-  - component: {fileID: 7073370037587450669}
+  - component: {fileID: 7043565136944400999}
+  - component: {fileID: 675459592527429485}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -94,7 +157,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 74a7e615d6b18ea41a5a45f3756ecbf7, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: a2765e12917367e47bd216260ed0c0ef, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 9997
 --- !u!114 &3892608971974218525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,9 +171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimapRawImage: {fileID: 0}
-  resourcesDocument: {fileID: 0}
-  buildingsUIManager: {fileID: 0}
---- !u!114 &231734974414606919
+  resourcesDocument: {fileID: 7530181046092977070}
+  buildingsUIManager: {fileID: 675459592527429485}
+  mapEditorContext: 0
+--- !u!114 &7043565136944400999
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0bca894ba5741b43953c99f54c03fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7073370037587450669
+  mapEditorMode: 0
+  unitPlacementSystem: {fileID: 0}
+--- !u!114 &675459592527429485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,6 +237,7 @@ Transform:
   - {fileID: 4081952119692189857}
   - {fileID: 6416394524580738952}
   - {fileID: 4974044784669536194}
+  - {fileID: 6954553964423282392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7034934636628633840

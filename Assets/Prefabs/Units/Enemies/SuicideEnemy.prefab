@@ -188,6 +188,10 @@ MonoBehaviour:
   addressableKey: EN-1
   healthBar: {fileID: 8979344478090658989}
   actionList: []
+  previewMaterial: {fileID: 2100000, guid: 38d5530b12d0bdc4e8285d8f2be5ab7b, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 38d5530b12d0bdc4e8285d8f2be5ab7b, type: 2}
+  objectRenderer: {fileID: 5459599967771647884}
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 7427183694568750221}

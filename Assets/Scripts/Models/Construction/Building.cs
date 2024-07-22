@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [Serializable]
 public class Building : Entity
@@ -13,13 +13,7 @@ public class Building : Entity
     }
 
     [Header("Building")]
-    [SerializeField] private Material previewMaterial;
-    [SerializeField] private Material previewInvalidMaterial;
-    [SerializeField] private Material buildingMaterial;
-    [Space(5)]
-    [SerializeField] private MeshRenderer objectRenderer;
-    // public MonoBehaviour behavior;
-
+    public Transform buildingPivot;
 
     [Space(10)] [Header("Grid")]
     [SerializeField] private Material gridMaterial;
@@ -30,6 +24,8 @@ public class Building : Entity
     private BuildingManager buildingManager;
     private float constructionTime;
     public BuildingStates state { get; internal set; }
+    public Vector3 pivotOffset { get; private set; }
+    public List<Vector3Int> occupiedGridPositions { get; set; }
     public Vector2Int Size { get; set; }
 
     private void Awake()
@@ -43,8 +39,14 @@ public class Building : Entity
         {
             constructionTime -= Time.deltaTime;
             if (constructionTime <= 0)
-                FinishConstruction();
+                Place();
         }
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        pivotOffset = buildingPivot.position - transform.position;
     }
 
     public void SetGridCellSize(float cellSize)
@@ -54,22 +56,18 @@ public class Building : Entity
     }
 
 
-    internal void PreviewValid()
+    internal new void PreviewValid()
     {
+        base.PreviewValid();
         state = BuildingStates.Preview;
-        objectRenderer.materials = new[] { previewMaterial };
         gridRenderer.materials = new[] { gridMaterial };
-        objectRenderer.shadowCastingMode = ShadowCastingMode.Off;
-        objectRenderer.receiveShadows = false;
     }
 
-    internal void PreviewInvalid()
+    internal new void PreviewInvalid()
     {
+        base.PreviewInvalid();
         state = BuildingStates.Preview;
-        objectRenderer.materials = new[] { previewInvalidMaterial };
         gridRenderer.materials = new[] { gridInvalidMaterial };
-        objectRenderer.shadowCastingMode = ShadowCastingMode.Off;
-        objectRenderer.receiveShadows = false;
     }
 
     internal void StartConstruction(float constructionTime)
@@ -79,12 +77,10 @@ public class Building : Entity
         gridRenderer.enabled = false;
     }
 
-    internal void FinishConstruction()
+    internal new void Place()
     {
+        base.Place();
         state = BuildingStates.Constructed;
-        objectRenderer.materials = new[] { buildingMaterial };
-        objectRenderer.shadowCastingMode = ShadowCastingMode.On;
-        objectRenderer.receiveShadows = true;
     }
 
     protected override void Initialize()

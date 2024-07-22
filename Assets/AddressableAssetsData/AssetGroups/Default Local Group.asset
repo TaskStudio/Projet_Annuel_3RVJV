@@ -42,18 +42,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 520b403228ff2144cadd2c87bc189a96
-    m_Address: RES-1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b5d3fad4c0e6b2c4caf96826575fa4cf
-    m_Address: Assets/Prefabs/Units/Allies/Fighters/Support.prefab
+    m_Address: UNIT-2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f0eaa09c3abf0b4786105182bad5b7b
-    m_Address: Assets/Prefabs/Units/Allies/Fighters/TankCombined.prefab
+    m_Address: UNIT-4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -99,6 +94,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e3f3ceec0c449e341b40f8ea81e403c9
     m_Address: NEX-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39357bcf2b2eacb40a8aefb434c321a6
+    m_Address: RES-1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

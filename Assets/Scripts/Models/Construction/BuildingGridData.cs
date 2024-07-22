@@ -11,16 +11,24 @@ public class BuildingGridData : IGridData
         return placedObjects.ContainsKey(gridPosition);
     }
 
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int placedObjectIndex)
+    public List<Vector3Int> AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID)
     {
         List<Vector3Int> positionsToOccupy = CalculatePosition(gridPosition, objectSize);
-        var data = new PlacementData(positionsToOccupy, placedObjectIndex);
+        var data = new PlacementData(positionsToOccupy, ID);
         foreach (Vector3Int pos in positionsToOccupy)
         {
             if (placedObjects.ContainsKey(pos))
                 throw new Exception($"Position {pos} is already occupied");
             placedObjects[pos] = data;
         }
+
+        return positionsToOccupy;
+    }
+
+    public void RemoveObjectAt(List<Vector3Int> gridPositions)
+    {
+        foreach (Vector3Int pos in gridPositions)
+            placedObjects.Remove(pos);
     }
 
     private List<Vector3Int> CalculatePosition(Vector3Int gridPosition, Vector2Int objectSize)
@@ -46,11 +54,11 @@ public class PlacementData
 {
     public List<Vector3Int> occupiedPositions;
 
-    public PlacementData(List<Vector3Int> occupiedPositions, int placedObjectIndex)
+    public PlacementData(List<Vector3Int> occupiedPositions, int ID)
     {
         this.occupiedPositions = occupiedPositions;
-        PlacedObjectIndex = placedObjectIndex;
+        this.ID = ID;
     }
 
-    public int PlacedObjectIndex { get; }
+    public int ID { get; }
 }

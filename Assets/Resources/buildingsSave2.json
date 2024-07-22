@@ -1,0 +1,26 @@
+{
+    "objects": [
+        {
+            "role": "unit",
+            "type": "Support",
+            "name": "Support(Clone)",
+            "position": {
+                "x": 0.7471255660057068,
+                "y": 1.2043712495644518e-17,
+                "z": -4.339204788208008
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "addressableKey": "UNIT-2",
+            "ID": "UNIT-3",
+            "size": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    ]
+}
