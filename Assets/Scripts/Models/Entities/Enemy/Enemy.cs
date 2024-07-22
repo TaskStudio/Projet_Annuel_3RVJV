@@ -99,7 +99,11 @@ public class Enemy : Fighter
 
             // Check if close enough to attack
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-            if (distanceToTarget < Data.attackRange) currentState = State.Attacking;
+            if (distanceToTarget < Data.attackRange)
+            {
+                Stop();
+                currentState = State.Attacking;
+            }
         }
         else
         {

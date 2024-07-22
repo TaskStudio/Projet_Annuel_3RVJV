@@ -28,7 +28,7 @@ public class Building : Entity
     public List<Vector3Int> occupiedGridPositions { get; set; }
     public Vector2Int Size { get; set; }
 
-    public void Update()
+    protected virtual void Update()
     {
         if (state == BuildingStates.Constructing)
         {
