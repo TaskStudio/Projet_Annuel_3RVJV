@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: EnemyNexusData
   m_EditorClassIdentifier: 
   objectName: Enemy nexus
-  description: 
-  image: {fileID: 0}
-  faction: 0
+  description: Destroy it
+  image: {fileID: 2800000, guid: f497130a6227131438183777463a5c95, type: 3}
+  faction: 3
   maxHealthPoints: 1000
   maxManaPoints: 0
   attackSpeed: 1
