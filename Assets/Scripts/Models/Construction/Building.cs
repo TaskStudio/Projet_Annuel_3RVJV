@@ -79,10 +79,6 @@ public class Building : Entity
         AddToBuildingManager();
     }
 
-    protected override void Initialize()
-    {
-    }
-
     public void AddToBuildingManager()
     {
         BuildingManager.Instance.AddBuilding(this);
