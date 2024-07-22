@@ -28,11 +28,6 @@ public class Building : Entity
     public List<Vector3Int> occupiedGridPositions { get; set; }
     public Vector2Int Size { get; set; }
 
-    private void Awake()
-    {
-        AddToBuildingManager();
-    }
-
     public void Update()
     {
         if (state == BuildingStates.Constructing)
@@ -81,6 +76,7 @@ public class Building : Entity
     {
         base.Place();
         state = BuildingStates.Constructed;
+        AddToBuildingManager();
     }
 
     protected override void Initialize()
