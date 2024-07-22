@@ -136,6 +136,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: e18b69ace3794154bb082854133170ca, type: 2}
   model: {fileID: 3977050421262036965}
   id: 
+  addressableKey: RES-1
   healthBar: {fileID: 1504123104671043873}
   actionList: []
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}

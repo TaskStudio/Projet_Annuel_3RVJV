@@ -1,10 +1,14 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ActionsUIManager : MonoBehaviour
 {
     public static ActionsUIManager Instance;
+    public bool mapEditorMode;
+
+    [SerializeField] [CanBeNull] private UnitPlacementSystem unitPlacementSystem;
 
     private VisualElement actionsContainer;
 
@@ -34,13 +38,17 @@ public class ActionsUIManager : MonoBehaviour
 
         // Hide the actions container initially
         actionsContainer.style.display = DisplayStyle.None;
+
+        if (mapEditorMode) UpdateActionButtons(new List<EntityAction>());
     }
 
     public void UpdateActionButtons(List<EntityAction> actions)
     {
+        if (mapEditorMode) actions = unitPlacementSystem?.unitsProductionOrders;
+
         actionsContainer.Clear();
 
-        if (actions.Count > 0)
+        if (actions?.Count > 0)
         {
             // Show the actions container
             actionsContainer.style.display = DisplayStyle.Flex;

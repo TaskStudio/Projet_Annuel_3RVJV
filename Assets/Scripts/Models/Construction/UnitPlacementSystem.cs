@@ -8,7 +8,7 @@ public class UnitPlacementSystem : MonoBehaviour
     [SerializeField] private MouseControl mouseControl;
     [SerializeField] private LayerMask forbiddenLayers;
     [SerializeField] private UnitDatabaseSO unitDatase;
-    [SerializeField] private List<EntityAction> unitsProductionOrders;
+    public List<EntityAction> unitsProductionOrders;
 
     private bool isUnitSelected;
     private Unit selectedUnit;
