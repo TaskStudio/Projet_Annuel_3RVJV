@@ -82,6 +82,8 @@ public class PlacementSystem : MonoBehaviour
         selectedBuilding = Instantiate(buildingData.Prefab);
         selectedBuilding.SetGridCellSize(cellSize);
         selectedBuilding.PreviewValid();
+        selectedBuilding.mapEditContext = mapEditionMode;
+
 
         isBuildingSelected = selectedBuilding != null;
         StartCoroutine(DelayedAddMouseEvents());

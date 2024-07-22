@@ -10,9 +10,14 @@ public class UIManager : MonoBehaviour
     public UIDocument resourcesDocument;
     public BuildingsUIManager buildingsUIManager;
 
+    public bool mapEditorContext;
+
     private readonly List<BaseObject> selectedProfiles = new();
 
     public VisualElement actionsPanel;
+    public VisualElement buildingActionsContainer;
+
+    public VisualElement buildingList;
     public VisualElement characterPanel;
     public VisualElement faceContainer;
     private bool isMouseOverUI;
@@ -20,9 +25,6 @@ public class UIManager : MonoBehaviour
     public VisualElement selectedEntitiesList;
     public VisualElement selectedPanel;
     public VisualElement statisticsScrollView;
-
-    public VisualElement buildingList;
-    public VisualElement buildingActionsContainer;
 
     public static UIManager Instance { get; private set; }
 
@@ -66,9 +68,15 @@ public class UIManager : MonoBehaviour
         buildingList = rootVisualElement.Q<VisualElement>("BuildingList");
         buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
 
-        if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
-            characterPanel == null || selectedPanel == null || resourcesPanel == null || actionsPanel == null ||
-            buildingList == null || buildingActionsContainer == null)
+        if (selectedEntitiesList == null
+            || statisticsScrollView == null
+            || faceContainer == null
+            || characterPanel == null
+            || selectedPanel == null
+            || resourcesPanel == null
+            || actionsPanel == null
+            || buildingList == null
+            || buildingActionsContainer == null)
         {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
@@ -85,6 +93,8 @@ public class UIManager : MonoBehaviour
         selectedPanel.style.display = DisplayStyle.None;
         buildingList.style.display = DisplayStyle.None;
         buildingActionsContainer.style.display = DisplayStyle.None;
+
+        if (mapEditorContext) buildingList.style.display = DisplayStyle.Flex;
 
         RegisterRawImageHoverEvents();
     }
@@ -136,10 +146,11 @@ public class UIManager : MonoBehaviour
 
         selectedPanel.style.display = hasSelectedEntities ? DisplayStyle.Flex : DisplayStyle.None;
 
-        if (hasSelectedEntities && newSelectedProfiles[0] is Nexus)
+        if ((hasSelectedEntities && newSelectedProfiles[0] is Nexus) || mapEditorContext)
         {
             buildingList.style.display = DisplayStyle.Flex;
             selectedPanel.style.display = DisplayStyle.None;
+            if (mapEditorContext) buildingsUIManager.ClearButtonSelection();
         }
         else
         {

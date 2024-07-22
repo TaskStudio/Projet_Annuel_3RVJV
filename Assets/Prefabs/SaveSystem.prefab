@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad27c9999a249618a71b675f8601ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: Assets/Resources/buildings.json
+  filePath: Assets/Resources/buildings
 --- !u!114 &6030592309163200834
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,10 @@ public abstract class Unit : Entity
 {
     protected static SpatialGrid spatialGrid;
 
+    private static Collider[] potentialColliders = new Collider[50];
+    private static NativeArray<Vector3> unitPositions;
+    private static NativeArray<Vector3> avoidanceVectorArray;
+
     [Space(10)] [Header("Movement")]
     [SerializeField] protected float avoidanceStrength = 5f;
     [SerializeField] protected float collisionRadius = 1f;
@@ -20,6 +24,7 @@ public abstract class Unit : Entity
     private Vector3 avoidanceVector;
     private bool isMoving;
     private Vector3 lastPosition;
+
     private bool needsCollisionAvoidance;
     private Vector3 originalTargetPosition;
     protected bool reachedDestination;
@@ -27,10 +32,6 @@ public abstract class Unit : Entity
     protected Vector3 targetPosition;
 
     private Unit unitImplementation;
-
-    private static Collider[] potentialColliders = new Collider[50];
-    private static NativeArray<Vector3> unitPositions;
-    private static NativeArray<Vector3> avoidanceVectorArray;
 
     public int currentMana { get; protected set; }
     public float movementSpeed { get; protected set; } = 0.5f;
@@ -40,13 +41,13 @@ public abstract class Unit : Entity
 
     protected void Start()
     {
+        UnitsManager.Instance.RegisterMovableEntity(this);
+        if (mapEditContext) return;
         if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
 
         spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        if (this is Ally)
-            UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
 
@@ -56,7 +57,7 @@ public abstract class Unit : Entity
 
     protected virtual void Update()
     {
-        if (this == null || gameObject == null || !gameObject.activeInHierarchy)
+        if (this == null || gameObject == null || !gameObject.activeInHierarchy || mapEditContext)
             return; // Early exit if the unit is destroyed or inactive
 
         spatialGrid.Update(this, lastPosition);
@@ -90,6 +91,14 @@ public abstract class Unit : Entity
         avoidanceVector = Vector3.zero;
     }
 
+    private void OnDestroy()
+    {
+        if (unitPositions.IsCreated)
+            unitPositions.Dispose();
+        if (avoidanceVectorArray.IsCreated)
+            avoidanceVectorArray.Dispose();
+    }
+
     private Vector3 AvoidCollisions()
     {
         int numColliders = Physics.OverlapSphereNonAlloc(transform.position, collisionRadius, potentialColliders);
@@ -99,10 +108,7 @@ public abstract class Unit : Entity
             unitPositions = new NativeArray<Vector3>(numColliders, Allocator.Persistent);
         }
 
-        for (int i = 0; i < numColliders; i++)
-        {
-            unitPositions[i] = potentialColliders[i].transform.position;
-        }
+        for (int i = 0; i < numColliders; i++) unitPositions[i] = potentialColliders[i].transform.position;
 
         var job = new AvoidCollisionsJob
         {
@@ -117,14 +123,6 @@ public abstract class Unit : Entity
         handle.Complete();
 
         return targetPosition + avoidanceVectorArray[0];
-    }
-
-    private void OnDestroy()
-    {
-        if (unitPositions.IsCreated)
-            unitPositions.Dispose();
-        if (avoidanceVectorArray.IsCreated)
-            avoidanceVectorArray.Dispose();
     }
 
     public new void SignalDeath()

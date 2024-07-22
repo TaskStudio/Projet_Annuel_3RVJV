@@ -35,7 +35,11 @@ public class UnitPlacementSystem : MonoBehaviour
     private void OnEnable()
     {
         foreach (var unit in unitDatase.units)
-            unitsProductionOrders.Add(new EntityAction(unit.DisplayName, () => StartPlacement(unit.ID)));
+        {
+            var unitID = unit.ID;
+            var action = new EntityAction(unit.DisplayName, () => StartPlacement(unitID));
+            unitsProductionOrders.Add(action);
+        }
     }
 
     public void StartPlacement(string unitID)
@@ -44,6 +48,7 @@ public class UnitPlacementSystem : MonoBehaviour
 
         selectedUnit = UnitFactory.SpawnEntity(unitID, new Vector3(0, 0, 0), unitDatase);
         selectedUnit.PreviewValid();
+        selectedUnit.mapEditContext = true;
 
         isUnitSelected = selectedUnit != null;
         StartCoroutine(DelayedAddMouseEvents());

@@ -57,8 +57,16 @@ public class ActionsUIManager : MonoBehaviour
             {
                 var actionButton = new Button { text = actions[i].actionName };
                 actionButton.AddToClassList("actionButton");
-                var actionIndex = i; // Capture the current index for the callback
-                actionButton.clicked += () => OnActionButtonClicked(actionIndex);
+                if (mapEditorMode)
+                {
+                    actionButton.clicked += actions[i].action.Invoke;
+                }
+                else
+                {
+                    var actionIndex = i; // Capture the current index for the callback
+                    actionButton.clicked += () => OnActionButtonClicked(actionIndex);
+                }
+
                 actionsContainer.Add(actionButton);
             }
         }

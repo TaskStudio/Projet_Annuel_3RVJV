@@ -14,7 +14,8 @@ public class Enemy : Fighter
     protected virtual void Start()
     {
         base.Start();
-        StartCoroutine(BehaviorTree());
+        if (!mapEditContext)
+            StartCoroutine(BehaviorTree());
     }
 
     protected override void Die()

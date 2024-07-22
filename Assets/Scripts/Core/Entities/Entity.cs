@@ -37,6 +37,7 @@ public abstract class Entity : BaseObject
     [Space(5)]
     [SerializeField] protected MeshRenderer objectRenderer;
 
+    public bool mapEditContext;
     private Collider entityCollider;
 
     public List<Unit> targetedBy { get; } = new();
@@ -163,6 +164,7 @@ public abstract class Entity : BaseObject
 
     internal void Place()
     {
+        Initialize();
         objectRenderer.materials = new[] { placedMaterial };
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
