@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EnemyFactoryData
   m_EditorClassIdentifier: 
   objectName: Enemy factory
-  description: 
-  image: {fileID: 0}
+  description: Destroy it as soon as possible !
+  image: {fileID: 2800000, guid: 05c285f5ffc49af458fd5b3644456b64, type: 3}
   faction: 3
   maxHealthPoints: 100
   maxManaPoints: 0
