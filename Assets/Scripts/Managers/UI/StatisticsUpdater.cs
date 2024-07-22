@@ -34,8 +34,6 @@ public class StatisticsUpdater : MonoBehaviour
 
         if (profile is Entity entity)
         {
-            var entityData = entity.Data;
-
             if (entity.currentHealth != 0)
             {
                 var hpLabel = new Label { text = "HP : " + entity.currentHealth };
