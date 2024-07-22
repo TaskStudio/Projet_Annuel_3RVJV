@@ -142,3 +142,11 @@
     background-color: rgb(229, 68, 68);
     color: rgb(231, 231, 231);
 }
+
+.resourceCost {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    position: absolute;
+    left: 1049px;
+    top: 162px;
+}
