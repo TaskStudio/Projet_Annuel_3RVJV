@@ -9,6 +9,13 @@ public struct EntityAction
 {
     public string actionName;
     public UnityEvent action;
+
+    public EntityAction(string actionName, UnityAction action)
+    {
+        this.actionName = actionName;
+        this.action = new UnityEvent();
+        this.action.AddListener(action);
+    }
 }
 
 public abstract class Entity : BaseObject
@@ -30,7 +37,7 @@ public abstract class Entity : BaseObject
     [SerializeField] protected Material placedMaterial;
     [Space(5)]
     [SerializeField] protected MeshRenderer objectRenderer;
-    
+
     private Collider entityCollider;
     public List<Unit> targetedBy { get; } = new();
 
