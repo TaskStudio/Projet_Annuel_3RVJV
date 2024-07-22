@@ -69,6 +69,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2ae6e49b2d0543b439479edd5d144f39, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: addressableKey
+      value: FAC-3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: entityDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 2ae6e49b2d0543b439479edd5d144f39, type: 2}

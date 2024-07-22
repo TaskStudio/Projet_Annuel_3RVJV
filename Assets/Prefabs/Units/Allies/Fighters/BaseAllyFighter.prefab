@@ -156,15 +156,16 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: c9dc8e922e5e78643a838a27d244d6c3, type: 2}
   model: {fileID: 5243948296936631734}
   id: 
+  addressableKey: 
   healthBar: {fileID: 1828465403883388758}
   actionList: []
-  unitCollider: {fileID: 0}
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 0}
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
+  attackParticleSystem: {fileID: 0}
 --- !u!1001 &1689041039758338548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272,6 +273,10 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.b

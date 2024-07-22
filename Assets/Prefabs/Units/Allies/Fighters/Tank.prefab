@@ -157,6 +157,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 5605f44563a991746a6f0098b9306045, type: 2}
   model: {fileID: 5030648350073043957}
   id: 
+  addressableKey: UNIT-3
   healthBar: {fileID: 1354686690878044002}
   actionList: []
   avoidanceStrength: 5
@@ -165,6 +166,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
+  attackParticleSystem: {fileID: 0}
   combinedTankPrefab: {fileID: 2884455645672525367, guid: 4f0eaa09c3abf0b4786105182bad5b7b, type: 3}
   tauntRadius: 10
 --- !u!1001 &2079675832781595072
@@ -286,6 +288,10 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5397275390488861032, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Layer

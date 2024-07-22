@@ -93,9 +93,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: addressableKey
+      value: FAC-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: entityDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: buildingMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c83b43f3cc47d3d459315dd19dbe591b, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: actionList.Array.size
       value: 1

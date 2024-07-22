@@ -55,6 +55,8 @@ GameObject:
   - component: {fileID: 245611335847872609}
   - component: {fileID: 6369227974760966676}
   - component: {fileID: 3892608971974218525}
+  - component: {fileID: 231734974414606919}
+  - component: {fileID: 7073370037587450669}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -107,6 +109,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimapRawImage: {fileID: 0}
   resourcesDocument: {fileID: 0}
+  buildingsUIManager: {fileID: 0}
+--- !u!114 &231734974414606919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178091944627248252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0bca894ba5741b43953c99f54c03fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7073370037587450669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178091944627248252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32db965adf974a548bb248a349141fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingDatabases:
+  - {fileID: 11400000, guid: b938538afdcb63c4b82b25bea14e6d92, type: 2}
+  - {fileID: 11400000, guid: f3e62add53f0a2042b7bb6fa1aad6096, type: 2}
+  placementSystem: {fileID: 0}
 --- !u!1 &6344871003311131149
 GameObject:
   m_ObjectHideFlags: 0

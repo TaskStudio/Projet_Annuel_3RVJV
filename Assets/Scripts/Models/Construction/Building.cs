@@ -27,8 +27,15 @@ public class Building : Entity
     [Space(5)]
     [SerializeField] private MeshRenderer gridRenderer;
 
+    private BuildingManager buildingManager;
     private float constructionTime;
     public BuildingStates state { get; internal set; }
+    public Vector2Int Size { get; set; }
+
+    private void Awake()
+    {
+        AddToBuildingManager();
+    }
 
     public void Update()
     {
@@ -78,6 +85,15 @@ public class Building : Entity
         objectRenderer.materials = new[] { buildingMaterial };
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
+    }
+
+    protected override void Initialize()
+    {
+    }
+
+    public void AddToBuildingManager()
+    {
+        BuildingManager.Instance.AddBuilding(this);
     }
 
     protected override void Die()

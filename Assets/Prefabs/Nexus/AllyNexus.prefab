@@ -122,6 +122,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: ed8568beebc765042aeea643246f0ea4, type: 2}
   model: {fileID: 102139487979630628}
   id: 
+  addressableKey: NEX-0
   healthBar: {fileID: 7650460376143459252}
   actionList: []
 --- !u!1001 &7222449256725882134
@@ -235,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.b

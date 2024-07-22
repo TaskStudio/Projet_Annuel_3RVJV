@@ -14,20 +14,22 @@ public abstract class Entity : BaseObject
 {
     protected static Dictionary<Collider, Entity> colliderToEntityMap = new();
 
-    [Space(10)] [Header("ID")] [ShowOnly] [SerializeField]
-    private string id;
+    [Space(10)] [Header("ID")]
+    [ShowOnly] [SerializeField] private string id;
+    [SerializeField] private string addressableKey;
 
     [Space(10)] [Header("Display")] [SerializeField]
     private HealthBar healthBar;
-
     [Space(10)] [Header("Actions")] public List<EntityAction> actionList;
 
     private Collider entityCollider;
+
     public List<Unit> targetedBy { get; } = new();
 
     public int currentHealth { get; protected set; }
 
     public string ID { get; private set; }
+    public string AddressableKey => addressableKey;
 
     private void Awake()
     {
@@ -86,7 +88,7 @@ public abstract class Entity : BaseObject
 
     public float GetMissingHealthPercentage()
     {
-        return (float)currentHealth / Data.maxHealthPoints;
+        return (float) currentHealth / Data.maxHealthPoints;
     }
 
     public virtual void TakeDamage(int damage)

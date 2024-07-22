@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: aa87a399be9d6b84c9b0d0ed1a769fab
+  m_SerializeEntries:
+  - m_GUID: 06e1a04ae2b224047afbcd6fadba2d82
+    m_Address: FAC-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d61e372c2d3e4a4faa963abd69a52bf
+    m_Address: UNIT-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d002feae54ec944cb353f706d3fdb53
+    m_Address: UNIT-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 479837c5a94d6b04caedf1998363920e
+    m_Address: UNIT-3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28f3dda58887b8b478f9b93965632a36
+    m_Address: RES-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 520b403228ff2144cadd2c87bc189a96
+    m_Address: RES-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5d3fad4c0e6b2c4caf96826575fa4cf
+    m_Address: Assets/Prefabs/Units/Allies/Fighters/Support.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f0eaa09c3abf0b4786105182bad5b7b
+    m_Address: Assets/Prefabs/Units/Allies/Fighters/TankCombined.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28e12f87b0586384fa4a6faf79e50c93
+    m_Address: EN-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a78d035ec10a16a46966a0cfc9d08576
+    m_Address: EN-2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e570e383126adb847bfec643b5b80c3e
+    m_Address: EN-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ee1a9fe58a62f64292bc124d186d725
+    m_Address: VIS-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2de3af85943d824c9eae80e03a96123
+    m_Address: FAC-2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25f3c0cf59813d8499791a05ed1d3af5
+    m_Address: FAC-3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0369693cd82a317469307315d3d4b0af
+    m_Address: FAC-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c91d07d0262ac3d4eaa632899f26d314
+    m_Address: NEX-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3f3ceec0c449e341b40f8ea81e403c9
+    m_Address: NEX-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1d166b1769095f34f91266708d113e2d, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7b124a3ad1292644eb0094515075658b, type: 2}
+    - {fileID: 11400000, guid: 26a748dae5cfc854f992c6c3c22d4be2, type: 2}
