@@ -15,7 +15,9 @@ public class UIManager : MonoBehaviour
     private readonly List<BaseObject> selectedProfiles = new();
 
     public VisualElement actionsPanel;
+    public VisualElement actionsScrollView;
     public VisualElement buildingActionsContainer;
+    public VisualElement buildingActionsScrollView;
 
     public VisualElement buildingList;
     public VisualElement characterPanel;
@@ -63,6 +65,9 @@ public class UIManager : MonoBehaviour
         buildingList = rootVisualElement.Q<VisualElement>("BuildingList");
         buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
 
+        buildingActionsScrollView = rootVisualElement.Q<VisualElement>("BuildingActionsScrollView");
+        actionsScrollView = rootVisualElement.Q<VisualElement>("ActionsScrollView");
+
         if (selectedEntitiesList == null
             || statisticsScrollView == null
             || faceContainer == null
@@ -71,7 +76,9 @@ public class UIManager : MonoBehaviour
             || resourcesPanel == null
             || actionsPanel == null
             || buildingList == null
-            || buildingActionsContainer == null)
+            || buildingActionsContainer == null
+            || buildingActionsScrollView == null
+            || actionsScrollView == null)
         {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
@@ -83,6 +90,8 @@ public class UIManager : MonoBehaviour
         RegisterHoverEvents(selectedPanel);
         RegisterHoverEvents(buildingList);
         RegisterHoverEvents(buildingActionsContainer);
+        RegisterHoverEvents(buildingActionsScrollView);
+        RegisterHoverEvents(actionsScrollView);
 
         characterPanel.style.display = DisplayStyle.None;
         selectedPanel.style.display = DisplayStyle.None;
@@ -137,7 +146,7 @@ public class UIManager : MonoBehaviour
     {
         SelectedEntityManager.Instance.UpdateSelectedEntities(newSelectedProfiles);
 
-        bool hasSelectedEntities = newSelectedProfiles.Count > 0;
+        var hasSelectedEntities = newSelectedProfiles.Count > 0;
 
         selectedPanel.style.display = hasSelectedEntities ? DisplayStyle.Flex : DisplayStyle.None;
 
