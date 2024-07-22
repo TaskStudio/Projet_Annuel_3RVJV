@@ -22,20 +22,23 @@ public abstract class Entity : BaseObject
 {
     protected static Dictionary<Collider, Entity> colliderToEntityMap = new();
 
-    [Space(10)] [Header("ID")]
-    [ShowOnly] [SerializeField] private string id;
+    [Space(10)] [Header("ID")] [ShowOnly] [SerializeField]
+    private string id;
+
     [SerializeField] private string addressableKey;
 
     [Space(10)] [Header("Display")] [SerializeField]
     private HealthBar healthBar;
+
     [Space(10)] [Header("Actions")] public List<EntityAction> actionList;
 
-    [Space(10)] [Header("Placement")]
-    [SerializeField] protected Material previewMaterial;
+    [Space(10)] [Header("Placement")] [SerializeField]
+    protected Material previewMaterial;
+
     [SerializeField] protected Material previewInvalidMaterial;
     [SerializeField] protected Material placedMaterial;
-    [Space(5)]
-    [SerializeField] protected MeshRenderer objectRenderer;
+
+    [Space(5)] [SerializeField] protected MeshRenderer objectRenderer;
 
     public bool mapEditContext;
     private Collider entityCollider;
@@ -91,9 +94,7 @@ public abstract class Entity : BaseObject
     {
         if (currentHealthPoints > Data.maxHealthPoints) currentHealth = Data.maxHealthPoints;
         else currentHealth = currentHealthPoints;
-
-        healthBar.SetValue(currentHealth);
-        healthBar.SetVisibility(currentHealth < Data.maxHealthPoints);
+        UpdateHealthBar();
     }
 
     public int GetMaxHealthPoints()
@@ -103,7 +104,7 @@ public abstract class Entity : BaseObject
 
     public float GetMissingHealthPercentage()
     {
-        return (float) currentHealth / Data.maxHealthPoints;
+        return (float)currentHealth / Data.maxHealthPoints;
     }
 
     public virtual void TakeDamage(int damage)
@@ -116,8 +117,7 @@ public abstract class Entity : BaseObject
             return;
         }
 
-        healthBar.SetValue(currentHealth);
-        healthBar.SetVisibility(currentHealth < Data.maxHealthPoints);
+        UpdateHealthBar();
     }
 
     public void SetID(string unitId)
@@ -137,8 +137,7 @@ public abstract class Entity : BaseObject
     protected override void Initialize()
     {
         currentHealth = Data.maxHealthPoints;
-        healthBar.Initialize(Data.maxHealthPoints);
-        healthBar.SetVisibility(false); // Ensure health bar is initially hidden
+        UpdateHealthBar();
     }
 
     protected void SetMaxHealthPoints(int maxHealthPoints)
@@ -168,5 +167,11 @@ public abstract class Entity : BaseObject
         objectRenderer.materials = new[] { placedMaterial };
         objectRenderer.shadowCastingMode = ShadowCastingMode.On;
         objectRenderer.receiveShadows = true;
+    }
+
+    protected void UpdateHealthBar()
+    {
+        healthBar.SetValue(currentHealth);
+        healthBar.SetVisibility(currentHealth < Data.maxHealthPoints);
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Destroy it as soon as possible !
   image: {fileID: 2800000, guid: 05c285f5ffc49af458fd5b3644456b64, type: 3}
   faction: 3
-  maxHealthPoints: 100
+  maxHealthPoints: 1200
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
