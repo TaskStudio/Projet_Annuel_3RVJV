@@ -103,6 +103,7 @@ MonoBehaviour:
   gridRenderer: {fileID: 0}
   unitDatabase: {fileID: 11400000, guid: 7b2d6afe1bcdbe44b896705c8bea3310, type: 2}
   productionPoint: {fileID: 6229381567119990789}
+  healthRegenPerSecond: 30
 --- !u!1 &1069127436129662481
 GameObject:
   m_ObjectHideFlags: 0
