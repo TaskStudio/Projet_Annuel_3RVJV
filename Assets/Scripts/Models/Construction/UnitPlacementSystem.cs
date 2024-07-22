@@ -8,7 +8,6 @@ public class UnitPlacementSystem : MonoBehaviour
     [SerializeField] private MouseControl mouseControl;
     [SerializeField] private LayerMask forbiddenLayers;
     [SerializeField] private UnitDatabaseSO unitDatase;
-
     [SerializeField] private List<EntityAction> unitsProductionOrders;
 
     private bool isUnitSelected;
@@ -31,6 +30,12 @@ public class UnitPlacementSystem : MonoBehaviour
                 selectedUnit.transform.position = worldMousePos;
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        foreach (var unit in unitDatase.units)
+            unitsProductionOrders.Add(new EntityAction(unit.DisplayName, () => StartPlacement(unit.ID)));
     }
 
     public void StartPlacement(string unitID)
