@@ -21,10 +21,17 @@ public class Building : Entity
     [Space(5)]
     [SerializeField] private MeshRenderer gridRenderer;
 
+    private BuildingManager buildingManager;
     private float constructionTime;
     public BuildingStates state { get; internal set; }
     public Vector3 pivotOffset { get; private set; }
     public List<Vector3Int> occupiedGridPositions { get; set; }
+    public Vector2Int Size { get; set; }
+
+    private void Awake()
+    {
+        AddToBuildingManager();
+    }
 
     public void Update()
     {
@@ -74,6 +81,15 @@ public class Building : Entity
     {
         base.Place();
         state = BuildingStates.Constructed;
+    }
+
+    protected override void Initialize()
+    {
+    }
+
+    public void AddToBuildingManager()
+    {
+        BuildingManager.Instance.AddBuilding(this);
     }
 
     protected override void Die()

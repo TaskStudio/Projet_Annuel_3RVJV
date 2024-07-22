@@ -5,11 +5,11 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager Instance;
 
-    private Dictionary<Resource.Type, int> totalResources = new();
-    
     public int startingWood;
     public int startingStone;
     public int startingGold;
+
+    private readonly Dictionary<Resource.Type, int> totalResources = new();
 
     private void Awake()
     {
@@ -48,13 +48,15 @@ public class ResourceManager : MonoBehaviour
 
     public bool RequestResource(Resource requestedResource)
     {
-        if (totalResources.ContainsKey(requestedResource.type) && totalResources[requestedResource.type] >= requestedResource.amount)
+        if (totalResources.ContainsKey(requestedResource.type) &&
+            totalResources[requestedResource.type] >= requestedResource.amount)
         {
             totalResources[requestedResource.type] -= requestedResource.amount;
             ResourceUIManager.Instance.UpdateResourceUI(totalResources);
-            StatManager.IncrementAllyRessourcesSpent(requestedResource);
+            StatManager.IncrementAllyResourcesSpent(requestedResource);
             return true;
         }
+
         return false;
     }
 

@@ -123,6 +123,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 6b57752eb3fde6947b821fe1bc224dc4, type: 2}
   model: {fileID: 4194938702115751844}
   id: 
+  addressableKey: NEX-1
   healthBar: {fileID: 8113232947772210531}
   actionList: []
 --- !u!114 &-6922424504565475117
@@ -139,7 +140,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suicideEnemyPrefab: {fileID: 3993162152066650152, guid: e570e383126adb847bfec643b5b80c3e, type: 3}
   attackingEnemyPrefab: {fileID: 3993162152066650152, guid: 28e12f87b0586384fa4a6faf79e50c93, type: 3}
-  spawnDelay: 2
+  enemyBossPrefab: {fileID: 3993162152066650152, guid: a78d035ec10a16a46966a0cfc9d08576, type: 3}
+  spawnDelay: 40
   enemyBase: {fileID: 5827434284738582729}
 --- !u!1001 &9117344042238110657
 PrefabInstance:
@@ -248,6 +250,10 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Color.b

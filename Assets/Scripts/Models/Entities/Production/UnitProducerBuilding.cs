@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class UnitProducerBuilding : Building
 {
-    [FormerlySerializedAs("entityDatabase")]
     [Space(10)] [Header("Production")]
     [SerializeField] private UnitDatabaseSO unitDatabase;
     [SerializeField] private Transform productionPoint;

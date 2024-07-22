@@ -24,12 +24,11 @@ public abstract class Entity : BaseObject
 
     [Space(10)] [Header("ID")]
     [ShowOnly] [SerializeField] private string id;
+    [SerializeField] private string addressableKey;
 
-    [Space(10)] [Header("Display")]
-    [SerializeField] private HealthBar healthBar;
-
-    [Space(10)] [Header("Actions")]
-    public List<EntityAction> actionList;
+    [Space(10)] [Header("Display")] [SerializeField]
+    private HealthBar healthBar;
+    [Space(10)] [Header("Actions")] public List<EntityAction> actionList;
 
     [Space(10)] [Header("Placement")]
     [SerializeField] protected Material previewMaterial;
@@ -39,10 +38,12 @@ public abstract class Entity : BaseObject
     [SerializeField] protected MeshRenderer objectRenderer;
 
     private Collider entityCollider;
+
     public List<Unit> targetedBy { get; } = new();
 
     public int currentHealth { get; protected set; }
     public string ID { get; private set; }
+    public string AddressableKey => addressableKey;
 
     private void Awake()
     {
@@ -71,10 +72,9 @@ public abstract class Entity : BaseObject
         if (targetedBy.Contains(unit)) targetedBy.Remove(unit);
     }
 
-
     public void SignalDeath()
     {
-        foreach (Unit unit in targetedBy)
+        foreach (var unit in targetedBy)
             if (unit != null)
                 unit.TargetIsDead(this);
 
@@ -92,6 +92,7 @@ public abstract class Entity : BaseObject
         else currentHealth = currentHealthPoints;
 
         healthBar.SetValue(currentHealth);
+        healthBar.SetVisibility(currentHealth < Data.maxHealthPoints);
     }
 
     public int GetMaxHealthPoints()
@@ -115,6 +116,7 @@ public abstract class Entity : BaseObject
         }
 
         healthBar.SetValue(currentHealth);
+        healthBar.SetVisibility(currentHealth < Data.maxHealthPoints);
     }
 
     public void SetID(string unitId)
@@ -131,11 +133,11 @@ public abstract class Entity : BaseObject
         return currentHealth <= 0;
     }
 
-
     protected override void Initialize()
     {
         currentHealth = Data.maxHealthPoints;
         healthBar.Initialize(Data.maxHealthPoints);
+        healthBar.SetVisibility(false); // Ensure health bar is initially hidden
     }
 
     protected void SetMaxHealthPoints(int maxHealthPoints)

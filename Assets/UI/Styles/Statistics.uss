@@ -1,0 +1,25 @@
+.statistic {
+    flex-direction: row;
+    font-size: 26px;
+    justify-content: space-between;
+    align-self: flex-start;
+    color: rgb(224, 224, 224);
+    width: 100%;
+}
+
+.panelButton {
+    font-size: 36px;
+    padding-top: 3px;
+    padding-right: 30px;
+    padding-bottom: 3px;
+    padding-left: 30px;
+}
+
+.panelButton:hover {
+    font-size: 36px;
+    padding-top: 3px;
+    padding-right: 30px;
+    padding-bottom: 3px;
+    padding-left: 30px;
+    color: rgb(61, 197, 36);
+}
