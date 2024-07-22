@@ -8,8 +8,9 @@ namespace FogOfWar
 {
     public class FogScript : MonoBehaviour
     {
-        private static readonly int GridSize = 512;
-        private static readonly float CellSize = 80.0f / GridSize;
+        
+        private static int GridSize = 512;
+        private static float CellSize;
         private static readonly float RevealRadius = 2.5f;
         private static readonly float RevealRadiusResourceStorages = 5.0f;
         private static readonly float RevealRadiusVisionTowers = 15.0f;
@@ -45,9 +46,21 @@ namespace FogOfWar
         private ComputeBuffer _visionTowerPositionBuffer;
         private int _visionTowerPositionsID;
         private List<Building> _visionTowers;
-
+        public GameObject GroundPlane;
+        public GameObject Plane;
+        
         private void Start()
         {
+            computeShader.SetFloat("groundPlaneScaleX", GroundPlane.transform.localScale.x);
+            computeShader.SetFloat("groundPlaneScaleZ", GroundPlane.transform.localScale.z);
+
+            
+            if (GroundPlane != null && Plane != null)
+            {
+                Plane.transform.localScale = GroundPlane.transform.localScale;
+                CellSize = GroundPlane.transform.localScale.x * 10.0f / GridSize;
+            }
+    
             InitializeBuffers();
 
             _fullBlack = new NativeArray<Color>(GridSize * GridSize, Allocator.Persistent);
