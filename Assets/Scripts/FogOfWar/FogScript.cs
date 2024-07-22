@@ -8,8 +8,7 @@ namespace FogOfWar
 {
     public class FogScript : MonoBehaviour
     {
-        
-        private static int GridSize = 512;
+        private static readonly int GridSize = 1024;
         private static float CellSize;
         private static readonly float RevealRadius = 2.5f;
         private static readonly float RevealRadiusResourceStorages = 5.0f;
@@ -18,6 +17,8 @@ namespace FogOfWar
         public bool keepPrevious;
         public MeshRenderer mr;
         public ComputeShader computeShader;
+        public GameObject GroundPlane;
+        public GameObject Plane;
         private int _cellSizeID;
         private int _clearColorID;
         private List<Building> _factories;
@@ -46,21 +47,19 @@ namespace FogOfWar
         private ComputeBuffer _visionTowerPositionBuffer;
         private int _visionTowerPositionsID;
         private List<Building> _visionTowers;
-        public GameObject GroundPlane;
-        public GameObject Plane;
-        
+
         private void Start()
         {
             computeShader.SetFloat("groundPlaneScaleX", GroundPlane.transform.localScale.x);
             computeShader.SetFloat("groundPlaneScaleZ", GroundPlane.transform.localScale.z);
 
-            
+
             if (GroundPlane != null && Plane != null)
             {
                 Plane.transform.localScale = GroundPlane.transform.localScale;
                 CellSize = GroundPlane.transform.localScale.x * 10.0f / GridSize;
             }
-    
+
             InitializeBuffers();
 
             _fullBlack = new NativeArray<Color>(GridSize * GridSize, Allocator.Persistent);
@@ -80,6 +79,9 @@ namespace FogOfWar
 
             InitializeShaderProperties();
             FindAllObjects();
+
+            // Assign the render texture to the fog plane
+            if (mr != null) mr.material.mainTexture = _renderTexture;
         }
 
         private void Update()
@@ -161,6 +163,7 @@ namespace FogOfWar
                 AsyncGPUReadback.Request(_renderTexture, 0, TextureFormat.RGBA32, OnCompleteReadback);
             }
         }
+
 
         private void OnDestroy()
         {
@@ -254,6 +257,17 @@ namespace FogOfWar
         private void FindAllFactories()
         {
             _factories = new List<Building>(FindObjectsOfType<Building>().Where(b => b.CompareTag("Factory")));
+        }
+
+        public bool IsPositionInClearedZone(Vector3 position)
+        {
+            var x = Mathf.FloorToInt((position.x + GroundPlane.transform.localScale.x * 5.0f) / CellSize);
+            var z = Mathf.FloorToInt((position.z + GroundPlane.transform.localScale.z * 5.0f) / CellSize);
+
+            x = Mathf.Clamp(x, 0, GridSize - 1);
+            z = Mathf.Clamp(z, 0, GridSize - 1);
+
+            return _lowResTexture.GetPixel(x, z).a > 0.5f; // Assuming cleared zones have alpha > 0.5
         }
     }
 }

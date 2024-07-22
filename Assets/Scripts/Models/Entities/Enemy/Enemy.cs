@@ -1,4 +1,5 @@
 using System.Collections;
+using FogOfWar;
 using UnityEngine;
 
 public class Enemy : Fighter
@@ -7,6 +8,8 @@ public class Enemy : Fighter
     protected int collisionDamage = 20;
 
     protected State currentState = State.Idle;
+
+    private FogScript fogScript;
     protected bool isTaunted;
     protected Transform target;
     protected Vector3 tauntTarget;
@@ -16,6 +19,22 @@ public class Enemy : Fighter
         base.Start();
         if (!mapEditContext)
             StartCoroutine(BehaviorTree());
+
+        fogScript = FindObjectOfType<FogScript>(); // Ensure there is only one FogScript in the scene
+    }
+
+    private void Update()
+    {
+        if (fogScript != null)
+        {
+            var isVisible = fogScript.IsPositionInClearedZone(transform.position);
+            SetVisibility(!isVisible);
+        }
+    }
+
+    private void SetVisibility(bool isVisible)
+    {
+        foreach (var renderer in GetComponentsInChildren<Renderer>()) renderer.enabled = isVisible;
     }
 
     protected override void Die()
@@ -53,19 +72,19 @@ public class Enemy : Fighter
 
     protected void FindTarget()
     {
-        float detectionRadius = Mathf.Infinity;
+        var detectionRadius = Mathf.Infinity;
         LayerMask allyLayer = LayerMask.GetMask("Ally");
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, allyLayer);
+        var hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, allyLayer);
 
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
+        var closestDistanceSqr = Mathf.Infinity;
+        var currentPosition = transform.position;
         GameObject closestTarget = null;
 
         // Iterate through the colliders to find the closest ally
-        foreach (Collider hitCollider in hitColliders)
+        foreach (var hitCollider in hitColliders)
         {
-            float dSqrToTarget = (hitCollider.transform.position - currentPosition).sqrMagnitude;
+            var dSqrToTarget = (hitCollider.transform.position - currentPosition).sqrMagnitude;
             if (dSqrToTarget < closestDistanceSqr)
             {
                 closestDistanceSqr = dSqrToTarget;
@@ -98,7 +117,7 @@ public class Enemy : Fighter
             );
 
             // Check if close enough to attack
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            var distanceToTarget = Vector3.Distance(transform.position, target.position);
             if (distanceToTarget < Data.attackRange)
             {
                 Stop();
@@ -119,8 +138,8 @@ public class Enemy : Fighter
             Attack();
 
             // Apply bump effect on the enemy
-            Vector3 bumpDirection = (transform.position - target.position).normalized;
-            Vector3 bumpPosition = transform.position + bumpDirection * bumpDistance;
+            var bumpDirection = (transform.position - target.position).normalized;
+            var bumpPosition = transform.position + bumpDirection * bumpDistance;
 
             // Ensure the enemy stays on the same Y level (ground level)
             bumpPosition.y = transform.position.y;
@@ -141,8 +160,8 @@ public class Enemy : Fighter
 
         if (targetPosition != transform.position)
         {
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            var direction = (targetPosition - transform.position).normalized;
+            var lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * movementSpeed);
         }
     }
