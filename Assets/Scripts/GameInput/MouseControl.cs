@@ -16,7 +16,8 @@ namespace GameInput
         {
             DefaultOnClicked = selectionManager.OnSelectStart;
             DefaultOnReleased = selectionManager.OnSelectEnd;
-            DefaultOnRightClicked = UnitsManager.Instance.SetUnitsOrder;
+            if (!isMapEditing)
+                DefaultOnRightClicked = UnitsManager.Instance.SetUnitsOrder;
         }
 
         private void Update()

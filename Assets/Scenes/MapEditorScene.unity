@@ -613,6 +613,10 @@ PrefabInstance:
       propertyPath: playerBuildingDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 75993a428bfe5ed4caa8ee745a0b6550, type: 2}
+    - target: {fileID: 4295704773473723174, guid: b0ffd593e73a5b0428ba97b2723ff5f8, type: 3}
+      propertyPath: isMapEditing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5440289430849055240, guid: b0ffd593e73a5b0428ba97b2723ff5f8, type: 3}
       propertyPath: m_SortingOrder
       value: 9999
