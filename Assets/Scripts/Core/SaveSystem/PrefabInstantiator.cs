@@ -24,12 +24,21 @@ public class PrefabInstantiator : MonoBehaviour
             ObjectList objectList = JsonUtility.FromJson<ObjectList>(jsonContent);
             foreach (var objData in objectList.objects)
             {
-                GameObject building = Addressables.InstantiateAsync(objData.addressableKey).WaitForCompletion();
-                PlacementSystem.Instance.PlaceBuildingAtLocation(
-                    building.GetComponent<Building>(),
-                    objData.position,
-                    objData.size
-                );
+                GameObject obj = Addressables.InstantiateAsync(objData.addressableKey).WaitForCompletion();
+                BaseObject baseObject = obj.GetComponent<BaseObject>();
+                if (baseObject is Building)
+                {
+                    PlacementSystem.Instance.PlaceBuildingAtLocation(
+                        obj.GetComponent<Building>(),
+                        objData.position,
+                        objData.size
+                    );
+                }
+                else if (baseObject is Unit)
+                {
+                    obj.transform.position = objData.position;
+                    obj.transform.rotation = objData.rotation;
+                }
             }
         }
         else

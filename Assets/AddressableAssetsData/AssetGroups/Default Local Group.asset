@@ -47,6 +47,61 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5d3fad4c0e6b2c4caf96826575fa4cf
+    m_Address: Assets/Prefabs/Units/Allies/Fighters/Support.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f0eaa09c3abf0b4786105182bad5b7b
+    m_Address: Assets/Prefabs/Units/Allies/Fighters/TankCombined.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28e12f87b0586384fa4a6faf79e50c93
+    m_Address: EN-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a78d035ec10a16a46966a0cfc9d08576
+    m_Address: EN-2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e570e383126adb847bfec643b5b80c3e
+    m_Address: EN-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ee1a9fe58a62f64292bc124d186d725
+    m_Address: VIS-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2de3af85943d824c9eae80e03a96123
+    m_Address: FAC-2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25f3c0cf59813d8499791a05ed1d3af5
+    m_Address: FAC-3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0369693cd82a317469307315d3d4b0af
+    m_Address: FAC-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c91d07d0262ac3d4eaa632899f26d314
+    m_Address: NEX-0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3f3ceec0c449e341b40f8ea81e403c9
+    m_Address: NEX-1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1d166b1769095f34f91266708d113e2d, type: 2}
   m_SchemaSet:

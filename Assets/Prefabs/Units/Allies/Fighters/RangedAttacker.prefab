@@ -17,6 +17,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3295319774116102717}
     - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+      propertyPath: addressableKey
+      value: UNIT-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707510548946209458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
       propertyPath: targetLayer.m_Bits
       value: 512
       objectReference: {fileID: 0}
@@ -96,7 +100,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangedAttacker
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6306684914370895650, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
