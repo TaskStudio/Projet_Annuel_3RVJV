@@ -65,7 +65,7 @@ namespace FogOfWar
             _fullBlack = new NativeArray<Color>(GridSize * GridSize, Allocator.Persistent);
             for (var i = 0; i < GridSize; i++)
             for (var j = 0; j < GridSize; j++)
-                _fullBlack[GridSize * i + j] = Color.black;
+                _fullBlack[GridSize * i + j] = new Color(0, 0, 0, 0.8f); 
 
             _lowResTexture = new Texture2D(GridSize, GridSize);
             _renderTexture = new RenderTexture(GridSize, GridSize, 0)
@@ -155,7 +155,7 @@ namespace FogOfWar
                 computeShader.SetBuffer(_kernelHandle, _visionTowerPositionsID, _visionTowerPositionBuffer);
                 computeShader.SetBuffer(_kernelHandle, _factoryPositionsID, _factoryPositionBuffer);
                 computeShader.SetVector(_clearColorID, Color.clear);
-                computeShader.SetVector(_fullBlackColorID, Color.black);
+                computeShader.SetVector(_fullBlackColorID, new Color(0, 0, 0, 0.8f)); 
 
                 computeShader.SetTexture(_kernelHandle, _resultID, _renderTexture);
                 computeShader.Dispatch(_kernelHandle, GridSize / 8, GridSize / 8, 1);
