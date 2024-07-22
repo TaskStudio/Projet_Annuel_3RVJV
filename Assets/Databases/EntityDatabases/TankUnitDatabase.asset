@@ -18,5 +18,5 @@ MonoBehaviour:
     <Prefab>k__BackingField: {fileID: 3338444241343951891, guid: 479837c5a94d6b04caedf1998363920e, type: 3}
     <ProductionTime>k__BackingField: 1
     <Cost>k__BackingField: 10
-    <ResourceType>k__BackingField: 0
+    <ResourceType>k__BackingField: 1
     <PoolingAmount>k__BackingField: 20

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4393059881588511033}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -70,11 +70,17 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: faccfee65492b9848aaa6a1c3d622790, type: 2}
   model: {fileID: 4449655301828636297}
   id: 
+  addressableKey: 
   healthBar: {fileID: 0}
   actionList: []
+  previewMaterial: {fileID: 0}
+  previewInvalidMaterial: {fileID: 0}
+  placedMaterial: {fileID: 0}
+  objectRenderer: {fileID: 0}
+  mapEditContext: 0
   resourceType: 0
   defaultMaterial: {fileID: 2100000, guid: d151bbda7b1cf4341a8f5e12a9b884a8, type: 2}
-  depletedMaterial: {fileID: 2100000, guid: aa5ec6c1d7f23dc469acfd0ded9f72e2, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 858e54f8912893c4aad44da67dde6ef6, type: 2}
   meshRenderer: {fileID: 5335304272348105739}
   resourceAmount: 100
 --- !u!1 &4449655301828636297
