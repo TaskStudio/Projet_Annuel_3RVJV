@@ -1510,7 +1510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0148b145517fcc04ea69c2170545c5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editMapScene: EditMapScene
+  editMapScene: MapEditorScene
   mainUIDocument: {fileID: 1309807368}
   selectionMenuDocument: {fileID: 280775587}
   settingsDocument: {fileID: 1310673112}
