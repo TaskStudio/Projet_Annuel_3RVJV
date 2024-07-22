@@ -11,10 +11,10 @@ public class BuildingGridData : IGridData
         return placedObjects.ContainsKey(gridPosition);
     }
 
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placedObjectIndex)
+    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int placedObjectIndex)
     {
         List<Vector3Int> positionsToOccupy = CalculatePosition(gridPosition, objectSize);
-        var data = new PlacementData(positionsToOccupy, ID, placedObjectIndex);
+        var data = new PlacementData(positionsToOccupy, placedObjectIndex);
         foreach (Vector3Int pos in positionsToOccupy)
         {
             if (placedObjects.ContainsKey(pos))
@@ -46,13 +46,11 @@ public class PlacementData
 {
     public List<Vector3Int> occupiedPositions;
 
-    public PlacementData(List<Vector3Int> occupiedPositions, int ID, int placedObjectIndex)
+    public PlacementData(List<Vector3Int> occupiedPositions, int placedObjectIndex)
     {
         this.occupiedPositions = occupiedPositions;
-        this.ID = ID;
         PlacedObjectIndex = placedObjectIndex;
     }
 
-    public int ID { get; }
     public int PlacedObjectIndex { get; }
 }

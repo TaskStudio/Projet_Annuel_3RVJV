@@ -25,8 +25,11 @@ public class PrefabInstantiator : MonoBehaviour
             foreach (var objData in objectList.objects)
             {
                 GameObject building = Addressables.InstantiateAsync(objData.addressableKey).WaitForCompletion();
-                building.transform.position = objData.position;
-                building.transform.rotation = objData.rotation;
+                PlacementSystem.Instance.PlaceBuildingAtLocation(
+                    building.GetComponent<Building>(),
+                    objData.position,
+                    objData.size
+                );
             }
         }
         else

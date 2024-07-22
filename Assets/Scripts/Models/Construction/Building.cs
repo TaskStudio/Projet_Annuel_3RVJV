@@ -30,6 +30,7 @@ public class Building : Entity
     private BuildingManager buildingManager;
     private float constructionTime;
     public BuildingStates state { get; internal set; }
+    public Vector2Int Size { get; set; }
 
     private void Awake()
     {

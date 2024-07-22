@@ -16,9 +16,23 @@ public class PlacementSystem : MonoBehaviour
     private Building selectedBuilding;
     private BuildingData selectedBuildingData;
 
+    public static PlacementSystem Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        grid = mapGrid.Grid;
         mapGrid.SetGridCellSize(cellSize);
 
         isBuildingSelected = false;
@@ -46,6 +60,11 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        grid = mapGrid.Grid;
+    }
+
     public void StartPlacement(BuildingData buildingData)
     {
         CancelPlacement();
@@ -69,8 +88,10 @@ public class PlacementSystem : MonoBehaviour
         if (!canPlace)
             return;
 
-        BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingData.IdNumber, 0);
+        BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, 0);
         selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
+        selectedBuilding.SetID(selectedBuildingData.ID);
+        selectedBuilding.Size = selectedBuildingData.Size;
         selectedBuilding = null;
         isBuildingSelected = false;
 
@@ -78,6 +99,15 @@ public class PlacementSystem : MonoBehaviour
         mouseControl.OnExit -= CancelPlacement;
 
         Cursor.visible = true;
+    }
+
+    public void PlaceBuildingAtLocation(Building building, Vector3 position, Vector2Int size)
+    {
+        var gridPos = grid.WorldToCell(position);
+        BuildingGrid.AddObjectAt(gridPos, size, 0);
+        building.transform.position = grid.CellToWorld(gridPos);
+        building.StartConstruction(0);
+        building.SetID(building.ID);
     }
 
     public void CancelPlacement()

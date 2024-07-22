@@ -10,4 +10,6 @@ public class PrefabObjectData
     public Vector3 position;
     public Quaternion rotation;
     public string addressableKey;
+    public string ID;
+    public Vector2Int size;
 }

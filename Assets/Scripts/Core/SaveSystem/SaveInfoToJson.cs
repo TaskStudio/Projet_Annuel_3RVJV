@@ -25,7 +25,7 @@ public class SaveInfoToJson : MonoBehaviour
         }
 
         var buildings = buildingManager.BuildingsList;
-        var movableEntities = EntitiesManager.MovableEntities;
+        var movableEntities = UnitsManager.MovableUnits;
 
         var objectList = new ObjectList();
         foreach (var building in buildings)
@@ -39,7 +39,9 @@ public class SaveInfoToJson : MonoBehaviour
                 name = building.name,
                 position = building.transform.position,
                 rotation = building.transform.rotation,
-                addressableKey = building.AddressableKey
+                addressableKey = building.AddressableKey,
+                ID = building.ID,
+                size = building.Size
             };
             objectList.objects.Add(buildingData);
         }
@@ -56,7 +58,8 @@ public class SaveInfoToJson : MonoBehaviour
                 name = entity.name,
                 position = entity.transform.position,
                 rotation = entity.transform.rotation,
-                addressableKey = entity.AddressableKey
+                addressableKey = entity.AddressableKey,
+                ID = entity.ID
             };
             objectList.objects.Add(entityData);
         }
