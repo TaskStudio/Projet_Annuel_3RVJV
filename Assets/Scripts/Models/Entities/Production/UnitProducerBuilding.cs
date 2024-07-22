@@ -17,7 +17,7 @@ public class UnitProducerBuilding : Building
             actionList.Clear();
     }
 
-    private new void Update()
+    protected override void Update()
     {
         base.Update();
 

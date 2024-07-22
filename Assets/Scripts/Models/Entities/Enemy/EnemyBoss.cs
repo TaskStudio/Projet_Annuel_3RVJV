@@ -4,11 +4,11 @@ using UnityEngine;
 public class EnemyBoss : Enemy
 {
     public GameObject meteorParticlePrefab;
+
+    public Vector3 particleOffset = new(0, 2.35f, 0);
     private float lastMeteorAttackTime;
     private GameObject meteorParticleInstance;
     private ParticleSystem meteorParticleSystem;
-    
-    public Vector3 particleOffset = new Vector3(0, 2.35f, 0);
 
     protected override void Start()
     {
@@ -25,10 +25,8 @@ public class EnemyBoss : Enemy
     private void LateUpdate()
     {
         if (meteorParticleInstance != null && meteorParticleInstance.activeSelf)
-        {
             // Ensure the particle system follows the boss position with offset
             meteorParticleInstance.transform.position = transform.position + particleOffset;
-        }
     }
 
     protected override void AttackTarget()
@@ -50,7 +48,7 @@ public class EnemyBoss : Enemy
         {
             // Update and activate the particle system at the boss's position
             meteorParticleInstance.transform.position = transform.position + particleOffset;
-            meteorParticleInstance.SetActive(true); 
+            meteorParticleInstance.SetActive(true);
 
             meteorParticleSystem.Play();
             // Deactivate it after the duration of the particle effect
@@ -63,7 +61,7 @@ public class EnemyBoss : Enemy
         var hitColliders = Physics.OverlapSphere(transform.position, Data.attackRange, LayerMask.GetMask("Ally"));
         foreach (var hitCollider in hitColliders)
         {
-            var entity = hitCollider.GetComponent<Entity>();
+            var entity = colliderToEntityMap[hitCollider];
             if (entity != null) entity.TakeDamage(Data.attackDamage);
         }
     }
@@ -72,6 +70,6 @@ public class EnemyBoss : Enemy
     {
         yield return new WaitForSeconds(delay);
         particleSystem.Stop();
-        meteorParticleInstance.SetActive(false); 
+        meteorParticleInstance.SetActive(false);
     }
 }

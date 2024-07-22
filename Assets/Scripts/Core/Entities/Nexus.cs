@@ -6,11 +6,9 @@ public class Nexus : UnitProducerBuilding
 
     private float timeSinceLastRegen;
 
-    private new void Update()
+    protected override void Update()
     {
         base.Update();
-        // Check if the spacebar is pressed
-        if (Input.GetKeyDown(KeyCode.Space)) TakeDamage(100);
         RegenerateHealth();
     }
 
