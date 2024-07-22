@@ -1,12 +1,12 @@
 .selectedEntities {
-    width: 49px;
-    height: 49px;
+    width: 50px;
+    height: 50px;
     min-width: auto;
     min-height: auto;
-    border-left-color: rgb(103, 103, 103);
-    border-right-color: rgb(103, 103, 103);
-    border-top-color: rgb(103, 103, 103);
-    border-bottom-color: rgb(103, 103, 103);
+    border-left-color: rgba(0, 0, 0, 0.81);
+    border-right-color: rgba(0, 0, 0, 0.81);
+    border-top-color: rgba(0, 0, 0, 0.81);
+    border-bottom-color: rgba(0, 0, 0, 0.81);
     border-top-width: 2px;
     border-right-width: 2px;
     border-bottom-width: 2px;
@@ -21,19 +21,124 @@
     background-image: url("project://database/Assets/UI/Images/Entities/default.png?fileID=21300000&guid=f69a9a0ed4b199d43bd5d5daa8616137&type=3#default");
     align-self: auto;
     align-items: auto;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 .selectedEntity {
-    border-left-color: rgb(25, 191, 0);
-    border-right-color: rgb(25, 191, 0);
-    border-top-color: rgb(25, 191, 0);
-    border-bottom-color: rgb(25, 191, 0);
+    border-left-color: rgb(0, 255, 37);
+    border-right-color: rgb(0, 255, 37);
+    border-top-color: rgb(0, 255, 37);
+    border-bottom-color: rgb(0, 255, 37);
     border-top-width: 3px;
     border-right-width: 3px;
     border-bottom-width: 3px;
     border-left-width: 3px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.labels {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 24px;
+    -unity-text-outline-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.59);
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+}
+
+.actionButton {
+    font-size: 36px;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    padding-top: 8px;
+    padding-right: 18px;
+    padding-bottom: 8px;
+    padding-left: 18px;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+    min-width: 5%;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgb(207, 207, 207);
+    flex-grow: 1;
+    align-self: center;
+    width: 100%;
+}
+
+.actionButton:hover {
+    font-size: 36px;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    padding-top: 8px;
+    padding-right: 18px;
+    padding-bottom: 8px;
+    padding-left: 18px;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+    min-width: 5%;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgb(209, 56, 56);
+    flex-grow: 1;
+    align-self: center;
+    width: 100%;
+}
+
+.buildingButton {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 38px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(231, 231, 231);
+}
+
+.buildingButton:hover {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 38px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(229, 68, 68);
+    color: rgb(231, 231, 231);
+}
+
+.buildingButtonClicked {
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&guid=6019abab86d8e1d41b433e4c94956583&type=3#Steamwreck");
+    -unity-font-definition: initial;
+    font-size: 38px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(229, 68, 68);
+    color: rgb(231, 231, 231);
 }

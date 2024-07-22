@@ -27,19 +27,29 @@ public class SpatialGrid
         grid[cell].Add(unit);
     }
 
-    public void Update(Unit unit, Vector3 oldPosition)
+    public void Remove(Unit unit)
+    {
+        Vector2Int cell = GetCell(unit.transform.position);
+        if (grid.ContainsKey(cell))
+        {
+            grid[cell].Remove(unit);
+            if (grid[cell].Count == 0) grid.Remove(cell);
+        }
+    }
+
+    public void Update(Unit entity, Vector3 oldPosition)
     {
         Vector2Int oldCell = GetCell(oldPosition);
-        Vector2Int newCell = GetCell(unit.transform.position);
+        Vector2Int newCell = GetCell(entity.transform.position);
         if (oldCell != newCell)
         {
             if (grid.ContainsKey(oldCell))
             {
-                grid[oldCell].Remove(unit);
+                grid[oldCell].Remove(entity);
                 if (grid[oldCell].Count == 0) grid.Remove(oldCell);
             }
 
-            Add(unit);
+            Add(entity);
         }
     }
 
@@ -51,8 +61,11 @@ public class SpatialGrid
         for (int x = -1; x <= 1; x++)
         for (int z = -1; z <= 1; z++)
         {
-            Vector2Int neighborCell = new Vector2Int(cell.x + x, cell.y + z);
-            if (grid.ContainsKey(neighborCell)) neighbors.AddRange(grid[neighborCell]);
+            var neighborCell = new Vector2Int(cell.x + x, cell.y + z);
+            if (grid.TryGetValue(neighborCell, out List<Unit> units))
+                foreach (Unit unit in units)
+                    if (unit)
+                        neighbors.Add(unit);
         }
 
         return neighbors;

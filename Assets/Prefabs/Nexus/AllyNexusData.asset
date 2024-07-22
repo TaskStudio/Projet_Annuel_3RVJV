@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b974727e7924d504388c3da961f02098, type: 3}
+  m_Name: AllyNexusData
+  m_EditorClassIdentifier: 
+  objectName: Ally nexus
+  description: Defend it
+  image: {fileID: 2800000, guid: f497130a6227131438183777463a5c95, type: 3}
+  faction: 0
+  maxHealthPoints: 200
+  maxManaPoints: 0
+  attackSpeed: 1
+  movementSpeed: 5
+  attackDamage: 10
+  distanceType: 0
+  detectionRange: 15
+  attackRange: 5
+  attackCooldown: 0.5

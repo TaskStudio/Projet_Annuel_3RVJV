@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c2ebe261a90aa4484e2e5e70e91e4a, type: 3}
+  m_Name: ProductionBuildingDatabase
+  m_EditorClassIdentifier: 
+  databaseName: Production
+  image: {fileID: 0}
+  buildingsData:
+  - <IdNumber>k__BackingField: 0
+    <DisplayName>k__BackingField: Resource storage
+    <Size>k__BackingField: {x: 3, y: 3}
+    <Prefab>k__BackingField: {fileID: 3839866909170121505, guid: 520b403228ff2144cadd2c87bc189a96, type: 3}
+    <ConstructionTime>k__BackingField: 0
+    <BuildingImage>k__BackingField: {fileID: 0}

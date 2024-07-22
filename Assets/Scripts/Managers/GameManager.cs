@@ -1,20 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private string nextScene;
-    [SerializeField] private UIDocument winUIDocument;
-    [SerializeField] private UIDocument loseUIDocument;
+    [SerializeField] private string replayScene;
+    [SerializeField] private string menuScene;
+    [SerializeField] private GameUIManager gameUIManager;
 
-    [FormerlySerializedAs("playerEntityDatabase")]
-    public UnitDatabaseSO playerUnitDatabase;
-    public BuildingDatabaseSO playerBuildingDatabase;
-
-    private VisualElement loseRoot;
-    private VisualElement winRoot;
+    private readonly List<Nexus> allyNexusList = new();
+    private readonly List<Nexus> enemyNexusList = new();
 
     public static GameManager Instance { get; private set; }
 
@@ -33,61 +28,51 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        winRoot = winUIDocument.rootVisualElement;
-        loseRoot = loseUIDocument.rootVisualElement;
-
-        winRoot.style.display = DisplayStyle.None;
-        loseRoot.style.display = DisplayStyle.None;
-
-        var winRestartButton = winRoot.Q<Button>("RestartButton");
-        var winExitButton = winRoot.Q<Button>("ExitButton");
-
-        var loseRestartButton = loseRoot.Q<Button>("RestartButton");
-        var loseExitButton = loseRoot.Q<Button>("ExitButton");
-
-        winRestartButton.clicked += RestartGame;
-        winExitButton.clicked += ExitGame;
-
-        loseRestartButton.clicked += RestartGame;
-        loseExitButton.clicked += ExitGame;
+        // Find all Nexus objects in the scene and categorize them
+        var nexusArray = FindObjectsOfType<Nexus>();
+        foreach (var nexus in nexusArray)
+            if (nexus.CompareTag("AllyBase"))
+                allyNexusList.Add(nexus);
+            else if (nexus.CompareTag("EnemyBase")) enemyNexusList.Add(nexus);
     }
 
     private void Update()
     {
         if (CheckWinCondition())
-            ShowWinScreen();
-        else if (CheckLoseCondition()) ShowLoseScreen();
+            gameUIManager.ShowWinScreen();
+        else if (CheckLoseCondition()) gameUIManager.ShowLoseScreen();
     }
 
     private bool CheckWinCondition()
     {
-        // Sebi met la condition win ici stp
-        return false;
+        // Win if all enemy Nexus objects are destroyed
+        return enemyNexusList.Count == 0;
     }
 
     private bool CheckLoseCondition()
     {
-        // Sebi met la condition de lose ici stp
-        return false;
+        // Lose if all ally Nexus objects are destroyed
+        return allyNexusList.Count == 0;
+    } // ReSharper disable Unity.PerformanceAnalysis
+    public void OnNexusDestroyed(Nexus nexus)
+    {
+        if (nexus.CompareTag("AllyBase"))
+            allyNexusList.Remove(nexus);
+        else if (nexus.CompareTag("EnemyBase")) enemyNexusList.Remove(nexus);
+
+        // Check game state immediately after a Nexus is destroyed
+        if (CheckWinCondition())
+            gameUIManager.ShowWinScreen();
+        else if (CheckLoseCondition()) gameUIManager.ShowLoseScreen();
     }
 
-    private void ShowWinScreen()
+    public void RestartGame()
     {
-        winRoot.style.display = DisplayStyle.Flex;
+        SceneManager.LoadScene(replayScene);
     }
 
-    private void ShowLoseScreen()
+    public void ExitGame()
     {
-        loseRoot.style.display = DisplayStyle.Flex;
-    }
-
-    private void RestartGame()
-    {
-        SceneManager.LoadScene(nextScene);
-    }
-
-    private void ExitGame()
-    {
-        Application.Quit();
+        SceneManager.LoadScene(menuScene);
     }
 }

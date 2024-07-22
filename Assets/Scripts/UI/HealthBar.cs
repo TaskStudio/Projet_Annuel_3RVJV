@@ -11,6 +11,7 @@ public class HealthBar : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        gameObject.SetActive(false); // Disable HealthBar by default
     }
 
     private void Update()
@@ -40,5 +41,10 @@ public class HealthBar : MonoBehaviour
     {
         slider.value = value;
         fill.color = gradient.Evaluate(slider.normalizedValue);
+    }
+
+    public void SetVisibility(bool visible)
+    {
+        gameObject.SetActive(visible);
     }
 }

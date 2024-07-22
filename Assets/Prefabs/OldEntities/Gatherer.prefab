@@ -18,11 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d151bbda7b1cf4341a8f5e12a9b884a8, type: 2}
     - target: {fileID: 234687598268085462, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_Value
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 234687598268085462, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_MaxValue
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 478117095316257027, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_Enabled
@@ -66,11 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7086398816737225666, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7086398816737225666, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_Color.r
-      value: 0.12822974
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7919935644916920355, guid: a7a2b00ce99c79d4196bd7e41c4d8f1c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -140,16 +140,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1898e4d99284c9ba2e8e36a7d36fb0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 6961670147184191123}
   data: {fileID: 11400000, guid: d1b13cb28910e8040ac170a3a50c0df5, type: 2}
+  model: {fileID: 6961670147184191123}
   id: 
-  actionList: []
   healthBar: {fileID: 3100589793125639974}
+  actionList: []
+  avoidanceStrength: 5
+  collisionRadius: 0
   entityLayer:
     serializedVersion: 2
     m_Bits: 0
-  collisionRadius: 0
-  avoidanceStrength: 5
+  manaBar: {fileID: 0}
   resourceNode: {fileID: 0}
   resourceStorage: {fileID: 0}
   maxResourceAmount: 10

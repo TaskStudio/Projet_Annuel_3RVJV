@@ -1,18 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tank : Fighter
+public class Tank : AllyFighter
 {
     private static readonly List<Tank> _selectedTanks = new();
     public GameObject combinedTankPrefab;
     public float tauntRadius = 10f;
-    private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
     private bool isBeingDestroyed; // Flag to indicate if the tank is being destroyed
-
-    protected new void Start()
-    {
-        base.Start();
-    }
+    private bool isCombinedTank; // Flag to indicate if the tank is a combined tank
 
     protected new void Update()
     {
@@ -47,7 +42,7 @@ public class Tank : Fighter
 
             foreach (var tank in _selectedTanks)
             {
-                if (EntitiesManager.Instance) EntitiesManager.Instance.UnregisterMovableEntity(tank);
+                if (UnitsManager.Instance) UnitsManager.Instance.UnregisterMovableEntity(tank);
                 tank.MarkForDestruction(); // Mark the tank for destruction
             }
 
@@ -62,7 +57,6 @@ public class Tank : Fighter
 
                 newTank.movementSpeed = movementSpeed;
                 newTank.stoppingDistance = stoppingDistance;
-                newTank.entityLayer = entityLayer;
                 newTank.collisionRadius = 2f;
                 newTank.avoidanceStrength = avoidanceStrength;
                 newTank.isCombinedTank = true;
@@ -83,7 +77,7 @@ public class Tank : Fighter
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
-            if (enemy != null) enemy.Taunt(this);
+            // if (enemy != null) enemy.Taunt(this);
         }
     }
 

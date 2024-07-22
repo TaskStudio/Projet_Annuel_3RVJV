@@ -2,6 +2,6 @@
 {
     public void AddResource(Resource resource)
     {
-        ResourceManager.RegisterResource(resource);
+        ResourceManager.Instance.RegisterResource(resource);
     }
 }

@@ -12,7 +12,6 @@ public class CameraSystem : MonoBehaviour
     [SerializeField] private bool useEdgeScrolling = true;
     [SerializeField] private float cameraMoveSpeed = 50f;
 
-    [SerializeField] private float cameraRotateDir;
     [SerializeField] private float cameraRotateSpeed = 100f;
 
     [SerializeField] private int edgeScrollSize = 30;
@@ -34,26 +33,35 @@ public class CameraSystem : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // Edges movements mechanisms
-        if (useEdgeScrolling) HandleEdgesMovement();
+        // Movement mechanisms
+        HandleMovement();
         // Rotation mechanisms
         HandleRotation();
-
         // Zoom mechanisms
         HandleZoom();
     }
 
-    private void HandleEdgesMovement()
+    private void HandleMovement()
     {
-        //Movement variables
+        // Movement variables
         var inputDir = new Vector3(0, 0, 0);
 
-        if (Input.mousePosition.x < edgeScrollSize) inputDir.x = -1f;
-        if (Input.mousePosition.y < edgeScrollSize) inputDir.z = -1f;
-        if (Input.mousePosition.x > Screen.width - edgeScrollSize) inputDir.x = +1f;
-        if (Input.mousePosition.y > Screen.height - edgeScrollSize) inputDir.z = +1f;
+        // ZQSD movement
+        if (Input.GetKey(KeyCode.Q)) inputDir.x = -1f;
+        if (Input.GetKey(KeyCode.D)) inputDir.x = +1f;
+        if (Input.GetKey(KeyCode.Z)) inputDir.z = +1f;
+        if (Input.GetKey(KeyCode.S)) inputDir.z = -1f;
 
-        //Movements mechanisms
+        // Edge scrolling
+        if (useEdgeScrolling)
+        {
+            if (Input.mousePosition.x < edgeScrollSize) inputDir.x = -1f;
+            if (Input.mousePosition.y < edgeScrollSize) inputDir.z = -1f;
+            if (Input.mousePosition.x > Screen.width - edgeScrollSize) inputDir.x = +1f;
+            if (Input.mousePosition.y > Screen.height - edgeScrollSize) inputDir.z = +1f;
+        }
+
+        // Movements mechanisms
         var cameraMoveDir = _cachedTransform.forward * inputDir.z + _cachedTransform.right * inputDir.x;
         var proposedPosition = _cachedTransform.position + cameraMoveDir * (cameraMoveSpeed * Time.deltaTime);
 
@@ -63,12 +71,22 @@ public class CameraSystem : MonoBehaviour
 
     private void HandleRotation()
     {
-        //Rotations mechanisms
-        cameraRotateDir = 0f;
+        // Rotations mechanisms with A and E keys
+        var cameraRotateDir = 0f;
         if (Input.GetKey(KeyCode.A)) cameraRotateDir = +1f;
         if (Input.GetKey(KeyCode.E)) cameraRotateDir = -1f;
 
         transform.eulerAngles += new Vector3(0, cameraRotateDir * cameraRotateSpeed * Time.deltaTime, 0);
+
+        // Rotation with middle mouse button
+        if (Input.GetMouseButton(2))
+        {
+            var mouseX = Input.GetAxis("Mouse X");
+            var mouseY = Input.GetAxis("Mouse Y");
+
+            // Apply rotation around the Y-axis (horizontal rotation)
+            _cachedTransform.eulerAngles += new Vector3(0, mouseX * cameraRotateSpeed * Time.deltaTime, 0);
+        }
     }
 
     private void HandleZoom()

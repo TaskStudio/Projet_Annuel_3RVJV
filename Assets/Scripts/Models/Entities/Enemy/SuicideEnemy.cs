@@ -9,29 +9,9 @@ public class SuicideEnemy : Enemy
             Unit entity = target.GetComponent<Unit>();
             if (entity != null)
             {
-                entity.TakeDamage(1000); 
+                entity.TakeDamage(Data.attackDamage);
+                Destroy(gameObject); // Ensure this is called
             }
-            Destroy(gameObject); 
-        }
-    }
-
-    protected override void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Entity"))
-        {
-            Unit entity = collision.gameObject.GetComponent<Unit>();
-            if (entity != null)
-            {
-                entity.TakeDamage(1000); 
-                Destroy(gameObject); 
-            }
-        }
-
-        if (collision.gameObject.CompareTag("EntityBase"))
-        {
-            EntityBases entityBase = collision.gameObject.GetComponent<EntityBases>();
-            if (entityBase != null) entityBase.TakeDamage(1000);
-            Destroy(gameObject); 
         }
     }
 }

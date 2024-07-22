@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-    public LayerMask groundLayer;
     public LayerMask clickableLayer;
 
     private readonly List<BaseObject> selectedEntities = new();
+
+    private BaseObject hoveredEntity;
     private bool isDragging;
 
     private Vector3 mouseDragStart;
@@ -30,15 +31,40 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5) isDragging = true;
-    }
+        if (UIManager.Instance.IsMouseOverUI()) return;
 
+        if (selectionStarted && (Input.mousePosition - mouseDragStart).magnitude > 5)
+        {
+            isDragging = true;
+        }
+        else
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+            {
+                var selectable = hit.collider.GetComponent<BaseObject>();
+                if (selectable != null)
+                    if (hoveredEntity != selectable)
+                    {
+                        hoveredEntity?.OnHoverExit();
+                        hoveredEntity = selectable;
+                        hoveredEntity.OnHoverEnter();
+                    }
+            }
+            else if (!selectedEntities.Contains(hoveredEntity))
+            {
+                hoveredEntity?.OnHoverExit();
+                hoveredEntity = null;
+            }
+        }
+    }
 
     private void OnGUI()
     {
         if (isDragging)
         {
-            Rect rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
+            var rect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
             Utils.DrawScreenRect(rect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
             Utils.DrawScreenRectBorder(rect, 1, Color.blue);
         }
@@ -46,6 +72,8 @@ public class SelectionManager : MonoBehaviour
 
     public void OnSelectStart()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         selectionStarted = true;
         mouseDragStart = Input.mousePosition;
         isDragging = false;
@@ -53,6 +81,8 @@ public class SelectionManager : MonoBehaviour
 
     public void OnSelectEnd()
     {
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
         if (isDragging)
         {
             SelectEntitiesInDrag();
@@ -67,10 +97,11 @@ public class SelectionManager : MonoBehaviour
         selectionStarted = false;
     }
 
-
     private void HandleSingleClick()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
         {
@@ -88,11 +119,13 @@ public class SelectionManager : MonoBehaviour
 
     private void SelectEntitiesInDrag()
     {
-        Rect selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
+        if (UIManager.Instance.IsMouseOverUI()) return;
+
+        var selectionRect = Utils.GetScreenRect(mouseDragStart, Input.mousePosition);
         var anySelected = false;
-        foreach (BaseObject selectable in FindObjectsOfType<BaseObject>())
+        foreach (var selectable in FindObjectsOfType<BaseObject>())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
+            var screenPosition = Camera.main.WorldToScreenPoint(selectable.transform.position);
             screenPosition.y = Screen.height - screenPosition.y;
             if (selectionRect.Contains(screenPosition, true))
             {
@@ -116,7 +149,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private void DeselectEntity(BaseObject entity)
+    public void DeselectEntity(BaseObject entity)
     {
         if (entity != null && entity.isSelected)
         {
@@ -141,12 +174,17 @@ public class SelectionManager : MonoBehaviour
     private void UpdateUI()
     {
         UIManager.Instance.UpdateSelectedEntities(GetSelectedProfiles());
+        var entity = selectedEntities.FirstOrDefault() as Entity;
+        if (entity != null)
+            ActionsUIManager.Instance.UpdateActionButtons(entity.actionList);
+        else
+            ActionsUIManager.Instance.UpdateActionButtons(new List<EntityAction>());
     }
 
     public void OnInvokeActionable(int actionIndex)
     {
         if (selectedEntities.Count is 0 or > 1) return;
         var entity = selectedEntities[0] as Entity;
-        entity?.actionList.ElementAtOrDefault(actionIndex)?.Invoke();
+        entity?.actionList.ElementAtOrDefault(actionIndex).action.Invoke();
     }
 }

@@ -1,30 +1,62 @@
-## Introduction
+# Fog Of War
 
-Bienvenue dans notre jeu RTS (Real-Time Strategy)! L'objectif est simple : détruire la base ennemie tout en maintenant vos unités en vie. Utilisez stratégie et tactique pour mener vos troupes à la victoire.
+## Description
+
+Fog Of War est un jeu de stratégie en temps réel (RTS) se déroulant dans un monde chaotique envahi par des machines à vapeur. Ces machines étendent leur vapeur pour aveugler le monde et plonger les habitants dans le néant. Les Alliés, composés de trois factions (Attacker, Tank et Support), sont déterminés à vaincre ces machines pour retrouver un monde paisible et vivable.
+
+## Informations Générales
+
+- **Nom du jeu** : Fog Of War
+- **Type** : RTS Game
+- **Plateforme** : PC
+- **Version de Unity** : 2022.3.21f
+
+## Histoire
+
+Dans un monde chaotique envahi par des machines à vapeur, les Alliés luttent pour reprendre le contrôle et ramener la paix. Les machines de vapeur utilisent leur vapeur pour aveugler et dominer le monde. Les Alliés, composés de trois factions (Attacker, Tank, Support), s'unissent pour vaincre les machines et restaurer un monde vivable.
+
+## But du jeu
+
+Le but du jeu est de détruire le ou les nexus des machines ennemies pour remporter la partie.
+
+## Gameplay
+
+### Construction
+- Bâtiments
+- Usines (Factory)
+- Unités variées
+
+### Combat
+- Sélection multiple des unités pour les déplacements et les combats
+
+### Menu
+- Menus interactifs
+
+### UI
+- Statistiques de fin de partie
+- Affichage des entités sélectionnées et des actions associées
 
 ## Commandes
 
-### Souris
+### Mouvements de la caméra
+- **Déplacements** : ZQDS et les bords de l'écran avec la souris
+- **Rotation** : A et E, ou maintien de la molette de la souris
 
-- **Clic Gauche** : Sélectionnez une unité pour lui donner des ordres spécifiques.
-- **Clic Droit** : Se déplacer
-- **Drag (Clic gauche et déplacer)** : Sélectionnez plusieurs unités en dessinant un rectangle de sélection. Toutes les unités dans cette zone seront sélectionnées et prêtes à recevoir vos ordres.
-- **Mouse wheel** : Zoom
-- **Pan** : en déplaçant 
+## Packages Utilisés
 
-### Clavier
+- **Cinemachine** pour la caméra
+- **Burst compile** pour l'optimisation
+- **Job system**
 
-- **Espace** : Spawn (crée) une unité alliée à votre base
-- **A** : Une fois une ou plusieurs unités sélectionnées, appuyez sur "A" pour activer leur mode attaque. Cliquez en direction de la cible (unité ennemie ou structure ennemie) pour tirer des projectiles.
-- **A et E** : pour rotate la camera (petite erreur sur le proto ou le tir et la rotation s)
-## Objectif
+## Références
 
-Votre mission principale est de détruire la base ennemie. Faites attention, car l'ennemi tentera également de vous tuer.
+- **Musique d'introduction** : Futuristic City Music - Steam City
 
-## Stratégies et Conseils
+## Crédits
 
-- **Positionnement** : La position de vos troupes peut faire toute la différence. Utilisez le terrain à votre avantage et positionnez vos unités stratégiquement pour maximiser leur efficacité.
+- **TASK Studio**
+- **Teddy Anamaria Sebastian Kamil**
 
-## Conclusion
+---
 
-Bonne chance, commandant! Votre ingéniosité et votre capacité à prendre des décisions rapides seront la clé de votre succès. Que la victoire soit avec vous!
+Merci d'avoir essayé Fog Of War ! Nous espérons que vous apprécierez le jeu autant que nous avons apprécié le développer. Si vous avez des suggestions ou des retours, n'hésitez pas à nous contacter.

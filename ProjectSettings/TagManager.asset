@@ -12,6 +12,10 @@ TagManager:
   - EntityBase
   - RessourceStorage
   - ResourceNode
+  - Building
+  - Factory
+  - VisionTower
+  - AllyBase
   layers:
   - Default
   - TransparentFX
@@ -19,13 +23,13 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Outlined
+  - Selected
   - groundLayer
   - Entity
   - Enemy
-  - 
-  - 
-  - 
+  - Hovered
+  - FogLayer
+  - Ally
   - 
   - 
   - 

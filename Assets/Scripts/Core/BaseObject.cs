@@ -4,9 +4,14 @@ using UnityEngine;
 
 public abstract class BaseObject : MonoBehaviour
 {
+    [SerializeField] private ObjectData data;
+
     [Space(5)] [Header("Visuals")]
     [SerializeField] private GameObject model;
-    public abstract ObjectData Data { get; }
+
+    public ObjectData Data => data;
+
+    public bool isSelected { get; private set; }
 
     public bool IsSelected
     {
@@ -18,9 +23,7 @@ public abstract class BaseObject : MonoBehaviour
         }
     }
 
-    public bool isSelected { get; private set; }
-
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         Initialize();
     }
@@ -38,6 +41,29 @@ public abstract class BaseObject : MonoBehaviour
         }
     }
 
+    public void Select()
+    {
+        IsSelected = true;
+    }
+
+    public void Deselect()
+    {
+        IsSelected = false;
+    }
+
+    public void OnHoverEnter()
+    {
+        model.layer = LayerMask.NameToLayer("Hovered");
+    }
+
+    public void OnHoverExit()
+    {
+        if (!isSelected)
+            model.layer = LayerMask.NameToLayer("Default");
+        else
+            model.layer = LayerMask.NameToLayer("Selected");
+    }
+
     private void ValidateData()
     {
 #if UNITY_EDITOR
@@ -51,26 +77,9 @@ public abstract class BaseObject : MonoBehaviour
 
     protected abstract void Initialize();
 
-    public void Select()
-    {
-        IsSelected = true;
-    }
-
-    public void Deselect()
-    {
-        IsSelected = false;
-    }
-
 
     private void UpdateVisuals()
     {
-        model.layer = LayerMask.NameToLayer(isSelected ? "Outlined" : "Default");
+        model.layer = LayerMask.NameToLayer(isSelected ? "Selected" : "Default");
     }
-}
-
-public abstract class BaseObject<TDataType> : BaseObject where TDataType : ObjectData
-{
-    [SerializeField] protected TDataType data;
-
-    public override ObjectData Data => data;
 }

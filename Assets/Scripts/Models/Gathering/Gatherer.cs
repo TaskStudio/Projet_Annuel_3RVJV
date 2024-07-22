@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Gatherer : Unit
+public class Gatherer : Ally
 {
     public ResourceNode resourceNode;
     public ResourceStorage resourceStorage;
@@ -9,35 +9,26 @@ public class Gatherer : Unit
     private Resource carriedResource;
     private bool gatheringResources;
 
-    protected override void Update()
+    protected new void Update()
     {
-        HandleInput();
         base.Update();
 
         if (gatheringResources) HandleGatheringBehavior();
     }
 
-    protected void HandleInput()
+    public override void SetTarget(Entity target)
     {
-        if (Input.GetMouseButtonDown(1) && IsSelected)
+        if (target is ResourceNode)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.CompareTag("ResourceNode"))
-                {
-                    gatheringResources = true;
-                    resourceNode = hit.collider.GetComponent<ResourceNode>();
-                    resourceStorage = FindNearestResourceStorage();
-                }
-                else
-                {
-                    gatheringResources = false;
-                    Move(hit.point);
-                }
-            }
+            resourceNode = target as ResourceNode;
+            resourceStorage = FindNearestResourceStorage();
+            gatheringResources = true;
+        }
+        else
+        {
+            resourceNode = null;
+            resourceStorage = null;
+            gatheringResources = false;
         }
     }
 
@@ -49,13 +40,19 @@ public class Gatherer : Unit
             {
                 Move(resourceNode.transform.position);
                 if (Vector3.Distance(transform.position, resourceNode.transform.position) <= gatheringDistance)
+                {
+                    Stop();
                     GatherResource();
+                }
             }
             else
             {
                 Move(resourceStorage.transform.position);
                 if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= gatheringDistance)
+                {
+                    Stop();
                     DepositResource();
+                }
             }
         }
         else
@@ -63,7 +60,10 @@ public class Gatherer : Unit
             if (resourceStorage == null) return;
             Move(resourceStorage.transform.position);
             if (Vector3.Distance(transform.position, resourceStorage.transform.position) <= gatheringDistance)
+            {
+                Stop();
                 DepositResource();
+            }
         }
     }
 
@@ -99,6 +99,8 @@ public class Gatherer : Unit
         if (resourceStorage != null && carriedResource != null)
         {
             resourceStorage.AddResource(carriedResource);
+            StatManager.IncrementResources(carriedResource);
+            
             carriedResource = null;
         }
     }

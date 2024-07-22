@@ -1,14 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
+    public RawImage minimapRawImage;
+    public UIDocument resourcesDocument;
+    public BuildingsUIManager buildingsUIManager;
+
     private readonly List<BaseObject> selectedProfiles = new();
 
+    public VisualElement actionsPanel;
+    public VisualElement characterPanel;
     public VisualElement faceContainer;
+    private bool isMouseOverUI;
+    public VisualElement resourcesPanel;
     public VisualElement selectedEntitiesList;
+    public VisualElement selectedPanel;
     public VisualElement statisticsScrollView;
+
+    public VisualElement buildingList;
+    public VisualElement buildingActionsContainer;
+
     public static UIManager Instance { get; private set; }
 
     private void Awake()
@@ -33,85 +48,103 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        if (resourcesDocument == null)
+        {
+            Debug.LogError("Resources Visual Element is null. Ensure UIDocument component is set up correctly.");
+            return;
+        }
+
         selectedEntitiesList = rootVisualElement.Q<VisualElement>("SelectedEntitiesList");
         statisticsScrollView = rootVisualElement.Q<VisualElement>("StatisticsScrollView");
         faceContainer = rootVisualElement.Q<VisualElement>("FaceContainer");
+        characterPanel = rootVisualElement.Q<VisualElement>("Character");
+        selectedPanel = rootVisualElement.Q<VisualElement>("Selected");
 
-        if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null)
+        resourcesPanel = resourcesDocument.rootVisualElement.Q<VisualElement>("ResourcesContainer");
+        actionsPanel = rootVisualElement.Q<VisualElement>("ActionsContainer");
+
+        buildingList = rootVisualElement.Q<VisualElement>("BuildingList");
+        buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
+
+        if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
+            characterPanel == null || selectedPanel == null || resourcesPanel == null || actionsPanel == null ||
+            buildingList == null || buildingActionsContainer == null)
+        {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
+            return;
+        }
+
+        RegisterHoverEvents(actionsPanel);
+        RegisterHoverEvents(resourcesPanel);
+        RegisterHoverEvents(characterPanel);
+        RegisterHoverEvents(selectedPanel);
+        RegisterHoverEvents(buildingList);
+        RegisterHoverEvents(buildingActionsContainer);
+
+        characterPanel.style.display = DisplayStyle.None;
+        selectedPanel.style.display = DisplayStyle.None;
+        buildingList.style.display = DisplayStyle.None;
+        buildingActionsContainer.style.display = DisplayStyle.None;
+
+        RegisterRawImageHoverEvents();
     }
 
-    private Texture2D GetProfileImage(BaseObject profile)
+    private void RegisterHoverEvents(VisualElement element)
     {
-        if (profile is BaseObject objectProfile) return objectProfile.Data.image;
-        return null;
+        element.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
+        element.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+    }
+
+    private void OnPointerEnter(PointerEnterEvent evt)
+    {
+        isMouseOverUI = true;
+    }
+
+    private void OnPointerLeave(PointerLeaveEvent evt)
+    {
+        isMouseOverUI = false;
+    }
+
+    private void RegisterRawImageHoverEvents()
+    {
+        if (minimapRawImage != null)
+        {
+            var trigger = minimapRawImage.gameObject.GetComponent<EventTrigger>();
+            if (trigger == null) trigger = minimapRawImage.gameObject.AddComponent<EventTrigger>();
+
+            var entryEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+            entryEnter.callback.AddListener(eventData => { isMouseOverUI = true; });
+
+            var entryExit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
+            entryExit.callback.AddListener(eventData => { isMouseOverUI = false; });
+
+            trigger.triggers.Add(entryEnter);
+            trigger.triggers.Add(entryExit);
+        }
+    }
+
+    public bool IsMouseOverUI()
+    {
+        return isMouseOverUI;
     }
 
     public void UpdateSelectedEntities(List<BaseObject> newSelectedProfiles)
     {
-        selectedProfiles.Clear();
-        selectedProfiles.AddRange(newSelectedProfiles);
+        SelectedEntityManager.Instance.UpdateSelectedEntities(newSelectedProfiles);
 
-        UpdateSelectedEntitiesList();
-        var selectedProfile = selectedProfiles.Count > 0 ? selectedProfiles[0] : null;
-        UpdateFirstSelectedEntity(selectedProfile); // Display the face of the first entity selected 
-        UpdateStatisticsContainer(selectedProfile); // Display the stats of the first entity selected 
-    }
+        bool hasSelectedEntities = newSelectedProfiles.Count > 0;
 
-    private void UpdateFirstSelectedEntity(BaseObject profile)
-    {
-        faceContainer.Clear();
-        if (profile == null) return;
+        selectedPanel.style.display = hasSelectedEntities ? DisplayStyle.Flex : DisplayStyle.None;
 
-        if (profile is BaseObject entityProfile)
+        if (hasSelectedEntities && newSelectedProfiles[0] is Nexus)
         {
-            var image = new Image { image = GetProfileImage(profile) };
-            faceContainer.Add(image);
+            buildingList.style.display = DisplayStyle.Flex;
+            selectedPanel.style.display = DisplayStyle.None;
         }
-    }
-
-    private void UpdateSelectedEntitiesList()
-    {
-        selectedEntitiesList.Clear();
-
-        for (int i = 0; i < selectedProfiles.Count; i++)
+        else
         {
-            var profile = selectedProfiles[i];
-            var image = new Image { image = GetProfileImage(profile) };
-            image.AddToClassList("selectedEntities");
-
-            // Add the class only to the first element
-            if (i == 0) image.AddToClassList("selectedEntity");
-
-            selectedEntitiesList.Add(image);
-        }
-    }
-
-    private void UpdateStatisticsContainer(BaseObject profile)
-    {
-        statisticsScrollView.Clear();
-        if (profile == null) return;
-
-        var nameLabel = new Label { text = profile.Data.objectName };
-        var descriptionLabel = new Label { text = profile.Data.description };
-
-        statisticsScrollView.Add(nameLabel);
-        statisticsScrollView.Add(descriptionLabel);
-
-        if (profile is Unit unit)
-        {
-            UnitData unitData = (UnitData) unit.Data;
-            var hpLabel = new Label { text = "HP : " + unit.currentHealth };
-            var manaLabel = new Label { text = "Mana : " + unit.currentMana };
-            var attackSpeedLabel = new Label { text = "Attack Speed : " + unit.attackSpeed };
-            var movementSpeedLabel = new Label { text = "Movement Speed : " + unit.movementSpeed };
-            var raceLabel = new Label { text = "Race : " + unitData.faction };
-
-            statisticsScrollView.Add(hpLabel);
-            statisticsScrollView.Add(manaLabel);
-            statisticsScrollView.Add(attackSpeedLabel);
-            statisticsScrollView.Add(movementSpeedLabel);
-            statisticsScrollView.Add(raceLabel);
+            buildingList.style.display = DisplayStyle.None;
+            buildingsUIManager.ClearButtonSelection();
         }
     }
 }

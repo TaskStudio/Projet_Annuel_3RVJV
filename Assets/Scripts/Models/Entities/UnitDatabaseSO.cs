@@ -7,7 +7,7 @@ public class UnitDatabaseSO : ScriptableObject
 {
     public List<UnitDatabaseData> units;
 
-    public Unit GetUnitPrefab(string unitID)
+    public BaseObject GetUnitPrefab(string unitID)
     {
         UnitDatabaseData unitDatabaseData = units.Find(data => data.ID == unitID);
         if (unitDatabaseData == null)
@@ -30,7 +30,7 @@ public class UnitDatabaseData
 {
     [field: SerializeField] public string ID { get; private set; }
     [field: SerializeField] public string DisplayName { get; private set; }
-    [field: SerializeField] public Unit Prefab { get; private set; }
+    [field: SerializeField] public BaseObject Prefab { get; private set; }
     [field: SerializeField] public float ProductionTime { get; private set; }
     [field: SerializeField] public int Cost { get; private set; }
     [field: SerializeField] public Resource.Type ResourceType { get; private set; }

@@ -58,7 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6291130954298302937}
   - component: {fileID: 2710711021252400200}
-  - component: {fileID: -4553131870392805889}
+  - component: {fileID: 1934319036066391219}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -95,12 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f58ec710c6813a49b9253df65adea2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: MainScene
-  winUIDocument: {fileID: 5581625292742239144}
-  loseUIDocument: {fileID: 337297497617247389}
-  playerUnitDatabase: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
-  playerBuildingDatabase: {fileID: 11400000, guid: 75993a428bfe5ed4caa8ee745a0b6550, type: 2}
---- !u!114 &-4553131870392805889
+  replayScene: MainScene
+  menuScene: MainMenuScene
+  gameUIManager: {fileID: 1934319036066391219}
+--- !u!114 &1934319036066391219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +107,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1471264894498472084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe6116f135743b18dce38eeea735200, type: 3}
+  m_Script: {fileID: 11500000, guid: b2a0cd888a1809a49ac5967d3ad65f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winUIDocument: {fileID: 5581625292742239144}
+  loseUIDocument: {fileID: 337297497617247389}
 --- !u!1 &8476632653627432952
 GameObject:
   m_ObjectHideFlags: 0
