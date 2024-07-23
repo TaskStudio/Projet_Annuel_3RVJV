@@ -92,6 +92,9 @@ MonoBehaviour:
             m_StringArgument: ALLY-0
             m_BoolArgument: 0
           m_CallState: 2
+    woodCost: 10
+    stoneCost: 0
+    goldCost: 0
   previewMaterial: {fileID: 0}
   previewInvalidMaterial: {fileID: 0}
   placedMaterial: {fileID: 0}
