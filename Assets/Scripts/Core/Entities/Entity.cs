@@ -110,6 +110,7 @@ public abstract class Entity : BaseObject
     public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        Debug.Log("Entity took " + damage);
         if (currentHealth < 0) currentHealth = 0;
         if (currentHealth <= 0)
         {

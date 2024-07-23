@@ -1,18 +1,39 @@
 using System.Collections;
+using FogOfWar;
 using UnityEngine;
 
 public class Enemy : Fighter
 {
+    protected float bumpDistance = 1f;
+    protected int collisionDamage = 20;
+
     protected State currentState = State.Idle;
     protected bool isTaunted;
     protected Transform target;
     protected Vector3 tauntTarget;
+    private FogScript fogScript;
 
-    protected virtual void Start()
+    protected new virtual void Start()
     {
         base.Start();
         if (!mapEditContext)
             StartCoroutine(BehaviorTree());
+
+        fogScript = FindObjectOfType<FogScript>(); // Ensure there is only one FogScript in the scene
+    }
+
+    private void Update()
+    {
+        if (fogScript != null)
+        {
+            var isVisible = fogScript.IsPositionInClearedZone(transform.position);
+            SetVisibility(!isVisible);
+        }
+    }
+
+    private void SetVisibility(bool isVisible)
+    {
+        foreach (var renderer in GetComponentsInChildren<Renderer>()) renderer.enabled = isVisible;
     }
 
     protected override void Die()
@@ -25,13 +46,14 @@ public class Enemy : Fighter
     {
         base.TakeDamage(damage);
         StatManager.IncrementEnemyDamageTaken(damage);
+        Debug.Log("Enemy took damage: " + damage);
 
         if (currentHealth <= 0)
         {
+            Debug.Log("Enemy died.");
             Die();
         }
     }
-
 
     protected IEnumerator BehaviorTree()
     {
@@ -88,12 +110,11 @@ public class Enemy : Fighter
         }
     }
 
-
     protected void MoveToTarget()
     {
         if (target != null)
         {
-            targetPosition = target.position;
+            var targetPosition = target.position;
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
@@ -129,8 +150,7 @@ public class Enemy : Fighter
         }
     }
 
-
-    public virtual void Move(Vector3 targetPosition)
+    public override void Move(Vector3 targetPosition)
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 

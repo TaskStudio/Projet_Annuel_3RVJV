@@ -20,7 +20,7 @@ MonoBehaviour:
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
-  attackDamage: 10
+  attackDamage: 50
   distanceType: 0
   detectionRange: 15
   attackRange: 1
