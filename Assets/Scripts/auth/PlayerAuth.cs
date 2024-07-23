@@ -44,7 +44,7 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
 
             try
             {
-                isSigningIn = true; // Set the flag to indicate sign-in is in progress
+                isSigningIn = true;
                 await PlayerAccountService.Instance.StartSignInAsync();
             }
             catch (RequestFailedException ex)
@@ -174,19 +174,19 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
             }
         }
 
-        void LogPlayerName()
+        public async Task<string> LogPlayerName()
         {
-            AuthenticationService.Instance.GetPlayerNameAsync().ContinueWith(task =>
+            try
             {
-                if (task.IsFaulted)
-                {
-                    Debug.LogError(task.Exception);
-                }
-                else
-                {
-                    Debug.Log($"Player Name: {task.Result}");
-                }
-            });
+                var playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
+                Debug.Log($"Player Name: {playerName}");
+                return playerName;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+                return null;
+            }
         }
 
         public async Task<Dictionary<string, object>> GetPlayerScore(String leaderboadID)
