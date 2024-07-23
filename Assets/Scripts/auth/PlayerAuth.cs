@@ -181,11 +181,11 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
             });
         }
 
-        public async Task<Dictionary<string, object>> GetPlayerScore()
+        public async Task<Dictionary<string, object>> GetPlayerScore(String leaderboadID)
         {
             var scoreResponse = await LeaderboardsService.Instance
                 .GetPlayerScoreAsync(
-                    "Leaderboard",
+                    leaderboadID,
                     new GetPlayerScoreOptions { IncludeMetadata = true });
 
             string jsonString = JsonConvert.SerializeObject(scoreResponse);
