@@ -16,18 +16,18 @@ public class MovableEntityManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void AddMovableEntity(Unit entity)
-    {
-        var data = new MovableEntityData
-        {
-            type = entity.GetType().Name,
-            name = entity.name,
-            position = entity.transform.position,
-            rotation = entity.transform.rotation,
-            path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(entity)
-        };
-        MovableEntitiesData.Add(data);
-    }
+    // public void AddMovableEntity(Unit entity)
+    // {
+    //     var data = new MovableEntityData
+    //     {
+    //         type = entity.GetType().Name,
+    //         name = entity.name,
+    //         position = entity.transform.position,
+    //         rotation = entity.transform.rotation,
+    //         path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(entity)
+    //     };
+    //     MovableEntitiesData.Add(data);
+    // }
 
     public void RemoveMovableEntity(Unit entity)
     {

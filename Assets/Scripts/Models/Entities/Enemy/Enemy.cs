@@ -14,7 +14,7 @@ public class Enemy : Fighter
     protected Transform target;
     protected Vector3 tauntTarget;
 
-    protected virtual void Start()
+    protected new virtual void Start()
     {
         base.Start();
         if (!mapEditContext)
@@ -145,7 +145,8 @@ public class Enemy : Fighter
         }
     }
 
-    public virtual void Move(Vector3 targetPosition)
+
+    public override void Move(Vector3 targetPosition)
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
