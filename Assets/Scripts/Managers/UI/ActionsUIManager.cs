@@ -67,7 +67,7 @@ public class ActionsUIManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"Entity Data Found: {actions[i]}");
+                    //Debug.Log($"Entity Data Found: {actions[i]}");
                     var entityAction = actions[i];
                     actionButton.RegisterCallback<MouseEnterEvent>(evt => ShowCostWindow(entityAction));
                     actionButton.RegisterCallback<MouseLeaveEvent>(evt => HideCostWindow());
