@@ -3,15 +3,16 @@ using UnityEngine;
 
 public abstract class Fighter : Unit
 {
-    
     public enum DistanceType
     {
         Melee,
         Ranged
     }
 
-    [Space(10)] [Header("Fighting")]
-    [SerializeField] protected LayerMask targetLayer;
+    [Space(10)] [Header("Fighting")] [SerializeField]
+    protected LayerMask targetLayer;
+
+    [SerializeField] private ParticleSystem attackParticleSystem;
 
     protected readonly Collider[] potentialTargetsInRange = new Collider[50];
     private readonly HashSet<Entity> targetsHashSet = new();
@@ -21,7 +22,6 @@ public abstract class Fighter : Unit
     private float lastAttackTime;
     protected bool moveAttack;
     protected List<Entity> targetsInRange = new();
-    [SerializeField] private ParticleSystem attackParticleSystem;
 
 
     protected new void Start()
@@ -31,11 +31,11 @@ public abstract class Fighter : Unit
         heldPosition = transform.position;
     }
 
-    protected new void Update()
+    protected override void Update()
     {
         base.Update();
 
-        int numTargets = Physics.OverlapSphereNonAlloc(
+        var numTargets = Physics.OverlapSphereNonAlloc(
             transform.position,
             Data.detectionRange,
             potentialTargetsInRange,
@@ -43,7 +43,7 @@ public abstract class Fighter : Unit
         );
 
         for (var i = 0; i < numTargets; i++)
-            if (colliderToEntityMap.TryGetValue(potentialTargetsInRange[i], out Entity potentialTarget)
+            if (colliderToEntityMap.TryGetValue(potentialTargetsInRange[i], out var potentialTarget)
                 && targetsHashSet.Add(potentialTarget))
             {
                 targetsInRange.Add(potentialTarget);
@@ -94,24 +94,28 @@ public abstract class Fighter : Unit
         gameObject.transform.LookAt(currentTarget.transform.position);
 
         if (Time.time <= lastAttackTime + Data.attackCooldown) return;
-        currentTarget.TakeDamage(Data.attackDamage);
         if (Data.distanceType == DistanceType.Ranged && attackParticleSystem != null)
         {
             // Instantiate the particle system at the current position
-        
-            attackParticleSystem.transform.LookAt(currentTarget.transform); // Ensure the particles are directed towards the target
+
+            attackParticleSystem.transform.LookAt(
+                currentTarget.transform
+            ); // Ensure the particles are directed towards the target
             attackParticleSystem.Play();
         }
+
+        currentTarget.TakeDamage(Data.attackDamage);
+
         lastAttackTime = Time.time;
     }
 
     private Entity GetNearestTarget()
     {
         Entity nearestTarget = null;
-        float nearestDistance = float.MaxValue;
-        foreach (Entity target in targetsInRange)
+        var nearestDistance = float.MaxValue;
+        foreach (var target in targetsInRange)
         {
-            float distance = Vector3.Distance(transform.position, target.transform.position);
+            var distance = Vector3.Distance(transform.position, target.transform.position);
             if (distance < nearestDistance)
             {
                 nearestDistance = distance;

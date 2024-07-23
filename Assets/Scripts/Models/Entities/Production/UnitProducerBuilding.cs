@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class UnitProducerBuilding : Building
 {
-    [FormerlySerializedAs("entityDatabase")]
     [Space(10)] [Header("Production")]
     [SerializeField] private UnitDatabaseSO unitDatabase;
     [SerializeField] private Transform productionPoint;
@@ -13,7 +11,13 @@ public class UnitProducerBuilding : Building
     private readonly Queue<string> productionQueue = new();
     private float currentProductionTime { get; set; }
 
-    private new void Update()
+    private void Start()
+    {
+        if (mapEditContext)
+            actionList.Clear();
+    }
+
+    protected override void Update()
     {
         base.Update();
 

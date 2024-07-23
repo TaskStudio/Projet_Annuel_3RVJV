@@ -197,7 +197,7 @@ Transform:
   - {fileID: 7776642596223239328}
   - {fileID: 4766740995874624016}
   - {fileID: 4724596135406212208}
-  - {fileID: 4394306546240721781}
+  - {fileID: 5856006133072226425}
   - {fileID: 5037066682026553508}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -238,9 +238,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fca792a9439ddca48993cc3c73c5c51d, type: 3}
---- !u!4 &4394306546240721781 stripped
+--- !u!4 &5856006133072226425 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4247341184281172693, guid: fca792a9439ddca48993cc3c73c5c51d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6291130954298302937, guid: fca792a9439ddca48993cc3c73c5c51d, type: 3}
   m_PrefabInstance: {fileID: 435196358738921888}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4048499888700627216
@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 8226019046204944227}
+    - target: {fileID: 1131719820996784765, guid: 33ac19ee0a927344ebbe235cc37872c4, type: 3}
+      propertyPath: clickableLayer.m_Bits
+      value: 4864
+      objectReference: {fileID: 0}
     - target: {fileID: 1131719820996784765, guid: 33ac19ee0a927344ebbe235cc37872c4, type: 3}
       propertyPath: selectableLayer.m_Bits
       value: 8

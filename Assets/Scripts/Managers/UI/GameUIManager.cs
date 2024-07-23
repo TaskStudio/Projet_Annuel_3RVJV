@@ -1,14 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Button = UnityEngine.UIElements.Button;
 
 public class GameUIManager : MonoBehaviour
 {
     public UIDocument winUIDocument;
     public UIDocument loseUIDocument;
-    public UnityEngine.UI.RawImage minimapRawImage; 
+    public RawImage minimapRawImage;
+    private VisualElement loseRoot;
 
     private VisualElement winRoot;
-    private VisualElement loseRoot;
 
     private void Start()
     {
@@ -45,6 +47,7 @@ public class GameUIManager : MonoBehaviour
             UpdateStatistics(winRoot);
             StatManager.Instance.StopTimer();
             DisableMinimap(); // Disable minimap when game ends
+            Time.timeScale = 0f;
         }
     }
 
@@ -56,6 +59,7 @@ public class GameUIManager : MonoBehaviour
             UpdateStatistics(loseRoot);
             StatManager.Instance.StopTimer();
             DisableMinimap(); // Disable minimap when game ends
+            Time.timeScale = 0f;
         }
     }
 
@@ -98,19 +102,18 @@ public class GameUIManager : MonoBehaviour
 
     private void RestartGame()
     {
+        Time.timeScale = 1f;
         GameManager.Instance.RestartGame();
     }
 
     private void ExitGame()
     {
+        Time.timeScale = 1f;
         GameManager.Instance.ExitGame();
     }
 
     private void DisableMinimap()
     {
-        if (minimapRawImage != null)
-        {
-            minimapRawImage.enabled = false;
-        }
+        if (minimapRawImage != null) minimapRawImage.enabled = false;
     }
 }

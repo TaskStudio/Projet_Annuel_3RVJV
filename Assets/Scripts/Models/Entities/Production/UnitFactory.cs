@@ -12,8 +12,6 @@ public class UnitFactory : MonoBehaviour
     [FormerlySerializedAs("playerEntityDatabase")]
     public UnitDatabaseSO playerUnitDatabase;
 
-    public BuildingDatabaseSO playerBuildingDatabase;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -23,7 +21,6 @@ public class UnitFactory : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
     }
 

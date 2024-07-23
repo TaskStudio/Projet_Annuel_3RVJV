@@ -11,14 +11,9 @@ public class SelectedEntityManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     public void UpdateSelectedEntities(List<BaseObject> newSelectedProfiles)
@@ -29,7 +24,8 @@ public class SelectedEntityManager : MonoBehaviour
         UpdateSelectedEntitiesList();
         var selectedProfile = selectedProfiles.Count > 0 ? selectedProfiles[0] : null;
         UpdateFirstSelectedEntity(selectedProfile); // Display the face of the first entity selected 
-        StatisticsUpdater.Instance.UpdateStatisticsContainer(selectedProfile); // Display the stats of the first entity selected 
+        StatisticsUpdater.Instance
+            .UpdateStatisticsContainer(selectedProfile); // Display the stats of the first entity selected 
 
         // Update visibility of #Character and #Selected panels
         bool hasSelectedEntities = selectedProfiles.Count > 0;
@@ -39,22 +35,15 @@ public class SelectedEntityManager : MonoBehaviour
 
     private void UpdateFirstSelectedEntity(BaseObject profile)
     {
-        if (profile == null || GetProfileImage(profile) == null)
-        {
-            return;
-        }
+        if (profile == null || GetProfileImage(profile) == null) return;
 
         if (profile is BaseObject entityProfile)
         {
             var backgroundImage = GetProfileImage(profile);
             if (backgroundImage != null)
-            {
                 UIManager.Instance.faceContainer.style.backgroundImage = new StyleBackground(backgroundImage);
-            }
             else
-            {
                 UIManager.Instance.faceContainer.style.backgroundImage = null;
-            }
         }
     }
 

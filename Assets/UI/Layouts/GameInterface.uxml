@@ -2,8 +2,12 @@
     <Style src="project://database/Assets/UI/Styles/GameInterface.uss?fileID=7433441132597879392&amp;guid=d4ae9ee958a5a234f8bbff784afb8f4b&amp;type=3#GameInterface" />
     <ui:VisualElement name="MainInterface" style="flex-grow: 1; flex-direction: column; height: auto; align-items: stretch; align-self: auto; flex-wrap: nowrap; padding-left: 0; justify-content: flex-end;">
         <ui:VisualElement name="Container" style="flex-grow: 1; justify-content: space-between; flex-direction: row; align-items: stretch; align-self: auto;">
-            <ui:VisualElement name="BuildingActionsContainer" style="flex-grow: 0; align-self: center; justify-content: flex-start; margin-right: 0; align-items: flex-start; padding-top: 12px; padding-right: 12px; padding-bottom: 12px; padding-left: 12px; background-color: rgba(0, 0, 0, 0.28); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; display: flex; position: relative; top: auto; left: auto; transform-origin: right; margin-bottom: 0; margin-left: 17px;" />
-            <ui:VisualElement name="ActionsContainer" style="flex-grow: 0; align-self: center; justify-content: flex-start; margin-right: 17px; align-items: flex-end; padding-top: 12px; padding-right: 12px; padding-bottom: 12px; padding-left: 12px; background-color: rgba(0, 0, 0, 0.28); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; display: flex; position: relative; top: auto; left: auto; transform-origin: right; margin-bottom: 0; margin-left: auto;" />
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="BuildingActionsScrollView" style="align-self: center; padding-top: 18px; padding-right: 18px; padding-bottom: 18px; padding-left: 18px;">
+                <ui:VisualElement name="BuildingActionsContainer" style="flex-grow: 0; align-self: center; justify-content: flex-start; margin-right: 0; align-items: flex-start; padding-top: 12px; padding-right: 12px; padding-bottom: 12px; padding-left: 12px; background-color: rgba(0, 0, 0, 0.28); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; display: flex; position: relative; top: auto; left: auto; transform-origin: right; margin-bottom: 0; margin-left: 0;" />
+            </ui:ScrollView>
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="ActionsScrollView" style="justify-content: flex-start; align-items: auto; align-self: center; margin-left: auto; max-height: 50%; padding-right: 18px; padding-top: 18px; padding-bottom: 18px; padding-left: 18px;">
+                <ui:VisualElement name="ActionsContainer" style="flex-grow: 0; align-self: center; justify-content: flex-start; margin-right: 0; align-items: flex-end; padding-top: 12px; padding-right: 12px; padding-bottom: 12px; padding-left: 12px; background-color: rgba(0, 0, 0, 0.28); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; display: flex; position: relative; top: auto; left: auto; transform-origin: right; margin-bottom: 0; margin-left: auto;" />
+            </ui:ScrollView>
         </ui:VisualElement>
         <ui:VisualElement name="VisualElement" style="flex-grow: 0; height: 337px; flex-direction: row; align-self: auto; align-items: flex-end; transform-origin: center;">
             <ui:VisualElement name="MiniMap" style="flex-grow: 0; width: 17%; height: 100%; border-top-right-radius: 0; background-color: rgb(188, 188, 188); opacity: 1; background-image: none; -unity-background-image-tint-color: rgb(241, 39, 39); border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; border-left-color: rgba(0, 0, 0, 0.82); border-right-color: rgba(0, 0, 0, 0.82); border-top-color: rgba(0, 0, 0, 0.82); border-bottom-color: rgba(0, 0, 0, 0.82); flex-shrink: 1; justify-content: flex-end; align-items: center; align-self: auto; margin-top: auto;" />
@@ -28,6 +32,20 @@
                     <ui:VisualElement name="BuildingsButtonsContainer" style="flex-grow: 1; padding-right: 300px; padding-left: 300px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="CostWindow" class="resourceCost" style="background-color: rgba(0, 0, 0, 0.58); border-left-color: rgba(0, 0, 0, 0.27); border-right-color: rgba(0, 0, 0, 0.27); border-top-color: rgba(0, 0, 0, 0.27); border-bottom-color: rgba(0, 0, 0, 0.27); border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; display: flex; top: 690px; left: 738px;">
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: space-between; width: 79px; font-size: 17px;">
+            <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;wood&apos;); width: 42px; height: 42px;" />
+            <ui:Label tabindex="-1" text="40" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WoodCost" style="color: rgb(238, 238, 238); font-size: 26px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: space-between; width: 79px; font-size: 17px;">
+            <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;stone&apos;); width: 42px; height: 42px;" />
+            <ui:Label tabindex="-1" text="40" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StoneCost" style="color: rgb(238, 238, 238); font-size: 26px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: space-between; width: 79px; font-size: 17px;">
+            <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;gold&apos;); width: 42px; height: 42px;" />
+            <ui:Label tabindex="-1" text="40" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoldCost" style="color: rgb(238, 238, 238); font-size: 26px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

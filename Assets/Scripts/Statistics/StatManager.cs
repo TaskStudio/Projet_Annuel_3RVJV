@@ -1,45 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StatManager : MonoBehaviour
 {
+    public static int allyDeathCount;
+    public static int enemyDeathCount;
+    public static int allyDamageTaken;
+    public static int enemyDamageTaken;
+    public static int allyWoodCollected;
+    public static int allyStoneCollected;
+    public static int allyGoldCollected;
+    public static int allyGoldSpent;
+    public static int allyStoneSpent;
+    public static int allyWoodSpent;
+    public static int unitProductionCount;
+
+    public float elapsedTime;
+    private bool isRunning = true;
     public static StatManager Instance { get; private set; }
 
-    public float elapsedTime = 0f;
-    private bool isRunning = true;
-
-    public static int allyDeathCount = 0;
-    public static int enemyDeathCount = 0;
-    public static int allyDamageTaken = 0;
-    public static int enemyDamageTaken = 0;
-    public static int allyWoodCollected = 0;
-    public static int allyStoneCollected = 0;
-    public static int allyGoldCollected = 0;
-    public static int allyGoldSpent = 0;
-    public static int allyStoneSpent = 0;
-    public static int allyWoodSpent = 0;
-    public static int unitProductionCount = 0;
+    public static int AllyDamageTaken => allyDamageTaken;
+    public static int EnemyDamageTaken => enemyDamageTaken;
+    public static int AllyDeathCount => allyDeathCount;
+    public static int EnemyDeathCount => enemyDeathCount;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
-    void Update()
+    private void Update()
     {
-        if (isRunning)
-        {
-            elapsedTime += Time.deltaTime;
-        }
+        if (isRunning) elapsedTime += Time.deltaTime;
 
         LogAllStats();
     }
@@ -58,7 +52,7 @@ public class StatManager : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(elapsedTime / 60F);
         int seconds = Mathf.FloorToInt(elapsedTime % 60F);
-        int milliseconds = Mathf.FloorToInt((elapsedTime * 100F) % 100F);
+        int milliseconds = Mathf.FloorToInt(elapsedTime * 100F % 100F);
         return $"{minutes:00}:{seconds:00}:{milliseconds:00}";
     }
 
@@ -138,11 +132,6 @@ public class StatManager : MonoBehaviour
     {
         return unitProductionCount;
     }
-
-    public static int AllyDamageTaken => allyDamageTaken;
-    public static int EnemyDamageTaken => enemyDamageTaken;
-    public static int AllyDeathCount => allyDeathCount;
-    public static int EnemyDeathCount => enemyDeathCount;
 
     public static int GetAllyWoodCollected()
     {
