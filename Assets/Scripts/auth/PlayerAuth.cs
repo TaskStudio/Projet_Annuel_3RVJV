@@ -12,7 +12,7 @@ using GetPlayerScoreOptions = Unity.Services.Leaderboards.GetPlayerScoreOptions;
 
 namespace Unity.Services.Authentication.PlayerAccounts.Samples
 {
-    class PlayerAccountsDemo : MonoBehaviour
+    class PlayerAuth : MonoBehaviour
     {
         [SerializeField] Text m_StatusText;
         [SerializeField] Text m_ExceptionText;
@@ -95,10 +95,6 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
                         178,
                         new AddPlayerScoreOptions
                             { Metadata = new Dictionary<string, string>() { { "team", "red" } } });
-                Debug.Log(JsonConvert.SerializeObject(playerEntry));
-
-                GetPlayerScore();
-                Debug.Log(GetPlayerScore());
                 RedirectToScene("MainScene");
             }
             catch (RequestFailedException ex)
