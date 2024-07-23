@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using GameInput;
 using UnityEngine;
 
@@ -8,18 +9,31 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private MouseControl mouseControl;
     [SerializeField] private float cellSize = 1.0f;
 
-    public bool isBuildingSelected;
+    public bool mapEditionMode;
 
     private readonly BuildingGridData BuildingGrid = new();
+    private bool buildingIsBeingMoved;
     private Grid grid;
 
+    private bool isBuildingSelected;
     private Building selectedBuilding;
     private BuildingData selectedBuildingData;
 
+    public static PlacementSystem Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     private void Start()
     {
-        grid = mapGrid.Grid;
         mapGrid.SetGridCellSize(cellSize);
+        mapGrid.gameObject.SetActive(false);
+
 
         isBuildingSelected = false;
 
@@ -31,14 +45,17 @@ public class PlacementSystem : MonoBehaviour
     {
         if (isBuildingSelected && selectedBuilding.state == Building.BuildingStates.Preview)
         {
-            var worldMousePos = mouseControl.GetCursorMapPosition();
-            var gridMousePos = grid.WorldToCell(worldMousePos);
-            var gridWorldPos = grid.CellToWorld(gridMousePos);
-            selectedBuilding.transform.position = gridWorldPos;
+            Vector3 worldMousePos = mouseControl.GetCursorMapPosition();
+            Vector3Int gridMousePos = grid.WorldToCell(worldMousePos);
+            Vector3 gridWorldPos = grid.CellToWorld(gridMousePos);
 
-            var buildingSize = selectedBuildingData.Size;
+            selectedBuilding.buildingPivot.position = gridWorldPos;
+            selectedBuilding.transform.position =
+                selectedBuilding.buildingPivot.position - selectedBuilding.pivotOffset;
 
-            var canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, buildingSize);
+            Vector2Int buildingSize = selectedBuildingData.Size;
+
+            bool canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, buildingSize);
             if (!canPlace)
                 selectedBuilding.PreviewInvalid();
             else
@@ -46,14 +63,22 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        grid = mapGrid.Grid;
+    }
+
     public void StartPlacement(BuildingData buildingData)
     {
         CancelPlacement();
+        mapGrid.gameObject.SetActive(true);
 
         selectedBuildingData = buildingData;
         selectedBuilding = Instantiate(buildingData.Prefab);
         selectedBuilding.SetGridCellSize(cellSize);
         selectedBuilding.PreviewValid();
+        selectedBuilding.mapEditContext = mapEditionMode;
+
 
         isBuildingSelected = selectedBuilding != null;
         StartCoroutine(DelayedAddMouseEvents());
@@ -62,22 +87,58 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceBuilding()
     {
-        var worldMousePos = mouseControl.GetCursorMapPosition();
-        var gridMousePos = grid.WorldToCell(worldMousePos);
+        if (UIManager.Instance.IsMouseOverUI()) return;
 
-        var canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, selectedBuildingData.Size);
+        Vector3 worldMousePos = mouseControl.GetCursorMapPosition();
+        Vector3Int gridMousePos = grid.WorldToCell(worldMousePos);
+
+        bool canPlace = BuildingGrid.CanPlaceObjectAt(gridMousePos, selectedBuildingData.Size);
         if (!canPlace)
             return;
 
-        BuildingGrid.AddObjectAt(gridMousePos, selectedBuildingData.Size, selectedBuildingData.IdNumber, 0);
-        selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
+        List<Vector3Int> occupiedPositions = BuildingGrid.AddObjectAt(
+            gridMousePos,
+            selectedBuildingData.Size,
+            selectedBuildingData.IdNumber
+        );
+
+        if (buildingIsBeingMoved || mapEditionMode)
+            selectedBuilding.Place();
+        else
+            selectedBuilding.StartConstruction(selectedBuildingData.ConstructionTime);
+
+        selectedBuilding.SetID(selectedBuildingData.ID);
+        selectedBuilding.occupiedGridPositions = occupiedPositions;
         selectedBuilding = null;
         isBuildingSelected = false;
 
         mouseControl.OnClicked -= PlaceBuilding;
+        mouseControl.OnRightClicked -= CancelPlacement;
         mouseControl.OnExit -= CancelPlacement;
 
         Cursor.visible = true;
+
+        mapGrid.gameObject.SetActive(false);
+    }
+
+    public void StartMoveBuilding(Building building)
+    {
+        selectedBuilding = building;
+        isBuildingSelected = true;
+        BuildingGrid.RemoveObjectAt(selectedBuilding.occupiedGridPositions);
+        selectedBuilding.occupiedGridPositions.Clear();
+        selectedBuilding.PreviewValid();
+        StartCoroutine(DelayedAddMouseEvents());
+        Cursor.visible = false;
+    }
+
+    public void PlaceBuildingAtLocation(Building building, Vector3 position, Vector2Int size)
+    {
+        var gridPos = grid.WorldToCell(position);
+        BuildingGrid.AddObjectAt(gridPos, size, 0);
+        building.transform.position = grid.CellToWorld(gridPos);
+        building.StartConstruction(0);
+        building.SetID(building.ID);
     }
 
     public void CancelPlacement()
@@ -88,7 +149,14 @@ public class PlacementSystem : MonoBehaviour
             selectedBuilding = null;
             selectedBuildingData = null;
             isBuildingSelected = false;
+            mapGrid.gameObject.SetActive(false);
         }
+
+        mouseControl.OnClicked -= PlaceBuilding;
+        mouseControl.OnRightClicked -= CancelPlacement;
+        mouseControl.OnExit -= CancelPlacement;
+
+        Cursor.visible = true;
     }
 
     private IEnumerator DelayedAddMouseEvents()
@@ -96,6 +164,7 @@ public class PlacementSystem : MonoBehaviour
         yield return null;
 
         mouseControl.OnClicked += PlaceBuilding;
+        mouseControl.OnRightClicked += CancelPlacement;
         mouseControl.OnExit += CancelPlacement;
     }
 }

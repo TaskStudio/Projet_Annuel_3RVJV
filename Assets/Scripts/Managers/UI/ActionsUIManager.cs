@@ -1,46 +1,58 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ActionsUIManager : MonoBehaviour
 {
     public static ActionsUIManager Instance;
+    public bool mapEditorMode;
+
+    [SerializeField] [CanBeNull] private UnitPlacementSystem unitPlacementSystem;
 
     private VisualElement actionsContainer;
+    private VisualElement costWindow;
+    private Label goldCostLabel;
+    private Label stoneCostLabel;
+    private Label woodCostLabel;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     private void Start()
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         actionsContainer = rootVisualElement.Q<VisualElement>("ActionsContainer");
+        costWindow = rootVisualElement.Q<VisualElement>("CostWindow");
+        woodCostLabel = costWindow.Q<Label>("WoodCost");
+        stoneCostLabel = costWindow.Q<Label>("StoneCost");
+        goldCostLabel = costWindow.Q<Label>("GoldCost");
 
-        if (actionsContainer == null)
+        if (actionsContainer == null || costWindow == null)
         {
-            Debug.LogError("ActionsContainer not found in the UXML. Check the UXML and the names.");
+            Debug.LogError("ActionsContainer or CostWindow not found in the UXML. Check the UXML and the names.");
             return;
         }
 
-        // Hide the actions container initially
+        // Hide the actions container and cost window initially
         actionsContainer.style.display = DisplayStyle.None;
+        costWindow.style.display = DisplayStyle.None;
+
+        if (mapEditorMode) UpdateActionButtons(new List<EntityAction>());
     }
 
     public void UpdateActionButtons(List<EntityAction> actions)
     {
+        if (mapEditorMode) actions = unitPlacementSystem?.unitsProductionOrders;
+
         actionsContainer.Clear();
 
-        if (actions.Count > 0)
+        if (actions?.Count > 0)
         {
             // Show the actions container
             actionsContainer.style.display = DisplayStyle.Flex;
@@ -49,8 +61,20 @@ public class ActionsUIManager : MonoBehaviour
             {
                 var actionButton = new Button { text = actions[i].actionName };
                 actionButton.AddToClassList("actionButton");
-                var actionIndex = i; // Capture the current index for the callback
-                actionButton.clicked += () => OnActionButtonClicked(actionIndex);
+                if (mapEditorMode)
+                {
+                    actionButton.clicked += actions[i].action.Invoke;
+                }
+                else
+                {
+                    Debug.Log($"Entity Data Found: {actions[i]}");
+                    var entityAction = actions[i];
+                    actionButton.RegisterCallback<MouseEnterEvent>(evt => ShowCostWindow(entityAction));
+                    actionButton.RegisterCallback<MouseLeaveEvent>(evt => HideCostWindow());
+                    int i1 = i;
+                    actionButton.clicked += () => OnActionButtonClicked(i1);
+                }
+
                 actionsContainer.Add(actionButton);
             }
         }
@@ -64,5 +88,19 @@ public class ActionsUIManager : MonoBehaviour
     private void OnActionButtonClicked(int actionIndex)
     {
         SelectionManager.Instance.OnInvokeActionable(actionIndex);
+    }
+
+    private void ShowCostWindow(EntityAction entityData)
+    {
+        costWindow.style.display = DisplayStyle.Flex;
+
+        woodCostLabel.text = entityData.woodCost.ToString();
+        stoneCostLabel.text = entityData.stoneCost.ToString();
+        goldCostLabel.text = entityData.goldCost.ToString();
+    }
+
+    private void HideCostWindow()
+    {
+        costWindow.style.display = DisplayStyle.None;
     }
 }

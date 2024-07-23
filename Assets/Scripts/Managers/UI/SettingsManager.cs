@@ -24,14 +24,9 @@ public class SettingsManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     private void OnEnable()
@@ -117,14 +112,17 @@ public class SettingsManager : MonoBehaviour
     {
         if (mode == "Windowed")
         {
-            var newWidth = (int)(Screen.currentResolution.width * 0.7f);
-            var newHeight = (int)(Screen.currentResolution.height * 0.7f);
+            var newWidth = (int) (Screen.currentResolution.width * 0.7f);
+            var newHeight = (int) (Screen.currentResolution.height * 0.7f);
             Screen.SetResolution(newWidth, newHeight, FullScreenMode.Windowed);
         }
         else if (mode == "Full Screen")
         {
-            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height,
-                FullScreenMode.ExclusiveFullScreen);
+            Screen.SetResolution(
+                Screen.currentResolution.width,
+                Screen.currentResolution.height,
+                FullScreenMode.ExclusiveFullScreen
+            );
         }
         //Debug.Log("Screen mode set to: " + mode);
     }
@@ -146,8 +144,8 @@ public class SettingsManager : MonoBehaviour
         // Set the dropdown to the current screen mode
         if (Screen.fullScreenMode == FullScreenMode.Windowed)
             fullscreenDropdown.SetValueWithoutNotify("Windowed");
-        else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen ||
-                 Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
+        else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen
+                 || Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
             fullscreenDropdown.SetValueWithoutNotify("Full Screen");
     }
 

@@ -16,6 +16,12 @@ public class Gatherer : Ally
         if (gatheringResources) HandleGatheringBehavior();
     }
 
+    public override void MoveInFormation(Vector3 targetFormationPosition)
+    {
+        base.MoveInFormation(targetFormationPosition);
+        gatheringResources = false;
+    }
+
     public override void SetTarget(Entity target)
     {
         if (target is ResourceNode)
@@ -100,7 +106,7 @@ public class Gatherer : Ally
         {
             resourceStorage.AddResource(carriedResource);
             StatManager.IncrementResources(carriedResource);
-            
+
             carriedResource = null;
         }
     }

@@ -99,6 +99,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd59a8886e9ab7458575b29308f404a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &4505041102328065874 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3585130057845835458, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
+  m_PrefabInstance: {fileID: 1100549332571416976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5153192163199829030 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5243948296936631734, guid: faf2e51deea0eaf4483a1ef79e4a9e39, type: 3}
@@ -129,14 +134,21 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: c6002954abb101c49a4e358f1dc9fc78, type: 2}
   model: {fileID: 5153192163199829030}
   id: 
+  addressableKey: UNIT-2
   healthBar: {fileID: 1595941478213424838}
   actionList: []
+  previewMaterial: {fileID: 2100000, guid: 357f6867bec2310439376b12cb13fe9d, type: 2}
+  previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
+  placedMaterial: {fileID: 2100000, guid: 357f6867bec2310439376b12cb13fe9d, type: 2}
+  objectRenderer: {fileID: 4505041102328065874}
+  mapEditContext: 0
   avoidanceStrength: 5
   collisionRadius: 1
   manaBar: {fileID: 3831995754191925086}
   targetLayer:
     serializedVersion: 2
     m_Bits: 4096
+  attackParticleSystem: {fileID: 0}
   healAmount: 10
 --- !u!1001 &2360623908579705797
 PrefabInstance:
@@ -152,11 +164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_MaxValue
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Pivot.x
@@ -244,15 +256,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Color.b
-      value: 0.990566
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Color.g
-      value: 0.5761615
+      value: 0.40378952
       objectReference: {fileID: 0}
     - target: {fileID: 6020757295389230875, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_Color.r
-      value: 0.2943663
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6643011142201416954, guid: 43932877feb5a814a9f7f910f2d47e00, type: 3}
       propertyPath: m_AnchorMax.x

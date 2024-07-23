@@ -10,48 +10,41 @@ public class UnitsManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
-    private void Update()
+    public void SetUnitsOrder()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-            if (Physics.Raycast(
-                    ray,
-                    out hit,
-                    Mathf.Infinity,
-                    (1 << LayerMask.NameToLayer("Entity"))
-                    | (1 << LayerMask.NameToLayer("Enemy"))
-                ))
-            {
-                foreach (var entity in MovableUnits)
-                    if (entity.IsSelected)
-                        entity.SetTarget(hit.collider.GetComponent<Entity>());
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-            {
-                foreach (var entity in MovableUnits)
-                    if (entity.IsSelected)
-                    {
-                        if (entity is AllyFighter allyFighter
-                            && (Input.GetKey(KeyCode.LeftShift)
-                                || Input.GetKey(KeyCode.RightShift)))
-                            allyFighter.MoveAndAttack(hit.point);
-                        else
-                            entity.MoveInFormation(hit.point);
-                    }
-            }
+        if (Physics.Raycast(
+                ray,
+                out hit,
+                Mathf.Infinity,
+                (1 << LayerMask.NameToLayer("Entity"))
+                | (1 << LayerMask.NameToLayer("Enemy"))
+            ))
+        {
+            foreach (var entity in MovableUnits)
+                if (entity.IsSelected)
+                    entity.SetTarget(hit.collider.GetComponent<Entity>());
+        }
+        else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            foreach (var entity in MovableUnits)
+                if (entity.IsSelected)
+                {
+                    if (entity is Enemy) return;
+                    if (entity is AllyFighter allyFighter
+                        && (Input.GetKey(KeyCode.LeftShift)
+                            || Input.GetKey(KeyCode.RightShift)))
+                        allyFighter.MoveAndAttack(hit.point);
+                    else
+                        entity.MoveInFormation(hit.point);
+                }
         }
     }
 

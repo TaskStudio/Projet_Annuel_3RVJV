@@ -10,9 +10,16 @@ public class UIManager : MonoBehaviour
     public UIDocument resourcesDocument;
     public BuildingsUIManager buildingsUIManager;
 
+    public bool mapEditorContext;
+
     private readonly List<BaseObject> selectedProfiles = new();
 
     public VisualElement actionsPanel;
+    public VisualElement actionsScrollView;
+    public VisualElement buildingActionsContainer;
+    public VisualElement buildingActionsScrollView;
+
+    public VisualElement buildingList;
     public VisualElement characterPanel;
     public VisualElement faceContainer;
     private bool isMouseOverUI;
@@ -21,22 +28,14 @@ public class UIManager : MonoBehaviour
     public VisualElement selectedPanel;
     public VisualElement statisticsScrollView;
 
-    public VisualElement buildingList;
-    public VisualElement buildingActionsContainer;
-
     public static UIManager Instance { get; private set; }
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     private void Start()
@@ -66,9 +65,20 @@ public class UIManager : MonoBehaviour
         buildingList = rootVisualElement.Q<VisualElement>("BuildingList");
         buildingActionsContainer = rootVisualElement.Q<VisualElement>("BuildingActionsContainer");
 
-        if (selectedEntitiesList == null || statisticsScrollView == null || faceContainer == null ||
-            characterPanel == null || selectedPanel == null || resourcesPanel == null || actionsPanel == null ||
-            buildingList == null || buildingActionsContainer == null)
+        buildingActionsScrollView = rootVisualElement.Q<VisualElement>("BuildingActionsScrollView");
+        actionsScrollView = rootVisualElement.Q<VisualElement>("ActionsScrollView");
+
+        if (selectedEntitiesList == null
+            || statisticsScrollView == null
+            || faceContainer == null
+            || characterPanel == null
+            || selectedPanel == null
+            || resourcesPanel == null
+            || actionsPanel == null
+            || buildingList == null
+            || buildingActionsContainer == null
+            || buildingActionsScrollView == null
+            || actionsScrollView == null)
         {
             Debug.LogError("Containers are not found in the UXML. Check the UXML and the names.");
             return;
@@ -80,11 +90,15 @@ public class UIManager : MonoBehaviour
         RegisterHoverEvents(selectedPanel);
         RegisterHoverEvents(buildingList);
         RegisterHoverEvents(buildingActionsContainer);
+        RegisterHoverEvents(buildingActionsScrollView);
+        RegisterHoverEvents(actionsScrollView);
 
         characterPanel.style.display = DisplayStyle.None;
         selectedPanel.style.display = DisplayStyle.None;
         buildingList.style.display = DisplayStyle.None;
         buildingActionsContainer.style.display = DisplayStyle.None;
+
+        if (mapEditorContext) buildingList.style.display = DisplayStyle.Flex;
 
         RegisterRawImageHoverEvents();
     }
@@ -132,14 +146,15 @@ public class UIManager : MonoBehaviour
     {
         SelectedEntityManager.Instance.UpdateSelectedEntities(newSelectedProfiles);
 
-        bool hasSelectedEntities = newSelectedProfiles.Count > 0;
+        var hasSelectedEntities = newSelectedProfiles.Count > 0;
 
         selectedPanel.style.display = hasSelectedEntities ? DisplayStyle.Flex : DisplayStyle.None;
 
-        if (hasSelectedEntities && newSelectedProfiles[0] is Nexus)
+        if ((hasSelectedEntities && newSelectedProfiles[0] is Nexus) || mapEditorContext)
         {
             buildingList.style.display = DisplayStyle.Flex;
             selectedPanel.style.display = DisplayStyle.None;
+            if (mapEditorContext) buildingsUIManager.ClearButtonSelection();
         }
         else
         {

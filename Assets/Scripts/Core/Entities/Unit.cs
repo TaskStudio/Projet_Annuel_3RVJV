@@ -10,6 +10,10 @@ public abstract class Unit : Entity
 {
     protected static SpatialGrid spatialGrid;
 
+    private static Collider[] potentialColliders = new Collider[50];
+    private static NativeArray<Vector3> unitPositions;
+    private static NativeArray<Vector3> avoidanceVectorArray;
+
     [Space(10)] [Header("Movement")]
     [SerializeField] protected float avoidanceStrength = 5f;
     [SerializeField] protected float collisionRadius = 1f;
@@ -20,6 +24,7 @@ public abstract class Unit : Entity
     private Vector3 avoidanceVector;
     private bool isMoving;
     private Vector3 lastPosition;
+
     private bool needsCollisionAvoidance;
     private Vector3 originalTargetPosition;
     protected bool reachedDestination;
@@ -28,30 +33,31 @@ public abstract class Unit : Entity
 
     private Unit unitImplementation;
 
-
     public int currentMana { get; protected set; }
     public float movementSpeed { get; protected set; } = 0.5f;
     public float attackSpeed { get; protected set; } = 1.0f;
 
     public float CollisionRadius => collisionRadius;
 
-
     protected void Start()
     {
+        UnitsManager.Instance.RegisterMovableEntity(this);
+        if (mapEditContext) return;
         if (spatialGrid == null) spatialGrid = new SpatialGrid(5f);
 
         spatialGrid.Add(this);
         lastPosition = transform.position;
 
-        if (this is Ally)
-            UnitsManager.Instance.RegisterMovableEntity(this);
         targetPosition = transform.position;
         originalTargetPosition = transform.position;
+
+        unitPositions = new NativeArray<Vector3>(50, Allocator.Persistent);
+        avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.Persistent);
     }
 
     protected virtual void Update()
     {
-        if (this == null || gameObject == null || !gameObject.activeInHierarchy)
+        if (this == null || gameObject == null || !gameObject.activeInHierarchy || mapEditContext)
             return; // Early exit if the unit is destroyed or inactive
 
         spatialGrid.Update(this, lastPosition);
@@ -83,6 +89,45 @@ public abstract class Unit : Entity
         }
 
         avoidanceVector = Vector3.zero;
+    }
+
+    private void OnDestroy()
+    {
+        if (unitPositions.IsCreated)
+            unitPositions.Dispose();
+        if (avoidanceVectorArray.IsCreated)
+            avoidanceVectorArray.Dispose();
+    }
+
+    private Vector3 AvoidCollisions()
+    {
+        int numColliders = Physics.OverlapSphereNonAlloc(transform.position, collisionRadius, potentialColliders);
+        if (!unitPositions.IsCreated || numColliders > unitPositions.Length)
+        {
+            if (unitPositions.IsCreated) unitPositions.Dispose();
+            unitPositions = new NativeArray<Vector3>(numColliders, Allocator.Persistent);
+        }
+
+        if (!avoidanceVectorArray.IsCreated)
+        {
+            avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.Persistent);
+        }
+
+        for (int i = 0; i < numColliders; i++) unitPositions[i] = potentialColliders[i].transform.position;
+
+        var job = new AvoidCollisionsJob
+        {
+            unitPositions = unitPositions,
+            currentPosition = transform.position,
+            collisionRadius = collisionRadius,
+            avoidanceStrength = avoidanceStrength,
+            avoidanceVector = avoidanceVectorArray
+        };
+
+        JobHandle handle = job.Schedule();
+        handle.Complete();
+
+        return targetPosition + avoidanceVectorArray[0];
     }
 
 
@@ -163,36 +208,6 @@ public abstract class Unit : Entity
         manaBar?.Initialize(Data.maxManaPoints);
     }
 
-
-    private Vector3 AvoidCollisions()
-    {
-        List<Unit> neighbors = spatialGrid.GetNeighbors(transform.position);
-        NativeArray<Vector3> unitPositions = new(neighbors.Count, Allocator.TempJob);
-        for (int i = 0; i < neighbors.Count; i++) unitPositions[i] = neighbors[i].transform.position;
-
-        NativeArray<Vector3> avoidanceVectorArray = new(1, Allocator.TempJob);
-
-        var job = new AvoidCollisionsJob
-        {
-            unitPositions = unitPositions,
-            currentPosition = transform.position,
-            collisionRadius = collisionRadius,
-            avoidanceStrength = avoidanceStrength,
-            avoidanceVector = avoidanceVectorArray
-        };
-
-        JobHandle handle = job.Schedule();
-        handle.Complete();
-
-        Vector3 avoidance = avoidanceVectorArray[0];
-
-        unitPositions.Dispose();
-        avoidanceVectorArray.Dispose();
-
-        return targetPosition + avoidance;
-    }
-
-
     private void MoveTowardsTarget(Vector3 adjustedPosition)
     {
         float distanceToTarget = Vector2.Distance(
@@ -220,7 +235,6 @@ public abstract class Unit : Entity
 
         transform.position = newPosition;
     }
-
 
     protected override void Die()
     {

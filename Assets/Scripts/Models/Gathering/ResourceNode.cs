@@ -22,7 +22,7 @@ public class ResourceNode : Entity
         if (resourceAmount <= 0)
         {
             isDepleted = true;
-            GetComponent<MeshRenderer>().material = depletedMaterial;
+            meshRenderer.material = depletedMaterial;
         }
 
         return new Resource(resourceType, amountGathered);

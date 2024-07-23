@@ -22,19 +22,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3389885273376874295, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3389885273376874295, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.12822974
       objectReference: {fileID: 0}
     - target: {fileID: 5628795568191914019, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 5628795568191914019, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_MaxValue
-      value: 0
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 6360531313985046582, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_LocalPosition.x
@@ -93,16 +93,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: addressableKey
+      value: FAC-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: entityDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 9b936f347e8593a498d9793e67bede24, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: placedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c83b43f3cc47d3d459315dd19dbe591b, type: 2}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: buildingMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c83b43f3cc47d3d459315dd19dbe591b, type: 2}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: actionList.Array.size
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: actionList.Array.data[0].woodCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: actionList.Array.data[1].stoneCost
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: actionList.Array.data[0].actionName
-      value: Spawn Attacker
+      value: Spawn Melee Attacker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: actionList.Array.data[1].actionName
+      value: Spawn Ranged Attacker
       objectReference: {fileID: 0}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: actionList.Array.data[0].action.m_PersistentCalls.m_Calls.Array.size
@@ -110,7 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: actionList.Array.data[0].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: UNIT-1
+      value: ATK-0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: actionList.Array.data[1].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: ATK-1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

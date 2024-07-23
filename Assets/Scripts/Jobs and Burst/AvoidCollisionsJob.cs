@@ -15,6 +15,7 @@ public struct AvoidCollisionsJob : IJob
     public void Execute()
     {
         Vector3 avoidance = Vector3.zero;
+        float sqrCollisionRadius = collisionRadius * collisionRadius;
 
         for (int i = 0; i < unitPositions.Length; i++)
         {
@@ -22,11 +23,11 @@ public struct AvoidCollisionsJob : IJob
             if (neighborPosition != currentPosition)
             {
                 Vector3 collisionDirection = currentPosition - neighborPosition;
-                float distance = collisionDirection.magnitude;
+                float sqrDistance = collisionDirection.sqrMagnitude;
 
-                if (distance < collisionRadius)
+                if (sqrDistance < sqrCollisionRadius)
                 {
-                    float strength = avoidanceStrength * (1 / distance);
+                    float strength = avoidanceStrength / Mathf.Sqrt(sqrDistance);
                     avoidance += collisionDirection.normalized * strength;
                 }
             }

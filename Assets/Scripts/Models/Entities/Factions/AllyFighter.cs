@@ -17,11 +17,5 @@ public class AllyFighter : Ally
         if (target == null) return;
         if (target is Enemy) currentTarget = target;
     }
-
-    protected override void Attack()
-    {
-        base.Attack();
-
-        
-    }
+    
 }

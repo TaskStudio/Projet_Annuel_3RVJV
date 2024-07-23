@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f7c4e44c00503cb4b8f8eefdfacfe156, type: 2}
+    - target: {fileID: 5628795568191914019, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5628795568191914019, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: m_MaxValue
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6360531313985046582, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -69,9 +77,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 30e3ea77008681b45ab31d7d46184a18, type: 2}
     - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: addressableKey
+      value: FAC-0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
       propertyPath: entityDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 30e3ea77008681b45ab31d7d46184a18, type: 2}
+    - target: {fileID: 8649255448723787327, guid: 96cf54e3bc5208547be6b517b5ecc351, type: 3}
+      propertyPath: placedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: f7c4e44c00503cb4b8f8eefdfacfe156, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

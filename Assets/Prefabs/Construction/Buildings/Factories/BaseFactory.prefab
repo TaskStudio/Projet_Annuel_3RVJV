@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3356437002993323852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -206,8 +206,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6360531313985046582}
-  - component: {fileID: 8649255448723787327}
   - component: {fileID: 540410048715941565}
+  - component: {fileID: 8649255448723787327}
   m_Layer: 12
   m_Name: BaseFactory
   m_TagString: Factory
@@ -232,8 +232,30 @@ Transform:
   - {fileID: 999670199878094893}
   - {fileID: 6424579902492007237}
   - {fileID: 5231250223401546731}
+  - {fileID: 5231607315932112241}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &540410048715941565
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287725217286078115}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 6, z: 10}
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!114 &8649255448723787327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +271,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 8b3e9ac46adcb344782d5f3b9fd3c1d0, type: 2}
   model: {fileID: 5871294927889100874}
   id: 
+  addressableKey: 
   healthBar: {fileID: 8256754079479746190}
   actionList:
   - actionName: Spawn Gatherer
@@ -285,34 +308,46 @@ MonoBehaviour:
           m_CallState: 2
   previewMaterial: {fileID: 2100000, guid: aef748e6762955d4ca023a35db7736b2, type: 2}
   previewInvalidMaterial: {fileID: 2100000, guid: 5dcb4d40f145f9a4ca1819c3a9a76e9f, type: 2}
-  buildingMaterial: {fileID: 2100000, guid: 07f1f08a25f117f49a02c4288a2e53b1, type: 2}
+  placedMaterial: {fileID: 0}
   objectRenderer: {fileID: 1000424888568330163}
+  mapEditContext: 0
+  buildingPivot: {fileID: 5231607315932112241}
   gridMaterial: {fileID: 2100000, guid: d103cd69a05372a4b941a461d8b39d14, type: 2}
   gridInvalidMaterial: {fileID: 2100000, guid: a90942068c797c647b8f9ad3389e033e, type: 2}
   gridRenderer: {fileID: 5856405910373631916}
   unitDatabase: {fileID: 0}
   productionPoint: {fileID: 5231250223401546731}
---- !u!65 &540410048715941565
-BoxCollider:
+--- !u!1 &8459207642394050407
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8287725217286078115}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 12, y: 6, z: 12}
-  m_Center: {x: 0, y: 3, z: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5231607315932112241}
+  m_Layer: 8
+  m_Name: BuildingPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5231607315932112241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459207642394050407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6, y: 0, z: -6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6360531313985046582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8972661869050370092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -339,11 +374,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Value
-      value: 1000
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 3645720872728123407, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_MaxValue
-      value: 1000
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 3816055176654748753, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Pivot.x
@@ -436,6 +471,10 @@ PrefabInstance:
     - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842883181446786396, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5397275390488861032, guid: 2fa98b271aae8dc49b460653eb0313a7, type: 3}
       propertyPath: m_Layer

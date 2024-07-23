@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272863d1d18b44619386bbf3deeb91c9, type: 3}
+  m_Name: MapEditorUnitDatabase
+  m_EditorClassIdentifier: 
+  units:
+  - <ID>k__BackingField: UNIT-0
+    <DisplayName>k__BackingField: Gatherer
+    <Prefab>k__BackingField: {fileID: 8837272981364661539, guid: c80ed14e0291b394ab5aad6666c1adea, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-1
+    <DisplayName>k__BackingField: Ranged Attacker
+    <Prefab>k__BackingField: {fileID: 1924810265763771149, guid: 5d002feae54ec944cb353f706d3fdb53, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-2
+    <DisplayName>k__BackingField: Melee Attacker
+    <Prefab>k__BackingField: {fileID: 5958782774982900186, guid: 1d61e372c2d3e4a4faa963abd69a52bf, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-3
+    <DisplayName>k__BackingField: Support
+    <Prefab>k__BackingField: {fileID: 7382277454582641572, guid: b5d3fad4c0e6b2c4caf96826575fa4cf, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-4
+    <DisplayName>k__BackingField: Tank
+    <Prefab>k__BackingField: {fileID: 3338444241343951891, guid: 479837c5a94d6b04caedf1998363920e, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-5
+    <DisplayName>k__BackingField: Tank Combined
+    <Prefab>k__BackingField: {fileID: 5443012593859908175, guid: 4f0eaa09c3abf0b4786105182bad5b7b, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-6
+    <DisplayName>k__BackingField: Attacking Enemy
+    <Prefab>k__BackingField: {fileID: -5412115740763821405, guid: 28e12f87b0586384fa4a6faf79e50c93, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-7
+    <DisplayName>k__BackingField: Suicide Enemy
+    <Prefab>k__BackingField: {fileID: 623566787059947833, guid: e570e383126adb847bfec643b5b80c3e, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20
+  - <ID>k__BackingField: UNIT-8
+    <DisplayName>k__BackingField: Enemy Boss
+    <Prefab>k__BackingField: {fileID: 7257897640987294734, guid: a78d035ec10a16a46966a0cfc9d08576, type: 3}
+    <ProductionTime>k__BackingField: 1
+    <Cost>k__BackingField: 10
+    <ResourceType>k__BackingField: 0
+    <PoolingAmount>k__BackingField: 20

@@ -16,14 +16,9 @@ public class BuildingsUIManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     private void Start()
@@ -34,7 +29,9 @@ public class BuildingsUIManager : MonoBehaviour
 
         if (buildingsButtonsContainer == null || buildingActionsContainer == null)
         {
-            Debug.LogError("BuildingsButtonsContainer or BuildingActionsContainer not found in the UXML. Check the UXML and the names.");
+            Debug.LogError(
+                "BuildingsButtonsContainer or BuildingActionsContainer not found in the UXML. Check the UXML and the names."
+            );
             return;
         }
 

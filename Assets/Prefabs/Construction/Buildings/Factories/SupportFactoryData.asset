@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SupportFactoryData
   m_EditorClassIdentifier: 
   objectName: Support factory
-  description: 
-  image: {fileID: 0}
-  faction: 0
-  maxHealthPoints: 0
+  description: The factory to support your side.
+  image: {fileID: 2800000, guid: 05c285f5ffc49af458fd5b3644456b64, type: 3}
+  faction: 2
+  maxHealthPoints: 1200
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5

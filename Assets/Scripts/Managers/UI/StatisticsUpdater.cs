@@ -8,14 +8,9 @@ public class StatisticsUpdater : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     public void UpdateStatisticsContainer(BaseObject profile)
@@ -37,16 +32,19 @@ public class StatisticsUpdater : MonoBehaviour
             UIManager.Instance.statisticsScrollView.Add(descriptionLabel);
         }
 
-        if (profile is Unit unit)
+        if (profile is Entity entity)
         {
-            ObjectData unitData = unit.Data;
-
-            if (unit.currentHealth != 0)
+            if (entity.currentHealth != 0)
             {
-                var hpLabel = new Label { text = "HP : " + unit.currentHealth };
+                var hpLabel = new Label { text = "HP : " + entity.currentHealth };
                 hpLabel.AddToClassList("labels");
                 UIManager.Instance.statisticsScrollView.Add(hpLabel);
             }
+        }
+
+        if (profile is Unit unit)
+        {
+            var unitData = unit.Data;
 
             if (unit.currentMana != 0)
             {
