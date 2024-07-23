@@ -108,6 +108,11 @@ public abstract class Unit : Entity
             unitPositions = new NativeArray<Vector3>(numColliders, Allocator.Persistent);
         }
 
+        if (!avoidanceVectorArray.IsCreated)
+        {
+            avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.Persistent);
+        }
+
         for (int i = 0; i < numColliders; i++) unitPositions[i] = potentialColliders[i].transform.position;
 
         var job = new AvoidCollisionsJob
@@ -124,6 +129,7 @@ public abstract class Unit : Entity
 
         return targetPosition + avoidanceVectorArray[0];
     }
+
 
     public new void SignalDeath()
     {

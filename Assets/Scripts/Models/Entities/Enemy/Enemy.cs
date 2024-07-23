@@ -137,15 +137,6 @@ public class Enemy : Fighter
         {
             Attack();
 
-            // Apply bump effect on the enemy
-            var bumpDirection = (transform.position - target.position).normalized;
-            var bumpPosition = transform.position + bumpDirection * bumpDistance;
-
-            // Ensure the enemy stays on the same Y level (ground level)
-            bumpPosition.y = transform.position.y;
-
-            transform.position = bumpPosition;
-
             currentState = State.Idle;
         }
         else
