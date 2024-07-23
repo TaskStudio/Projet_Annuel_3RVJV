@@ -81,21 +81,19 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
             {
                 if (!AuthenticationService.Instance.IsSignedIn)
                 {
-                    await AuthenticationService.Instance.SignInWithUnityAsync(PlayerAccountService.Instance
-                        .AccessToken);
+                    await AuthenticationService.Instance.SignInWithUnityAsync(PlayerAccountService.Instance.AccessToken);
                 }
 
                 m_ExternalIds = GetExternalIds(AuthenticationService.Instance.PlayerInfo);
                 UpdateUI();
                 LogPlayerName();
                 var metadata = new Dictionary<string, string>() { { "team", "red" } };
-                var playerEntry = await LeaderboardsService.Instance
-                    .AddPlayerScoreAsync(
-                        "Leaderboard",
-                        178,
-                        new AddPlayerScoreOptions
-                            { Metadata = new Dictionary<string, string>() { { "team", "red" } } });
-                RedirectToScene("MainScene");
+                var playerEntry = await LeaderboardsService.Instance.AddPlayerScoreAsync(
+                    "Leaderboard",
+                    178,
+                    new AddPlayerScoreOptions { Metadata = new Dictionary<string, string>() { { "team", "red" } } }
+                );
+                RedirectToScene("MainMenuScene");
             }
             catch (RequestFailedException ex)
             {
@@ -116,14 +114,17 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
 
         void UpdateUI()
         {
+            if (m_StatusText == null || m_ExceptionText == null)
+            {
+                Debug.LogError("UI Text components are not assigned in the Inspector.");
+                return;
+            }
+
             var statusBuilder = new StringBuilder();
 
-            statusBuilder.AppendLine(
-                $"Player Accounts State: <b>{(PlayerAccountService.Instance.IsSignedIn ? "Signed in" : "Signed out")}</b>");
-            statusBuilder.AppendLine(
-                $"Player Accounts Access token: <b>{(string.IsNullOrEmpty(PlayerAccountService.Instance.AccessToken) ? "Missing" : "Exists")}</b>\n");
-            statusBuilder.AppendLine(
-                $"Authentication Service State: <b>{(AuthenticationService.Instance.IsSignedIn ? "Signed in" : "Signed out")}</b>");
+            statusBuilder.AppendLine($"Player Accounts State: <b>{(PlayerAccountService.Instance.IsSignedIn ? "Signed in" : "Signed out")}</b>");
+            statusBuilder.AppendLine($"Player Accounts Access token: <b>{(string.IsNullOrEmpty(PlayerAccountService.Instance.AccessToken) ? "Missing" : "Exists")}</b>\n");
+            statusBuilder.AppendLine($"Authentication Service State: <b>{(AuthenticationService.Instance.IsSignedIn ? "Signed in" : "Signed out")}</b>");
 
             if (AuthenticationService.Instance.IsSignedIn)
             {
@@ -163,7 +164,14 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
 
         void SetException(Exception ex)
         {
-            m_ExceptionText.text = ex != null ? $"{ex.GetType().Name}: {ex.Message}" : "";
+            if (m_ExceptionText != null)
+            {
+                m_ExceptionText.text = ex != null ? $"{ex.GetType().Name}: {ex.Message}" : "";
+            }
+            else
+            {
+                Debug.LogError("Exception Text component is not assigned in the Inspector.");
+            }
         }
 
         void LogPlayerName()
@@ -183,19 +191,15 @@ namespace Unity.Services.Authentication.PlayerAccounts.Samples
 
         public async Task<Dictionary<string, object>> GetPlayerScore(String leaderboadID)
         {
-            var scoreResponse = await LeaderboardsService.Instance
-                .GetPlayerScoreAsync(
-                    leaderboadID,
-                    new GetPlayerScoreOptions { IncludeMetadata = true });
+            var scoreResponse = await LeaderboardsService.Instance.GetPlayerScoreAsync(
+                leaderboadID,
+                new GetPlayerScoreOptions { IncludeMetadata = true }
+            );
 
             string jsonString = JsonConvert.SerializeObject(scoreResponse);
             Dictionary<string, object> scoreDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
 
             return scoreDictionary;
         }
-
-
-
-
     }
 }
