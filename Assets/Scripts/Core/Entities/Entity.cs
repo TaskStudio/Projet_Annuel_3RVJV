@@ -10,11 +10,19 @@ public struct EntityAction
     public string actionName;
     public UnityEvent action;
 
-    public EntityAction(string actionName, UnityAction action)
+    public int woodCost;
+    public int stoneCost;
+    public int goldCost;
+
+    public EntityAction(string actionName, UnityAction action, int woodCost = 0, int stoneCost = 0, int goldCost = 0)
     {
         this.actionName = actionName;
         this.action = new UnityEvent();
         this.action.AddListener(action);
+
+        this.woodCost = woodCost;
+        this.stoneCost = stoneCost;
+        this.goldCost = goldCost;
     }
 }
 
@@ -104,7 +112,7 @@ public abstract class Entity : BaseObject
 
     public float GetMissingHealthPercentage()
     {
-        return (float)currentHealth / Data.maxHealthPoints;
+        return (float) currentHealth / Data.maxHealthPoints;
     }
 
     public virtual void TakeDamage(int damage)

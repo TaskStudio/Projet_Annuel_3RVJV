@@ -71,7 +71,8 @@ public class ActionsUIManager : MonoBehaviour
                     var entityAction = actions[i];
                     actionButton.RegisterCallback<MouseEnterEvent>(evt => ShowCostWindow(entityAction));
                     actionButton.RegisterCallback<MouseLeaveEvent>(evt => HideCostWindow());
-                    actionButton.clicked += () => OnActionButtonClicked(i);
+                    int i1 = i;
+                    actionButton.clicked += () => OnActionButtonClicked(i1);
                 }
 
                 actionsContainer.Add(actionButton);
