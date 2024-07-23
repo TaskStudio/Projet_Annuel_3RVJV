@@ -45,11 +45,18 @@ namespace FogOfWar
         private ComputeBuffer _visionTowerPositionBuffer;
         private int _visionTowerPositionsID;
         private List<Building> _visionTowers;
+        
+        
+        private Dictionary<Vector2Int, bool> clearedZoneCache;
+        private float cacheUpdateInterval = 0.5f;
+        private float nextCacheUpdateTime;
+
 
         private void Start()
         {
             computeShader.SetFloat("groundPlaneScaleX", GroundPlane.transform.localScale.x);
             computeShader.SetFloat("groundPlaneScaleZ", GroundPlane.transform.localScale.z);
+            clearedZoneCache = new Dictionary<Vector2Int, bool>();
 
             if (GroundPlane != null && Plane != null)
             {
@@ -138,6 +145,14 @@ namespace FogOfWar
             _factoryPositionBuffer.Release();
             _factoryPositionBuffer = new ComputeBuffer(factoryPositions.Length, 16);
             _factoryPositionBuffer.SetData(factoryPositions);
+            
+            
+            
+            if (Time.time >= nextCacheUpdateTime)
+            {
+                clearedZoneCache.Clear();
+                nextCacheUpdateTime = Time.time + cacheUpdateInterval;
+            }
 
             if (_renderTexture != null)
             {
@@ -224,13 +239,21 @@ namespace FogOfWar
 
             if (_lowResTexture != null)
             {
-                var data = request.GetData<Color32>();
-                _lowResTexture.SetPixels32(data.ToArray());
-                _lowResTexture.Apply();
+                NativeArray<Color32> data = request.GetData<Color32>();
 
-                if (mr != null && mr.material != null) mr.material.mainTexture = _lowResTexture;
+                // Directly set pixel data without converting to array
+                _lowResTexture.SetPixelData(data, 0);
+
+                // Apply texture changes with updateMipmaps and makeNoLongerReadable set to false to minimize performance hit
+                _lowResTexture.Apply(updateMipmaps: false, makeNoLongerReadable: false);
+
+                if (mr != null && mr.material != null)
+                    mr.material.mainTexture = _lowResTexture;
             }
         }
+
+
+
 
         private void FindAllUnits()
         {
@@ -261,7 +284,18 @@ namespace FogOfWar
             x = Mathf.Clamp(x, 0, GridSize - 1);
             z = Mathf.Clamp(z, 0, GridSize - 1);
 
-            return _lowResTexture.GetPixel(x, z).a > 0.5f; 
+            Vector2Int gridPos = new Vector2Int(x, z);
+
+            if (clearedZoneCache.TryGetValue(gridPos, out bool isCleared))
+            {
+                return isCleared;
+            }
+
+            isCleared = _lowResTexture.GetPixel(x, z).a > 0.5f;
+            clearedZoneCache[gridPos] = isCleared;
+
+            return isCleared;
         }
+
     }
 }
