@@ -37,6 +37,7 @@ public class UnitsManager : MonoBehaviour
             foreach (var entity in MovableUnits)
                 if (entity.IsSelected)
                 {
+                    if (entity is Enemy) return;
                     if (entity is AllyFighter allyFighter
                         && (Input.GetKey(KeyCode.LeftShift)
                             || Input.GetKey(KeyCode.RightShift)))

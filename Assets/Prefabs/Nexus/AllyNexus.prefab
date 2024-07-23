@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: ed8568beebc765042aeea643246f0ea4, type: 2}
-  model: {fileID: 102139487979630628}
+  model: {fileID: 7085075449768414073}
   id: 
   addressableKey: NEX-0
   healthBar: {fileID: 7650460376143459252}
