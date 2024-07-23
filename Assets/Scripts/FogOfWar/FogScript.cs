@@ -10,7 +10,6 @@ namespace FogOfWar
     {
         private static readonly int GridSize = 1024;
         private static float CellSize;
-        private static readonly float RevealRadius = 2.5f;
         private static readonly float RevealRadiusResourceStorages = 5.0f;
         private static readonly float RevealRadiusVisionTowers = 15.0f;
         private static readonly float RevealRadiusFactories = 10.0f;
@@ -37,7 +36,6 @@ namespace FogOfWar
         private List<Building> _resourceStorages;
         private int _resultID;
         private int _revealRadiusFactoriesID;
-        private int _revealRadiusID;
         private int _revealRadiusResourceStoragesID;
         private int _revealRadiusVisionTowersID;
         private ComputeBuffer _unitPositionBuffer;
@@ -52,7 +50,6 @@ namespace FogOfWar
         {
             computeShader.SetFloat("groundPlaneScaleX", GroundPlane.transform.localScale.x);
             computeShader.SetFloat("groundPlaneScaleZ", GroundPlane.transform.localScale.z);
-
 
             if (GroundPlane != null && Plane != null)
             {
@@ -99,7 +96,7 @@ namespace FogOfWar
             for (var i = 0; i < _units.Count; i++)
             {
                 var pos = _units[i].transform.position;
-                unitPositions[i] = new Vector4(pos.x, pos.z, 0.0f, 0.0f);
+                unitPositions[i] = new Vector4(pos.x, pos.z, 0.0f, _units[i].Data.detectionRange); 
             }
 
             _unitPositionBuffer.Release();
@@ -146,7 +143,6 @@ namespace FogOfWar
             {
                 computeShader.SetInt(_gridSizeID, GridSize);
                 computeShader.SetFloat(_cellSizeID, CellSize);
-                computeShader.SetFloat(_revealRadiusID, RevealRadius);
                 computeShader.SetFloat(_revealRadiusResourceStoragesID, RevealRadiusResourceStorages);
                 computeShader.SetFloat(_revealRadiusVisionTowersID, RevealRadiusVisionTowers);
                 computeShader.SetFloat(_revealRadiusFactoriesID, RevealRadiusFactories);
@@ -163,7 +159,6 @@ namespace FogOfWar
                 AsyncGPUReadback.Request(_renderTexture, 0, TextureFormat.RGBA32, OnCompleteReadback);
             }
         }
-
 
         private void OnDestroy()
         {
@@ -208,7 +203,6 @@ namespace FogOfWar
             _factoryPositionsID = Shader.PropertyToID("factoryPositions");
             _gridSizeID = Shader.PropertyToID("gridSize");
             _cellSizeID = Shader.PropertyToID("cellSize");
-            _revealRadiusID = Shader.PropertyToID("revealRadius");
             _revealRadiusResourceStoragesID = Shader.PropertyToID("revealRadiusResourceStorages");
             _revealRadiusVisionTowersID = Shader.PropertyToID("revealRadiusVisionTowers");
             _revealRadiusFactoriesID = Shader.PropertyToID("revealRadiusFactories");
@@ -267,7 +261,7 @@ namespace FogOfWar
             x = Mathf.Clamp(x, 0, GridSize - 1);
             z = Mathf.Clamp(z, 0, GridSize - 1);
 
-            return _lowResTexture.GetPixel(x, z).a > 0.5f; // Assuming cleared zones have alpha > 0.5
+            return _lowResTexture.GetPixel(x, z).a > 0.5f; 
         }
     }
 }
