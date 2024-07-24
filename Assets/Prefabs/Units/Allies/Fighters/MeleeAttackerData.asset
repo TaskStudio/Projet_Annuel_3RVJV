@@ -16,12 +16,12 @@ MonoBehaviour:
   description: Powerful guy !
   image: {fileID: 2800000, guid: 8d82e03d17120684da195ecaa54f3b4c, type: 3}
   faction: 0
-  maxHealthPoints: 50
+  maxHealthPoints: 100
   maxManaPoints: 0
   attackSpeed: 1
   movementSpeed: 5
   attackDamage: 20
   distanceType: 0
-  detectionRange: 15
+  detectionRange: 3
   attackRange: 1
   attackCooldown: 0.5

@@ -5,15 +5,18 @@ float4 clearColor;
 float4 fullBlackColor;
 int gridSize;
 float cellSize;
-float revealRadius;
 float revealRadiusResourceStorages;
 float revealRadiusVisionTowers;
 float revealRadiusFactories;
+
+float groundPlaneScaleX;
+float groundPlaneScaleZ;
 
 StructuredBuffer<float4> unitPositions;
 StructuredBuffer<float4> resourceStoragePositions;
 StructuredBuffer<float4> visionTowerPositions;
 StructuredBuffer<float4> factoryPositions;
+StructuredBuffer<float4> enemyPositions;
 
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
@@ -23,13 +26,13 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     {
         float4 color = fullBlackColor;
 
-        // Check unit positions
+        // Check unit positions (allies)
         for (int i = 0; i < unitPositions.Length; i++)
         {
-            int2 center = int2((unitPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+            int2 center = int2((unitPositions[i].xy + float2(groundPlaneScaleX * 5.0f, groundPlaneScaleZ * 5.0f)) / cellSize);
             float2 pos = (float2(coord) - float2(center)) * cellSize;
             float distance = length(pos);
-            if (distance <= revealRadius)
+            if (distance <= unitPositions[i].w) // using w component for detection range
             {
                 color = clearColor;
                 break;
@@ -41,7 +44,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         {
             for (int i = 0; i < resourceStoragePositions.Length; i++)
             {
-                int2 center = int2((resourceStoragePositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                int2 center = int2((resourceStoragePositions[i].xy + float2(groundPlaneScaleX * 5.0f, groundPlaneScaleZ * 5.0f)) / cellSize);
                 float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusResourceStorages)
@@ -57,7 +60,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         {
             for (int i = 0; i < visionTowerPositions.Length; i++)
             {
-                int2 center = int2((visionTowerPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                int2 center = int2((visionTowerPositions[i].xy + float2(groundPlaneScaleX * 5.0f, groundPlaneScaleZ * 5.0f)) / cellSize);
                 float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusVisionTowers)
@@ -73,7 +76,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         {
             for (int i = 0; i < factoryPositions.Length; i++)
             {
-                int2 center = int2((factoryPositions[i].xy + float2(40.0f, 37.0f)) / cellSize);
+                int2 center = int2((factoryPositions[i].xy + float2(groundPlaneScaleX * 5.0f, groundPlaneScaleZ * 5.0f)) / cellSize);
                 float2 pos = (float2(coord) - float2(center)) * cellSize;
                 float distance = length(pos);
                 if (distance <= revealRadiusFactories)

@@ -19,7 +19,7 @@ MonoBehaviour:
   maxHealthPoints: 100
   maxManaPoints: 0
   attackSpeed: 1
-  movementSpeed: 5
+  movementSpeed: 4
   attackDamage: 10
   distanceType: 0
   detectionRange: 15
