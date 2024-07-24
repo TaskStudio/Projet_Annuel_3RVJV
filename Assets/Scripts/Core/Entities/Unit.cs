@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
@@ -20,6 +21,10 @@ public abstract class Unit : Entity
 
     [Space(10)] [Header("Mana")]
     [SerializeField] private ManaBar manaBar;
+
+    [Space(10)] [Header("Animation")]
+    [SerializeField] [CanBeNull] private string walkingBool;
+    [SerializeField] [CanBeNull] protected Animator animator;
 
     private Vector3 avoidanceVector;
     private bool isMoving;
@@ -68,14 +73,17 @@ public abstract class Unit : Entity
             new Vector2(targetPosition.x, targetPosition.z)
         );
 
-        if (distanceToTarget > stoppingDistance || !isMoving)
+        if (distanceToTarget > stoppingDistance)
         {
+            transform.LookAt(targetPosition);
+            if (animator && !animator.GetBool(walkingBool)) animator.SetBool(walkingBool, true);
             if (!isMoving) isMoving = true;
             Vector3 adjustedPosition = AvoidCollisions();
             MoveTowardsTarget(adjustedPosition);
         }
         else if (distanceToTarget <= stoppingDistance && isMoving)
         {
+            if (animator && animator.GetBool(walkingBool)) animator.SetBool(walkingBool, false);
             Stop();
             needsCollisionAvoidance = true;
         }
@@ -84,6 +92,7 @@ public abstract class Unit : Entity
             && !reachedDestination
             && Vector3.Distance(transform.position, originalTargetPosition) > stoppingDistance)
         {
+            // animator.SetBool(isWalking, true);
             Move(originalTargetPosition);
             needsCollisionAvoidance = false;
         }
@@ -108,10 +117,7 @@ public abstract class Unit : Entity
             unitPositions = new NativeArray<Vector3>(numColliders, Allocator.Persistent);
         }
 
-        if (!avoidanceVectorArray.IsCreated)
-        {
-            avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.Persistent);
-        }
+        if (!avoidanceVectorArray.IsCreated) avoidanceVectorArray = new NativeArray<Vector3>(1, Allocator.Persistent);
 
         for (int i = 0; i < numColliders; i++) unitPositions[i] = potentialColliders[i].transform.position;
 
