@@ -5,7 +5,8 @@ using UnityEngine.UIElements;
 public class SelectionMenuManager : MonoBehaviour
 {
     public UIDocument mainUIDocument;
-    public string mainSceneName = "MainScene";
+    private readonly string mainSceneName = "MainScene";
+    private readonly string mapEditSceneName = "LoadScene";
 
     private void OnEnable()
     {
@@ -13,24 +14,22 @@ public class SelectionMenuManager : MonoBehaviour
 
         var goBackButton = root.Q<Button>("GoBackButton");
         var soloModeElement = root.Q<VisualElement>("SoloMode");
+        var editMapModeElement = root.Q<VisualElement>("EditMapMode");
 
         if (goBackButton != null)
-        {
             goBackButton.RegisterCallback<ClickEvent>(ev => GoBackToMainMenu());
-        }
         else
-        {
             Debug.LogError("GoBackButton not found in the UXML document");
-        }
 
         if (soloModeElement != null)
-        {
-            soloModeElement.RegisterCallback<ClickEvent>(ev => LoadMainScene());
-        }
+            soloModeElement.RegisterCallback<ClickEvent>(ev => LoadScene(mainSceneName));
         else
-        {
             Debug.LogError("SoloMode element not found in the UXML document");
-        }
+
+        if (editMapModeElement != null)
+            editMapModeElement.RegisterCallback<ClickEvent>(ev => LoadScene(mapEditSceneName));
+        else
+            Debug.LogError("Edit map mode element not found in the UXML document");
     }
 
     private void GoBackToMainMenu()
@@ -43,9 +42,8 @@ public class SelectionMenuManager : MonoBehaviour
         mainUIDocument.rootVisualElement.style.display = DisplayStyle.Flex;
     }
 
-    private void LoadMainScene()
+    private void LoadScene(string sceneName)
     {
-        // Load the main scene
-        SceneManager.LoadScene(mainSceneName);
+        SceneManager.LoadScene(sceneName);
     }
 }
