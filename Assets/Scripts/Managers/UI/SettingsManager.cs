@@ -6,12 +6,14 @@ public class SettingsManager : MonoBehaviour
 {
     private const string GeneralVolumeKey = "GeneralVolume";
     private const string MusicVolumeKey = "MusicVolume";
+    private const string ShadowQualityKey = "ShadowQuality"; // Key to save shadow quality setting
 
     public UIDocument mainUIDocument;
     public AudioSource backgroundMusic;
     private VisualElement audioPanel;
     private Button currentButton;
     private DropdownField fullscreenDropdown;
+    private DropdownField shadowQualityDropdown; // Dropdown for shadow quality
 
     private VisualElement generalPanel;
     private SliderInt generalVolumeSlider;
@@ -76,8 +78,18 @@ public class SettingsManager : MonoBehaviour
         if (musicVolumeSlider != null)
             musicVolumeSlider.RegisterValueChangedCallback(evt => SetMusicVolume(evt.newValue));
 
-        // Load saved volume settings
+        // Initialize and register callback for the shadow quality dropdown
+        shadowQualityDropdown = root.Q<DropdownField>("ShadowQuality");
+        if (shadowQualityDropdown != null)
+        {
+            shadowQualityDropdown.choices = new List<string> { "None", "Normal" };
+            shadowQualityDropdown.RegisterValueChangedCallback(evt => SetShadowQuality(evt.newValue));
+            InitializeShadowQualityDropdown();
+        }
+
+        // Load saved settings
         LoadVolumeSettings();
+        LoadShadowQualitySetting();
     }
 
     private void ShowPanel(VisualElement panelToShow, Button button)
@@ -112,17 +124,13 @@ public class SettingsManager : MonoBehaviour
     {
         if (mode == "Windowed")
         {
-            var newWidth = (int) (Screen.currentResolution.width * 0.7f);
-            var newHeight = (int) (Screen.currentResolution.height * 0.7f);
+            var newWidth = (int)(Screen.currentResolution.width * 0.7f);
+            var newHeight = (int)(Screen.currentResolution.height * 0.7f);
             Screen.SetResolution(newWidth, newHeight, FullScreenMode.Windowed);
         }
         else if (mode == "Full Screen")
         {
-            Screen.SetResolution(
-                Screen.currentResolution.width,
-                Screen.currentResolution.height,
-                FullScreenMode.ExclusiveFullScreen
-            );
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, FullScreenMode.ExclusiveFullScreen);
         }
         //Debug.Log("Screen mode set to: " + mode);
     }
@@ -139,14 +147,37 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+    private void SetShadowQuality(string quality)
+    {
+        Debug.Log($"Setting shadow quality to: {quality}");
+        if (quality == "None")
+        {
+            QualitySettings.shadows = ShadowQuality.Disable;
+        }
+        else if (quality == "Normal")
+        {
+            QualitySettings.shadows = ShadowQuality.All;
+        }
+        PlayerPrefs.SetString(ShadowQualityKey, quality);
+        PlayerPrefs.Save();
+        Debug.Log($"Shadow quality set to: {quality}");
+    }
+
     private void InitializeScreenModeDropdown()
     {
         // Set the dropdown to the current screen mode
         if (Screen.fullScreenMode == FullScreenMode.Windowed)
             fullscreenDropdown.SetValueWithoutNotify("Windowed");
-        else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen
-                 || Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
+        else if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen || Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
             fullscreenDropdown.SetValueWithoutNotify("Full Screen");
+    }
+
+    private void InitializeShadowQualityDropdown()
+    {
+        // Set the dropdown to the saved or default shadow quality
+        string savedQuality = PlayerPrefs.GetString(ShadowQualityKey, "Normal");
+        shadowQualityDropdown.SetValueWithoutNotify(savedQuality);
+        SetShadowQuality(savedQuality);
     }
 
     private void InitializeVolumeSliders()
@@ -196,5 +227,12 @@ public class SettingsManager : MonoBehaviour
                 if (musicVolumeSlider != null) musicVolumeSlider.SetValueWithoutNotify(musicVolume);
             }
         }
+    }
+
+    private void LoadShadowQualitySetting()
+    {
+        string savedQuality = PlayerPrefs.GetString(ShadowQualityKey, "Normal");
+        SetShadowQuality(savedQuality);
+        shadowQualityDropdown.SetValueWithoutNotify(savedQuality);
     }
 }
