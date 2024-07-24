@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: AttackingEnemyData
   m_EditorClassIdentifier: 
   objectName: Attacking enemy
-  description: 
-  image: {fileID: 0}
+  description: Dangerous machine
+  image: {fileID: 2800000, guid: 3536552eb8b972c4787d9834002f6b2f, type: 3}
   faction: 0
   maxHealthPoints: 100
   maxManaPoints: 0
