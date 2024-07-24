@@ -141,12 +141,17 @@ public abstract class Unit : Entity
     {
         base.SignalDeath();
 
-        foreach (Unit unit in targetedBy)
+        // Collect units to remove in a separate list
+        var unitsToRemove = new List<Unit>(targetedBy);
+        foreach (Unit unit in unitsToRemove)
+        {
             if (unit != null)
                 unit.RemoveTargetedBy(this);
+        }
 
         UnitsManager.Instance.UnregisterMovableEntity(this);
     }
+
 
     public abstract void TargetIsDead(Entity target);
 
