@@ -3,15 +3,19 @@
     <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(180, 55, 55); -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&amp;guid=6019abab86d8e1d41b433e4c94956583&amp;type=3#Steamwreck&quot;); -unity-font-definition: initial; justify-content: flex-start; align-items: center; padding-top: 58px; padding-right: 58px; padding-bottom: 58px; padding-left: 58px;">
         <ui:Button text="&lt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoBackButton" tabindex="1000" style="position: absolute; height: 180px; width: 180px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; font-size: 140px; color: rgb(0, 0, 0); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); top: 10px; left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Steamwreck.ttf?fileID=12800000&amp;guid=6019abab86d8e1d41b433e4c94956583&amp;type=3#Steamwreck&quot;); -unity-font-definition: initial;" />
         <ui:Label tabindex="-1" text="Select the mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 117px;" />
-        <ui:VisualElement name="ModeContainer" style="flex-grow: 1; flex-direction: row; justify-content: space-between; align-self: auto;">
+        <ui:VisualElement name="ModeContainer" style="flex-grow: 1; flex-direction: row; justify-content: space-between; align-self: auto; height: 774px; width: 1769px;">
             <ui:VisualElement name="SoloMode" class="Mode" style="align-items: center;">
                 <ui:VisualElement name="Image" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/Images/Emblems/SoloMode.png?fileID=21300000&amp;guid=abe40d9c67963784c8d90a43f47113b2&amp;type=3#SoloMode&quot;); height: 446px; width: 469px;" />
                 <ui:Label tabindex="-1" text="Solo" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             </ui:VisualElement>
+            <ui:VisualElement name="EditMapMode" class="Mode" style="align-items: center;">
+                <ui:VisualElement name="Image" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/Images/Emblems/AllyLogo.png?fileID=21300000&amp;guid=f9226abc7eac56242920f6c76ea11921&amp;type=3#AllyLogo&quot;); height: 446px; width: 469px;" />
+                <ui:Label tabindex="-1" text="Load map" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
             <ui:VisualElement name="MultiplayerMode" class="Mode" style="align-items: center;">
                 <ui:VisualElement name="Image" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/Images/Emblems/MultiplayerMode.png?fileID=21300000&amp;guid=5d099bbd2e38f13458fe7d6216c4fd8b&amp;type=3#MultiplayerMode&quot;); height: 452px; width: 465px;" />
                 <ui:Label tabindex="-1" text="Multiplayer" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-                <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; top: 2px; left: 0; height: 730px; width: 588px; align-items: center; background-color: rgba(0, 0, 0, 0.69); border-top-left-radius: 29px; border-top-right-radius: 29px; border-bottom-right-radius: 29px; border-bottom-left-radius: 29px; justify-content: center;">
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; top: 2px; left: 0; height: 742px; width: 515px; align-items: center; background-color: rgba(0, 0, 0, 0.69); border-top-left-radius: 29px; border-top-right-radius: 29px; border-bottom-right-radius: 29px; border-bottom-left-radius: 29px; justify-content: center;">
                     <ui:Label tabindex="-1" text="Coming soon" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255);" />
                 </ui:VisualElement>
             </ui:VisualElement>
