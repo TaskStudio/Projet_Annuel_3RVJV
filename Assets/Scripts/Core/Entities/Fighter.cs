@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public abstract class Fighter : Unit
@@ -11,6 +12,7 @@ public abstract class Fighter : Unit
 
     [Space(10)] [Header("Fighting")] [SerializeField]
     protected LayerMask targetLayer;
+    [SerializeField] [CanBeNull] private string attackingBool;
 
     [SerializeField] private ParticleSystem attackParticleSystem;
 
@@ -81,6 +83,7 @@ public abstract class Fighter : Unit
         if (targetDistance > Data.attackRange)
         {
             targetPosition = currentTarget.transform.position;
+            if (animator != null) animator.SetBool(attackingBool, false);
             return;
         }
 
@@ -104,6 +107,7 @@ public abstract class Fighter : Unit
             attackParticleSystem.Play();
         }
 
+        if (animator != null) animator.SetBool(attackingBool, true);
         currentTarget.TakeDamage(Data.attackDamage);
 
         lastAttackTime = Time.time;
