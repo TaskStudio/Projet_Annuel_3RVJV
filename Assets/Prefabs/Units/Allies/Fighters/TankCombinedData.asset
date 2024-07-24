@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Tank combined
   description: 
-  image: {fileID: 0}
+  image: {fileID: 2800000, guid: 732db6787a8cc1b4dacea5496203d6c3, type: 3}
   faction: 1
   maxHealthPoints: 2000
   maxManaPoints: 0

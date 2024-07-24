@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Suicide enemy
   description: 
-  image: {fileID: 0}
+  image: {fileID: 2800000, guid: f063d8a503446f849b9dfdcedcac248e, type: 3}
   faction: 0
   maxHealthPoints: 1000
   maxManaPoints: 0
