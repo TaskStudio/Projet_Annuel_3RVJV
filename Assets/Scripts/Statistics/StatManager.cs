@@ -14,7 +14,7 @@ public class StatManager : MonoBehaviour
     public static int allyWoodSpent;
     public static int unitProductionCount;
 
-    public float elapsedTime;
+    public static float elapsedTime;
     private bool isRunning = true;
     public static StatManager Instance { get; private set; }
 
