@@ -22,6 +22,6 @@ MonoBehaviour:
   movementSpeed: 5
   attackDamage: 10
   distanceType: 1
-  detectionRange: 20
-  attackRange: 10
+  detectionRange: 12
+  attackRange: 6
   attackCooldown: 0.5

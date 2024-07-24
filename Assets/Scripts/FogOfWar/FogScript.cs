@@ -8,15 +8,16 @@ namespace FogOfWar
 {
     public class FogScript : MonoBehaviour
     {
-        private static readonly int GridSize = 512;
-        private static readonly float CellSize = 80.0f / GridSize;
-        private static readonly float RevealRadius = 2.5f;
+        private static readonly int GridSize = 1024;
+        private static float CellSize;
         private static readonly float RevealRadiusResourceStorages = 5.0f;
         private static readonly float RevealRadiusVisionTowers = 15.0f;
         private static readonly float RevealRadiusFactories = 10.0f;
         public bool keepPrevious;
         public MeshRenderer mr;
         public ComputeShader computeShader;
+        public GameObject GroundPlane;
+        public GameObject Plane;
         private int _cellSizeID;
         private int _clearColorID;
         private List<Building> _factories;
@@ -35,7 +36,6 @@ namespace FogOfWar
         private List<Building> _resourceStorages;
         private int _resultID;
         private int _revealRadiusFactoriesID;
-        private int _revealRadiusID;
         private int _revealRadiusResourceStoragesID;
         private int _revealRadiusVisionTowersID;
         private ComputeBuffer _unitPositionBuffer;
@@ -46,14 +46,32 @@ namespace FogOfWar
         private int _visionTowerPositionsID;
         private List<Building> _visionTowers;
 
+        private ComputeBuffer _enemyPositionBuffer;
+        private int _enemyPositionsID;
+        private List<Unit> _enemies;
+        
+        private Dictionary<Vector2Int, bool> clearedZoneCache;
+        private float cacheUpdateInterval = 0.5f;
+        private float nextCacheUpdateTime;
+
         private void Start()
         {
+            computeShader.SetFloat("groundPlaneScaleX", GroundPlane.transform.localScale.x);
+            computeShader.SetFloat("groundPlaneScaleZ", GroundPlane.transform.localScale.z);
+            clearedZoneCache = new Dictionary<Vector2Int, bool>();
+
+            if (GroundPlane != null && Plane != null)
+            {
+                Plane.transform.localScale = GroundPlane.transform.localScale;
+                CellSize = GroundPlane.transform.localScale.x * 10.0f / GridSize;
+            }
+
             InitializeBuffers();
 
             _fullBlack = new NativeArray<Color>(GridSize * GridSize, Allocator.Persistent);
             for (var i = 0; i < GridSize; i++)
             for (var j = 0; j < GridSize; j++)
-                _fullBlack[GridSize * i + j] = Color.black;
+                _fullBlack[GridSize * i + j] = new Color(0, 0, 0, 0.8f); 
 
             _lowResTexture = new Texture2D(GridSize, GridSize);
             _renderTexture = new RenderTexture(GridSize, GridSize, 0)
@@ -67,6 +85,9 @@ namespace FogOfWar
 
             InitializeShaderProperties();
             FindAllObjects();
+
+            // Assign the render texture to the fog plane
+            if (mr != null) mr.material.mainTexture = _renderTexture;
         }
 
         private void Update()
@@ -79,12 +100,13 @@ namespace FogOfWar
             FindAllResourceStorages();
             FindAllVisionTowers();
             FindAllFactories();
+            FindAllEnemies();
 
             var unitPositions = new Vector4[_units.Count];
             for (var i = 0; i < _units.Count; i++)
             {
                 var pos = _units[i].transform.position;
-                unitPositions[i] = new Vector4(pos.x, pos.z, 0.0f, 0.0f);
+                unitPositions[i] = new Vector4(pos.x, pos.z, 0.0f, _units[i].Data.detectionRange); 
             }
 
             _unitPositionBuffer.Release();
@@ -127,11 +149,27 @@ namespace FogOfWar
             _factoryPositionBuffer = new ComputeBuffer(factoryPositions.Length, 16);
             _factoryPositionBuffer.SetData(factoryPositions);
 
+            var enemyPositions = new Vector4[_enemies.Count];
+            for (var i = 0; i < _enemies.Count; i++)
+            {
+                var pos = _enemies[i].transform.position;
+                enemyPositions[i] = new Vector4(pos.x, pos.z, 0.0f, 0.0f); 
+            }
+
+            _enemyPositionBuffer.Release();
+            _enemyPositionBuffer = new ComputeBuffer(_enemies.Count > 0 ? _enemies.Count : 1, 16);
+            _enemyPositionBuffer.SetData(enemyPositions.Length > 0 ? enemyPositions : new Vector4[1]);
+
+            if (Time.time >= nextCacheUpdateTime)
+            {
+                clearedZoneCache.Clear();
+                nextCacheUpdateTime = Time.time + cacheUpdateInterval;
+            }
+
             if (_renderTexture != null)
             {
                 computeShader.SetInt(_gridSizeID, GridSize);
                 computeShader.SetFloat(_cellSizeID, CellSize);
-                computeShader.SetFloat(_revealRadiusID, RevealRadius);
                 computeShader.SetFloat(_revealRadiusResourceStoragesID, RevealRadiusResourceStorages);
                 computeShader.SetFloat(_revealRadiusVisionTowersID, RevealRadiusVisionTowers);
                 computeShader.SetFloat(_revealRadiusFactoriesID, RevealRadiusFactories);
@@ -139,14 +177,17 @@ namespace FogOfWar
                 computeShader.SetBuffer(_kernelHandle, _resourceStoragePositionsID, _resourceStoragePositionBuffer);
                 computeShader.SetBuffer(_kernelHandle, _visionTowerPositionsID, _visionTowerPositionBuffer);
                 computeShader.SetBuffer(_kernelHandle, _factoryPositionsID, _factoryPositionBuffer);
+                computeShader.SetBuffer(_kernelHandle, _enemyPositionsID, _enemyPositionBuffer); 
                 computeShader.SetVector(_clearColorID, Color.clear);
-                computeShader.SetVector(_fullBlackColorID, Color.black);
+                computeShader.SetVector(_fullBlackColorID, new Color(0, 0, 0, 0.8f)); 
 
                 computeShader.SetTexture(_kernelHandle, _resultID, _renderTexture);
                 computeShader.Dispatch(_kernelHandle, GridSize / 8, GridSize / 8, 1);
 
                 AsyncGPUReadback.Request(_renderTexture, 0, TextureFormat.RGBA32, OnCompleteReadback);
             }
+
+            UpdateEnemyVisibility();
         }
 
         private void OnDestroy()
@@ -156,6 +197,7 @@ namespace FogOfWar
             _resourceStoragePositionBuffer.Release();
             _visionTowerPositionBuffer.Release();
             _factoryPositionBuffer.Release();
+            _enemyPositionBuffer.Release();
         }
 
         private void InitializeBuffers()
@@ -164,6 +206,7 @@ namespace FogOfWar
             _resourceStoragePositionBuffer = new ComputeBuffer(1, 16);
             _visionTowerPositionBuffer = new ComputeBuffer(1, 16);
             _factoryPositionBuffer = new ComputeBuffer(1, 16);
+            _enemyPositionBuffer = new ComputeBuffer(1, 16);
         }
 
         private void UpdateBuffers(int unitCount, int resourceStorageCount, int visionTowerCount, int factoryCount)
@@ -190,9 +233,9 @@ namespace FogOfWar
             _resourceStoragePositionsID = Shader.PropertyToID("resourceStoragePositions");
             _visionTowerPositionsID = Shader.PropertyToID("visionTowerPositions");
             _factoryPositionsID = Shader.PropertyToID("factoryPositions");
+            _enemyPositionsID = Shader.PropertyToID("enemyPositions");
             _gridSizeID = Shader.PropertyToID("gridSize");
             _cellSizeID = Shader.PropertyToID("cellSize");
-            _revealRadiusID = Shader.PropertyToID("revealRadius");
             _revealRadiusResourceStoragesID = Shader.PropertyToID("revealRadiusResourceStorages");
             _revealRadiusVisionTowersID = Shader.PropertyToID("revealRadiusVisionTowers");
             _revealRadiusFactoriesID = Shader.PropertyToID("revealRadiusFactories");
@@ -206,6 +249,7 @@ namespace FogOfWar
             FindAllResourceStorages();
             FindAllVisionTowers();
             FindAllFactories();
+            FindAllEnemies();
         }
 
         private void OnCompleteReadback(AsyncGPUReadbackRequest request)
@@ -214,11 +258,13 @@ namespace FogOfWar
 
             if (_lowResTexture != null)
             {
-                var data = request.GetData<Color32>();
-                _lowResTexture.SetPixels32(data.ToArray());
-                _lowResTexture.Apply();
+                NativeArray<Color32> data = request.GetData<Color32>();
 
-                if (mr != null && mr.material != null) mr.material.mainTexture = _lowResTexture;
+                _lowResTexture.SetPixelData(data, 0);
+                _lowResTexture.Apply(updateMipmaps: false, makeNoLongerReadable: false);
+
+                if (mr != null && mr.material != null)
+                    mr.material.mainTexture = _lowResTexture;
             }
         }
 
@@ -229,8 +275,7 @@ namespace FogOfWar
 
         private void FindAllResourceStorages()
         {
-            _resourceStorages =
-                new List<Building>(FindObjectsOfType<Building>().Where(b => b.CompareTag("RessourceStorage")));
+            _resourceStorages = new List<Building>(FindObjectsOfType<Building>().Where(b => b.CompareTag("RessourceStorage")));
         }
 
         private void FindAllVisionTowers()
@@ -241,6 +286,59 @@ namespace FogOfWar
         private void FindAllFactories()
         {
             _factories = new List<Building>(FindObjectsOfType<Building>().Where(b => b.CompareTag("Factory")));
+        }
+
+        private void FindAllEnemies()
+        {
+            _enemies = new List<Unit>(FindObjectsOfType<Enemy>());
+        }
+
+        private void UpdateEnemyVisibility()
+        {
+            foreach (var enemy in _enemies)
+            {
+                var isVisible = IsPositionInClearedZone(enemy.transform.position);
+                SetVisibility(enemy, isVisible);
+            }
+        }
+
+        private void SetVisibility(Unit enemy, bool isVisible)
+        {
+            foreach (var renderer in enemy.GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = isVisible;
+            }
+
+            // Hide health bar if present and check health
+            var healthBar = enemy.GetComponentInChildren<HealthBar>();
+            if (healthBar != null)
+            {
+                bool shouldShowHealthBar = isVisible && healthBar.GetCurrentHealth() < healthBar.GetMaxHealth();
+                healthBar.SetVisibility(shouldShowHealthBar);
+            }
+        }
+
+
+
+        public bool IsPositionInClearedZone(Vector3 position)
+        {
+            var x = Mathf.FloorToInt((position.x + GroundPlane.transform.localScale.x * 5.0f) / CellSize);
+            var z = Mathf.FloorToInt((position.z + GroundPlane.transform.localScale.z * 5.0f) / CellSize);
+
+            x = Mathf.Clamp(x, 0, GridSize - 1);
+            z = Mathf.Clamp(z, 0, GridSize - 1);
+
+            Vector2Int gridPos = new Vector2Int(x, z);
+
+            if (clearedZoneCache.TryGetValue(gridPos, out bool isCleared))
+            {
+                return isCleared;
+            }
+
+            isCleared = _lowResTexture.GetPixel(x, z).a < 0.5f;
+            clearedZoneCache[gridPos] = isCleared;
+
+            return isCleared;
         }
     }
 }

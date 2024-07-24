@@ -42,6 +42,17 @@ public class HealthBar : MonoBehaviour
         slider.value = value;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
+    
+    public int GetCurrentHealth()
+    {
+        return (int)slider.value;
+    }
+
+    public int GetMaxHealth()
+    {
+        return (int)slider.maxValue;
+    }
+
 
     public void SetVisibility(bool visible)
     {
