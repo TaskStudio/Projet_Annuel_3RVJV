@@ -1,12 +1,12 @@
-# Fog Of War
+# Steam Of War
 
 ## Description
 
-Fog Of War est un jeu de stratégie en temps réel (RTS) se déroulant dans un monde chaotique envahi par des machines à vapeur. Ces machines étendent leur vapeur pour aveugler le monde et plonger les habitants dans le néant. Les Alliés, composés de trois factions (Attacker, Tank et Support), sont déterminés à vaincre ces machines pour retrouver un monde paisible et vivable.
+Steam Of War est un jeu de stratégie en temps réel (RTS) se déroulant dans un monde chaotique envahi par des machines à vapeur. Ces machines étendent leur vapeur pour aveugler le monde et plonger les habitants dans le néant. Les Alliés, composés de trois factions (Attacker, Tank et Support), sont déterminés à vaincre ces machines pour retrouver un monde paisible et vivable.
 
 ## Informations Générales
 
-- **Nom du jeu** : Fog Of War
+- **Nom du jeu** : Steam Of War
 - **Type** : RTS Game
 - **Plateforme** : PC
 - **Version de Unity** : 2022.3.21f
@@ -59,4 +59,4 @@ Le but du jeu est de détruire le ou les nexus des machines ennemies pour rempor
 
 ---
 
-Merci d'avoir essayé Fog Of War ! Nous espérons que vous apprécierez le jeu autant que nous avons apprécié le développer. Si vous avez des suggestions ou des retours, n'hésitez pas à nous contacter.
+Merci d'avoir essayé Steam Of War ! Nous espérons que vous apprécierez le jeu autant que nous avons apprécié le développer. Si vous avez des suggestions ou des retours, n'hésitez pas à nous contacter.
